@@ -1,4 +1,14 @@
 const Random = require("random-js").Random;
+const commander = require('commander');
+const yaml = require('js-yaml');
+const fs   = require('fs');
+const generateStar = require("./generateStar");
+const {twoD6} = require("./dice");
+const {gasGiantQuantity} = require("./gasGiants");
+const {planetoidBeltQuantity} = require("./planetoidBelts");
+const {terrestrialPlanetQuantity} = require("./terrestrialPlants");
+const determineAvailableOrbits = require("./determineAvailableOrbits");
+const {companionOrbit, additionalStarDM} = require("./utils");
 
 const STANDARD_CHANCE = 0.5;
 const SPARSE_CHANCE = 0.33;
@@ -48,30 +58,105 @@ const parseChance = (row, col, subsector_type) => {
   return undefined;
 }
 
+const companionDM = (star) => {
+  let dm = 0;
+  switch (star.stellarClass) {
+    case 'Ia':
+    case 'Ib':
+    case 'II':
+    case 'III':
+    case 'IV':
+      dm = 1;
+      break;
+    case 'V':
+    case 'VI':
+      if (['O', 'B', 'A', 'F'].includes(star.stellarType))
+        dm = 1;
+      else if (star.stellarType === 'M')
+        dm = -1
+      break;
+  }
+  return dm;
+}
+
 const generateSubsector = (frequency) => {
+  let tm = 'Hex\tName\tUWP\tBases\tRemarks\tZone\tPBG\tAllegiance\tStars\t{Ix}\t(Ex)\t[Cx]\tNobility\tW\n';
   for (let col=1; col <= 8; col++)
     for (let row=1; row <= 10; row++) {
       const chance = parseChance(row, col, frequency);
       if (r.bool(chance)) {
-        console.log(coordinate(row, col))
+        let star;
+        const solarSystem = {
+          primaryStar: generateStar(null, 0, false),
+          stars: [],
+        };
+        const primary = solarSystem.primaryStar;
+        let dm = additionalStarDM(primary);
+        if (twoD6() + dm >= 10) {
+          star = generateStar(star, 0, true);
+          primary.companion = star;
+          star.orbit = r.die(6)/10+(twoD6()-7)/100;
+        }
+        if (twoD6() + dm >= 10) {
+          star = generateStar(star, 0, false);
+          solarSystem.stars.push(star);
+          star.orbit = r.die(6)-1;
+          if (star.orbit === 0)
+            star.orbit = 0.5;
+          else
+            star.orbit += r.integer(0,9)/10 - 0.5;
+          if (twoD6() + companionDM(star) >= 10) {
+            star.companion = generateStar(star, 0, true);
+            star.companion.orbit = companionOrbit();
+          }
+        }
+        if (twoD6() + dm >= 10) {
+          star = generateStar(star, 0, false);
+          solarSystem.stars.push(star);
+          star.orbit = r.die(6)+5 + r.integer(0,9)/10 - 0.5;
+          if (twoD6() + companionDM(star) >= 10) {
+            star.companion = generateStar(star, 0, true);
+            star.companion.orbit = companionOrbit();
+          }
+        }
+        if (twoD6() + dm >= 10) {
+          starCount++;
+          otherStars.far = generateStar(star, 0, false);
+          otherStars.far.orbit = r.die(6)+11 + r.integer(0,9)/10 - 0.5;
+          if (twoD6() + companionDM(otherStars.far) >= 10) {
+            starCount++;
+            otherStars.farCompanion = generateStar(otherStars.far, 0, true);
+            otherStars.farCompanion.orbit = companionOrbit();
+          }
+        }
+        determineAvailableOrbits(solarSystem);
+        solarSystem.gasGiants = gasGiantQuantity(solarSystem);
+        solarSystem.planetoidBelts = planetoidBeltQuantity(solarSystem);
+        solarSystem.terrestrialPlanets = terrestrialPlanetQuantity(solarSystem);
+
+        console.log(coordinate(row, col), star, otherStars);
+        tm += `${coordinate(row, col)}\t${coordinate(row, col)}\tC777777-7\t\t\t\t\t\t\t\t\t\t\t\n`;
+        // console.log(coordinate(row, col));
       }
     }
+  fs.writeFileSync('tm.txt', tm);
 }
 
-const SECTOR = [
-  SUBSECTOR_TYPES.SPARSE_CHANCE, SUBSECTOR_TYPES.SPARSE_CHANCE, SUBSECTOR_TYPES.SPARSE_CHANCE, SUBSECTOR_TYPES.SPARSE_CHANCE,
-  SUBSECTOR_TYPES.SPARSE_CHANCE, SUBSECTOR_TYPES.SPARSE_CHANCE, SUBSECTOR_TYPES.SPARSE_CHANCE, SUBSECTOR_TYPES.SPARSE_CHANCE,
-  SUBSECTOR_TYPES.SPARSE_CHANCE, SUBSECTOR_TYPES.SPARSE_CHANCE, SUBSECTOR_TYPES.SPARSE_CHANCE, SUBSECTOR_TYPES.SPARSE_CHANCE,
-  SUBSECTOR_TYPES.RIFT_TOPEDGE, SUBSECTOR_TYPES.RIFT_TOPEDGE, SUBSECTOR_TYPES.RIFT_TOPEDGE, SUBSECTOR_TYPES.RIFT_TOPEDGE,
-];
+commander
+  .version('0.0.1', '-v, --version')
+  .usage('[OPTIONS]...')
+  .option('-s, --sector <filname>', 'File with sector definition', '')
+  .parse(process.argv);
 
-;(async (sector) => {
-  for (const subsector_type of sector) {
-    console.log('subsector');
-    generateSubsector(subsector_type);
+;(async () => {
+  const options = commander.opts()
+  const sector = yaml.load(fs.readFileSync(options.sector, 'utf8'));
+  for (const subsector of sector.subsectors) {
+    console.log(subsector.name);
+    generateSubsector(subsector.type);
   }
   console.log('done');
-})(SECTOR)
+})()
 .then(res => process.exit(0))
 .catch(err => {
   console.log(err.stack);

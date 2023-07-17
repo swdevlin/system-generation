@@ -1,139 +1,52 @@
-const StarMass = {
-  'O0': {
-    'Ia': 200,
-    'Ib': 150,
-    'II': 130,
-    'III': 110,
-    'IV': null,
-    'V': 90,
-    'VI': 2,
-  },
-  'O5': {
-    'Ia': 80,
-    'Ib': 60,
-    'II': 40,
-    'III': 30,
-    'IV': null,
-    'V': 60,
-    'VI': 1.5,
-  },
-  'B0': {
-    'Ia': 60,
-    'Ib': 40,
-    'II': 30,
-    'III': 20,
-    'IV': 20,
-    'V': 18,
-    'VI': 0.5,
-  },
-  'B5': {
-    'Ia': 30,
-    'Ib': 25,
-    'II': 20,
-    'III': 10,
-    'IV': 10,
-    'V': 5,
-    'VI': 0.4,
-  },
-  'A0': {
-    'Ia': 20,
-    'Ib': 15,
-    'II': 14,
-    'III': 8,
-    'IV': 4,
-    'V': 2.2,
-    'VI': null,
-  },
-  'A5': {
-    'Ia': 15,
-    'Ib': 13,
-    'II': 11,
-    'III': 6,
-    'IV': 2.3,
-    'V': 1.8,
-    'VI': null,
-  },
-  'F0': {
-    'Ia': 13,
-    'Ib': 12,
-    'II': 10,
-    'III': 4,
-    'IV': 2,
-    'V': 1.5,
-    'VI': null,
-  },
-  'F5': {
-    'Ia': 12,
-    'Ib': 10,
-    'II': 8,
-    'III': 3,
-    'IV': 1.5,
-    'V': 1.3,
-    'VI': null,
-  },
-  'G0': {
-    'Ia': 12,
-    'Ib': 10,
-    'II': 8,
-    'III': 2.5,
-    'IV': 1.7,
-    'V': 1.1,
-    'VI': 0.8,
-  },
-  'G5': {
-    'Ia': 13,
-    'Ib': 11,
-    'II': 10,
-    'III': 2.4,
-    'IV': 1.2,
-    'V': 0.9,
-    'VI': 0.7,
-  },
-  'K0': {
-    'Ia': 14,
-    'Ib': 12,
-    'II': 10,
-    'III': 1.1,
-    'IV': 1.5,
-    'V': 0.8,
-    'VI': 0.6,
-  },
-  'K5': {
-    'Ia': 18,
-    'Ib': 13,
-    'II': 12,
-    'III': 1.5,
-    'IV': null,
-    'V': 0.7,
-    'VI': 0.5,
-  },
-  'M0': {
-    'Ia': 20,
-    'Ib': 15,
-    'II': 14,
-    'III': 1.8,
-    'IV': null,
-    'V': 0.5,
-    'VI': 0.4,
-  },
-  'M5': {
-    'Ia': 25,
-    'Ib': 20,
-    'II': 16,
-    'III': 2.4,
-    'IV': null,
-    'V': 0.16,
-    'VI': 0.12,
-  },
-  'M9': {
-    'Ia': 30,
-    'Ib': 25,
-    'II': 18,
-    'III': 8,
-    'IV': null,
-    'V': 0.08,
-    'VI': 0.075,
-  },
+const {determineDataKey} = require("./utils");
+const TEMPERATURE = {
+  'O0': 50000,
+  'O5': 40000,
+  'B0': 30000,
+  'B5': 15000,
+  'A0': 10000,
+  'A5': 8000,
+  'F0': 7500,
+  'F5': 6500,
+  'G0': 6000,
+  'G5': 5600,
+  'K0': 5200,
+  'K5': 4400,
+  'M0': 3700,
+  'M5': 3000,
+  'M9': 2400,
+  'L0': 2400,
+  'L5': 1850,
+  'T0': 1300,
+  'T5': 900,
+  'Y0': 550,
+  'Y5': 300,
 }
 
-module.exports = StarMass;
+const starTemperature = (star) => {
+  if (star.stellarType === 'D') {
+    if (star.mass < 0.1)
+      return 100000;
+    else if (star.mass < 0.5)
+      return 25000;
+    else if (star.mass < 1)
+      return 10000;
+    else if (star.mass < 1.5)
+      return 8000;
+    else if (star.mass < 2.5)
+      return 7000;
+    else if (star.mass < 5)
+      return 5500;
+    else if (star.mass < 10)
+      return 5000;
+    else if (star.mass < 13)
+      return 4000;
+    else
+      return 3800;
+  } else {
+    let dataKey = determineDataKey(star.stellarType, star.subtype);
+    return TEMPERATURE[dataKey][star.stellarClass]
+  }
+}
+
+module.exports = starTemperature;

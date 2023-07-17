@@ -1,43 +1,86 @@
 const {twoD6} = require("./dice");
 
-const stellarTypeLookup = (dm, stellarClass) => {
-  let roll = twoD6() + dm;
-  let stellarType;
-  if (stellarClass && stellarClass === 'IV')
-    if (roll >=3 && roll <= 6)
-      roll += 5;
+const subtypeLookup = (isPrimary, stellarType, stellarClass) => {
+  const roll = twoD6();
 
-  if (roll <= 2)
-    stellarType = 'Special';
-  else if (roll >= 12)
-    stellarType = 'Hot';
-  else
+  let subtype;
+  if (isPrimary && stellarType === 'M')
     switch (roll) {
-      case 3:
-      case 4:
-      case 5:
-      case 6:
-        stellarType = 'M';
+      case  2:
+        subtype = 8;
         break;
-      case 7:
-      case 8:
-        stellarType = 'K';
+      case  3:
+        subtype = 6;
         break;
-      case 9:
+      case  4:
+        subtype = 5;
+        break;
+      case  5:
+        subtype = 4;
+        break;
+      case  6:
+        subtype = 0;
+        break;
+      case  7:
+        subtype = 2;
+        break;
+      case  8:
+        subtype = 1;
+        break;
+      case  9:
+        subtype = 3;
+        break;
       case 10:
-        stellarType = 'G';
+        subtype = 5;
         break;
       case 11:
-        stellarType = 'F';
+        subtype = 7;
+        break;
+      case 12:
+        subtype = 9;
         break;
     }
-  if (stellarClass && stellarClass === 'VI')
-    if (stellarType === 'F')
-      stellarType = 'G';
-    else if (stellarType === 'A')
-      stellarType = 'B';
+  else
+    switch (roll) {
+      case  2:
+        subtype = 0;
+        break;
+      case  3:
+        subtype = 1;
+        break;
+      case  4:
+        subtype = 3;
+        break;
+      case  5:
+        subtype = 5;
+        break;
+      case  6:
+        subtype = 7;
+        break;
+      case  7:
+        subtype = 9;
+        break;
+      case  8:
+        subtype = 8;
+        break;
+      case  9:
+        subtype = 6;
+        break;
+      case 10:
+        subtype = 4;
+        break;
+      case 11:
+        subtype = 2;
+        break;
+      case 12:
+        subtype = 0;
+        break;
+    }
 
-  return stellarType;
+  if (stellarClass === 'IV' && stellarType === 'K' && subtype > 4)
+    subtype -= 5;
+
+  return subtype;
 }
 
-module.exports = stellarTypeLookup;
+module.exports = subtypeLookup;

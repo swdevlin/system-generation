@@ -1,19 +1,12 @@
-const StarTemperature = {
-  'O0': 50000,
-  'O5': 40000,
-  'B0': 30000,
-  'B5': 15000,
-  'A0': 10000,
-  'A5': 8000,
-  'F0': 7500,
-  'F5': 6500,
-  'G0': 6000,
-  'G5': 5600,
-  'K0': 5200,
-  'K5': 4400,
-  'M0': 3700,
-  'M5': 3000,
-  'M9': 2400,
+const StarColour = {
+  'O': 'Blue',
+  'B': 'Blue White',
+  'A': 'White',
+  'F': 'Yellow White',
+  'G': 'Yellow',
+  'K': 'Light Orange',
+  'M': 'Orange Red',
+  'D': 'White',
 }
 
-module.exports = StarTemperature;
+module.exports = StarColour;

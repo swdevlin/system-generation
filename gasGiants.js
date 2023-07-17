@@ -1,52 +1,36 @@
-const {determineDataKey} = require("./utils");
-const TEMPERATURE = {
-  'O0': 50000,
-  'O5': 40000,
-  'B0': 30000,
-  'B5': 15000,
-  'A0': 10000,
-  'A5': 8000,
-  'F0': 7500,
-  'F5': 6500,
-  'G0': 6000,
-  'G5': 5600,
-  'K0': 5200,
-  'K5': 4400,
-  'M0': 3700,
-  'M5': 3000,
-  'M9': 2400,
-  'L0': 2400,
-  'L5': 1850,
-  'T0': 1300,
-  'T5': 900,
-  'Y0': 550,
-  'Y5': 300,
-}
+const {twoD6} = require("./dice");
+const Random = require("random-js").Random;
 
-const starTemperature = (star) => {
-  if (star.stellarType === 'D') {
-    if (star.mass < 0.1)
-      return 100000;
-    else if (star.mass < 0.5)
-      return 25000;
-    else if (star.mass < 1)
-      return 10000;
-    else if (star.mass < 1.5)
-      return 8000;
-    else if (star.mass < 2.5)
-      return 7000;
-    else if (star.mass < 5)
-      return 5500;
-    else if (star.mass < 10)
-      return 5000;
-    else if (star.mass < 13)
-      return 4000;
+const r = new Random();
+
+const gasGiantQuantity = (parsec) => {
+  let gasGiants = 0;
+  let dm;
+  if (r.die(6) > 1) {
+    if (parsec.starCount === 1 && parsec.primaryStar.stellarClass === 'V')
+      dm = 1;
+    else if (parsec.starCount > 3)
+      dm = -1;
     else
-      return 3800;
-  } else {
-    let dataKey = determineDataKey(star.stellarType, star.subtype);
-    return TEMPERATURE[dataKey][star.stellarClass]
+      dm = 0;
+
+    const roll = twoD6() + dm;
+    if (roll <= 4 )
+      gasGiants = 1;
+    else if (roll <= 6 )
+      gasGiants = 2;
+    else if (roll <= 8 )
+      gasGiants = 3;
+    else if (roll <= 11 )
+      gasGiants = 4;
+    else if (roll <= 12 )
+      gasGiants = 5;
+    else
+      gasGiants = 6;
   }
+  return gasGiants;
 }
 
-module.exports = starTemperature;
+module.exports = {
+  gasGiantQuantity: gasGiantQuantity,
+};

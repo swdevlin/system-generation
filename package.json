@@ -1,6 +1,6 @@
 {
   "name": "system-generation",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Generate a sector of systems for Mongoose Traveller",
   "main": "generate.js",
   "scripts": {
@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "commander": "^11.0.0",
+    "js-yaml": "^4.1.0",
     "random": "^4.1.0",
     "random-js": "^2.1.0"
   }

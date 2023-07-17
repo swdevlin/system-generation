@@ -1,137 +1,56 @@
+const StarColour = require("./starColour");
+const {generateBaseStar} = require("./generateBaseStar");
+const multiStellarBase = require("./multiStellarBase");
+const starMass = require("./starMass");
+const starDiameter = require("./starDiameter");
+const starTemperature = require("./starTemperature");
+const minimumAllowableOrbit = require("./minimumAllowableOrbit");
 const Random = require("random-js").Random;
 
-r = new Random();
+const r = new Random();
 
-const stellarTypeLookup = (dm) => {
-  const roll = r.die(6) + r.die(6) + dm;
-  if (roll <= 2)
-    return 'Special';
-  else if (roll >= 12)
-    return 'Hot';
+const generateStar = (primary, dm, isCompanion) => {
+  let star;
+  if (primary)
+    star = multiStellarBase(primary);
   else
-    switch (roll) {
-      case 3:
-      case 4:
-      case 5:
-      case 6:
-        return 'M';
-      case 7:
-      case 8:
-        return 'K';
-      case 9:
-      case 10:
-        return 'G';
-      case 11:
-        return 'F';
-      case 11:
-        return 'F';
-    }
-}
+    star = generateBaseStar(dm);
 
-const hotLookup = (dm) => {
-  const roll = r.die(6) + r.die(6) + dm;
-  if (roll <= 9)
-    return 'A';
-  else if (roll <= 11)
-    return 'B';
-  else
-    return 'O';
-}
+  star.mass = starMass(star);
 
-const subtypeLookup = (isPrimary, stellarType, stellarClass) => {
-  const roll = r.die(6) + r.die(6);
-  let subtype;
-  if (isPrimary && stellarType === 'M')
-    switch (roll) {
-      case  2:
-        subtype = 8;
-        break;
-      case  3:
-        subtype = 6;
-        break;
-      case  4:
-        subtype = 5;
-        break;
-      case  5:
-        subtype = 4;
-        break;
-      case  6:
-        subtype = 0;
-        break;
-      case  7:
-        subtype = 2;
-        break;
-      case  8:
-        subtype = 1;
-        break;
-      case  9:
-        subtype = 3;
-        break;
-      case 10:
-        subtype = 5;
-        break;
-      case 11:
-        subtype = 7;
-        break;
-      case 12:
-        subtype = 9;
-        break;
-    }
-  else
-    switch (roll) {
-      case  2:
-        subtype = 0;
-        break;
-      case  3:
-        subtype = 1;
-        break;
-      case  4:
-        subtype = 3;
-        break;
-      case  5:
-        subtype = 5;
-        break;
-      case  6:
-        subtype = 7;
-        break;
-      case  7:
-        subtype = 9;
-        break;
-      case  8:
-        subtype = 8;
-        break;
-      case  9:
-        subtype = 6;
-        break;
-      case 10:
-        subtype = 4;
-        break;
-      case 11:
-      	subtype = 2;
-      	break;
-      case 12:
-        subtype = 0;
-        break;
-    }
-  if (stellarClass === 'IV' && stellarType === 'K' && subtype > 5)
-    subtype -= 5;
-  return subtype;
-}
+  star.diameter = starDiameter(star);
 
-const generateStar = (dm) => {
-  let star = '';
-  let stellarClass = '';
-  let stellarType = stellarTypeLookup(0);
-  if (stellarType === 'Special') {
+  star.temperature = starTemperature(star);
 
-  } else if (stellarType === 'Hot') {
-    stellarType = hotLookup(0);
-    stellarClass = 'V';
+  const mainSequenceLifespan = 10/(star.mass**2.5);
+  if (star.stellarClass === 'III') {
+    star.age = mainSequenceLifespan;
+    star.age += mainSequenceLifespan / (4/star.mass);
+    star.age += mainSequenceLifespan / (10 * star.mass**3) * r.die(100)/100;
+  } else if (star.stellarClass === 'IV') {
+    star.age = mainSequenceLifespan / (4/star.mass);
+    star.age = mainSequenceLifespan + star.age * r.die(100)/100;
+  } else if (star.mass > 0.9) {
+    star.age = mainSequenceLifespan * (r.die(6)-1/(r.die(6)/6))/6;
   } else {
-    stellarClass = 'V';
+    star.age = r.die(6)*2/(r.die(3) + r.die(10)/10);
   }
-  const subtype = subtypeLookup(true, stellarType, stellarClass);
+  if (star.mass < 4.7 && star.age < 0.01)
+    star.age = 0.01;
+  star.age = Math.round(star.age * 100) / 100;
 
+  star.luminosity= star.diameter**2 + (star.temperature/5772)**4;
+  if (star.luminosity > 10)
+    star.luminosity = Math.round(star.luminosity);
+  else
+    star.luminosity =  Math.round(star.luminosity * 100) / 100;
+
+  star.colour = StarColour[star.stellarType];
+
+  star.minimumAllowableOrbit = minimumAllowableOrbit(star);
+  star.availableOrbits = []
+
+  return star;
 };
 
-export default generateStar;
+module.exports = generateStar;
