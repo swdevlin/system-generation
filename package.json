@@ -1,0 +1,15 @@
+{
+  "name": "system-generation",
+  "version": "1.0.0",
+  "description": "Generate a sector of systems for Mongoose Traveller",
+  "main": "generate.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "random": "^4.1.0",
+    "random-js": "^2.1.0"
+  }
+}
