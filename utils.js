@@ -6,6 +6,13 @@ const r = new Random();
 
 const TYPES_BY_TEMP = ['O', 'B', 'A', 'F', 'G', 'K', 'M'];
 
+const ORBIT_TYPES = {
+  PRIMARY: 0,
+  CLOSE: 1,
+  NEAR: 2,
+  FAR: 3,
+}
+
 const isHotter = (starA, starB) => {
   if (starA.stellarType === starB.stellarType)
     return starA.subtype < starB.subtype;
@@ -84,7 +91,6 @@ const additionalStarDM = (primary) => {
   return dm;
 }
 
-
 module.exports = {
   isHotter: isHotter,
   makeCooler: makeCooler,
@@ -92,4 +98,5 @@ module.exports = {
   companionOrbit: companionOrbit,
   additionalStarDM: additionalStarDM,
   TYPES_BY_TEMP: TYPES_BY_TEMP,
+  ORBIT_TYPES: ORBIT_TYPES,
 };

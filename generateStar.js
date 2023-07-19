@@ -5,6 +5,7 @@ const starMass = require("./starMass");
 const starDiameter = require("./starDiameter");
 const starTemperature = require("./starTemperature");
 const minimumAllowableOrbit = require("./minimumAllowableOrbit");
+const calculateStarEccentricity = require("./calculateStarEccentricity");
 const Random = require("random-js").Random;
 
 const r = new Random();
@@ -48,7 +49,12 @@ const generateStar = (primary, dm, isCompanion) => {
   star.colour = StarColour[star.stellarType];
 
   star.minimumAllowableOrbit = minimumAllowableOrbit(star);
-  star.availableOrbits = []
+  if (primary)
+    star.eccentricity = calculateStarEccentricity(star);
+  else
+    star.eccentricity = 0;
+
+  star.availableOrbits = [];
 
   return star;
 };

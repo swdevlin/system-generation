@@ -3,13 +3,13 @@ const Random = require("random-js").Random;
 
 const r = new Random();
 
-const planetoidBeltQuantity = (parsec) => {
+const planetoidBeltQuantity = (solarSystem) => {
   let planetoidBelts = 0;
   if (twoD6() >= 8) {
     let dm = 0;
-    if (parsec.gasGiants > 0)
+    if (solarSystem.gasGiants > 0)
       dm += 1;
-    if (parsec.starCount > 2)
+    if (solarSystem.starCount > 2)
       dm += 1;
 
     const roll = twoD6() + dm;

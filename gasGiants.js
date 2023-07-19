@@ -3,13 +3,13 @@ const Random = require("random-js").Random;
 
 const r = new Random();
 
-const gasGiantQuantity = (parsec) => {
+const gasGiantQuantity = (solarSystem) => {
   let gasGiants = 0;
   let dm;
   if (r.die(6) > 1) {
-    if (parsec.starCount === 1 && parsec.primaryStar.stellarClass === 'V')
+    if (solarSystem.stars.length === 1 && solarSystem.primaryStar.stellarClass === 'V')
       dm = 1;
-    else if (parsec.starCount > 3)
+    else if (solarSystem.starCount > 3)
       dm = -1;
     else
       dm = 0;
