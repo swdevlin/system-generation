@@ -10,6 +10,7 @@ const {terrestrialPlanetQuantity} = require("./terrestrialPlants");
 const determineAvailableOrbits = require("./determineAvailableOrbits");
 const {companionOrbit, additionalStarDM, ORBIT_TYPES} = require("./utils");
 const calculatePeriod = require("./calculatePeriod");
+const {allocateObjects} = require("./allocateObjects");
 
 const STANDARD_CHANCE = 0.5;
 const SPARSE_CHANCE = 0.33;

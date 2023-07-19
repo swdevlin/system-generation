@@ -10,7 +10,7 @@ const determineAvailableOrbits = (solarSystem) => {
 
   let maxOrbit;
   primary.availableOrbits = [];
-  if (solarSystem.stars.length > 1)
+  if (solarSystem.stars.length > 0)
     for (const star of solarSystem.stars) {
       let eccMod = star.eccentricity > 0.2 ? 1 : 0;
       if ((star.orbitType === ORBIT_TYPES.NEAR || star.orbitType === ORBIT_TYPES.CLOSE ) && star.eccentricity > 0.5)

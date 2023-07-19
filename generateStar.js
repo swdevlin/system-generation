@@ -49,7 +49,7 @@ const generateStar = (primary, dm, isCompanion) => {
   star.colour = StarColour[star.stellarType];
 
   star.minimumAllowableOrbit = minimumAllowableOrbit(star);
-  if (primary)
+  if (primary || isCompanion)
     star.eccentricity = calculateStarEccentricity(star);
   else
     star.eccentricity = 0;

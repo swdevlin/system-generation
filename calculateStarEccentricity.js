@@ -19,7 +19,7 @@ const calculateStarEccentricity = (star) => {
   else
     eccentricity = r.real(0.4,0.90,true);
 
-  return Math.round(3);
+  return eccentricity;
 }
 
 module.exports = calculateStarEccentricity;

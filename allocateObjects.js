@@ -7,16 +7,16 @@ const allocateObjects = (solarSystem) => {
   let star = solarSystem.primaryStar;
   let totalOrbits = 0;
   let starOrbits = 0;
-  for (const r of star.availableOrbits)
-    starOrbits += r[1] - r[0];
+  for (const o of star.availableOrbits)
+    starOrbits += o[1] - o[0];
   if (!star.companion)
     starOrbits += 1;
   star.totalOrbits = Math.trunc(starOrbits);
   totalOrbits += star.totalOrbits;
   for (star of solarSystem.stars) {
     starOrbits = 0;
-    for (const r of star.availableOrbits)
-      starOrbits += r[1] - r[0];
+    for (const o of star.availableOrbits)
+      starOrbits += o[1] - o[0];
     if (!star.companion)
       starOrbits += 1;
     star.totalOrbits = Math.trunc(starOrbits);

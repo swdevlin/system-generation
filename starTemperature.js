@@ -45,7 +45,7 @@ const starTemperature = (star) => {
       return 3800;
   } else {
     let dataKey = determineDataKey(star.stellarType, star.subtype);
-    return TEMPERATURE[dataKey][star.stellarClass]
+    return TEMPERATURE[dataKey];
   }
 }
 
