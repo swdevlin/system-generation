@@ -1,9 +1,9 @@
-const {twoD6, threeD6} = require("./dice");
+const {twoD6} = require("./dice");
 const Random = require("random-js").Random;
 
 const r = new Random();
 
-const gasGiantQuantity = (solarSystem) => {
+const assignMoons = (solarSystem) => {
   let gasGiants = 0;
   let dm;
   if (r.die(6) > 1) {
@@ -41,29 +41,14 @@ const addGasGiant = (star, orbit_index, primary) => {
     roll -= 1;
   else if (['L', 'T', 'Y'].includes(primary.stellarType))
     roll -= 1;
-  let gg = {
-  }
+  let gg = {}
   if (roll <= 2)
     gg = {
       code: 'GS',
       diameter: r.die(3) + r.die(3),
       mass: r.integer(2,7) * 5,
+
     }
-  else if (roll < 5)
-    gg = {
-      code: 'GM',
-      diameter: r.die(6) + 6,
-      mass: 20*(threeD6()-1),
-    }
-  else
-    gg = {
-      code: 'GL',
-      diameter: twoD6()+6,
-      mass: r.die(3)*50*(threeD6()+4),
-    }
-  if (gg.mass >= 3000)
-    gg.mass = 4000-200*(twoD6()-2);
-  gg.orbit = star.availableorbit_index;
 };
 
 module.exports = {

@@ -7,10 +7,10 @@ const {twoD6} = require("./dice");
 const {gasGiantQuantity} = require("./gasGiants");
 const {planetoidBeltQuantity} = require("./planetoidBelts");
 const {terrestrialPlanetQuantity} = require("./terrestrialPlants");
-const determineAvailableOrbits = require("./determineAvailableOrbits");
 const {companionOrbit, additionalStarDM, ORBIT_TYPES} = require("./utils");
 const calculatePeriod = require("./calculatePeriod");
-const {allocateObjects} = require("./allocateObjects");
+const {assignOrbits} = require("./assignOrbits");
+const SolarSystem = require("./solarSystem");
 
 const STANDARD_CHANCE = 0.5;
 const SPARSE_CHANCE = 0.33;
@@ -82,7 +82,7 @@ const companionDM = (star) => {
 }
 
 const addCompanion = (star) => {
-  star.companion = generateStar(star, 0, true);
+  star.companion = generateStar(star, 0, ORBIT_TYPES.COMPANION);
   star.companion.orbit = companionOrbit();
   star.companion.period = calculatePeriod(star.companion, star);
 }
@@ -94,67 +94,51 @@ const generateSubsector = (frequency) => {
       const chance = parseChance(row, col, frequency);
       if (r.bool(chance)) {
         let star;
-        const solarSystem = {
-          primaryStar: generateStar(null, 0, false),
-          stars: [],
-          starCount: 1,
-        };
+        const solarSystem = new SolarSystem();
+        solarSystem.addPrimary(generateStar(null, 0, ORBIT_TYPES.PRIMARY));
         const primary = solarSystem.primaryStar;
         let dm = additionalStarDM(primary);
         if (twoD6() + dm >= 10) {
-          star = generateStar(primary, 0, true);
+          star = generateStar(primary, 0, ORBIT_TYPES.COMPANION);
           primary.companion = star;
           star.orbit = r.die(6)/10+(twoD6()-7)/100;
           star.period = calculatePeriod(star, primary);
-          solarSystem.starCount++;
         }
         if (twoD6() + dm >= 10) {
-          solarSystem.starCount++;
-          star = generateStar(primary, 0, false);
-          star.orbitType = ORBIT_TYPES.CLOSE;
-          solarSystem.stars.push(star);
+          star = generateStar(primary, 0, ORBIT_TYPES.CLOSE);
           star.orbit = r.die(6)-1;
           if (star.orbit === 0)
             star.orbit = 0.5;
           else
             star.orbit += r.integer(0,9)/10 - 0.5;
           star.period = calculatePeriod(star, primary);
-          if (twoD6() + companionDM(star) >= 10) {
-            solarSystem.starCount++;
+          if (twoD6() + companionDM(star) >= 10)
             addCompanion(star);
-          }
+          solarSystem.addStar(star);
         }
         if (twoD6() + dm >= 10) {
-          solarSystem.starCount++;
-          star = generateStar(primary, 0, false);
-          star.orbitType = ORBIT_TYPES.NEAR;
-          solarSystem.stars.push(star);
+          star = generateStar(primary, 0, ORBIT_TYPES.NEAR);
           star.orbit = r.die(6)+5 + r.integer(0,9)/10 - 0.5;
           star.period = calculatePeriod(star, primary);
-          if (twoD6() + companionDM(star) >= 10) {
-            solarSystem.starCount++;
+          if (twoD6() + companionDM(star) >= 10)
             addCompanion(star);
-          }
+          solarSystem.addStar(star);
         }
         if (twoD6() + dm >= 10) {
-          solarSystem.starCount++;
-          star = generateStar(star, 0, false);
-          star.orbitType = ORBIT_TYPES.FAR;
-          solarSystem.stars.push(star);
+          star = generateStar(star, 0, ORBIT_TYPES.FAR);
           star.orbit = r.die(6)+11 + r.integer(0,9)/10 - 0.5;
           star.period = calculatePeriod(star, primary);
-          if (twoD6() + companionDM(star) >= 10) {
-            solarSystem.starCount++;
+          if (twoD6() + companionDM(star) >= 10)
             addCompanion(star);
-          }
+          solarSystem.addStar(star);
         }
-        determineAvailableOrbits(solarSystem);
+        solarSystem.determineAvailableOrbits();
         solarSystem.gasGiants = gasGiantQuantity(solarSystem);
         solarSystem.planetoidBelts = planetoidBeltQuantity(solarSystem);
         solarSystem.terrestrialPlanets = terrestrialPlanetQuantity(solarSystem);
-        solarSystem.totalObjects = solarSystem.terrestrialPlanets + solarSystem.planetoidBelts + solarSystem.gasGiants;
 
-        allocateObjects(solarSystem);
+        solarSystem.distributeObjects();
+        assignOrbits(solarSystem);
 
         console.log(coordinate(row, col), solarSystem);
         tm += `${coordinate(row, col)}\t${coordinate(row, col)}\tC777777-7\t\t\t\t\t\t\t\t\t\t\t\n`;

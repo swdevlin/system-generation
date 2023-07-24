@@ -1,5 +1,3 @@
-const {determineDataKey} = require("./utils");
-
 const MINIMUM_ALLOWABLE_ORBIT = {
   'O0': {
     'Ia': 0.63,
@@ -144,13 +142,4 @@ const MINIMUM_ALLOWABLE_ORBIT = {
   'Y5': {'': 0.005},
 }
 
-const minimumAllowableOrbit = (star) => {
-  if (star.stellarType === 'D') {
-    return 0.001;
-  } else {
-    let dataKey = determineDataKey(star.stellarType, star.subtype);
-    return MINIMUM_ALLOWABLE_ORBIT[dataKey][star.stellarClass]
-  }
-}
-
-module.exports = minimumAllowableOrbit;
+module.exports = MINIMUM_ALLOWABLE_ORBIT;

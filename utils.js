@@ -1,5 +1,6 @@
 const subtypeLookup = require("./subtypeLookup");
 const {twoD6} = require("./dice");
+const Star = require("./star");
 const Random = require("random-js").Random;
 
 const r = new Random();
@@ -11,6 +12,7 @@ const ORBIT_TYPES = {
   CLOSE: 1,
   NEAR: 2,
   FAR: 3,
+  COMPANION: 4,
 }
 
 const isHotter = (starA, starB) => {
@@ -18,31 +20,6 @@ const isHotter = (starA, starB) => {
     return starA.subtype < starB.subtype;
   else
     return TYPES_BY_TEMP.indexOf(starA.stellarType) < TYPES_BY_TEMP.indexOf(starB.stellarType);
-};
-
-const makeCooler = (star) => {
-  const cooler = {};
-  if (star.stellarType === 'M') {
-    cooler.stellarType = star.stellarType;
-    cooler.stellarClass = star.stellarClass;
-    cooler.subtype = subtypeLookup(false, 'M', star.stellarClass);
-    if (cooler.subtype > star.subtype)
-      cooler.stellarType = 'BD';
-      cooler.stellarClass = 'BD';
-      cooler.subtype = '';
-  } else {
-    cooler.stellarType = TYPES_BY_TEMP[TYPES_BY_TEMP.indexOf(star.stellarType) + 1];
-    cooler.stellarClass = star.stellarClass;
-    cooler.subtype = subtypeLookup(false, star.stellarType, star.stellarClass);
-    if (cooler.stellarType === 'O' && cooler.stellarClass === 'IV')
-      cooler.stellarClass = 'V';
-    else if (cooler.stellarType === 'F' && cooler.stellarClass === 'VI')
-      cooler.stellarClass = 'V';
-    else if (cooler.stellarType === 'A' && cooler.stellarClass === 'VI')
-      cooler.stellarClass = 'V';
-  }
-
-  return cooler;
 };
 
 const determineDataKey = (stellarType, subtype) => {
@@ -91,12 +68,47 @@ const additionalStarDM = (primary) => {
   return dm;
 }
 
+const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = r.integer(0, i);
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+const computeBaseline = (star) => {
+  let baseline = twoD6();
+  if (star.companion)
+    baseline -= 2;
+  if (['Ia', 'Ib', 'II'].includes(star.stellarClass))
+    baseline += 3;
+  else if (star.stellarClass === 'III')
+    baseline += 2;
+  else if (star.stellarClass === 'IV')
+    baseline += 1;
+  else if (star.stellarClass === 'VI')
+    baseline -= 1;
+  if (star.totalObjects < 6)
+    baseline -= 4;
+  else if (star.totalObjects <= 9)
+    baseline -= 3;
+  else if (star.totalObjects <= 12)
+    baseline -= 2;
+  else if (star.totalObjects <= 15)
+    baseline -= 1;
+  else if (star.totalObjects >= 18 && star.totalObjects <= 20)
+    baseline += 1;
+  else if (star.totalObjects > 20)
+    baseline += 2;
+  return baseline;
+}
+
 module.exports = {
   isHotter: isHotter,
-  makeCooler: makeCooler,
   determineDataKey: determineDataKey,
   companionOrbit: companionOrbit,
   additionalStarDM: additionalStarDM,
+  shuffleArray: shuffleArray,
+  computeBaseline: computeBaseline,
   TYPES_BY_TEMP: TYPES_BY_TEMP,
   ORBIT_TYPES: ORBIT_TYPES,
 };

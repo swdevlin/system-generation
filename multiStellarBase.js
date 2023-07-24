@@ -1,6 +1,7 @@
-const {twoD6} = require("./dice");
-const {TYPES_BY_TEMP, makeCooler, isHotter} = require("./utils");
+const {twoD6, d6} = require("./dice");
+const {TYPES_BY_TEMP, makeCooler, isHotter, ORBIT_TYPES} = require("./utils");
 const {generateBaseStar} = require("./generateBaseStar");
+const Star = require("./star");
 const Random = require("random-js").Random;
 
 const r = new Random();
@@ -46,30 +47,41 @@ const otherType = (dm) => {
   }
 }
 
-const multiStellarBase = (primary, isCompanion) => {
+const multiStellarBase = (primary, orbitType) => {
   const dm = primary.stellarClass === 'III' || primary.stellarClass === 'IV' ? -1 : 0
-  let star = {};
   let stellarType;
-  if (isCompanion)
+  let stellarClass;
+  let subtype;
+
+  if (orbitType === ORBIT_TYPES.COMPANION)
     stellarType = companionType(dm);
   else
     stellarType = secondaryType(dm);
 
   if (stellarType === 'Random') {
-    star = generateBaseStar(0);
+    star = generateBaseStar(0, orbitType);
     if (isHotter(star, primary))
       stellarType = 'Lesser';
   }
 
   if (stellarType === 'Lesser')
-    star = makeCooler(primary);
+    star = makeCooler(primary, orbitType);
   else if (stellarType === 'D' || stellarType === 'BD') {
     star.stellarClass = '';
     if (stellarType === 'BD') {
-      switch (r.die(3)) {
-        case 1: star.stellarType = 'L'; break;
-        case 2: star.stellarType = 'T'; break;
-        case 3: star.stellarType = 'Y'; break;
+      switch (d6()) {
+        case 1:
+        case 2:
+          star.stellarType = 'L';
+          break;
+        case 3:
+        case 4:
+          star.stellarType = 'T';
+          break;
+        case 5:
+        case 6:
+          star.stellarType = 'Y';
+          break;
       }
       star.subtype = r.integer(0,9);
     } else {
@@ -107,7 +119,7 @@ const multiStellarBase = (primary, isCompanion) => {
     star.subtype = r.integer(0,9);
     star.stellarClass = '';
   }
-  return star;
+  return new Star(stellarClass, stellarType, subtype, orbitType);
 };
 
 module.exports = multiStellarBase;

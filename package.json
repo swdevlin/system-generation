@@ -4,7 +4,8 @@
   "description": "Generate a sector of systems for Mongoose Traveller",
   "main": "generate.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node node_modules/mocha/bin/mocha",
+    "coverage": "nyc node_modules/mocha/bin/mocha --recursive"
   },
   "author": "",
   "license": "ISC",
@@ -13,5 +14,11 @@
     "js-yaml": "^4.1.0",
     "random": "^4.1.0",
     "random-js": "^2.1.0"
+  },
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "chai-http": "^4.4.0",
+    "eslint": "^8.45.0",
+    "mocha": "^10.2.0"
   }
 }

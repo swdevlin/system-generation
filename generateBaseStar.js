@@ -1,6 +1,7 @@
 const {twoD6} = require("./dice");
 const stellarTypeLookup = require("./stellarTypeLookup");
 const subtypeLookup = require("./subtypeLookup");
+const Star = require("./star");
 const Random = require("random-js").Random;
 
 const r = new Random();
@@ -59,7 +60,7 @@ const specialLookup = (dm) => {
   };
 }
 
-const generateBaseStar = (dm) => {
+const generateBaseStar = (dm, orbitType) => {
   let stellarClass = '';
   let stellarType = stellarTypeLookup(0);
   if (stellarType === 'Special') {
@@ -73,11 +74,8 @@ const generateBaseStar = (dm) => {
     stellarClass = 'V';
   }
   const subtype = subtypeLookup(true, stellarType, stellarClass);
-  return {
-    stellarClass: stellarClass,
-    stellarType: stellarType,
-    subtype: subtype,
-  };
+  return new Star(stellarClass, stellarType, subtype, orbitType);
+
 };
 
 module.exports = {

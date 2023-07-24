@@ -10,7 +10,7 @@ const auToOrbit = (au) => {
   if (au >= 78700)
     return 20;
   for (let i=1; i < AUS.length; i++)
-    if (AUS[i] <= AUS[i]) {
+    if (au <= AUS[i]) {
       return i-1 + (au-AUS[i-1])/(AUS[i]-AUS[i-1]);
     }
   return null;
