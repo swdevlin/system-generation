@@ -11,7 +11,6 @@ const {companionOrbit, additionalStarDM, ORBIT_TYPES} = require("./utils");
 const calculatePeriod = require("./calculatePeriod");
 const {assignOrbits} = require("./assignOrbits");
 const SolarSystem = require("./solarSystem");
-const ejs = require('ejs');
 
 const STANDARD_CHANCE = 0.5;
 const SPARSE_CHANCE = 0.33;
@@ -89,11 +88,6 @@ const addCompanion = (star) => {
 }
 
 const generateSubsector = (sectorName, subsectorName, frequency) => {
-  const solarSystemTemplate = fs.readFileSync('templates/solarsystem.ejs', 'utf8');
-  const starTemplate = fs.readFileSync('templates/star.ejs', 'utf8');
-
-  // const solarSystemTemplate = ejs.
-  let tm = 'Hex\tName\tUWP\tBases\tRemarks\tZone\tPBG\tAllegiance\tStars\t{Ix}\t(Ex)\t[Cx]\tNobility\tW\n';
   for (let col=1; col <= 8; col++)
     for (let row=1; row <= 10; row++) {
       const chance = parseChance(row, col, frequency);
