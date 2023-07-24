@@ -7,6 +7,7 @@ const starDiameter = require("./starDiameter");
 const starTemperature = require("./starTemperature");
 const StarColour = require("./starColour");
 const calculateStarEccentricity = require("./calculateStarEccentricity");
+const orbitToAU = require("./orbitToAU");
 const Random = require("random-js").Random;
 
 const r = new Random();
@@ -104,9 +105,17 @@ class Star {
 
   addStellarObject(item) {
     let i=0;
-    while (i < this.stellarObjects.length && this.stellarObjects[i].orbit < item.orbit)
+    let mass = this.mass;
+    if (this.companion)
+      mass += this.companion.mass;
+    while (i < this.stellarObjects.length && this.stellarObjects[i].orbit < item.orbit) {
+      if (this.stellarObjects[i].orbitType < ORBIT_TYPES.GAS_GIANT)
+        mass += this.stellarObjects[i].mass;
       i++;
-    this.stellarObjects.splice(i,0,item);
+    }
+    this.stellarObjects.splice(i,0, item);
+    item.period = Math.sqrt(orbitToAU(item.orbit)**3/mass);
+
   }
 
   get luminosity() {
