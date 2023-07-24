@@ -152,7 +152,7 @@ const starMass= (star) => {
   if (star.stellarType === 'D') {
     return (twoD6()-1)/10 + r.die(10)/100;
   } else {
-    let dataKey = determineDataKey(star.stellarType, star.subtype);
+    let dataKey = star.dataKey;
     return MASS[dataKey][star.stellarClass]
   }
 }

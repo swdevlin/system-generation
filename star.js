@@ -15,6 +15,7 @@ class Star {
   constructor(stellarClass, stellarType, subtype, orbitType) {
     this.stellarClass = stellarClass;
     if (stellarType === 'BD') {
+      this.stellarClass = '';
       switch (d6()) {
         case 1:
         case 2:
@@ -35,7 +36,6 @@ class Star {
       this.subtype = subtype;
     }
 
-    this.isCompanion = false;
     this.orbitType = orbitType;
 
     this.mass = starMass(this);
@@ -79,16 +79,20 @@ class Star {
 
     this.availableOrbits = [];
     this.stellarObjects = [];
-    this.orbitNumbers = [];
+    this.occupiedOrbits = [];
   }
 
   get dataKey() {
     return determineDataKey(this.stellarType, this.subtype);
   }
 
+  get isCompanion() {
+    return this.orbitType === ORBIT_TYPES.COMPANION;
+  }
+
   get minimumAllowableOrbit() {
     if (this.stellarType === 'D')
-      return 0.001;
+      return 0;
     else {
       const mao = MINIMUM_ALLOWABLE_ORBIT[this.dataKey][this.stellarClass];
       if (this.companion)
@@ -126,7 +130,7 @@ class Star {
     let orbits = 0;
     for (const o of this.availableOrbits)
       orbits += o[1] - o[0];
-    if (!this.companion)
+    if (orbits > 0 && !this.companion)
       orbits += 1;
     return Math.trunc(orbits);
   }
@@ -140,39 +144,61 @@ class Star {
 
   assignOrbits() {
     this.baseline = computeBaseline(this);
-    let baselineHZCO;
+    if (this.availableOrbits.length === 0)
+      return;
+    let baselineOrbitNumber;
     if (this.baseline >= 1 && this.baseline <= this.totalObjects) {
       const div = (this.hzco < 1.0) ? 100 : 10;
-      baselineHZCO = this.hzco + (twoD6()-7)/div;
+      baselineOrbitNumber = this.hzco + (twoD6()-7)/div;
     } else if (this.baseline < 1) {
       if (this.minimumAllowableOrbit >= 1.0)
-        baselineHZCO = this.hzco - this.baseline + this.totalObjects + (twoD6()-2)/10;
+        baselineOrbitNumber = this.hzco - this.baseline + this.totalObjects + (twoD6()-2)/10;
       else
-        baselineHZCO = this.minimumAllowableOrbit - this.baseline/10 + (twoD6()-2)/100;
+        baselineOrbitNumber = this.minimumAllowableOrbit - this.baseline/10 + (twoD6()-2)/100;
     } else if (this.baseline > this.totalObjects) {
       if (this.hzco - this.baseline + this.totalObjects >= 1.0)
-        baselineHZCO = this.hzco - this.baseline + this.totalObjects + (twoD6()-7)/5;
+        baselineOrbitNumber = this.hzco - this.baseline + this.totalObjects + (twoD6()-7)/5;
       else
-        baselineHZCO = this.hzco - (this.baseline + this.totalObjects + (twoD6()-7)/5)/10;
-      if (baselineHZCO < 0)
-        baselineHZCO = Math.max(this.hzco - 0.1, this.minimumAllowableOrbit + this.totalObjects/100);
+        baselineOrbitNumber = this.hzco - (this.baseline + this.totalObjects + (twoD6()-7)/5)/10;
+      if (baselineOrbitNumber < 0)
+        baselineOrbitNumber = Math.max(this.hzco - 0.1, this.minimumAllowableOrbit + this.totalObjects/100);
     }
     this.emptyOrbits = Math.max(0, twoD6()-9);
 
-    this.spread = (baselineHZCO - this.minimumAllowableOrbit) / Math.max(1, this.baseline);
+    this.spread = (baselineOrbitNumber - this.minimumAllowableOrbit) / Math.max(1, this.baseline);
+    if (this.spread <= 0)
+      this.spread = this.minimumAllowableOrbit / Math.max(1, this.baseline);
     if (this.spread * this.totalObjects > 20)
       this.spread = this.totalOrbits / (this.totalObjects + this.emptyOrbits);
-
-
     let orbit = this.minimumAllowableOrbit + this.spread + ((twoD6()-7) * this.spread)/10;
-    this.orbitNumbers.push(orbit);
-    for (let i=1; i <= this.totalObjects; i++) {
+    this.occupiedOrbits.push(orbit);
+    for (let i=1; i < this.totalObjects + this.emptyOrbits; i++) {
       orbit += this.spread + ((twoD6()-7) * this.spread)/10;
       while (!this.orbitValid(orbit))
         orbit += this.spread + ((twoD6()-7) * this.spread)/10;
-      this.orbitNumbers.push(orbit);
+      this.occupiedOrbits.push(orbit);
     }
   }
+
+  textDump(spacing, prefix, postfix) {
+    let s = `${' '.repeat(spacing)}`;
+    if (this.orbitType !== ORBIT_TYPES.PRIMARY)
+      s += `${this.orbit.toFixed(2)} `;
+    if (this.stellarType === 'D')
+      s += `${prefix}White dwarf${postfix}\n`;
+    else {
+      s += `${prefix}${this.stellarType}${this.subtype} ${this.stellarClass}${postfix}\n`;
+      for (const stellar of this.stellarObjects)
+        if (Math.abs(this.hzco - stellar.orbit) <= 0.2)
+          s += stellar.textDump(spacing+2, '>>', '<<');
+        else if (Math.abs(this.hzco - stellar.orbit) <= 1)
+          s += stellar.textDump(spacing+2, '>', '<');
+        else
+          s += stellar.textDump(spacing+2, '', '');
+    }
+    return s;
+  }
+
 }
 
 module.exports = Star;

@@ -22,9 +22,9 @@ const makeCooler = (star, orbitType) => {
     subtype = subtypeLookup(false, star.stellarType, star.stellarClass);
     if (stellarType === 'O' && stellarClass === 'IV')
       stellarClass = 'V';
-    else if (cooler.stellarType === 'F' && stellarClass === 'VI')
+    else if (stellarType === 'F' && stellarClass === 'VI')
       stellarClass = 'V';
-    else if (cooler.stellarType === 'A' && stellarClass === 'VI')
+    else if (stellarType === 'A' && stellarClass === 'VI')
       stellarClass = 'V';
   }
 

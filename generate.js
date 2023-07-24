@@ -11,6 +11,7 @@ const {companionOrbit, additionalStarDM, ORBIT_TYPES} = require("./utils");
 const calculatePeriod = require("./calculatePeriod");
 const {assignOrbits} = require("./assignOrbits");
 const SolarSystem = require("./solarSystem");
+const ejs = require('ejs');
 
 const STANDARD_CHANCE = 0.5;
 const SPARSE_CHANCE = 0.33;
@@ -87,7 +88,11 @@ const addCompanion = (star) => {
   star.companion.period = calculatePeriod(star.companion, star);
 }
 
-const generateSubsector = (frequency) => {
+const generateSubsector = (sectorName, subsectorName, frequency) => {
+  const solarSystemTemplate = fs.readFileSync('templates/solarsystem.ejs', 'utf8');
+  const starTemplate = fs.readFileSync('templates/star.ejs', 'utf8');
+
+  // const solarSystemTemplate = ejs.
   let tm = 'Hex\tName\tUWP\tBases\tRemarks\tZone\tPBG\tAllegiance\tStars\t{Ix}\t(Ex)\t[Cx]\tNobility\tW\n';
   for (let col=1; col <= 8; col++)
     for (let row=1; row <= 10; row++) {
@@ -95,6 +100,8 @@ const generateSubsector = (frequency) => {
       if (r.bool(chance)) {
         let star;
         const solarSystem = new SolarSystem();
+        solarSystem.sector = sectorName;
+        solarSystem.coordinates = coordinate(row, col);
         solarSystem.addPrimary(generateStar(null, 0, ORBIT_TYPES.PRIMARY));
         const primary = solarSystem.primaryStar;
         let dm = additionalStarDM(primary);
@@ -125,7 +132,7 @@ const generateSubsector = (frequency) => {
           solarSystem.addStar(star);
         }
         if (twoD6() + dm >= 10) {
-          star = generateStar(star, 0, ORBIT_TYPES.FAR);
+          star = generateStar(primary, 0, ORBIT_TYPES.FAR);
           star.orbit = r.die(6)+11 + r.integer(0,9)/10 - 0.5;
           star.period = calculatePeriod(star, primary);
           if (twoD6() + companionDM(star) >= 10)
@@ -138,15 +145,13 @@ const generateSubsector = (frequency) => {
         solarSystem.terrestrialPlanets = terrestrialPlanetQuantity(solarSystem);
 
         solarSystem.distributeObjects();
-        assignOrbits(solarSystem);
-
-        console.log(coordinate(row, col), solarSystem);
-        tm += `${coordinate(row, col)}\t${coordinate(row, col)}\tC777777-7\t\t\t\t\t\t\t\t\t\t\t\n`;
-        // console.log(coordinate(row, col));
+        solarSystem.assignOrbits();
+        const text = `${sectorName} ${solarSystem.coordinates} ${solarSystem.primaryStar.textDump(0, '', '')}`;
+        console.log(text);
+        fs.writeFileSync(`output/${solarSystem.coordinates}.txt`, text);
       }
     }
-  fs.writeFileSync('tm.txt', tm);
-}
+ }
 
 commander
   .version('0.0.1', '-v, --version')
@@ -157,9 +162,9 @@ commander
 ;(async () => {
   const options = commander.opts()
   const sector = yaml.load(fs.readFileSync(options.sector, 'utf8'));
+  console.log(`${sector.name}`);
   for (const subsector of sector.subsectors) {
-    console.log(subsector.name);
-    generateSubsector(subsector.type);
+    generateSubsector(sector.name, subsector.name, subsector.type);
   }
   console.log('done');
 })()

@@ -1,7 +1,8 @@
 const {twoD6, d6} = require("./dice");
-const {TYPES_BY_TEMP, makeCooler, isHotter, ORBIT_TYPES} = require("./utils");
+const {TYPES_BY_TEMP, isHotter, ORBIT_TYPES} = require("./utils");
 const {generateBaseStar} = require("./generateBaseStar");
 const Star = require("./star");
+const makeCooler = require("./makeCooler");
 const Random = require("random-js").Random;
 
 const r = new Random();
@@ -52,6 +53,7 @@ const multiStellarBase = (primary, orbitType) => {
   let stellarType;
   let stellarClass;
   let subtype;
+  let star;
 
   if (orbitType === ORBIT_TYPES.COMPANION)
     stellarType = companionType(dm);
@@ -66,60 +68,31 @@ const multiStellarBase = (primary, orbitType) => {
 
   if (stellarType === 'Lesser')
     star = makeCooler(primary, orbitType);
-  else if (stellarType === 'D' || stellarType === 'BD') {
-    star.stellarClass = '';
-    if (stellarType === 'BD') {
-      switch (d6()) {
-        case 1:
-        case 2:
-          star.stellarType = 'L';
-          break;
-        case 3:
-        case 4:
-          star.stellarType = 'T';
-          break;
-        case 5:
-        case 6:
-          star.stellarType = 'Y';
-          break;
-      }
-      star.subtype = r.integer(0,9);
-    } else {
-      star.stellarType = stellarType;
-      star.subtype = '';
-    }
-  } else if (stellarType === 'Twin') {
-    star.stellarType = primary.stellarType;
-    star.stellarClass = primary.stellarClass;
-    star.subtype = primary.subtype;
+  else if (stellarType === 'Twin') {
+    star = new Star(primary.stellarClass, primary.stellarType, primary.subtype, orbitType);
   } else if (stellarType === 'Sibling') {
-    star.stellarType = primary.stellarType;
-    star.stellarClass = primary.stellarClass;
-    if (star.stellarType === 'M')
-      star.subtype = Math.min(9, primary.subtype + r.die(6));
+    stellarType = primary.stellarType;
+    stellarClass = primary.stellarClass;
+    if (stellarType === 'M')
+      subtype = Math.min(9, primary.subtype + r.die(6));
     else {
-      star.subtype = primary.subtype + r.die(6);
-      if (star.subtype > 9) {
-        star.subtype -= 10;
-        star.stellarType = TYPES_BY_TEMP[TYPES_BY_TEMP.indexOf(star.stellarType) + 1];
-        if (star.stellarClass === 'VI' && ['A', 'F'].includes(star.stellarType))
-          star.stellarType = 'G';
-        else if (star.class === 'IV' && ((star.stellarType === 'K' && star.subtype >=5) || star.stellarType === 'M') )
-          star.stellarClass = 'V';
+      subtype = primary.subtype + r.die(6);
+      if (subtype > 9) {
+        subtype -= 10;
+        stellarType = TYPES_BY_TEMP[TYPES_BY_TEMP.indexOf(stellarType) + 1];
+        if (stellarClass === 'VI' && ['A', 'F'].includes(stellarType))
+          stellarType = 'G';
+        else if (stellarClass === 'IV' && ((stellarType === 'K' && subtype >=5) || stellarType === 'M') )
+          stellarClass = 'V';
       }
     }
+    star = new Star(stellarClass, stellarType, subtype, orbitType);
+  } else if (stellarType === 'D') {
+    star = new Star(stellarType, stellarType, subtype, orbitType);
+  } else if (stellarType === 'BD') {
+    star = new Star(stellarType, stellarType, subtype, orbitType);
   }
-
-  if (star.stellarType === 'BD') {
-    switch (r.die(3)) {
-      case 1: star.stellarType = 'L'; break;
-      case 2: star.stellarType = 'T'; break;
-      case 3: star.stellarType = 'Y'; break;
-    }
-    star.subtype = r.integer(0,9);
-    star.stellarClass = '';
-  }
-  return new Star(stellarClass, stellarType, subtype, orbitType);
+  return star;
 };
 
 module.exports = multiStellarBase;

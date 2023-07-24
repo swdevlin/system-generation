@@ -1,9 +1,12 @@
+const {ORBIT_TYPES} = require("./utils");
+
 class TerrestrialPlanet {
   constructor(size, mass, orbit) {
     this.size = size;
     this.mass = mass;
     this.orbit = orbit;
     this.moons = [];
+    this.orbitType = ORBIT_TYPES.TERRESTRIAL;
   }
 
   get diameter() {
@@ -15,6 +18,11 @@ class TerrestrialPlanet {
       return 600;
     return this.size * 1600;
   }
+
+  textDump(spacing, prefix, postfix) {
+    return `${' '.repeat(spacing)}${prefix}${this.orbit.toFixed(2)} Terrestrial planet${postfix}\n`;
+  }
+
 }
 
 module.exports = TerrestrialPlanet;

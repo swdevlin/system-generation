@@ -13,6 +13,9 @@ const ORBIT_TYPES = {
   NEAR: 2,
   FAR: 3,
   COMPANION: 4,
+  GAS_GIANT: 10,
+  TERRESTRIAL: 11,
+  PLANETOID_BELT: 12,
 }
 
 const isHotter = (starA, starB) => {

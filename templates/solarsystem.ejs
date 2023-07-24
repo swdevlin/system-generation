@@ -1,0 +1,9 @@
+<%= sectorName %> <%= solarSystem.coordinates %>
+  <%= solarSystem.primaryStar.stellarType %><%= solarSystem.primaryStar.subtype %> <%= solarSystem.primaryStar.stellarClass %>
+<%_ solarSystem.primaryStar.stellarObjects.forEach(function (so) { _%>
+    <% if(so.orbitType === 10){ %>
+        <%= so.orbit.toFixed(2) %> <%= so.code %> <%= so.diameter %>
+    <% } else { %>
+        <%= so.orbit.toFixed(2) %> <%= so.code %> <%= so.diameter %>
+    <% } %>
+<%_ }) _%>

@@ -1,34 +1,34 @@
-name: SecName
+name: Simmial
 subsectors:
-  - name: Sub-1-1
+  - name: Simmial 1-1
     type: 1
-  - name: Sub-1-2
+  - name: Simmial 1-2
     type: 1
-  - name: Sub-1-3
+  - name: Simmial 1-3
     type: 1
-  - name: Sub-1-4
+  - name: Simmial 1-4
     type: 1
-  - name: Sub-2-1
+  - name: Simmial 2-1
     type: 1
-  - name: Sub-2-2
+  - name: Simmial 2-2
     type: 1
-  - name: Sub-2-3
+  - name: Simmial 2-3
     type: 1
-  - name: Sub-2-4
+  - name: Simmial 2-4
     type: 1
-  - name: Sub-3-1
+  - name: Simmial 3-1
     type: 1
-  - name: Sub-3-2
+  - name: Simmial 3-2
     type: 1
-  - name: Sub-3-3
+  - name: Simmial 3-3
     type: 1
-  - name: Sub-3-4
+  - name: Simmial 3-4
     type: 1
-  - name: Sub-4-1
+  - name: Simmial 4-1
     type: 6
-  - name: Sub-4-2
+  - name: Simmial 4-2
     type: 6
-  - name: Sub-4-3
+  - name: Simmial 4-3
     type: 6
-  - name: Sub-4-4
+  - name: Simmial 4-4
     type: 6

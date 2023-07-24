@@ -1,4 +1,4 @@
-const {ORBIT_TYPES} = require("./utils");
+const {ORBIT_TYPES, shuffleArray} = require("./utils");
 const {threeD6, twoD6} = require("./dice");
 const GasGiant = require("./gasGiant");
 const PlanetoidBelt = require("./planetoidBelt");
@@ -14,6 +14,8 @@ class SolarSystem {
     this.gasGiants = 0;
     this.planetoidBelts = 0;
     this.terrestrialPlanets = 0;
+    this.sector = null;
+    this.coordinates = null;
   }
 
   get totalObjects() {
@@ -47,31 +49,41 @@ class SolarSystem {
   }
 
   determineAvailableOrbits() {
-    const primary = this.primaryStar;
-    let minOrbit = primary.minimumAllowableOrbit;
-    let luminosity = primary.luminosity;
-    if (primary.companion) {
-      minOrbit = Math.max(minOrbit, 0.5 + primary.companion.eccentricity)
-      luminosity += primary.companion.luminosity;
-    }
-
     let maxOrbit;
-    primary.availableOrbits = [];
-    if (this.stars.length > 1)
-      for (let i=1; i < this.stars.length; i++) {
-        const star = this.stars[i];
-        let eccMod = star.eccentricity > 0.2 ? 1 : 0;
-        if ((star.orbitType === ORBIT_TYPES.NEAR || star.orbitType === ORBIT_TYPES.CLOSE ) && star.eccentricity > 0.5)
-          eccMod++;
-        maxOrbit = star.orbit - 1.0 - eccMod;
-        primary.availableOrbits.push([minOrbit, maxOrbit]);
-        minOrbit = star.orbit + 1.0 + eccMod;
+    let minOrbit;
+    let luminosity;
+    const primary = this.primaryStar;
+    if (primary.stellarType !== 'D') {
+      minOrbit = primary.minimumAllowableOrbit;
+      luminosity = primary.luminosity;
+      if (primary.companion) {
+        minOrbit = Math.max(minOrbit, 0.5 + primary.companion.eccentricity)
+        luminosity += primary.companion.luminosity;
       }
 
-    primary.availableOrbits.push([minOrbit, 20]);
+      primary.availableOrbits = [];
+      if (this.stars.length > 1)
+        for (let i=1; i < this.stars.length; i++) {
+          const star = this.stars[i];
+          let eccMod = star.eccentricity > 0.2 ? 1 : 0;
+          if ((star.orbitType === ORBIT_TYPES.NEAR || star.orbitType === ORBIT_TYPES.CLOSE ) && star.eccentricity > 0.5)
+            eccMod++;
+          maxOrbit = star.orbit - 1.0 - eccMod;
+          if (maxOrbit < minOrbit)
+            minOrbit = star.orbit + 1.0 + eccMod;
+          else {
+            primary.availableOrbits.push([minOrbit, maxOrbit]);
+            minOrbit = star.orbit + 1.0 + eccMod;
+          }
+        }
+
+      primary.availableOrbits.push([minOrbit, 20]);
+    }
 
     for (let i=1; i < this.stars.length; i++) {
       const star = this.stars[i];
+      if (star.stellarType === 'D')
+        continue;
       let minOrbit = star.minimumAllowableOrbit;
       if (star.companion)
         minOrbit = Math.max(minOrbit, 0.5+star.companion.eccentricity)
@@ -82,7 +94,8 @@ class SolarSystem {
       else if (i > 0 && star.orbitType - this.stars[i-1].orbitType === 1)
         maxOrbit -= 1;
 
-      star.availableOrbits.push([minOrbit, maxOrbit]);
+      if (maxOrbit > minOrbit)
+        star.availableOrbits.push([minOrbit, maxOrbit]);
     }
 
   }
@@ -113,14 +126,14 @@ class SolarSystem {
 
   addPlanetoidBelt(star, orbit_index) {
     const pb = new PlanetoidBelt();
-    pb.orbit = star.orbitNumbers[orbit_index];
+    pb.orbit = star.occupiedOrbits[orbit_index];
     star.addStellarObject(pb);
   };
 
   addTerrestrialPlanet(star, orbit_index) {
     const p = new TerrestrialPlanet();
     p.size = terrestrialWorldSize();
-    p.orbit = star.orbitNumbers[orbit_index];
+    p.orbit = star.occupiedOrbits[orbit_index];
     star.addStellarObject(p);
   };
 
@@ -143,9 +156,42 @@ class SolarSystem {
       gg = new GasGiant('GL', twoD6()+6, r.die(3)*50*(threeD6()+4));
     if (gg.mass >= 3000)
       gg.mass = 4000-200*(twoD6()-2);
-    gg.orbit = star.orbitNumbers[orbit_index];
+    gg.orbit = star.occupiedOrbits[orbit_index];
     star.addStellarObject(gg);
   };
+
+  assignOrbits() {
+    for (const star of this.stars)
+      star.assignOrbits();
+
+    let allOrbits = [];
+    for (const star of this.stars) {
+      let starOrbits = [...Array(star.occupiedOrbits.length).keys()].map(x => [star, x]);
+      shuffleArray(starOrbits);
+      for (let i=0; i < star.emptyOrbits; i++)
+        starOrbits.pop();
+      allOrbits = allOrbits.concat(starOrbits);
+    }
+    shuffleArray(allOrbits);
+
+    for (let i=0; i < this.gasGiants; i++) {
+      const p = allOrbits.pop();
+      this.addGasGiant(p[0], p[1]);
+    }
+
+    for (let i=0; i < this.planetoidBelts; i++) {
+      const p = allOrbits.pop();
+      this.addPlanetoidBelt(p[0], p[1]);
+    }
+
+    for (let i=0; i < this.terrestrialPlanets; i++) {
+      const p = allOrbits.pop();
+      if (p === undefined)
+        console.log('not enough orbits');
+      this.addTerrestrialPlanet(p[0], p[1]);
+    }
+
+  }
 
 }
 

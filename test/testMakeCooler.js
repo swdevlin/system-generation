@@ -26,7 +26,7 @@ describe("tests for makeCooler function", function () {
     ROLL_CACHE.push(2);
     const star = new Star('IV', 'M', 6, ORBIT_TYPES.PRIMARY);
     const coolerStar = makeCooler(star, ORBIT_TYPES.NEAR);
-    coolerStar.stellarClass.should.equal('BD');
+    coolerStar.stellarClass.should.equal('');
     coolerStar.stellarType.should.equal('L');
   });
 
