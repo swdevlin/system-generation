@@ -1,10 +1,11 @@
 const {ORBIT_TYPES} = require("./utils");
 
 class TerrestrialPlanet {
-  constructor(size, mass, orbit) {
+  constructor(size, orbit) {
     this.size = size;
-    this.mass = mass;
     this.orbit = orbit;
+    this.period = 0;
+    this.composition = '';
     this.moons = [];
     this.orbitType = ORBIT_TYPES.TERRESTRIAL;
   }
@@ -17,6 +18,19 @@ class TerrestrialPlanet {
     if (this.size === 'S')
       return 600;
     return this.size * 1600;
+  }
+
+  get gravity() {
+    return this.density * this.size / 8;
+  }
+
+  get mass() {
+    return this.density * (this.size / 8)**3;
+  }
+
+  get escapeVelocity() {
+    const v = Math.sqrt(this.mass / (this.diameter/12756)) * 11186;
+    return v / 1000;
   }
 
   textDump(spacing, prefix, postfix) {
