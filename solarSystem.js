@@ -4,8 +4,9 @@ const GasGiant = require("./gasGiant");
 const PlanetoidBelt = require("./planetoidBelt");
 const TerrestrialPlanet = require("./terrestrialPlanet");
 const terrestrialWorldSize = require("./terrestrialWorldSize");
+const {terrestrialComposition, terrestrialDensity} = require("./terrestrialComposition");
+const {determineBeltComposition, determineBeltBulk, determineBeltResourceRating} = require("./planetoidBelts");
 const Random = require("random-js").Random;
-
 const r = new Random();
 
 class SolarSystem {
@@ -127,13 +128,19 @@ class SolarSystem {
   addPlanetoidBelt(star, orbit_index) {
     const pb = new PlanetoidBelt();
     pb.orbit = star.occupiedOrbits[orbit_index];
+    pb.span = star.spread * twoD6()/10;
+    determineBeltComposition(star, pb);
+    determineBeltBulk(star, pb);
+    determineBeltResourceRating(star, pb);
     star.addStellarObject(pb);
   };
 
   addTerrestrialPlanet(star, orbit_index) {
-    const p = new TerrestrialPlanet();
-    p.size = terrestrialWorldSize();
-    p.orbit = star.occupiedOrbits[orbit_index];
+    const size = terrestrialWorldSize();
+    const orbit = star.occupiedOrbits[orbit_index];
+    const p = new TerrestrialPlanet(size, orbit);
+    p.composition = terrestrialComposition(star, p);
+    p.density = terrestrialDensity(p.composition);
     star.addStellarObject(p);
   };
 

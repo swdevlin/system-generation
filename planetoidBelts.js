@@ -1,7 +1,4 @@
-const {twoD6} = require("./dice");
-const Random = require("random-js").Random;
-
-const r = new Random();
+const {twoD6, d6, d3, d2} = require("./dice");
 
 const planetoidBeltQuantity = (solarSystem) => {
   let planetoidBelts = 0;
@@ -23,6 +20,95 @@ const planetoidBeltQuantity = (solarSystem) => {
   return planetoidBelts;
 }
 
+const determineBeltComposition = (star, belt) => {
+  let roll = twoD6();
+  if (belt.orbit < star.hzco)
+    roll -= 4;
+  if (belt.orbit > star.hzco + 2)
+    roll += 4;
+
+  if (roll < 1) {
+    belt.mType = 60 + d6() * 5;
+    belt.sType = d6() * 5;
+    belt.cType = 0;
+  } else if (roll === 1) {
+    belt.mType = 50 + d6() * 5;
+    belt.sType = 5 + d6() * 5;
+    belt.cType = d3();
+  } else if (roll === 2) {
+    belt.mType = 40 + d6() * 5;
+    belt.sType = 15 + d6() * 5;
+    belt.cType = d6();
+  } else if (roll === 3) {
+    belt.mType = 25 + d6() * 5;
+    belt.sType = 30 + d6() * 5;
+    belt.cType = d6();
+  } else if (roll === 4) {
+    belt.mType = 15 + d6() * 5;
+    belt.sType = 35 + d6() * 5;
+    belt.cType =  5 + d6();
+  } else if (roll === 5) {
+    belt.mType =  5 + d6() * 5;
+    belt.sType = 40 + d6() * 5;
+    belt.cType =  5 + d6() * 2;
+  } else if (roll === 6) {
+    belt.mType =  d6() * 5;
+    belt.sType = 40 + d6() * 5;
+    belt.cType =  d6() * 5;
+  } else if (roll === 7) {
+    belt.mType =  5 + d6() * 2;
+    belt.sType = 35 + d6() * 5;
+    belt.cType = 10 + d6() * 5;
+  } else if (roll === 8) {
+    belt.mType =  5 + d6();
+    belt.sType = 30 + d6() * 5;
+    belt.cType = 20 + d6() * 5;
+  } else if (roll === 9) {
+    belt.mType = d6();
+    belt.sType = 15 + d6() * 5;
+    belt.cType = 40 + d6() * 5;
+  } else if (roll === 10) {
+    belt.mType = d6();
+    belt.sType = 5 + d6() * 5;
+    belt.cType = 50 + d6() * 5;
+  } else if (roll === 11) {
+    belt.mType = d3();
+    belt.sType = 5 + d6() * 2;
+    belt.cType = 60 + d6() * 5;
+  } else {
+    belt.mType = 0;
+    belt.sType = d6();
+    belt.cType = 70 + d6() * 5;
+  }
+
+  let total = belt.mType + belt.cType + belt.sType;
+  while (total > 100) {
+    if (belt.mType > 0)
+      belt.mType = Math.max(0, belt.mType - (total - 100));
+    else if (belt.sType > 0)
+      belt.sType = Math.max(0, belt.sType - (total - 100));
+    total = belt.mType + belt.cType + belt.sType;
+  }
+  belt.oType = 100 - total;
+};
+
+const determineBeltBulk = (star, belt) => {
+  let bulk = d2() + d2();
+  bulk -= Math.floor(star.age/2);
+  bulk += Math.floor(belt.cType/10);
+  belt.bulk = Math.max(1, bulk);
+};
+
+const determineBeltResourceRating = (star, belt) => {
+  let rating = twoD6() - 7 + belt.bulk;
+  rating += Math.floor(belt.mType/10);
+  rating -= Math.floor(belt.cType/10);
+  belt.resourceRating = Math.min(12, Math.max(2, rating));
+};
+
 module.exports = {
   planetoidBeltQuantity: planetoidBeltQuantity,
+  determineBeltComposition: determineBeltComposition,
+  determineBeltBulk: determineBeltBulk,
+  determineBeltResourceRating: determineBeltResourceRating,
 };
