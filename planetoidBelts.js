@@ -1,4 +1,10 @@
 const {twoD6, d6, d3, d2} = require("./dice");
+const TerrestrialPlanet = require("./terrestrialPlanet");
+const {terrestrialDensity} = require("./terrestrialComposition");
+const {ORBIT_TYPES} = require("./utils");
+const Random = require("random-js").Random;
+
+const r = new Random();
 
 const planetoidBeltQuantity = (solarSystem) => {
   let planetoidBelts = 0;
@@ -106,9 +112,68 @@ const determineBeltResourceRating = (star, belt) => {
   belt.resourceRating = Math.min(12, Math.max(2, rating));
 };
 
+const significantBodyType = (belt) => {
+  let roll = r.integer(1,100);
+  roll -= belt.mType;
+  if (roll <= 0)
+    return "Mostly Metal";
+  roll -= belt.sType;
+  if (roll <= 0)
+    return "Mostly Rock";
+  return "Mostly Ice";
+}
+
+const calculateOrbitOffset = (star, belt) => {
+  let orbitOffset;
+  do {
+    orbitOffset = star.spread * ((twoD6() - 7) * belt.span)/4;
+    orbitOffset *= r.real(.95, 1.05);
+  } while (Math.abs(orbitOffset) > star.spread);
+  return orbitOffset;
+}
+const addSignificantBodies = (star, belt) => {
+  let bodies = twoD6() - 12 + belt.bulk;
+  if (belt.span < 0.1)
+    bodies -=4;
+  if (belt.orbit > star.hzco + 3)
+    bodies += 2;
+  for (let i=0; i < bodies; i++) {
+    let orbit = belt.orbit + calculateOrbitOffset(star, belt);
+    const p = new TerrestrialPlanet(1, orbit);
+    p.composition = significantBodyType(belt);
+    p.density = terrestrialDensity(p.composition);
+    p.orbitType = ORBIT_TYPES.PLANETOID_BELT_OBJECT;
+    star.addStellarObject(p);
+  }
+
+  bodies = twoD6() - 10;
+  let dm = 0;
+  if (star.hzco+2 <= belt.orbit && belt.orbit <= star.hzco+3)
+    dm += 1;
+  if (belt.orbit > star.hzco+3)
+    dm += 3;
+  if (belt.span > 1)
+    dm += 1;
+  bodies += (dm+1) * (belt.bulk + 1);
+  if (belt.span < 0.1)
+    bodies /= 2;
+
+  bodies = Math.ceil(bodies);
+  for (let i=0; i < bodies; i++) {
+    let orbit = belt.orbit + calculateOrbitOffset(star, belt);
+    const p = new TerrestrialPlanet('S', orbit);
+    p.composition = significantBodyType(belt);
+    p.density = terrestrialDensity(p.composition);
+    p.orbitType = ORBIT_TYPES.PLANETOID_BELT_OBJECT;
+    star.addStellarObject(p);
+  }
+
+};
+
 module.exports = {
   planetoidBeltQuantity: planetoidBeltQuantity,
   determineBeltComposition: determineBeltComposition,
   determineBeltBulk: determineBeltBulk,
   determineBeltResourceRating: determineBeltResourceRating,
+  addSignificantBodies: addSignificantBodies,
 };

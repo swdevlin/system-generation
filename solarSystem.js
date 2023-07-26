@@ -5,7 +5,7 @@ const PlanetoidBelt = require("./planetoidBelt");
 const TerrestrialPlanet = require("./terrestrialPlanet");
 const terrestrialWorldSize = require("./terrestrialWorldSize");
 const {terrestrialComposition, terrestrialDensity} = require("./terrestrialComposition");
-const {determineBeltComposition, determineBeltBulk, determineBeltResourceRating} = require("./planetoidBelts");
+const {determineBeltComposition, determineBeltBulk, determineBeltResourceRating, addSignificantBodies} = require("./planetoidBelts");
 const Random = require("random-js").Random;
 const r = new Random();
 
@@ -132,6 +132,7 @@ class SolarSystem {
     determineBeltComposition(star, pb);
     determineBeltBulk(star, pb);
     determineBeltResourceRating(star, pb);
+    addSignificantBodies(star, pb);
     star.addStellarObject(pb);
   };
 

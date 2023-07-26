@@ -16,6 +16,23 @@ const ORBIT_TYPES = {
   GAS_GIANT: 10,
   TERRESTRIAL: 11,
   PLANETOID_BELT: 12,
+  PLANETOID_BELT_OBJECT: 13,
+}
+
+const toHex = (v) => {
+  if (v === 10)
+    return 'A';
+  if (v === 11)
+    return 'B';
+  if (v === 12)
+    return 'C';
+  if (v === 13)
+    return 'D';
+  if (v === 14)
+    return 'E';
+  if (v === 15)
+    return 'F';
+  return v;
 }
 
 const isHotter = (starA, starB) => {
@@ -111,6 +128,7 @@ module.exports = {
   companionOrbit: companionOrbit,
   additionalStarDM: additionalStarDM,
   shuffleArray: shuffleArray,
+  toHex: toHex,
   computeBaseline: computeBaseline,
   TYPES_BY_TEMP: TYPES_BY_TEMP,
   ORBIT_TYPES: ORBIT_TYPES,
