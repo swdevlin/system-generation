@@ -200,7 +200,7 @@ class Star {
       s += `${prefix}${this.stellarType}${this.subtype} ${this.stellarClass}${postfix}\n`;
       for (const stellar of this.stellarObjects) {
         if (jump && stellar.orbit > jump) {
-          s += '>>> JUMP <<<\n';
+          s += `${' '.repeat(spacing)}>>> JUMP <<<\n`;
           jump = null;
         }
         if (Math.abs(this.hzco - stellar.orbit) <= 0.2)
