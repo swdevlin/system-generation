@@ -1,11 +1,15 @@
 const subtypeLookup = require("./subtypeLookup");
 const {twoD6} = require("./dice");
 const Star = require("./star");
+const orbitToAU = require("./orbitToAU");
 const Random = require("random-js").Random;
 
 const r = new Random();
 
 const TYPES_BY_TEMP = ['O', 'B', 'A', 'F', 'G', 'K', 'M'];
+
+const AU = 149597871;
+const SOL_DIAMETER = 1392000;
 
 const ORBIT_TYPES = {
   PRIMARY: 0,
@@ -122,6 +126,10 @@ const computeBaseline = (star) => {
   return baseline;
 }
 
+const orbitText = (orbit) => {
+  return `${orbitToAU(orbit).toFixed(2)} (${orbit.toFixed(2)})`;
+}
+
 module.exports = {
   isHotter: isHotter,
   determineDataKey: determineDataKey,
@@ -129,7 +137,10 @@ module.exports = {
   additionalStarDM: additionalStarDM,
   shuffleArray: shuffleArray,
   toHex: toHex,
+  orbitText: orbitText,
   computeBaseline: computeBaseline,
   TYPES_BY_TEMP: TYPES_BY_TEMP,
   ORBIT_TYPES: ORBIT_TYPES,
+  AU: AU,
+  SOL_DIAMETER: SOL_DIAMETER,
 };

@@ -9,7 +9,6 @@ const {planetoidBeltQuantity} = require("./planetoidBelts");
 const {terrestrialPlanetQuantity} = require("./terrestrialPlants");
 const {companionOrbit, additionalStarDM, ORBIT_TYPES} = require("./utils");
 const calculatePeriod = require("./calculatePeriod");
-const {assignOrbits} = require("./assignOrbits");
 const SolarSystem = require("./solarSystem");
 
 const STANDARD_CHANCE = 0.5;

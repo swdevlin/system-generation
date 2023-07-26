@@ -1,4 +1,5 @@
-const {ORBIT_TYPES} = require("./utils");
+const {ORBIT_TYPES, orbitText} = require("./utils");
+const orbitToAU = require("./orbitToAU");
 
 class PlanetoidBelt {
   constructor(orbit) {
@@ -16,7 +17,7 @@ class PlanetoidBelt {
   }
 
   textDump(spacing, prefix, postfix) {
-    return `${' '.repeat(spacing)}${prefix}${this.orbit.toFixed(2)} Planetoid belt${postfix}\n`;
+    return `${' '.repeat(spacing)}${prefix}${orbitText(this.orbit)} Planetoid belt${postfix}\n`;
   }
 }
 

@@ -1,4 +1,5 @@
-const {ORBIT_TYPES} = require("./utils");
+const {ORBIT_TYPES, orbitText} = require("./utils");
+const orbitToAU = require("./orbitToAU");
 
 class GasGiant {
   constructor(code, diameter, mass, orbit) {
@@ -11,7 +12,7 @@ class GasGiant {
   }
 
   textDump(spacing, prefix, postfix) {
-    let s = `${' '.repeat(spacing)}${prefix}${this.orbit.toFixed(2)} `;
+    let s = `${' '.repeat(spacing)}${prefix}${orbitText(this.orbit)} `;
     if (this.code === 'GS')
       s+= 'Small gas giant';
     else if (this.code === 'GM')

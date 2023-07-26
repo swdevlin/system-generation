@@ -1,4 +1,4 @@
-const {determineDataKey, ORBIT_TYPES, computeBaseline} = require("./utils");
+const {determineDataKey, ORBIT_TYPES, computeBaseline, orbitText, AU, SOL_DIAMETER} = require("./utils");
 const MINIMUM_ALLOWABLE_ORBIT = require("./minimumAllowableOrbit");
 const auToOrbit = require("./auToOrbit");
 const {twoD6, d6} = require("./dice");
@@ -190,20 +190,26 @@ class Star {
   }
 
   textDump(spacing, prefix, postfix) {
+    let jump = auToOrbit(100 * this.diameter * SOL_DIAMETER/AU);
     let s = `${' '.repeat(spacing)}`;
     if (this.orbitType !== ORBIT_TYPES.PRIMARY)
-      s += `${this.orbit.toFixed(2)} `;
+      s += `${orbitText(this.orbit)} `;
     if (this.stellarType === 'D')
       s += `${prefix}White dwarf${postfix}\n`;
     else {
       s += `${prefix}${this.stellarType}${this.subtype} ${this.stellarClass}${postfix}\n`;
-      for (const stellar of this.stellarObjects)
+      for (const stellar of this.stellarObjects) {
+        if (jump && stellar.orbit > jump) {
+          s += '>>> JUMP <<<\n';
+          jump = null;
+        }
         if (Math.abs(this.hzco - stellar.orbit) <= 0.2)
-          s += stellar.textDump(spacing+2, '>>', '<<');
+          s += stellar.textDump(spacing + 2, '>>', '<<');
         else if (Math.abs(this.hzco - stellar.orbit) <= 1)
-          s += stellar.textDump(spacing+2, '>', '<');
+          s += stellar.textDump(spacing + 2, '>', '<');
         else
-          s += stellar.textDump(spacing+2, '', '');
+          s += stellar.textDump(spacing + 2, '', '');
+      }
     }
     return s;
   }

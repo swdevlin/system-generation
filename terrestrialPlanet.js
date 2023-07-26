@@ -1,4 +1,5 @@
-const {ORBIT_TYPES, toHex} = require("./utils");
+const {ORBIT_TYPES, toHex, orbitText} = require("./utils");
+const orbitToAU = require("./orbitToAU");
 
 class TerrestrialPlanet {
   constructor(size, orbit) {
@@ -35,7 +36,7 @@ class TerrestrialPlanet {
 
   textDump(spacing, prefix, postfix) {
     const label = this.orbitType === ORBIT_TYPES.PLANETOID_BELT_OBJECT ? 'Belt significant body' : 'Terrestrial planet';
-    return `${' '.repeat(spacing)}${prefix}${this.orbit.toFixed(2)} X${toHex(this.size)}????? ${label}${postfix}\n`;
+    return `${' '.repeat(spacing)}${prefix}${orbitText(this.orbit)} X${toHex(this.size)}????? ${label}${postfix}\n`;
   }
 
 }
