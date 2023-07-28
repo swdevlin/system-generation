@@ -1,7 +1,7 @@
 const Random = require("random-js").Random;
-const commander = require('commander');
-const yaml = require('js-yaml');
-const fs   = require('fs');
+const commander= require('commander');
+const yaml= require('js-yaml');
+const fs= require('fs');
 const {twoD6} = require("./dice");
 const {gasGiantQuantity} = require("./gasGiants");
 const {planetoidBeltQuantity} = require("./planetoidBelts");
@@ -30,7 +30,7 @@ const SUBSECTOR_TYPES = {
 
 const r = new Random();
 
-let OUTPUT_DIR = 'output/';
+let OUTPUT_DIR = 'output';
 
 const coordinate = (row, col) => {
   return '0' + col + ('0' + row).slice(-2);
@@ -162,7 +162,10 @@ commander
   const options = commander.opts()
   const sector = yaml.load(fs.readFileSync(options.sector, 'utf8'));
   console.log(`${sector.name}`);
-  fs.rmSync(OUTPUT_DIR, { recursive: true });
+  if (!fs.existsSync(OUTPUT_DIR))
+    fs.mkdirSync(OUTPUT_DIR);
+  else
+    fs.readdirSync(OUTPUT_DIR).forEach(f => fs.rmSync(`${OUTPUT_DIR}/${f}`));
   for (const subsector of sector.subsectors) {
     generateSubsector(sector.name, subsector.name, subsector.type);
   }
