@@ -30,8 +30,6 @@ const SUBSECTOR_TYPES = {
 
 const r = new Random();
 
-let OUTPUT_DIR = 'output';
-
 const coordinate = (row, col) => {
   return '0' + col + ('0' + row).slice(-2);
 }
@@ -87,7 +85,7 @@ const addCompanion = (star) => {
   star.companion.period = calculatePeriod(star.companion, star);
 }
 
-const generateSubsector = (sectorName, subsectorName, frequency) => {
+const generateSubsector = (outputDir, sectorName, subsectorName, frequency) => {
   for (let col=1; col <= 8; col++)
     for (let row=1; row <= 10; row++) {
       const chance = parseChance(row, col, frequency);
@@ -146,32 +144,35 @@ const generateSubsector = (sectorName, subsectorName, frequency) => {
         // console.log(text);
         const json = JSON.stringify(solarSystem.primaryStar, null, 2);
         // console.log(json);
-        fs.writeFileSync(`${OUTPUT_DIR}/${subsectorName}-${solarSystem.coordinates}.txt`, `${text}\n\n${json}`);
+        fs.writeFileSync(`${outputDir}/${subsectorName}-${solarSystem.coordinates}.txt`, `${text}\n\n${json}`);
       } else
         console.log(`${row}${col} skipped`);
     }
  }
 
+// noinspection HtmlDeprecatedTag,XmlDeprecatedElement
 commander
   .version('0.0.1', '-v, --version')
   .usage('[OPTIONS]...')
   .option('-s, --sector <filname>', 'File with sector definition', '')
+  .option('-o, --output <dir>', 'Directory for the output', 'output')
   .parse(process.argv);
 
 ;(async () => {
   const options = commander.opts()
   const sector = yaml.load(fs.readFileSync(options.sector, 'utf8'));
+  const outputDir = options.output;
   console.log(`${sector.name}`);
-  if (!fs.existsSync(OUTPUT_DIR))
-    fs.mkdirSync(OUTPUT_DIR);
+  if (!fs.existsSync(outputDir))
+    fs.mkdirSync(outputDir);
   else
-    fs.readdirSync(OUTPUT_DIR).forEach(f => fs.rmSync(`${OUTPUT_DIR}/${f}`));
+    fs.readdirSync(outputDir).forEach(f => fs.rmSync(`${outputDir}/${f}`));
   for (const subsector of sector.subsectors) {
-    generateSubsector(sector.name, subsector.name, subsector.type);
+    generateSubsector(outputDir, sector.name, subsector.name, subsector.type);
   }
   console.log('done');
 })()
-.then(res => process.exit(0))
+.then(() => process.exit(0))
 .catch(err => {
   console.log(err.stack);
   process.exit(0);
