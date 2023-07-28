@@ -5,7 +5,7 @@ const TEMPERATURE_LOOKUP = [
 ];
 
 meanTemperature = (star, planet) => {
-  let roll = twoD6();
+  let roll = 7;
   if ([2, 3].includes(planet.atmosphere.code) )
     roll -= 2;
   if ([4, 5, 'E'].includes(planet.atmosphere.code) )
