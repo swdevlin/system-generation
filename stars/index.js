@@ -1,4 +1,4 @@
-const MINIMUM_ALLOWABLE_ORBIT = {
+const MINIMUM_ALLOWABLE_ORBIT= {
   'O0': {
     'Ia': 0.63,
     'Ib': 0.6,
@@ -142,4 +142,13 @@ const MINIMUM_ALLOWABLE_ORBIT = {
   'Y5': {'': 0.005},
 }
 
-module.exports = MINIMUM_ALLOWABLE_ORBIT;
+module.exports.MINIMUM_ALLOWABLE_ORBIT = MINIMUM_ALLOWABLE_ORBIT;
+
+module.exports.Star = require("./star");
+module.exports.starDiameter = require("./starDiameter");
+module.exports.starMass = require("./starMass");
+module.exports.starTemperature = require("./starTemperature");
+module.exports.starEccentricity = require("./starEccentricity");
+module.exports.generateStar = require("./generateStar");
+module.exports.stellarTypeLookup = require("./stellarTypeLookup");
+module.exports.subtypeLookup = require("./subtypeLookup");

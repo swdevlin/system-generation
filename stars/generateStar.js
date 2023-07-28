@@ -1,6 +1,6 @@
 const {generateBaseStar} = require("./generateBaseStar");
 const multiStellarBase = require("./multiStellarBase");
-const {ORBIT_TYPES} = require("./utils");
+const {ORBIT_TYPES} = require("../utils");
 
 const generateStar = (primary, dm, orbitType) => {
   if (orbitType === ORBIT_TYPES.COMPANION)

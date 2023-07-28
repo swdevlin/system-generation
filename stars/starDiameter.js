@@ -1,5 +1,3 @@
-const {determineDataKey} = require("./utils");
-
 const DIAMETER = {
   'O0': {
     'Ia': 25,
@@ -148,8 +146,8 @@ const starDiameter = (star) => {
   if (star.stellarType === 'D') {
     return 1/star.mass*0.01;
   } else {
-    let dataKey = determineDataKey(star.stellarType, star.subtype);
-    return DIAMETER[dataKey][star.stellarClass]
+    return DIAMETER[star.dataKey][star.stellarClass]
   }
 }
+
 module.exports = starDiameter;

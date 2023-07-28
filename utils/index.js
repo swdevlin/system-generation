@@ -1,6 +1,4 @@
-const subtypeLookup = require("./subtypeLookup");
-const {twoD6} = require("./dice");
-const Star = require("./star");
+const {d6, twoD6} = require("../dice");
 const orbitToAU = require("./orbitToAU");
 const Random = require("random-js").Random;
 
@@ -8,8 +6,20 @@ const r = new Random();
 
 const TYPES_BY_TEMP = ['O', 'B', 'A', 'F', 'G', 'K', 'M'];
 
-const AU = 149597871;
+const AU = 149597870.9;
+
 const SOL_DIAMETER = 1392000;
+
+const StarColour = {
+  'O': 'Blue',
+  'B': 'Blue White',
+  'A': 'White',
+  'F': 'Yellow White',
+  'G': 'Yellow',
+  'K': 'Light Orange',
+  'M': 'Orange Red',
+  'D': 'White',
+}
 
 const ORBIT_TYPES = {
   PRIMARY: 0,
@@ -36,7 +46,18 @@ const toHex = (v) => {
     return 'E';
   if (v === 15)
     return 'F';
+  if (v === 16)
+    return 'G';
+  if (v === 17)
+    return 'H';
   return v;
+}
+
+const hexToInt = (v) => {
+  if (v >= 'A')
+    return v.charCodeAt(0) - 55;
+  else
+    return v;
 }
 
 const isHotter = (starA, starB) => {
@@ -68,7 +89,7 @@ const determineDataKey = (stellarType, subtype) => {
 }
 
 const companionOrbit = () => {
-  return r.die(6)/10+(twoD6()-7)/100;
+  return d6()/10 + (twoD6()-7)/100;
 }
 
 const additionalStarDM = (primary) => {
@@ -137,10 +158,23 @@ module.exports = {
   additionalStarDM: additionalStarDM,
   shuffleArray: shuffleArray,
   toHex: toHex,
+  hexToInt: hexToInt,
   orbitText: orbitText,
   computeBaseline: computeBaseline,
   TYPES_BY_TEMP: TYPES_BY_TEMP,
   ORBIT_TYPES: ORBIT_TYPES,
   AU: AU,
+  StarColour: StarColour,
   SOL_DIAMETER: SOL_DIAMETER,
 };
+
+module.exports.auToOrbit = require("./auToOrbit");
+module.exports.orbitToAU = require("./orbitToAU");
+module.exports.calculatePeriod = require("./calculatePeriod");
+module.exports.hillSphere = require("./hillSphere").hillSphere;
+module.exports.hillSpherePD = require("./hillSphere").hillSpherePD;
+module.exports.eccentricity = require("./eccentricity");
+module.exports.determineAtmosphere = require("./determineAtmosphere");
+module.exports.determineMoonAtmosphere = require("./determineMoonAtmosphere");
+module.exports.determineHydrographics = require("./determineHydrographics");
+module.exports.meanTemperature = require("./meanTemperature");

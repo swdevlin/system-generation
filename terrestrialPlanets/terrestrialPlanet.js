@@ -1,5 +1,5 @@
-const {ORBIT_TYPES, toHex, orbitText} = require("./utils");
-const orbitToAU = require("./orbitToAU");
+const {ORBIT_TYPES, toHex, orbitText} = require("../utils");
+const {moonTextDump} = require("../moons");
 
 class TerrestrialPlanet {
   constructor(size, orbit) {
@@ -7,8 +7,15 @@ class TerrestrialPlanet {
     this.orbit = orbit;
     this.period = 0;
     this.composition = '';
+    this.eccentricity = 0;
     this.moons = [];
+    this.hasRing = false;
     this.orbitType = ORBIT_TYPES.TERRESTRIAL;
+    this.atmosphere = {code: 0, irritant: false, characteristic: ''};
+    this.hydrographics = {code: 0};
+    this.populationCode = 0;
+    this.governmentCode = 0;
+    this.lawLevelCode = 0;
   }
 
   get diameter() {
@@ -36,7 +43,10 @@ class TerrestrialPlanet {
 
   textDump(spacing, prefix, postfix) {
     const label = this.orbitType === ORBIT_TYPES.PLANETOID_BELT_OBJECT ? 'Belt significant body' : 'Terrestrial planet';
-    return `${' '.repeat(spacing)}${prefix}${orbitText(this.orbit)} X${toHex(this.size)}????? ${label}${postfix}\n`;
+    let s = `${' '.repeat(spacing)}${prefix}${orbitText(this.orbit)} X${toHex(this.size)}${toHex(this.atmosphere.code)}${toHex(this.hydrographics.code)}${toHex(this.populationCode)}${toHex(this.governmentCode)}${toHex(this.lawLevelCode)} ${label}${postfix}\n`;
+    for (const moon of this.moons)
+      s += moonTextDump(moon, spacing+2);
+    return s;
   }
 
 }

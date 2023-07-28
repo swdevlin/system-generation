@@ -1,5 +1,4 @@
-const {ORBIT_TYPES, orbitText} = require("./utils");
-const orbitToAU = require("./orbitToAU");
+const {ORBIT_TYPES, orbitText} = require("../utils");
 
 class PlanetoidBelt {
   constructor(orbit) {

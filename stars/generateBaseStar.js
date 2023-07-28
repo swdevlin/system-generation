@@ -1,10 +1,7 @@
-const {twoD6} = require("./dice");
+const {twoD6} = require("../dice");
 const stellarTypeLookup = require("./stellarTypeLookup");
 const subtypeLookup = require("./subtypeLookup");
 const Star = require("./star");
-const Random = require("random-js").Random;
-
-const r = new Random();
 
 const hotLookup = (dm, stellarClass) => {
   const roll = twoD6() + dm;

@@ -1,7 +1,6 @@
-const {twoD6, d6, d3, d2} = require("./dice");
-const TerrestrialPlanet = require("./terrestrialPlanet");
-const {terrestrialDensity} = require("./terrestrialComposition");
-const {ORBIT_TYPES} = require("./utils");
+const {twoD6, d6, d3, d2} = require("../dice");
+const {ORBIT_TYPES} = require("../utils");
+const {terrestrialDensity, TerrestrialPlanet} = require("../terrestrialPlanets");
 const Random = require("random-js").Random;
 
 const r = new Random();

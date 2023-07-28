@@ -1,4 +1,4 @@
-const {twoD6} = require("./dice");
+const {twoD6} = require("../dice");
 
 const TERRESTRIAL_DENSITY = {
   'Exotic Ice': 0.03,

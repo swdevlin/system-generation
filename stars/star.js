@@ -1,15 +1,12 @@
-const {determineDataKey, ORBIT_TYPES, computeBaseline, orbitText, AU, SOL_DIAMETER} = require("./utils");
-const MINIMUM_ALLOWABLE_ORBIT = require("./minimumAllowableOrbit");
-const auToOrbit = require("./auToOrbit");
-const {twoD6, d6} = require("./dice");
+const {determineDataKey, ORBIT_TYPES, computeBaseline, orbitText, AU, SOL_DIAMETER, orbitToAU, auToOrbit, StarColour} = require("../utils");
+const {MINIMUM_ALLOWABLE_ORBIT} = require("./index");
+const {twoD6, d6} = require("../dice");
 const starMass = require("./starMass");
 const starDiameter = require("./starDiameter");
 const starTemperature = require("./starTemperature");
-const StarColour = require("./starColour");
-const calculateStarEccentricity = require("./calculateStarEccentricity");
-const orbitToAU = require("./orbitToAU");
-const Random = require("random-js").Random;
+const {starEccentricity} = require("./starEccentricity");
 
+const Random = require("random-js").Random;
 const r = new Random();
 
 class Star {
@@ -67,7 +64,7 @@ class Star {
     if (orbitType === ORBIT_TYPES.PRIMARY)
       this.eccentricity = 0;
     else
-      this.eccentricity = calculateStarEccentricity(this);
+      this.eccentricity = starEccentricity(this);
 
     this.companion = null;
     this.orbit = 0;
@@ -189,8 +186,36 @@ class Star {
     }
   }
 
+  orbitAdjacentToUnavailabilityZone(orbit) {
+    if (this.availableOrbits.length === 0)
+      return false;
+
+    if (this.availableOrbits[0][1] - this.spread < orbit)
+      return true;
+
+    for (let i=1; i < this.availableOrbits.length; i++) {
+      if (this.availableOrbits[i][0] - this.spread < orbit)
+        return true;
+      if (this.availableOrbits[i][1] + this.spread > orbit)
+        return true;
+    }
+    return false;
+  }
+
+  orbitAdjacentToOuterMostUnavailability(orbit) {
+    if (this.availableOrbits.length === 0)
+      return false;
+
+    for (const so of this.stellarObjects)
+      if (so.orbitType === ORBIT_TYPES.FAR)
+        return this.availableOrbits[this.availableOrbits.length-1][1] + this.spread > orbit;
+
+    return false;
+  }
+
   textDump(spacing, prefix, postfix) {
-    let jump = auToOrbit(100 * this.diameter * SOL_DIAMETER/AU);
+    this.jump = auToOrbit(100 * this.diameter * SOL_DIAMETER/AU);
+    let displayedJump = false;
     let s = `${' '.repeat(spacing)}`;
     if (this.orbitType !== ORBIT_TYPES.PRIMARY)
       s += `${orbitText(this.orbit)} `;
@@ -199,9 +224,9 @@ class Star {
     else {
       s += `${prefix}${this.stellarType}${this.subtype} ${this.stellarClass}${postfix}\n`;
       for (const stellar of this.stellarObjects) {
-        if (jump && stellar.orbit > jump) {
-          s += `${' '.repeat(spacing)}>>> JUMP <<<\n`;
-          jump = null;
+        if (stellar.orbit > this.jump && !displayedJump) {
+          s += `${' '.repeat(spacing+2)}>>> JUMP <<<\n`;
+          displayedJump = true;
         }
         if (Math.abs(this.hzco - stellar.orbit) <= 0.2)
           s += stellar.textDump(spacing + 2, '>>', '<<');
@@ -213,7 +238,6 @@ class Star {
     }
     return s;
   }
-
 }
 
 module.exports = Star;

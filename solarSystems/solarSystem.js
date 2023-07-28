@@ -1,11 +1,29 @@
-const {ORBIT_TYPES, shuffleArray} = require("./utils");
-const {threeD6, twoD6} = require("./dice");
-const GasGiant = require("./gasGiant");
-const PlanetoidBelt = require("./planetoidBelt");
-const TerrestrialPlanet = require("./terrestrialPlanet");
-const terrestrialWorldSize = require("./terrestrialWorldSize");
-const {terrestrialComposition, terrestrialDensity} = require("./terrestrialComposition");
-const {determineBeltComposition, determineBeltBulk, determineBeltResourceRating, addSignificantBodies} = require("./planetoidBelts");
+const {
+  ORBIT_TYPES,
+  shuffleArray,
+  SOL_DIAMETER,
+  eccentricity,
+  determineHydrographics,
+  determineAtmosphere,
+  determineMoonAtmosphere, meanTemperature
+} = require("../utils");
+const {threeD6, twoD6} = require("../dice");
+const {GasGiant} = require("../gasGiants");
+const {
+  PlanetoidBelt,
+  determineBeltComposition,
+  determineBeltBulk,
+  determineBeltResourceRating,
+  addSignificantBodies
+} = require("../planetoidBelts");
+const {
+  terrestrialWorldSize,
+  TerrestrialPlanet,
+  terrestrialComposition,
+  terrestrialDensity
+} = require("../terrestrialPlanets");
+const {assignMoons} = require("../moons");
+
 const Random = require("random-js").Random;
 const r = new Random();
 
@@ -142,6 +160,7 @@ class SolarSystem {
     const p = new TerrestrialPlanet(size, orbit);
     p.composition = terrestrialComposition(star, p);
     p.density = terrestrialDensity(p.composition);
+    p.eccentricity = eccentricity(0);
     star.addStellarObject(p);
   };
 
@@ -157,14 +176,15 @@ class SolarSystem {
       roll -= 1;
     let gg;
     if (roll <= 2)
-      gg = new GasGiant('GS', r.die(3) + r.die(3), r.integer(2,7) * 5);
+      gg = new GasGiant('GS', SOL_DIAMETER * (r.die(3) + r.die(3)), r.integer(2,7) * 5);
     else if (roll < 5)
-      gg = new GasGiant('GM', r.die(6) + 6, 20*(threeD6()-1));
+      gg = new GasGiant('GM', SOL_DIAMETER * (r.die(6) + 6), 20*(threeD6()-1));
     else
-      gg = new GasGiant('GL', twoD6()+6, r.die(3)*50*(threeD6()+4));
+      gg = new GasGiant('GL', SOL_DIAMETER * (twoD6()+6), r.die(3)*50*(threeD6()+4));
     if (gg.mass >= 3000)
       gg.mass = 4000-200*(twoD6()-2);
     gg.orbit = star.occupiedOrbits[orbit_index];
+    gg.eccentricity = eccentricity(0);
     star.addStellarObject(gg);
   };
 
@@ -201,6 +221,22 @@ class SolarSystem {
 
   }
 
+  addMoons() {
+    for (const star of this.stars)
+      assignMoons(star);
+  }
+
+  assignAtmospheres() {
+    for (const star of this.stars)
+      for (const stellarObject of star.stellarObjects)
+        if ([ORBIT_TYPES.TERRESTRIAL, ORBIT_TYPES.PLANETOID_BELT_OBJECT].includes(stellarObject.orbitType)) {
+          stellarObject.atmosphere = determineAtmosphere(star, stellarObject);
+          stellarObject.meanTemperature = meanTemperature(star, stellarObject);
+          stellarObject.hydrographics = determineHydrographics(star, stellarObject);
+          for (const moon of stellarObject.moons)
+            moon.atmosphere = determineMoonAtmosphere(star, stellarObject, moon);
+        }
+  }
 }
 
 module.exports = SolarSystem;

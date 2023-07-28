@@ -1,8 +1,4 @@
-const {determineDataKey} = require("./utils");
-const {twoD6} = require("./dice");
-const Random = require("random-js").Random;
-
-const r = new Random();
+const {twoD6, die} = require("../dice");
 
 const MASS = {
   'O0': {
@@ -150,10 +146,9 @@ const MASS = {
 
 const starMass= (star) => {
   if (star.stellarType === 'D') {
-    return (twoD6()-1)/10 + r.die(10)/100;
+    return (twoD6()-1)/10 + die(10)/100;
   } else {
-    let dataKey = star.dataKey;
-    return MASS[dataKey][star.stellarClass]
+    return MASS[star.dataKey][star.stellarClass];
   }
 }
 

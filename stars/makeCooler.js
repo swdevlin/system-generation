@@ -1,6 +1,6 @@
 const subtypeLookup = require("./subtypeLookup");
 const Star = require("./star");
-const {TYPES_BY_TEMP} = require("./utils");
+const {TYPES_BY_TEMP} = require("../utils");
 
 const makeCooler = (star, orbitType) => {
   let stellarType;

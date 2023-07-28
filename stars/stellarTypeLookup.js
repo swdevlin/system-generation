@@ -1,4 +1,4 @@
-const {twoD6} = require("./dice");
+const {twoD6} = require("../dice");
 
 const stellarTypeLookup = (dm, stellarClass) => {
   let roll = twoD6() + dm;

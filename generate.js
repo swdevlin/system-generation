@@ -2,14 +2,13 @@ const Random = require("random-js").Random;
 const commander = require('commander');
 const yaml = require('js-yaml');
 const fs   = require('fs');
-const generateStar = require("./generateStar");
 const {twoD6} = require("./dice");
 const {gasGiantQuantity} = require("./gasGiants");
 const {planetoidBeltQuantity} = require("./planetoidBelts");
-const {terrestrialPlanetQuantity} = require("./terrestrialPlants");
-const {companionOrbit, additionalStarDM, ORBIT_TYPES} = require("./utils");
-const calculatePeriod = require("./calculatePeriod");
-const SolarSystem = require("./solarSystem");
+const {terrestrialPlanetQuantity} = require("./terrestrialPlanets");
+const {calculatePeriod, companionOrbit, additionalStarDM, ORBIT_TYPES} = require("./utils");
+const {generateStar} = require("./stars");
+const {SolarSystem} = require("./solarSystems");
 
 const STANDARD_CHANCE = 0.5;
 const SPARSE_CHANCE = 0.33;
@@ -30,6 +29,8 @@ const SUBSECTOR_TYPES = {
 }
 
 const r = new Random();
+
+let OUTPUT_DIR = 'output/';
 
 const coordinate = (row, col) => {
   return '0' + col + ('0' + row).slice(-2);
@@ -139,10 +140,15 @@ const generateSubsector = (sectorName, subsectorName, frequency) => {
 
         solarSystem.distributeObjects();
         solarSystem.assignOrbits();
+        solarSystem.addMoons();
+        solarSystem.assignAtmospheres();
         const text = `${sectorName} ${solarSystem.coordinates} ${solarSystem.primaryStar.textDump(0, '', '')}`;
-        console.log(text);
-        fs.writeFileSync(`output/${solarSystem.coordinates}.txt`, text);
-      }
+        // console.log(text);
+        const json = JSON.stringify(solarSystem.primaryStar, null, 2);
+        // console.log(json);
+        fs.writeFileSync(`${OUTPUT_DIR}/${subsectorName}-${solarSystem.coordinates}.txt`, `${text}\n\n${json}`);
+      } else
+        console.log(`${row}${col} skipped`);
     }
  }
 
@@ -156,6 +162,7 @@ commander
   const options = commander.opts()
   const sector = yaml.load(fs.readFileSync(options.sector, 'utf8'));
   console.log(`${sector.name}`);
+  fs.rmSync(OUTPUT_DIR, { recursive: true });
   for (const subsector of sector.subsectors) {
     generateSubsector(sector.name, subsector.name, subsector.type);
   }

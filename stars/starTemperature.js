@@ -1,4 +1,3 @@
-const {determineDataKey} = require("./utils");
 const TEMPERATURE = {
   'O0': 50000,
   'O5': 40000,
@@ -44,8 +43,7 @@ const starTemperature = (star) => {
     else
       return 3800;
   } else {
-    let dataKey = determineDataKey(star.stellarType, star.subtype);
-    return TEMPERATURE[dataKey];
+    return TEMPERATURE[star.dataKey];
   }
 }
 

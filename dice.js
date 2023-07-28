@@ -31,12 +31,22 @@ const twoD6 = () => {
   return d6() + d6();
 }
 
+const die = (sides, number=1) => {
+  let total = 0;
+
+  for (let i=0; i < number; i++)
+    total += rng.die(sides);
+
+  return total;
+}
+
 module.exports = {
-  threeD6: threeD6,
-  twoD6: twoD6,
-  fluxRoll: fluxRoll,
-  d6: d6,
-  d3: d3,
+  die: die,
   d2: d2,
+  d3: d3,
+  d6: d6,
+  twoD6: twoD6,
+  threeD6: threeD6,
+  fluxRoll: fluxRoll,
   ROLL_CACHE: ROLL_CACHE,
 }

@@ -1,8 +1,8 @@
-const {twoD6, d6} = require("./dice");
-const {TYPES_BY_TEMP, isHotter, ORBIT_TYPES} = require("./utils");
+const {twoD6, d6} = require("../dice");
 const {generateBaseStar} = require("./generateBaseStar");
 const Star = require("./star");
 const makeCooler = require("./makeCooler");
+const {TYPES_BY_TEMP, isHotter, ORBIT_TYPES} = require("../utils");
 const Random = require("random-js").Random;
 
 const r = new Random();
