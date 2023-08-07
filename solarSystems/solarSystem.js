@@ -160,6 +160,7 @@ class SolarSystem {
     p.composition = terrestrialComposition(star, p);
     p.density = terrestrialDensity(p.composition);
     p.eccentricity = eccentricity(0);
+    p.axialTilt = axialTilt();
     star.addStellarObject(p);
     return p;
   };
@@ -185,6 +186,7 @@ class SolarSystem {
       gg.mass = 4000-200*(twoD6()-2);
     gg.orbit = star.occupiedOrbits[orbit_index];
     gg.eccentricity = eccentricity(0);
+    gg.axialTilt = axialTilt();
     star.addStellarObject(gg);
   };
 

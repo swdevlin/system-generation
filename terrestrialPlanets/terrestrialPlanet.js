@@ -11,6 +11,7 @@ class TerrestrialPlanet {
     this.inclination = 0;
     this.retrograde = false;
     this.trojanOffset = null;
+    this.axialTilt = 0;
     this.moons = [];
     this.hasRing = false;
     this.orbitType = ORBIT_TYPES.TERRESTRIAL;

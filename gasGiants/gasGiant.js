@@ -12,6 +12,7 @@ class GasGiant {
     this.hasRing = false;
     this.orbitType = ORBIT_TYPES.GAS_GIANT;
     this.trojanOffset = null;
+    this.axialTilt = 0;
   }
 
   textDump(spacing, prefix, postfix) {

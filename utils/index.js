@@ -178,3 +178,4 @@ module.exports.determineAtmosphere = require("./determineAtmosphere");
 module.exports.determineMoonAtmosphere = require("./determineMoonAtmosphere");
 module.exports.determineHydrographics = require("./determineHydrographics");
 module.exports.meanTemperature = require("./meanTemperature");
+module.exports.axialTilt = require("./axialTilt");
