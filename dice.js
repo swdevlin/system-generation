@@ -15,6 +15,14 @@ const d3 = () => {
   return rng.die(3);
 }
 
+const d10 = () => {
+  return rng.die(10);
+}
+
+const d100 = () => {
+  return rng.die(100);
+}
+
 const d2 = () => {
   return rng.die(2);
 }
@@ -45,6 +53,8 @@ module.exports = {
   d2: d2,
   d3: d3,
   d6: d6,
+  d10: d10,
+  d100: d100,
   twoD6: twoD6,
   threeD6: threeD6,
   fluxRoll: fluxRoll,

@@ -3,9 +3,6 @@ const {generateBaseStar} = require("./generateBaseStar");
 const Star = require("./star");
 const makeCooler = require("./makeCooler");
 const {TYPES_BY_TEMP, isHotter, ORBIT_TYPES} = require("../utils");
-const Random = require("random-js").Random;
-
-const r = new Random();
 
 const secondaryType = (dm) => {
   const roll = twoD6() + dm;
@@ -74,9 +71,9 @@ const multiStellarBase = (primary, orbitType) => {
     stellarType = primary.stellarType;
     stellarClass = primary.stellarClass;
     if (stellarType === 'M')
-      subtype = Math.min(9, primary.subtype + r.die(6));
+      subtype = Math.min(9, primary.subtype + d6());
     else {
-      subtype = primary.subtype + r.die(6);
+      subtype = primary.subtype + d6();
       if (subtype > 9) {
         subtype -= 10;
         stellarType = TYPES_BY_TEMP[TYPES_BY_TEMP.indexOf(stellarType) + 1];

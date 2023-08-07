@@ -1,6 +1,6 @@
 const {determineDataKey, ORBIT_TYPES, computeBaseline, orbitText, AU, SOL_DIAMETER, orbitToAU, auToOrbit, StarColour} = require("../utils");
 const {MINIMUM_ALLOWABLE_ORBIT} = require("./index");
-const {twoD6, d6} = require("../dice");
+const {twoD6, d6, d3, d10, d100} = require("../dice");
 const starMass = require("./starMass");
 const starDiameter = require("./starDiameter");
 const starTemperature = require("./starTemperature");
@@ -46,14 +46,14 @@ class Star {
     if (this.stellarClass === 'III') {
       this.age = mainSequenceLifespan;
       this.age += mainSequenceLifespan / (4/this.mass);
-      this.age += mainSequenceLifespan / (10 * this.mass**3) * r.die(100)/100;
+      this.age += mainSequenceLifespan / (10 * this.mass**3) * d100()/100;
     } else if (this.stellarClass === 'IV') {
       this.age = mainSequenceLifespan / (4/this.mass);
-      this.age = mainSequenceLifespan + this.age * r.die(100)/100;
+      this.age = mainSequenceLifespan + this.age * d100()/100;
     } else if (this.mass > 0.9) {
-      this.age = mainSequenceLifespan * (r.die(6)-1/(r.die(6)/6))/6;
+      this.age = mainSequenceLifespan * (d6()-1/(d6()/6))/6;
     } else {
-      this.age = r.die(6)*2/(r.die(3) + r.die(10)/10);
+      this.age = d6()*2/(d3() + d10()/10);
     }
     if (this.mass < 4.7 && this.age < 0.01)
       this.age = 0.01;

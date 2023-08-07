@@ -1,4 +1,4 @@
-const {twoD6, d6, d3, d2} = require("../dice");
+const {twoD6, d6, d3, d2, d100} = require("../dice");
 const {ORBIT_TYPES} = require("../utils");
 const {terrestrialDensity, TerrestrialPlanet} = require("../terrestrialPlanets");
 const Random = require("random-js").Random;
@@ -112,7 +112,7 @@ const determineBeltResourceRating = (star, belt) => {
 };
 
 const significantBodyType = (belt) => {
-  let roll = r.integer(1,100);
+  let roll = d100();
   roll -= belt.mType;
   if (roll <= 0)
     return "Mostly Metal";

@@ -1,18 +1,16 @@
-const Random = require("random-js").Random;
-
-const r = new Random();
+const {d6} = require("../dice");
 
 const terrestrialWorldSize = () => {
-  switch (r.die(6)) {
+  switch (d6()) {
     case 1:
     case 2:
-      return r.die(6);
+      return d6();
     case 3:
     case 4:
-      return r.die(6) + r.die(6);
+      return d6() + d6();
     case 5:
     case 6:
-      return r.die(6) + r.die(6)+3;
+      return d6() + d6()+3;
   }
 }
 

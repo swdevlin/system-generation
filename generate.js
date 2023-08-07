@@ -2,7 +2,7 @@ const Random = require("random-js").Random;
 const commander= require('commander');
 const yaml= require('js-yaml');
 const fs= require('fs');
-const {twoD6} = require("./dice");
+const {twoD6, d6} = require("./dice");
 const {gasGiantQuantity} = require("./gasGiants");
 const {planetoidBeltQuantity} = require("./planetoidBelts");
 const {terrestrialPlanetQuantity} = require("./terrestrialPlanets");
@@ -100,12 +100,12 @@ const generateSubsector = (outputDir, sectorName, subsectorName, frequency) => {
         if (twoD6() + dm >= 10) {
           star = generateStar(primary, 0, ORBIT_TYPES.COMPANION);
           primary.companion = star;
-          star.orbit = r.die(6)/10+(twoD6()-7)/100;
+          star.orbit = d6()/10+(twoD6()-7)/100;
           star.period = calculatePeriod(star, primary);
         }
         if (twoD6() + dm >= 10) {
           star = generateStar(primary, 0, ORBIT_TYPES.CLOSE);
-          star.orbit = r.die(6)-1;
+          star.orbit = d6()-1;
           if (star.orbit === 0)
             star.orbit = 0.5;
           else
@@ -117,7 +117,7 @@ const generateSubsector = (outputDir, sectorName, subsectorName, frequency) => {
         }
         if (twoD6() + dm >= 10) {
           star = generateStar(primary, 0, ORBIT_TYPES.NEAR);
-          star.orbit = r.die(6)+5 + r.integer(0,9)/10 - 0.5;
+          star.orbit = d6()+5 + r.integer(0,9)/10 - 0.5;
           star.period = calculatePeriod(star, primary);
           if (twoD6() + companionDM(star) >= 10)
             addCompanion(star);
@@ -125,7 +125,7 @@ const generateSubsector = (outputDir, sectorName, subsectorName, frequency) => {
         }
         if (twoD6() + dm >= 10) {
           star = generateStar(primary, 0, ORBIT_TYPES.FAR);
-          star.orbit = r.die(6)+11 + r.integer(0,9)/10 - 0.5;
+          star.orbit = d6()+11 + r.integer(0,9)/10 - 0.5;
           star.period = calculatePeriod(star, primary);
           if (twoD6() + companionDM(star) >= 10)
             addCompanion(star);
@@ -141,12 +141,9 @@ const generateSubsector = (outputDir, sectorName, subsectorName, frequency) => {
         solarSystem.addMoons();
         solarSystem.assignAtmospheres();
         const text = `${sectorName} ${solarSystem.coordinates} ${solarSystem.primaryStar.textDump(0, '', '')}`;
-        // console.log(text);
         const json = JSON.stringify(solarSystem.primaryStar, null, 2);
-        // console.log(json);
         fs.writeFileSync(`${outputDir}/${subsectorName}-${solarSystem.coordinates}.txt`, `${text}\n\n${json}`);
-      } else
-        console.log(`${row}${col} skipped`);
+      }
     }
  }
 

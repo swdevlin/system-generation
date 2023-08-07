@@ -7,7 +7,7 @@ const {
   determineAtmosphere,
   determineMoonAtmosphere, meanTemperature
 } = require("../utils");
-const {threeD6, twoD6} = require("../dice");
+const {threeD6, twoD6, d6} = require("../dice");
 const {GasGiant} = require("../gasGiants");
 const {
   PlanetoidBelt,
@@ -74,11 +74,8 @@ class SolarSystem {
     const primary = this.primaryStar;
     if (primary.stellarType !== 'D') {
       minOrbit = primary.minimumAllowableOrbit;
-      luminosity = primary.luminosity;
-      if (primary.companion) {
+      if (primary.companion)
         minOrbit = Math.max(minOrbit, 0.5 + primary.companion.eccentricity)
-        luminosity += primary.companion.luminosity;
-      }
 
       primary.availableOrbits = [];
       if (this.stars.length > 1)
@@ -178,7 +175,7 @@ class SolarSystem {
     if (roll <= 2)
       gg = new GasGiant('GS', SOL_DIAMETER * (r.die(3) + r.die(3)), r.integer(2,7) * 5);
     else if (roll < 5)
-      gg = new GasGiant('GM', SOL_DIAMETER * (r.die(6) + 6), 20*(threeD6()-1));
+      gg = new GasGiant('GM', SOL_DIAMETER * (d6() + 6), 20*(threeD6()-1));
     else
       gg = new GasGiant('GL', SOL_DIAMETER * (twoD6()+6), r.die(3)*50*(threeD6()+4));
     if (gg.mass >= 3000)
