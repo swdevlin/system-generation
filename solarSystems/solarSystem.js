@@ -5,7 +5,7 @@ const {
   eccentricity,
   determineHydrographics,
   determineAtmosphere,
-  determineMoonAtmosphere, meanTemperature
+  determineMoonAtmosphere, meanTemperature, axialTilt
 } = require("../utils");
 const {threeD6, twoD6, d6, d10} = require("../dice");
 const {GasGiant} = require("../gasGiants");

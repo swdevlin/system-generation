@@ -1,5 +1,5 @@
 const {twoD6, d6, threeD6, d3} = require("../dice");
-const {ORBIT_TYPES, hillSpherePD, eccentricity} = require("../utils");
+const {ORBIT_TYPES, hillSpherePD, eccentricity, axialTilt} = require("../utils");
 
 const Random = require("random-js").Random;
 const r = new Random();
@@ -135,6 +135,7 @@ const assignMoons = (star) => {
             governmentCode: 0,
             populationCode: 0,
             lawLevelCode: 0,
+            axialTilt: axialTilt(),
           });
         }
       }

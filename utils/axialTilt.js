@@ -33,4 +33,4 @@ const axialTilt = () => {
 }
 
 
-module.exports.axialTilt = axialTilt;
+module.exports = axialTilt;
