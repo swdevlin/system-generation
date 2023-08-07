@@ -5,7 +5,7 @@ const r = new Random();
 
 const eccentricity = (dm) => {
   let ecc = 0;
-  let roll = twoD6() + 2;
+  let roll = twoD6() + 2 + dm;
   if (roll <= 5)
     ecc = r.real(0.0,0.005,true);
   else if (roll <= 7)

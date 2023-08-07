@@ -19,6 +19,9 @@ the other side of planets. The algorithm was changed to use
 If the offset is greater than the star's spread, then the calculation is done
 again.
 
+Trojan orbits for anomalous planets are determined after all other planets
+are generated. The system randomly selects an existing planet and places
+the trojan planet in the same orbit. 
 
 ### Far Future Enterprises license
 

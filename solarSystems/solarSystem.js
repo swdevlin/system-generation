@@ -7,7 +7,7 @@ const {
   determineAtmosphere,
   determineMoonAtmosphere, meanTemperature
 } = require("../utils");
-const {threeD6, twoD6, d6} = require("../dice");
+const {threeD6, twoD6, d6, d10} = require("../dice");
 const {GasGiant} = require("../gasGiants");
 const {
   PlanetoidBelt,
@@ -35,6 +35,7 @@ class SolarSystem {
     this.terrestrialPlanets = 0;
     this.sector = null;
     this.coordinates = null;
+    this.remainingOrbits = [];
   }
 
   get totalObjects() {
@@ -151,14 +152,16 @@ class SolarSystem {
     star.addStellarObject(pb);
   };
 
-  addTerrestrialPlanet(star, orbit_index) {
+  addTerrestrialPlanet(star, orbit_index, orbit) {
     const size = terrestrialWorldSize();
-    const orbit = star.occupiedOrbits[orbit_index];
+    if (orbit_index !== null)
+      orbit = star.occupiedOrbits[orbit_index];
     const p = new TerrestrialPlanet(size, orbit);
     p.composition = terrestrialComposition(star, p);
     p.density = terrestrialDensity(p.composition);
     p.eccentricity = eccentricity(0);
     star.addStellarObject(p);
+    return p;
   };
 
   addGasGiant(star, orbit_index) {
@@ -216,6 +219,7 @@ class SolarSystem {
       this.addTerrestrialPlanet(p[0], p[1]);
     }
 
+    this.remainingOrbits = allOrbits;
   }
 
   addMoons() {
@@ -233,6 +237,60 @@ class SolarSystem {
           for (const moon of stellarObject.moons)
             moon.atmosphere = determineMoonAtmosphere(star, stellarObject, moon);
         }
+  }
+
+  randomStar() {
+    const i = r.integer(0, this.stars.length-1);
+    return this.stars[i];
+  }
+
+  randomStarAndOrbit() {
+    let star;
+    let orbit;
+    do {
+      star = this.randomStar();
+      orbit = twoD6() - 2 + d10()/10;
+    } while (!star.orbitValid(orbit));
+    return [star, orbit];
+  }
+
+  randomPlanet() {
+    const planets = [];
+    for (const star of this.stars)
+      for (const object of star.stellarObjects)
+        if (object.constructor.name !== 'PlanetoidBelt')
+          planets.push([star, object]);
+    return r.pick(planets);
+  }
+
+  addAnomalousPlanets() {
+    let planets = twoD6() - 9;
+    let star;
+    let orbit;
+    let original;
+    while (planets > 0) {
+      [star, orbit] = this.randomStarAndOrbit();
+      const roll = twoD6();
+      if (roll < 12) {
+        const p = this.addTerrestrialPlanet(star, null, orbit);
+        if (roll === 8)
+          p.eccentricity = eccentricity(5);
+        else
+          p.eccentricity = eccentricity(2);
+
+        if (roll === 9)
+          p.inclination = d6()+2*10 + d10();
+
+        if ([10, 11].includes(roll))
+          p.retrograde = true;
+      } else {
+        [star, original] = this.randomPlanet();
+        const p = this.addTerrestrialPlanet(star, null, original.orbit);
+        const trojan = p.diameter > original.diameter ? original : p;
+        trojan.trojanOffset = r.pick([-1, 1]) * 60;
+      }
+      planets--;
+    }
   }
 }
 

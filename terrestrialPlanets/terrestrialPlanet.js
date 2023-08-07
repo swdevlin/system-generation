@@ -8,6 +8,9 @@ class TerrestrialPlanet {
     this.period = 0;
     this.composition = '';
     this.eccentricity = 0;
+    this.inclination = 0;
+    this.retrograde = false;
+    this.trojanOffset = null;
     this.moons = [];
     this.hasRing = false;
     this.orbitType = ORBIT_TYPES.TERRESTRIAL;

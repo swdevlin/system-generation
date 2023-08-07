@@ -11,6 +11,7 @@ class GasGiant {
     this.moons = [];
     this.hasRing = false;
     this.orbitType = ORBIT_TYPES.GAS_GIANT;
+    this.trojanOffset = null;
   }
 
   textDump(spacing, prefix, postfix) {

@@ -142,6 +142,8 @@ class Star {
   }
 
   orbitValid(orbit) {
+    if (this.availableOrbits.length === 0)
+      return false;
     for (const range of this.availableOrbits)
       if (range[0] <= orbit && range[1] >= orbit)
         return true;

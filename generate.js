@@ -138,6 +138,7 @@ const generateSubsector = (outputDir, sectorName, subsectorName, frequency) => {
 
         solarSystem.distributeObjects();
         solarSystem.assignOrbits();
+        solarSystem.addAnomalousPlanets();
         solarSystem.addMoons();
         solarSystem.assignAtmospheres();
         const text = `${sectorName} ${solarSystem.coordinates} ${solarSystem.primaryStar.textDump(0, '', '')}`;
