@@ -12,6 +12,7 @@ const r = new Random();
 class Star {
   constructor(stellarClass, stellarType, subtype, orbitType) {
     this.stellarClass = stellarClass;
+    this.totalObjects = 0;
     if (stellarType === 'BD') {
       this.stellarClass = '';
       switch (d6()) {

@@ -9,51 +9,46 @@ const {terrestrialPlanetQuantity} = require("./terrestrialPlanets");
 const {calculatePeriod, companionOrbit, additionalStarDM, ORBIT_TYPES} = require("./utils");
 const {generateStar} = require("./stars");
 const {SolarSystem} = require("./solarSystems");
-
-const STANDARD_CHANCE = 0.5;
-const SPARSE_CHANCE = 0.33;
-const DENSE_CHANCE = 0.66;
-const RIFT_CHANCE = 0.16;
-const EMPTY_CHANCE = 0.0;
+const TravellerMap = require("./utils/travellerMap");
 
 const SUBSECTOR_TYPES = {
-  STANDARD: 0,
-  SPARSE: 1,
-  DENSE: 2,
-  EMPTY: 3,
-  RIFT: 5,
-  RIFT_TOPEDGE: 6,
-  RIFT_BOTTOMEDGE: 7,
-  RIFT_LEFTEDGE: 8,
-  RIFT_RIGHTEDGE: 9,
+  DENSE: { chance: 0.60},
+  STANDARD: { chance: 0.5},
+  LOW: { chance: 0.35},
+  SPARSE: { chance: 0.20},
+  RIFT: { chance: 0.08},
+  DEEP_RIFT: { chance: 0.04},
+  EMPTY: { chance: 0.0},
+  RIFT_TOPEDGE: { chance: 0.5},
+  RIFT_BOTTOMEDGE: { chance: 0.5},
+  RIFT_LEFTEDGE: { chance: 0.5},
+  RIFT_RIGHTEDGE: { chance: 0.5},
 }
 
 const r = new Random();
 
 const coordinate = (row, col) => {
-  return '0' + col + ('0' + row).slice(-2);
+  return ('0' + col).slice(-2) + ('0' + row).slice(-2);
 }
 
 const parseChance = (row, col, subsector_type) => {
   switch (subsector_type) {
-    case SUBSECTOR_TYPES.STANDARD:
-      return STANDARD_CHANCE;
-    case SUBSECTOR_TYPES.SPARSE:
-      return SPARSE_CHANCE;
-    case SUBSECTOR_TYPES.DENSE:
-      return DENSE_CHANCE;
-    case SUBSECTOR_TYPES.EMPTY:
-      return EMPTY_CHANCE;
-    case SUBSECTOR_TYPES.RIFT:
-      return RIFT_CHANCE;
-    case SUBSECTOR_TYPES.RIFT_TOPEDGE:
-      return (row > 4) ? RIFT_CHANCE : SPARSE_CHANCE;
-    case SUBSECTOR_TYPES.RIFT_BOTTOMEDGE:
-      return (row < 7) ? RIFT_CHANCE : SPARSE_CHANCE;
-    case SUBSECTOR_TYPES.RIFT_LEFTEDGE:
-      return (col > 2) ? RIFT_CHANCE : SPARSE_CHANCE;
-    case SUBSECTOR_TYPES.RIFT_RIGHTEDGE:
-      return (col < 7) ? RIFT_CHANCE : SPARSE_CHANCE;
+    case "SPARSE":
+    case "DENSE":
+    case "LOW":
+    case "RIFT":
+    case "DEEP_RIFT":
+    case "EMPTY":
+    case "STANDARD":
+      return SUBSECTOR_TYPES[subsector_type].chance;
+    case 'RIFT_TOPEDGE':
+      return (row > 4) ? SUBSECTOR_TYPES.RIFT.chance : SUBSECTOR_TYPES.SPARSE.chance;
+    case 'RIFT_BOTTOMEDGE':
+      return (row < 7) ? SUBSECTOR_TYPES.RIFT.chance : SUBSECTOR_TYPES.SPARSE.chance;
+    case 'RIFT_LEFTEDGE':
+      return (col > 2) ? SUBSECTOR_TYPES.RIFT.chance : SUBSECTOR_TYPES.SPARSE.chance;
+    case 'RIFT_RIGHTEDGE':
+      return (col < 7) ? SUBSECTOR_TYPES.RIFT.chance : SUBSECTOR_TYPES.SPARSE.chance;
   }
   return undefined;
 }
@@ -85,7 +80,12 @@ const addCompanion = (star) => {
   star.companion.period = calculatePeriod(star.companion, star);
 }
 
-const generateSubsector = (outputDir, sectorName, subsectorName, frequency) => {
+const COL_OFFSETS = [24, 0, 8, 16];
+const ROW_OFFSETS = [0, 0, 10, 20, 30];
+
+const generateSubsector = (outputDir, sectorName, subsectorName, frequency, index, travellerMap) => {
+  const rowOffset = ROW_OFFSETS[Math.ceil(index/4)];
+  const colOffset = COL_OFFSETS[index % 4];
   for (let col=1; col <= 8; col++)
     for (let row=1; row <= 10; row++) {
       const chance = parseChance(row, col, frequency);
@@ -93,7 +93,7 @@ const generateSubsector = (outputDir, sectorName, subsectorName, frequency) => {
         let star;
         const solarSystem = new SolarSystem();
         solarSystem.sector = sectorName;
-        solarSystem.coordinates = coordinate(row, col);
+        solarSystem.coordinates = coordinate(row+rowOffset, col+colOffset);
         solarSystem.addPrimary(generateStar(null, 0, ORBIT_TYPES.PRIMARY));
         const primary = solarSystem.primaryStar;
         let dm = additionalStarDM(primary);
@@ -144,6 +144,7 @@ const generateSubsector = (outputDir, sectorName, subsectorName, frequency) => {
         const text = `${sectorName} ${solarSystem.coordinates} ${solarSystem.primaryStar.textDump(0, '', '')}`;
         const json = JSON.stringify(solarSystem.primaryStar, null, 2);
         fs.writeFileSync(`${outputDir}/${subsectorName}-${solarSystem.coordinates}.txt`, `${text}\n\n${json}`);
+        travellerMap.addSystem(solarSystem);
       }
     }
  }
@@ -165,9 +166,19 @@ commander
     fs.mkdirSync(outputDir);
   else
     fs.readdirSync(outputDir).forEach(f => fs.rmSync(`${outputDir}/${f}`));
+  let index = 0;
+  const travellerMap = new TravellerMap(sector.name);
+  travellerMap.X = sector.X;
+  travellerMap.Y = sector.Y;
   for (const subsector of sector.subsectors) {
-    generateSubsector(outputDir, sector.name, subsector.name, subsector.type);
+    index++;
+    travellerMap.subSectors[subsector.index] = subsector.name;
+    generateSubsector(outputDir, sector.name, subsector.name, subsector.type, index, travellerMap);
   }
+  fs.writeFileSync(`${outputDir}/systems.csv`, travellerMap.systemDump());
+  fs.writeFileSync(`${outputDir}/meta.xml`, travellerMap.metaDataDump());
+  console.log(travellerMap.systemDump());
+  console.log(travellerMap.metaDataDump());
   console.log('done');
 })()
 .then(() => process.exit(0))

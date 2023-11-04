@@ -1,34 +1,53 @@
-name: Simmial
+name: Incognita Citerior
+abbreviation: IC
+X: -10
+Y: 1
 subsectors:
-  - name: Simmial 1-1
-    type: 1
-  - name: Simmial 1-2
-    type: 1
-  - name: Simmial 1-3
-    type: 1
-  - name: Simmial 1-4
-    type: 1
-  - name: Simmial 2-1
-    type: 1
-  - name: Simmial 2-2
-    type: 1
-  - name: Simmial 2-3
-    type: 1
-  - name: Simmial 2-4
-    type: 1
-  - name: Simmial 3-1
-    type: 1
-  - name: Simmial 3-2
-    type: 1
-  - name: Simmial 3-3
-    type: 1
-  - name: Simmial 3-4
-    type: 1
-  - name: Simmial 4-1
-    type: 6
-  - name: Simmial 4-2
-    type: 6
-  - name: Simmial 4-3
-    type: 6
-  - name: Simmial 4-4
-    type: 6
+  - name: IC A
+    type: LOW
+    index: A
+  - name: IC B
+    type: LOW
+    index: B
+  - name: IC C
+    type: LOW
+    index: C
+  - name: IC D
+    type: LOW
+    index: D
+  - name: IC E
+    type: LOW
+    index: E
+  - name: IC F
+    type: LOW
+    index: F
+  - name: IC G
+    type: SPARSE
+    index: G
+  - name: IC H
+    type: SPARSE
+    index: H
+  - name: IC I
+    type: SPARSE
+    index: I
+  - name: IC J
+    type: SPARSE
+    index: J
+  - name: IC K
+    type: SPARSE
+    index: K
+  - name: IC L
+    type: RIFT_BOTTOMEDGE
+    index: L
+  - name: IC M
+    type: RIFT
+    index: M
+  - name: IC N
+    type: RIFT
+    index: N
+  - name: IC O
+    type: DEEP_RIFT
+    index: O
+  - name: IC P
+    type: RIFT
+    index: P
