@@ -151,6 +151,19 @@ const orbitText = (orbit) => {
   return `${orbitToAU(orbit).toFixed(2)} (${orbit.toFixed(2)})`;
 }
 
+const romanNumeral = (n) => {
+  const lookup = {M:1000,CM:900,D:500,CD:400,C:100,XC:90,L:50,XL:40,X:10,IX:9,V:5,IV:4,I:1};
+  let roman = '';
+  for (const i in lookup ) {
+    while ( n >= lookup[i] ) {
+      roman += i;
+      n -= lookup[i];
+    }
+  }
+  return roman;
+}
+
+
 module.exports = {
   isHotter: isHotter,
   determineDataKey: determineDataKey,
@@ -166,7 +179,9 @@ module.exports = {
   AU: AU,
   StarColour: StarColour,
   SOL_DIAMETER: SOL_DIAMETER,
+  romanNumeral: romanNumeral,
 };
+
 
 module.exports.auToOrbit = require("./auToOrbit");
 module.exports.orbitToAU = require("./orbitToAU");
@@ -179,3 +194,7 @@ module.exports.determineMoonAtmosphere = require("./determineMoonAtmosphere");
 module.exports.determineHydrographics = require("./determineHydrographics");
 module.exports.meanTemperature = require("./meanTemperature");
 module.exports.axialTilt = require("./axialTilt");
+module.exports.calculateAlbedo = require("./albedo");
+module.exports.orbitPosition = require("./orbitPosition");
+module.exports.calculateDistance = require("./calculateDistance");
+module.exports.travelTime = require("./travelTime");

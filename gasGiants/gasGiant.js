@@ -1,5 +1,5 @@
 const {ORBIT_TYPES, orbitText} = require("../utils");
-const {moonTextDump} = require("../moons");
+const {moonTextDump, moonHTMLDump} = require("../moons");
 
 class GasGiant {
   constructor(code, diameter, mass, orbit) {
@@ -27,6 +27,29 @@ class GasGiant {
     for (const moon of this.moons)
       s += moonTextDump(moon, spacing+2);
     return s;
+  }
+
+  htmlDump(additionalClass) {
+    if (additionalClass === undefined)
+      additionalClass = '';
+    let lines = [];
+    let s = `<span class="orbit">${orbitText(this.orbit)}</span> `;
+    if (this.code === 'GS')
+      s += 'Small gas giant';
+    else if (this.code === 'GM')
+      s += 'Medium gas giant';
+    else if (this.code === 'GL')
+      s += 'Large gas giant';
+    if (this.moons.length > 0) {
+      let moonHtml = ['<ul>'];
+      for (const moon of this.moons)
+        moonHtml = moonHtml.concat(moonHTMLDump(moon));
+      moonHtml.push('</ul>');
+      lines.push(`<li class="${this.code} ${additionalClass}">${s}<ul>${moonHtml.join('\n')}</ul></li>`);
+    } else {
+      lines.push(`<li class="${this.code} ${additionalClass}">${s}</li>`);
+    }
+    return lines;
   }
 }
 

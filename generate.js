@@ -10,14 +10,18 @@ const {calculatePeriod, companionOrbit, additionalStarDM, ORBIT_TYPES} = require
 const {generateStar} = require("./stars");
 const {SolarSystem} = require("./solarSystems");
 const TravellerMap = require("./utils/travellerMap");
+const {createMap} = require("./travellerMap/travellerMap");
 
 const SUBSECTOR_TYPES = {
   DENSE: { chance: 0.60},
   STANDARD: { chance: 0.5},
-  LOW: { chance: 0.35},
+  MODERATE: { chance: 0.4},
+  LOW: { chance: 0.30},
   SPARSE: { chance: 0.20},
-  RIFT: { chance: 0.08},
-  DEEP_RIFT: { chance: 0.04},
+  MINIMAL: { chance: 0.12},
+  RIFT: { chance: 0.05},
+  RIFT_FADE: { chance: 0.02},
+  DEEP_RIFT: { chance: 0.01},
   EMPTY: { chance: 0.0},
   RIFT_TOPEDGE: { chance: 0.5},
   RIFT_BOTTOMEDGE: { chance: 0.5},
@@ -33,13 +37,16 @@ const coordinate = (row, col) => {
 
 const parseChance = (row, col, subsector_type) => {
   switch (subsector_type) {
-    case "SPARSE":
     case "DENSE":
+    case "STANDARD":
+    case "MOEDERATE":
     case "LOW":
+    case "SPARSE":
+    case "MINIMAL":
     case "RIFT":
+    case "RIFT_FADE":
     case "DEEP_RIFT":
     case "EMPTY":
-    case "STANDARD":
       return SUBSECTOR_TYPES[subsector_type].chance;
     case 'RIFT_TOPEDGE':
       return (row > 4) ? SUBSECTOR_TYPES.RIFT.chance : SUBSECTOR_TYPES.SPARSE.chance;
@@ -83,16 +90,27 @@ const addCompanion = (star) => {
 const COL_OFFSETS = [24, 0, 8, 16];
 const ROW_OFFSETS = [0, 0, 10, 20, 30];
 
-const generateSubsector = (outputDir, sectorName, subsectorName, frequency, index, travellerMap) => {
+const generateSubsector = (outputDir, sector, subsector, index, travellerMap, scanPoints) => {
   const rowOffset = ROW_OFFSETS[Math.ceil(index/4)];
   const colOffset = COL_OFFSETS[index % 4];
   for (let col=1; col <= 8; col++)
     for (let row=1; row <= 10; row++) {
-      const chance = parseChance(row, col, frequency);
+      let chance = 0;
+      let defined = null;
+      if (subsector.systems) {
+        for (const s of subsector.systems)
+          if (s.x === col && s.y === row) {
+            defined = s;
+            chance = 1;
+            break;
+          }
+      } else
+        chance = parseChance(row, col, subsector.type);
       if (r.bool(chance)) {
         let star;
-        const solarSystem = new SolarSystem();
-        solarSystem.sector = sectorName;
+        const systemName = (defined && defined.name) ? defined.name : `${sector.name} ${coordinate(row, col)}`;
+        const solarSystem = new SolarSystem(systemName);
+        solarSystem.sector = sector.name;
         solarSystem.coordinates = coordinate(row+rowOffset, col+colOffset);
         solarSystem.addPrimary(generateStar(null, 0, ORBIT_TYPES.PRIMARY));
         const primary = solarSystem.primaryStar;
@@ -141,10 +159,16 @@ const generateSubsector = (outputDir, sectorName, subsectorName, frequency, inde
         solarSystem.addAnomalousPlanets();
         solarSystem.addMoons();
         solarSystem.assignAtmospheres();
-        const text = `${sectorName} ${solarSystem.coordinates} ${solarSystem.primaryStar.textDump(0, '', '')}`;
+        solarSystem.calculateScanPoints();
+        const text = `${sector.name} ${solarSystem.coordinates} ${solarSystem.primaryStar.textDump(0, '', '')}`;
+        const html = solarSystem.primaryStar.htmlDump().join('\n');
         const json = JSON.stringify(solarSystem.primaryStar, null, 2);
-        fs.writeFileSync(`${outputDir}/${subsectorName}-${solarSystem.coordinates}.txt`, `${text}\n\n${json}`);
+        fs.writeFileSync(`${outputDir}/${subsector.name}-${solarSystem.coordinates}.txt`, text);
+        fs.writeFileSync(`${outputDir}/${subsector.name}-${solarSystem.coordinates}.json`, json);
+        fs.writeFileSync(`${outputDir}/${subsector.name}-${solarSystem.coordinates}.html`, html);
+        fs.writeFileSync(`${outputDir}/${subsector.name}-${solarSystem.coordinates}-travel.html`, solarSystem.travelGrid());
         travellerMap.addSystem(solarSystem);
+        scanPoints.push(`${subsector.name} ${solarSystem.coordinates},${solarSystem.scanPoints}`)
       }
     }
  }
@@ -157,15 +181,23 @@ commander
   .option('-o, --output <dir>', 'Directory for the output', 'output')
   .parse(process.argv);
 
-;(async () => {
+(async () => {
   const options = commander.opts()
   const sector = yaml.load(fs.readFileSync(options.sector, 'utf8'));
-  const outputDir = options.output;
+
   console.log(`${sector.name}`);
+
+  const mapDir = `${options.output}/maps`;
+  if (!fs.existsSync(mapDir))
+    fs.mkdirSync(mapDir, { recursive: true });
+
+  const outputDir = `${options.output}/${sector.name}`;
   if (!fs.existsSync(outputDir))
-    fs.mkdirSync(outputDir);
+    fs.mkdirSync(outputDir, { recursive: true });
   else
     fs.readdirSync(outputDir).forEach(f => fs.rmSync(`${outputDir}/${f}`));
+
+  const scanPoints = [];
   let index = 0;
   const travellerMap = new TravellerMap(sector.name);
   travellerMap.X = sector.X;
@@ -173,12 +205,12 @@ commander
   for (const subsector of sector.subsectors) {
     index++;
     travellerMap.subSectors[subsector.index] = subsector.name;
-    generateSubsector(outputDir, sector.name, subsector.name, subsector.type, index, travellerMap);
+    generateSubsector(outputDir, sector, subsector, index, travellerMap, scanPoints);
   }
   fs.writeFileSync(`${outputDir}/systems.csv`, travellerMap.systemDump());
   fs.writeFileSync(`${outputDir}/meta.xml`, travellerMap.metaDataDump());
-  console.log(travellerMap.systemDump());
-  console.log(travellerMap.metaDataDump());
+  fs.writeFileSync(`${outputDir}/scanPoints.csv`, scanPoints.join('\n'));
+  await createMap(travellerMap.systemDump(), travellerMap.metaDataDump(), mapDir, sector.name);
   console.log('done');
 })()
 .then(() => process.exit(0))

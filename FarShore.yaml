@@ -1,0 +1,53 @@
+name: Far Shore
+abbreviation: Far
+X: -16
+Y: 4
+subsectors:
+  - name: Far A
+    type: DEEP_RIFT
+    index: A
+  - name: Far B
+    type: RIFT_FADE
+    index: B
+  - name: Far C
+    type: DEEP_RIFT
+    index: C
+  - name: Far D
+    type: RIFT_FADE
+    index: D
+  - name: Far E
+    type: RIFT_FADE
+    index: E
+  - name: Far F
+    type: DEEP_RIFT
+    index: F
+  - name: Far G
+    type: DEEP_RIFT
+    index: G
+  - name: Far H
+    type: DEEP_RIFT
+    index: H
+  - name: Far I
+    type: RIFT
+    index: I
+  - name: Far J
+    type: RIFT
+    index: J
+  - name: Far K
+    type: RIFT_FADE
+    index: K
+  - name: Far L
+    type: RIFT
+    index: L
+  - name: Far M
+    type: MINIMAL
+    index: M
+  - name: Far N
+    type: MINIMAL
+    index: N
+  - name: Far O
+    type: SPARSE
+    index: O
+  - name: Far P
+    type: SPARSE
+    index: P

@@ -1,0 +1,103 @@
+name: Incognita Citerior
+abbreviation: IC
+X: -10
+Y: 1
+subsectors:
+  - name: IC A
+    type: LOW
+    index: A
+  - name: IC B
+    type: LOW
+    index: B
+  - name: IC C
+    type: LOW
+    index: C
+  - name: IC D
+    type: LOW
+    index: D
+  - name: IC E
+    type: LOW
+    index: E
+  - name: IC F
+    type: LOW
+    index: F
+  - name: IC G
+    type: SPARSE
+    index: G
+  - name: IC H
+    type: SPARSE
+    index: H
+  - name: IC I
+    type: SPARSE
+    index: I
+  - name: IC J
+    type: SPARSE
+    index: J
+  - name: IC K
+    type: SPARSE
+    index: K
+  - name: IC L
+    type: SPARSE
+    index: L
+    systems:
+      - x: 1
+        y: 4
+      - x: 2
+        y: 1
+      - x: 2
+        y: 7
+      - x: 2
+        y: 10
+      - x: 3
+        y: 3
+      - x: 3
+        y: 9
+      - x: 4
+        y: 3
+      - x: 5
+        y: 2
+      - x: 5
+        y: 6
+        name: Garva-411
+        gasgiant: 1
+        uwp: X310000-0
+        stellarObjects:
+          - star: Neutron Star
+            stellarObjects:
+              - wide empty zone
+              - belt
+              - terrestrial
+              - gasgiant: small
+              - rogue
+      - x: 7
+        y: 2
+      - x: 7
+        y: 4
+        name: Demnan
+        bases: Scout, Navy
+        gasgiant: 1
+        uwp: E567000-0
+        stellarObjects:
+          - star: F7
+            stellarObjects:
+            - companion: K2
+            - terrestrial:
+            - gasgiant: large
+            - belt: large
+            - terrestrial: E567000-0
+            - gasgiant: large
+            - terrestrial:
+            - gasgiant: small
+          - star: G2
+  - name: IC M
+    type: RIFT
+    index: M
+  - name: IC N
+    type: RIFT
+    index: N
+  - name: IC O
+    type: DEEP_RIFT
+    index: O
+  - name: IC P
+    type: RIFT
+    index: P

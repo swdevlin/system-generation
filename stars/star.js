@@ -43,18 +43,18 @@ class Star {
 
     this.temperature = starTemperature(this);
 
-    const mainSequenceLifespan = 10/(this.mass**2.5);
+    const mainSequenceLifespan = 10 / (this.mass ** 2.5);
     if (this.stellarClass === 'III') {
       this.age = mainSequenceLifespan;
-      this.age += mainSequenceLifespan / (4/this.mass);
-      this.age += mainSequenceLifespan / (10 * this.mass**3) * d100()/100;
+      this.age += mainSequenceLifespan / (4 / this.mass);
+      this.age += mainSequenceLifespan / (10 * this.mass ** 3) * d100() / 100;
     } else if (this.stellarClass === 'IV') {
-      this.age = mainSequenceLifespan / (4/this.mass);
-      this.age = mainSequenceLifespan + this.age * d100()/100;
+      this.age = mainSequenceLifespan / (4 / this.mass);
+      this.age = mainSequenceLifespan + this.age * d100() / 100;
     } else if (this.mass > 0.9) {
-      this.age = mainSequenceLifespan * (d6()-1/(d6()/6))/6;
+      this.age = mainSequenceLifespan * (d6() - 1 / (d6() / 6)) / 6;
     } else {
-      this.age = d6()*2/(d3() + d10()/10);
+      this.age = d6() * 2 / (d3() + d10() / 10);
     }
     if (this.mass < 4.7 && this.age < 0.01)
       this.age = 0.01;
@@ -102,7 +102,7 @@ class Star {
   }
 
   addStellarObject(item) {
-    let i=0;
+    let i = 0;
     let mass = this.mass;
     if (this.companion)
       mass += this.companion.mass;
@@ -111,17 +111,17 @@ class Star {
         mass += this.stellarObjects[i].mass;
       i++;
     }
-    this.stellarObjects.splice(i,0, item);
-    item.period = Math.sqrt(orbitToAU(item.orbit)**3/mass);
+    this.stellarObjects.splice(i, 0, item);
+    item.period = Math.sqrt(orbitToAU(item.orbit) ** 3 / mass);
 
   }
 
   get luminosity() {
-    let luminosity= this.diameter**2 + (this.temperature/5772)**4;
+    let luminosity = this.diameter ** 2 + (this.temperature / 5772) ** 4;
     if (luminosity > 10)
       luminosity = Math.round(luminosity);
     else
-      luminosity =  Math.round(luminosity * 100) / 100;
+      luminosity = Math.round(luminosity * 100) / 100;
     return luminosity;
   }
 
@@ -158,33 +158,33 @@ class Star {
     let baselineOrbitNumber;
     if (this.baseline >= 1 && this.baseline <= this.totalObjects) {
       const div = (this.hzco < 1.0) ? 100 : 10;
-      baselineOrbitNumber = this.hzco + (twoD6()-7)/div;
+      baselineOrbitNumber = this.hzco + (twoD6() - 7) / div;
     } else if (this.baseline < 1) {
       if (this.minimumAllowableOrbit >= 1.0)
-        baselineOrbitNumber = this.hzco - this.baseline + this.totalObjects + (twoD6()-2)/10;
+        baselineOrbitNumber = this.hzco - this.baseline + this.totalObjects + (twoD6() - 2) / 10;
       else
-        baselineOrbitNumber = this.minimumAllowableOrbit - this.baseline/10 + (twoD6()-2)/100;
+        baselineOrbitNumber = this.minimumAllowableOrbit - this.baseline / 10 + (twoD6() - 2) / 100;
     } else if (this.baseline > this.totalObjects) {
       if (this.hzco - this.baseline + this.totalObjects >= 1.0)
-        baselineOrbitNumber = this.hzco - this.baseline + this.totalObjects + (twoD6()-7)/5;
+        baselineOrbitNumber = this.hzco - this.baseline + this.totalObjects + (twoD6() - 7) / 5;
       else
-        baselineOrbitNumber = this.hzco - (this.baseline + this.totalObjects + (twoD6()-7)/5)/10;
+        baselineOrbitNumber = this.hzco - (this.baseline + this.totalObjects + (twoD6() - 7) / 5) / 10;
       if (baselineOrbitNumber < 0)
-        baselineOrbitNumber = Math.max(this.hzco - 0.1, this.minimumAllowableOrbit + this.totalObjects/100);
+        baselineOrbitNumber = Math.max(this.hzco - 0.1, this.minimumAllowableOrbit + this.totalObjects / 100);
     }
-    this.emptyOrbits = Math.max(0, twoD6()-9);
+    this.emptyOrbits = Math.max(0, twoD6() - 9);
 
     this.spread = (baselineOrbitNumber - this.minimumAllowableOrbit) / Math.max(1, this.baseline);
     if (this.spread <= 0)
       this.spread = this.minimumAllowableOrbit / Math.max(1, this.baseline);
     if (this.spread * this.totalObjects > 20)
       this.spread = this.totalOrbits / (this.totalObjects + this.emptyOrbits);
-    let orbit = this.minimumAllowableOrbit + this.spread + ((twoD6()-7) * this.spread)/10;
+    let orbit = this.minimumAllowableOrbit + this.spread + ((twoD6() - 7) * this.spread) / 10;
     this.occupiedOrbits.push(orbit);
-    for (let i=1; i < this.totalObjects + this.emptyOrbits; i++) {
-      orbit += this.spread + ((twoD6()-7) * this.spread)/10;
+    for (let i = 1; i < this.totalObjects + this.emptyOrbits; i++) {
+      orbit += this.spread + ((twoD6() - 7) * this.spread) / 10;
       while (!this.orbitValid(orbit))
-        orbit += this.spread + ((twoD6()-7) * this.spread)/10;
+        orbit += this.spread + ((twoD6() - 7) * this.spread) / 10;
       this.occupiedOrbits.push(orbit);
     }
   }
@@ -196,7 +196,7 @@ class Star {
     if (this.availableOrbits[0][1] - this.spread < orbit)
       return true;
 
-    for (let i=1; i < this.availableOrbits.length; i++) {
+    for (let i = 1; i < this.availableOrbits.length; i++) {
       if (this.availableOrbits[i][0] - this.spread < orbit)
         return true;
       if (this.availableOrbits[i][1] + this.spread > orbit)
@@ -211,13 +211,14 @@ class Star {
 
     for (const so of this.stellarObjects)
       if (so.orbitType === ORBIT_TYPES.FAR)
-        return this.availableOrbits[this.availableOrbits.length-1][1] + this.spread > orbit;
+        return this.availableOrbits[this.availableOrbits.length - 1][1] + this.spread > orbit;
 
     return false;
   }
 
   textDump(spacing, prefix, postfix) {
-    this.jump = auToOrbit(100 * this.diameter * SOL_DIAMETER/AU);
+    const jumpShadow = 100 * this.diameter * SOL_DIAMETER / AU;
+    this.jump = auToOrbit(jumpShadow);
     let displayedJump = false;
     let s = `${' '.repeat(spacing)}`;
     if (this.orbitType !== ORBIT_TYPES.PRIMARY)
@@ -228,7 +229,7 @@ class Star {
       s += `${prefix}${this.stellarType}${this.subtype} ${this.stellarClass}${postfix}\n`;
       for (const stellar of this.stellarObjects) {
         if (stellar.orbit > this.jump && !displayedJump) {
-          s += `${' '.repeat(spacing+2)}>>> JUMP <<<\n`;
+          s += `${' '.repeat(spacing + 2)}<<< ${jumpShadow.toFixed(2)} >>>\n`;
           displayedJump = true;
         }
         if (Math.abs(this.hzco - stellar.orbit) <= 0.2)
@@ -240,6 +241,46 @@ class Star {
       }
     }
     return s;
+  }
+
+  htmlDump(additionalClass) {
+    if (additionalClass === undefined)
+      additionalClass = '';
+    let lines = [];
+    this.jump = auToOrbit(100 * this.diameter * SOL_DIAMETER / AU);
+    let displayedJump = false;
+    let s = '';
+    if (this.orbitType !== ORBIT_TYPES.PRIMARY)
+      s = `<span class="orbit">${orbitText(this.orbit)}`;
+    if (this.stellarType === 'D')
+      s += `<span class="star">White Dwarf</span>`;
+    else
+      s += `<span class="star">${this.stellarType}${this.subtype} ${this.stellarClass}</span>`;
+    if (this.orbitType !== ORBIT_TYPES.PRIMARY)
+      lines.push(`<li class="${additionalClass}">${s}</li>`);
+    else
+      lines.push(`<div class="${additionalClass}">${s}</div>`);
+    lines.push('<ul>');
+    for (const stellar of this.stellarObjects) {
+      if (stellar.orbit > this.jump && !displayedJump) {
+        lines.push('<li><hr/></li>');
+        displayedJump = true;
+      }
+      let habitableClass = '';
+      if (Math.abs(this.hzco - stellar.orbit) <= 0.2)
+        habitableClass = 'habitable';
+      else if (Math.abs(this.hzco - stellar.orbit) <= 1)
+        habitableClass = 'fringe';
+      else if (this.hzco < stellar.orbit)
+        habitableClass = 'outside';
+      else
+        habitableClass = 'inside';
+      // lines.push(`<li class="${habitableClass}">`);
+      lines = lines.concat(stellar.htmlDump(habitableClass));
+      // lines.push(`</li>`);
+    }
+    lines.push('</ul>');
+    return lines;
   }
 }
 

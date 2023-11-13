@@ -1,0 +1,53 @@
+name: Unnamed 1
+abbreviation: Un1
+X: -13
+Y: 1
+subsectors:
+  - name: Un1 A
+    type: LOW
+    index: A
+  - name: Un1 B
+    type: MODERATE
+    index: B
+  - name: Un1 C
+    type: LOW
+    index: C
+  - name: Un1 D
+    type: MODERATE
+    index: D
+  - name: Un1 E
+    type: MODERATE
+    index: E
+  - name: Un1 F
+    type: MODERATE
+    index: F
+  - name: Un1 G
+    type: MODERATE
+    index: G
+  - name: Un1 H
+    type: MODERATE
+    index: H
+  - name: Un1 I
+    type: MODERATE
+    index: I
+  - name: Un1 J
+    type: MODERATE
+    index: J
+  - name: Un1 K
+    type: MODERATE
+    index: K
+  - name: Un1 L
+    type: MODERATE
+    index: L
+  - name: Un1 M
+    type: MODERATE
+    index: M
+  - name: Un1 N
+    type: MODERATE
+    index: N
+  - name: Un1 O
+    type: SPARSE
+    index: O
+  - name: Un1 P
+    type: SPARSE
+    index: P

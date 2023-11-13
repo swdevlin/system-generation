@@ -1,0 +1,53 @@
+name: Vilaakasii
+abbreviation: Vilaa
+X: -11
+Y: 1
+subsectors:
+  - name: Vilaa A
+    type: LOW
+    index: A
+  - name: Vilaa B
+    type: LOW
+    index: B
+  - name: Vilaa C
+    type: LOW
+    index: C
+  - name: Vilaa D
+    type: LOW
+    index: D
+  - name: Vilaa E
+    type: SPARSE
+    index: E
+  - name: Vilaa F
+    type: LOW
+    index: F
+  - name: Vilaa G
+    type: SPARSE
+    index: G
+  - name: Vilaa H
+    type: SPARSE
+    index: H
+  - name: Vilaa I
+    type: SPARSE
+    index: I
+  - name: Vilaa J
+    type: MINIMAL
+    index: J
+  - name: Vilaa K
+    type: MINIMAL
+    index: K
+  - name: Vilaa L
+    type: MINIMAL
+    index: L
+  - name: Vilaa M
+    type: RIFT_FADE
+    index: M
+  - name: Vilaa N
+    type: DEEP_RIFT
+    index: N
+  - name: Vilaa O
+    type: DEEP_RIFT
+    index: O
+  - name: Vilaa P
+    type: DEEP_RIFT
+    index: P

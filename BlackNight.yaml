@@ -1,0 +1,53 @@
+name: Black Night
+abbreviation: BN
+X: -15
+Y: 3
+subsectors:
+  - name: BN A
+    type: RIFT
+    index: A
+  - name: BN B
+    type: RIFT
+    index: B
+  - name: BN C
+    type: RIFT
+    index: C
+  - name: BN D
+    type: RIFT
+    index: D
+  - name: BN E
+    type: RIFT
+    index: E
+  - name: BN F
+    type: RIFT
+    index: F
+  - name: BN G
+    type: RIFT
+    index: G
+  - name: BN H
+    type: RIFT
+    index: H
+  - name: BN I
+    type: RIFT
+    index: I
+  - name: BN J
+    type: RIFT
+    index: J
+  - name: BN K
+    type: RIFT
+    index: K
+  - name: BN L
+    type: RIFT
+    index: L
+  - name: BN M
+    type: RIFT
+    index: M
+  - name: BN N
+    type: RIFT
+    index: N
+  - name: BN O
+    type: RIFT
+    index: O
+  - name: BN P
+    type: RIFT
+    index: P

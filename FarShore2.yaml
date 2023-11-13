@@ -1,0 +1,53 @@
+name: Far Shore 2
+abbreviation: Far2
+X: -15
+Y: 4
+subsectors:
+  - name: Far2 A
+    type: RIFT_FADE
+    index: A
+  - name: Far2 B
+    type: RIFT_FADE
+    index: B
+  - name: Far2 C
+    type: RIFT_FADE
+    index: C
+  - name: Far2 D
+    type: DEEP_RIFT
+    index: D
+  - name: Far2 E
+    type: RIFT_FADE
+    index: E
+  - name: Far2 F
+    type: RIFT
+    index: F
+  - name: Far2 G
+    type: RIFT
+    index: G
+  - name: Far2 H
+    type: RIFT_FADE
+    index: H
+  - name: Far2 I
+    type: RIFT_FADE
+    index: I
+  - name: Far2 J
+    type: MINIMAL
+    index: J
+  - name: Far2 K
+    type: SPARSE
+    index: K
+  - name: Far2 L
+    type: SPARSE
+    index: L
+  - name: Far2 M
+    type: SPARSE
+    index: M
+  - name: Far2 N
+    type: SPARSE
+    index: N
+  - name: Far2 O
+    type: LOW
+    index: O
+  - name: Far2 P
+    type: LOW
+    index: P

@@ -108,7 +108,10 @@ const assignMoons = (star) => {
           }
           let dm = mor < 60 ? 1 : 0;
           orbit = moonOrbit(mor, dm);
-          orbit.orbit = orbit.orbit + pd * r.real(-0.25, 0.25);
+          const orbitMod = pd * r.real(0, 0.25);
+          if (orbitMod < 0 && Math.abs(orbitMod) > orbit.orbit)
+            orbit.orbit += 0;
+          orbit.orbit = orbit.orbit + orbitMod;
           if (orbit.zone === 'inner')
             dm = -1;
           else if (orbit.zone === 'middle')

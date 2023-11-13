@@ -1,0 +1,53 @@
+name: Deepnight
+abbreviation: Deepn
+X: -12
+Y: 1
+subsectors:
+  - name: Deepn A
+    type: LOW
+    index: A
+  - name: Deepn B
+    type: LOW
+    index: B
+  - name: Deepn C
+    type: LOW
+    index: C
+  - name: Deepn D
+    type: LOW
+    index: D
+  - name: Deepn E
+    type: LOW
+    index: E
+  - name: Deepn F
+    type: LOW
+    index: F
+  - name: Deepn G
+    type: LOW
+    index: G
+  - name: Deepn H
+    type: SPARSE
+    index: H
+  - name: Deepn I
+    type: SPARSE
+    index: I
+  - name: Deepn J
+    type: MINIMAL
+    index: J
+  - name: Deepn K
+    type: MINIMAL
+    index: K
+  - name: Deepn L
+    type: MINIMAL
+    index: L
+  - name: Deepn M
+    type: MINIMAL
+    index: M
+  - name: Deepn N
+    type: MINIMAL
+    index: N
+  - name: Deepn O
+    type: MINIMAL
+    index: O
+  - name: Deepn P
+    type: MINIMAL
+    index: P

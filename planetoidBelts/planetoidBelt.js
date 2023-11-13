@@ -18,6 +18,13 @@ class PlanetoidBelt {
   textDump(spacing, prefix, postfix) {
     return `${' '.repeat(spacing)}${prefix}${orbitText(this.orbit)} Planetoid belt${postfix}\n`;
   }
+
+  htmlDump(additionalClass) {
+    if (additionalClass === undefined)
+      additionalClass = '';
+
+    return [`<li class="planetoid ${additionalClass}"><span class="orbit">${orbitText(this.orbit)}</span>X000000 Planetoid belt</li>`];
+  }
 }
 
 module.exports = PlanetoidBelt;

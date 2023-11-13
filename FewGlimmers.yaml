@@ -1,0 +1,53 @@
+name: Few Glimmers
+abbreviation: FewG
+X: -15
+Y: 4
+subsectors:
+  - name: FewG A
+    type: DEEP_RIFT
+    index: A
+  - name: FewG B
+    type: RIFT_FADE
+    index: B
+  - name: FewG C
+    type: RIFT_FADE
+    index: C
+  - name: FewG D
+    type: RIFT_FADE
+    index: D
+  - name: FewG E
+    type: RIFT_FADE
+    index: E
+  - name: FewG F
+    type: RIFT_FADE
+    index: F
+  - name: FewG G
+    type: MINIMAL
+    index: G
+  - name: FewG H
+    type: RIFT_FADE
+    index: H
+  - name: FewG I
+    type: RIFT_FADE
+    index: I
+  - name: FewG J
+    type: RIFT_FADE
+    index: J
+  - name: FewG K
+    type: RIFT
+    index: K
+  - name: FewG L
+    type: RIFT_FADE
+    index: L
+  - name: FewG M
+    type: RIFT_FADE
+    index: M
+  - name: FewG N
+    type: RIFT_FADE
+    index: N
+  - name: FewG O
+    type: RIFT_FADE
+    index: O
+  - name: FewG P
+    type: RIFT_FADE
+    index: P

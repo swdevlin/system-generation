@@ -1,0 +1,53 @@
+name: Last Prospect
+abbreviation: Last
+X: -18
+Y: 3
+subsectors:
+  - name: Last A
+    type: RIFT
+    index: A
+  - name: Last B
+    type: SPARSE
+    index: B
+  - name: Last C
+    type: LOW
+    index: C
+  - name: Last D
+    type: LOW
+    index: D
+  - name: Last E
+    type: RIFT
+    index: E
+  - name: Last F
+    type: RIFT
+    index: F
+  - name: Last G
+    type: LOW
+    index: G
+  - name: Last H
+    type: LOW
+    index: H
+  - name: Last I
+    type: RIFT_FADE
+    index: I
+  - name: Last J
+    type: MINIMAL
+    index: J
+  - name: Last K
+    type: RIFT
+    index: K
+  - name: Last L
+    type: RIFT
+    index: L
+  - name: Last M
+    type: RIFT_FADE
+    index: M
+  - name: Last N
+    type: RIFT_FADE
+    index: N
+  - name: Last O
+    type: RIFT_FADE
+    index: O
+  - name: Last P
+    type: RIFT_FADE
+    index: P

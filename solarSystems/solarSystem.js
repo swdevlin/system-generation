@@ -5,9 +5,10 @@ const {
   eccentricity,
   determineHydrographics,
   determineAtmosphere,
-  determineMoonAtmosphere, meanTemperature, axialTilt
+  determineMoonAtmosphere, meanTemperature, axialTilt, calculateAlbedo, orbitPosition, AU, calculateDistance, travelTime,
+  romanNumeral
 } = require("../utils");
-const {threeD6, twoD6, d6, d10} = require("../dice");
+const {threeD6, twoD6, d6, d10, d8} = require("../dice");
 const {GasGiant} = require("../gasGiants");
 const {
   PlanetoidBelt,
@@ -28,7 +29,7 @@ const Random = require("random-js").Random;
 const r = new Random();
 
 class SolarSystem {
-  constructor() {
+  constructor(name) {
     this.stars = [];
     this.gasGiants = 0;
     this.planetoidBelts = 0;
@@ -36,6 +37,27 @@ class SolarSystem {
     this.sector = null;
     this.coordinates = null;
     this.remainingOrbits = [];
+    this.name = name;
+    this.scanPoints = 0;
+  }
+
+  calculateScanPoints() {
+    if (this.scanPoints == 0) {
+      this.scanPoints = d8();
+      switch (this.stars.length) {
+        case 1: break;
+        case 2:
+        case 3:
+          this.scanPoints += 1;
+          break;
+        case 4:
+        case 5:
+          this.scanPoints += 2;
+          break;
+        default: this.scanPoints += 3;
+      }
+    }
+    return this.scanPoints;
   }
 
   get totalObjects() {
@@ -137,7 +159,8 @@ class SolarSystem {
   distributeObjects() {
     for (let i=0; i < this.totalObjects; i++) {
       const star = this.pickStar();
-      star.totalObjects++;
+      if (star)
+        star.totalObjects++;
     }
   }
 
@@ -161,6 +184,7 @@ class SolarSystem {
     p.density = terrestrialDensity(p.composition);
     p.eccentricity = eccentricity(0);
     p.axialTilt = axialTilt();
+    p.albedo = calculateAlbedo(p);
     star.addStellarObject(p);
     return p;
   };
@@ -218,7 +242,8 @@ class SolarSystem {
       const p = allOrbits.pop();
       if (p === undefined)
         console.log('not enough orbits');
-      this.addTerrestrialPlanet(p[0], p[1]);
+      else
+        this.addTerrestrialPlanet(p[0], p[1]);
     }
 
     this.remainingOrbits = allOrbits;
@@ -293,6 +318,53 @@ class SolarSystem {
       }
       planets--;
     }
+  }
+
+  travelGrid() {
+    const distances = new Array(this.primaryStar.stellarObjects.length);
+    for (const i in this.primaryStar.stellarObjects)
+      distances[i] = new Array(this.primaryStar.stellarObjects.length);
+
+    const locations = [];
+    for (const obj of this.primaryStar.stellarObjects)
+      locations.push(orbitPosition(obj.orbit))
+
+    for (const i in this.primaryStar.stellarObjects)
+      for (const j in this.primaryStar.stellarObjects) {
+        if (i===j)
+          distances[i][j] = {
+            distance: 0
+          };
+        else
+          distances[i][j] = {
+            distance: calculateDistance(locations[i].x, locations[i].y, locations[j].x, locations[i].y)
+          };
+      }
+    let grid = '<table><thead><tr><th></th>';
+    for (const i in this.primaryStar.stellarObjects) {
+      const obj = this.primaryStar.stellarObjects[i];
+      if (obj.constructor.name !== 'TerrestrialPlanet' || obj.size !== 'S')
+        grid += `<th>${romanNumeral(parseInt(i) + 1)}</th>`;
+    }
+    grid += '</tr></thead><tbody>';
+    for (const i in distances) {
+      const obj = this.primaryStar.stellarObjects[i];
+      if (obj.constructor.name !== 'TerrestrialPlanet' || obj.size !== 'S') {
+        grid += `<tr><th>${romanNumeral(parseInt(i) + 1)}</th>`;
+        for (const j in distances) {
+          const target = this.primaryStar.stellarObjects[j];
+          if (target.constructor.name !== 'TerrestrialPlanet' || target.size !== 'S') {
+            grid += '<td>';
+            if (distances[i][j].distance !== 0)
+              grid += travelTime(distances[i][j].distance, 4);
+            grid += '</td>';
+          }
+        }
+        grid += '</tr>';
+      }
+    }
+    grid += '</tbody></table>';
+    return grid;
   }
 }
 
