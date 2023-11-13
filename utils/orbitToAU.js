@@ -6,7 +6,7 @@ const ORBIT_TO_AU = [
 
 const orbitToAU = (orbit) => {
   if (orbit === 20)
-    return ORBIT_TO_AU[ORBIT];
+    return ORBIT_TO_AU[orbit];
   else if (orbit > 20)
     return ORBIT_TO_AU[20] + (orbit-20) * (ORBIT_TO_AU[0] - ORBIT_TO_AU[19]) ;
 

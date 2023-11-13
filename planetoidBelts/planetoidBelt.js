@@ -1,4 +1,4 @@
-const {ORBIT_TYPES, orbitText} = require("../utils");
+const {ORBIT_TYPES, orbitText, sequenceIdentifier} = require("../utils");
 
 class PlanetoidBelt {
   constructor(orbit) {
@@ -15,8 +15,9 @@ class PlanetoidBelt {
     this.significantBodies = [];
   }
 
-  textDump(spacing, prefix, postfix) {
-    return `${' '.repeat(spacing)}${prefix}${orbitText(this.orbit)} Planetoid belt${postfix}\n`;
+  textDump(spacing, prefix, postfix, index, starIndex) {
+    this.orbitSequence = sequenceIdentifier(index, starIndex);
+    return `${' '.repeat(spacing)}${prefix}${orbitText(this.orbit, index, starIndex)} Planetoid belt${postfix}\n`;
   }
 
   htmlDump(additionalClass) {

@@ -1,4 +1,4 @@
-const {ORBIT_TYPES, toHex, orbitText} = require("../utils");
+const {ORBIT_TYPES, toHex, orbitText, sequenceIdentifier} = require("../utils");
 const {moonTextDump, moonHTMLDump} = require("../moons");
 
 class TerrestrialPlanet {
@@ -46,9 +46,10 @@ class TerrestrialPlanet {
     return v / 1000;
   }
 
-  textDump(spacing, prefix, postfix) {
+  textDump(spacing, prefix, postfix, index, starIndex) {
+    this.orbitSequence = sequenceIdentifier(index, starIndex);
     const label = this.orbitType === ORBIT_TYPES.PLANETOID_BELT_OBJECT ? 'Belt significant body' : 'Terrestrial planet';
-    let s = `${' '.repeat(spacing)}${prefix}${orbitText(this.orbit)} X${toHex(this.size)}${toHex(this.atmosphere.code)}${toHex(this.hydrographics.code)}${toHex(this.populationCode)}${toHex(this.governmentCode)}${toHex(this.lawLevelCode)} ${label}${postfix}\n`;
+    let s = `${' '.repeat(spacing)}${prefix}${orbitText(this.orbit, index, starIndex)} X${toHex(this.size)}${toHex(this.atmosphere.code)}${toHex(this.hydrographics.code)}${toHex(this.populationCode)}${toHex(this.governmentCode)}${toHex(this.lawLevelCode)} ${label}${postfix}\n`;
     for (const moon of this.moons)
       s += moonTextDump(moon, spacing+2);
     return s;

@@ -103,6 +103,8 @@ const assignMoons = (star) => {
                 }
               } else {
                 size = stellarObject.size - 1 - d6();
+                if (size < 0)
+                  size = 'S';
               }
               break;
           }

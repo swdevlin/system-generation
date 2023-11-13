@@ -8,7 +8,7 @@ const {
   determineMoonAtmosphere, meanTemperature, axialTilt, calculateAlbedo, orbitPosition, AU, calculateDistance, travelTime,
   romanNumeral
 } = require("../utils");
-const {threeD6, twoD6, d6, d10, d8} = require("../dice");
+const {threeD6, twoD6, d4, d6, d10, d8} = require("../dice");
 const {GasGiant} = require("../gasGiants");
 const {
   PlanetoidBelt,
@@ -43,7 +43,7 @@ class SolarSystem {
 
   calculateScanPoints() {
     if (this.scanPoints == 0) {
-      this.scanPoints = d8();
+      this.scanPoints = d4() + d4();
       switch (this.stars.length) {
         case 1: break;
         case 2:
@@ -230,12 +230,18 @@ class SolarSystem {
 
     for (let i=0; i < this.gasGiants; i++) {
       const p = allOrbits.pop();
-      this.addGasGiant(p[0], p[1]);
+      if (p === undefined)
+        console.log('not enough orbits');
+      else
+        this.addGasGiant(p[0], p[1]);
     }
 
     for (let i=0; i < this.planetoidBelts; i++) {
       const p = allOrbits.pop();
-      this.addPlanetoidBelt(p[0], p[1]);
+      if (p === undefined)
+        console.log('not enough orbits');
+      else
+        this.addPlanetoidBelt(p[0], p[1]);
     }
 
     for (let i=0; i < this.terrestrialPlanets; i++) {
@@ -344,13 +350,13 @@ class SolarSystem {
     for (const i in this.primaryStar.stellarObjects) {
       const obj = this.primaryStar.stellarObjects[i];
       if (obj.constructor.name !== 'TerrestrialPlanet' || obj.size !== 'S')
-        grid += `<th>${romanNumeral(parseInt(i) + 1)}</th>`;
+        grid += `<th>${obj.orbitSequence}</th>`;
     }
     grid += '</tr></thead><tbody>';
     for (const i in distances) {
       const obj = this.primaryStar.stellarObjects[i];
       if (obj.constructor.name !== 'TerrestrialPlanet' || obj.size !== 'S') {
-        grid += `<tr><th>${romanNumeral(parseInt(i) + 1)}</th>`;
+        grid += `<tr><th>${obj.orbitSequence}</th>`;
         for (const j in distances) {
           const target = this.primaryStar.stellarObjects[j];
           if (target.constructor.name !== 'TerrestrialPlanet' || target.size !== 'S') {

@@ -9,8 +9,8 @@ const {terrestrialPlanetQuantity} = require("./terrestrialPlanets");
 const {calculatePeriod, companionOrbit, additionalStarDM, ORBIT_TYPES} = require("./utils");
 const {generateStar} = require("./stars");
 const {SolarSystem} = require("./solarSystems");
+const {createMap} = require("./travellerMap");
 const TravellerMap = require("./utils/travellerMap");
-const {createMap} = require("./travellerMap/travellerMap");
 
 const SUBSECTOR_TYPES = {
   DENSE: { chance: 0.60},
@@ -160,12 +160,12 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap, sc
         solarSystem.addMoons();
         solarSystem.assignAtmospheres();
         solarSystem.calculateScanPoints();
-        const text = `${sector.name} ${solarSystem.coordinates} ${solarSystem.primaryStar.textDump(0, '', '')}`;
-        const html = solarSystem.primaryStar.htmlDump().join('\n');
-        const json = JSON.stringify(solarSystem.primaryStar, null, 2);
+        const text = `${sector.name} ${solarSystem.coordinates} ${solarSystem.primaryStar.textDump(0, '', '', 0, [])}`;
+        // const html = solarSystem.primaryStar.htmlDump().join('\n');
         fs.writeFileSync(`${outputDir}/${subsector.name}-${solarSystem.coordinates}.txt`, text);
+        const json = JSON.stringify(solarSystem.primaryStar, null, 2);
         fs.writeFileSync(`${outputDir}/${subsector.name}-${solarSystem.coordinates}.json`, json);
-        fs.writeFileSync(`${outputDir}/${subsector.name}-${solarSystem.coordinates}.html`, html);
+        // fs.writeFileSync(`${outputDir}/${subsector.name}-${solarSystem.coordinates}.html`, html);
         fs.writeFileSync(`${outputDir}/${subsector.name}-${solarSystem.coordinates}-travel.html`, solarSystem.travelGrid());
         travellerMap.addSystem(solarSystem);
         scanPoints.push(`${subsector.name} ${solarSystem.coordinates},${solarSystem.scanPoints}`)

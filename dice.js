@@ -15,6 +15,10 @@ const d3 = () => {
   return rng.die(3);
 }
 
+const d4 = () => {
+  return rng.die(4);
+}
+
 const d10 = () => {
   return rng.die(10);
 }
@@ -56,6 +60,7 @@ module.exports = {
   die: die,
   d2: d2,
   d3: d3,
+  d4: d4,
   d6: d6,
   d8: d8,
   d10: d10,

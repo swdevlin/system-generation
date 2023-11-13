@@ -1,4 +1,6 @@
-const {determineDataKey, ORBIT_TYPES, computeBaseline, orbitText, AU, SOL_DIAMETER, orbitToAU, auToOrbit, StarColour} = require("../utils");
+const {determineDataKey, ORBIT_TYPES, computeBaseline, orbitText, AU, SOL_DIAMETER, orbitToAU, auToOrbit, StarColour,
+  starIdentifier
+} = require("../utils");
 const {MINIMUM_ALLOWABLE_ORBIT} = require("./index");
 const {twoD6, d6, d3, d10, d100} = require("../dice");
 const starMass = require("./starMass");
@@ -79,6 +81,7 @@ class Star {
     this.availableOrbits = [];
     this.stellarObjects = [];
     this.occupiedOrbits = [];
+    this.orbitSequence = '';
   }
 
   get dataKey() {
@@ -216,28 +219,40 @@ class Star {
     return false;
   }
 
-  textDump(spacing, prefix, postfix) {
+  textDump(spacing, prefix, postfix, index, starIndex) {
+    if (index === 0)
+      starIndex.push(1);
+    else
+      starIndex[starIndex.length - 1]++;
     const jumpShadow = 100 * this.diameter * SOL_DIAMETER / AU;
     this.jump = auToOrbit(jumpShadow);
     let displayedJump = false;
     let s = `${' '.repeat(spacing)}`;
-    if (this.orbitType !== ORBIT_TYPES.PRIMARY)
-      s += `${orbitText(this.orbit)} `;
+    if (this.orbitType !== ORBIT_TYPES.PRIMARY) {
+      s += `${orbitText(this.orbit)} ${starIdentifier(starIndex)} `;
+      this.orbitSequence = starIdentifier(starIndex);
+    } else
+      this.orbitSequence = 'A';
     if (this.stellarType === 'D')
       s += `${prefix}White dwarf${postfix}\n`;
     else {
       s += `${prefix}${this.stellarType}${this.subtype} ${this.stellarClass}${postfix}\n`;
       for (const stellar of this.stellarObjects) {
+        index++;
+        const newIndex = (stellar instanceof Star) ? 0 : index;
         if (stellar.orbit > this.jump && !displayedJump) {
-          s += `${' '.repeat(spacing + 2)}<<< ${jumpShadow.toFixed(2)} >>>\n`;
+          s += `${' '.repeat(spacing + 2)}^^^ ${jumpShadow.toFixed(2)} ^^^\n`;
           displayedJump = true;
         }
-        if (Math.abs(this.hzco - stellar.orbit) <= 0.2)
-          s += stellar.textDump(spacing + 2, '>>', '<<');
-        else if (Math.abs(this.hzco - stellar.orbit) <= 1)
-          s += stellar.textDump(spacing + 2, '>', '<');
-        else
-          s += stellar.textDump(spacing + 2, '', '');
+        const dumpParams = [spacing + 2, '', '', newIndex, starIndex];
+        if (Math.abs(this.hzco - stellar.orbit) <= 0.2) {
+          dumpParams[1] = '>>';
+          dumpParams[2] = '<<';
+        } else if (Math.abs(this.hzco - stellar.orbit) <= 1) {
+          dumpParams[1] = '>';
+          dumpParams[2] = '<';
+        }
+        s += stellar.textDump(...dumpParams);
       }
     }
     return s;

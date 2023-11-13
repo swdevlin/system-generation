@@ -1,4 +1,4 @@
-const {ORBIT_TYPES, orbitText} = require("../utils");
+const {ORBIT_TYPES, orbitText, sequenceIdentifier} = require("../utils");
 const {moonTextDump, moonHTMLDump} = require("../moons");
 
 class GasGiant {
@@ -15,8 +15,9 @@ class GasGiant {
     this.axialTilt = 0;
   }
 
-  textDump(spacing, prefix, postfix) {
-    let s = `${' '.repeat(spacing)}${prefix}${orbitText(this.orbit)} `;
+  textDump(spacing, prefix, postfix, index, starIndex) {
+    this.orbitSequence = sequenceIdentifier(index, starIndex);
+    let s = `${' '.repeat(spacing)}${prefix}${orbitText(this.orbit, index, starIndex)} `;
     if (this.code === 'GS')
       s+= 'Small gas giant';
     else if (this.code === 'GM')

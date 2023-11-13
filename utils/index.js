@@ -147,8 +147,22 @@ const computeBaseline = (star) => {
   return baseline;
 }
 
-const orbitText = (orbit) => {
-  return `${orbitToAU(orbit).toFixed(2)} (${orbit.toFixed(2)})`;
+const starIdentifier = (starIndex) => {
+  let identifier = String.fromCharCode(64 + starIndex[0])
+  for (let i=1; i < starIndex.length; i++)
+    identifier += String.fromCharCode(96 + starIndex[i])
+  return identifier;
+}
+
+const sequenceIdentifier = (index, starIndex) => {
+  return `${starIdentifier(starIndex)} ${romanNumeral(index)}`;
+}
+
+const orbitText = (orbit, index, starIndex) => {
+  if (index)
+    return `${orbitToAU(orbit).toFixed(2)} (${orbit.toFixed(2)}) ${sequenceIdentifier(index, starIndex)}`;
+  else
+    return `${orbitToAU(orbit).toFixed(2)} (${orbit.toFixed(2)})`;
 }
 
 const romanNumeral = (n) => {
@@ -180,6 +194,8 @@ module.exports = {
   StarColour: StarColour,
   SOL_DIAMETER: SOL_DIAMETER,
   romanNumeral: romanNumeral,
+  sequenceIdentifier: sequenceIdentifier,
+  starIdentifier: starIdentifier,
 };
 
 
