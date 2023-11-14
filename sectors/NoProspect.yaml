@@ -22,13 +22,13 @@ subsectors:
     type: DEEP_RIFT
     index: F
   - name: NoP G
-    type: DEEP_RIFT
+    type: EMPTY
     index: G
   - name: NoP H
     type: DEEP_RIFT
     index: H
   - name: NoP I
-    type: DEEP_RIFT
+    type: EMPTY
     index: I
   - name: NoP J
     type: DEEP_RIFT
@@ -40,13 +40,13 @@ subsectors:
     type: DEEP_RIFT
     index: L
   - name: NoP M
-    type: DEEP_RIFT
+    type: EMPTY
     index: M
   - name: NoP N
     type: DEEP_RIFT
     index: N
   - name: NoP O
-    type: DEEP_RIFT
+    type: EMPTY
     index: O
   - name: NoP P
     type: DEEP_RIFT

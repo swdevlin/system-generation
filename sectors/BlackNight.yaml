@@ -4,50 +4,50 @@ X: -15
 Y: 3
 subsectors:
   - name: BN A
-    type: RIFT
+    type: RIFT_FADE
     index: A
   - name: BN B
-    type: RIFT
+    type: RIFT_FADE
     index: B
   - name: BN C
-    type: RIFT
+    type: RIFT_FADE
     index: C
   - name: BN D
-    type: RIFT
+    type: RIFT_FADE
     index: D
   - name: BN E
-    type: RIFT
+    type: RIFT_FADE
     index: E
   - name: BN F
-    type: RIFT
+    type: RIFT_FADE
     index: F
   - name: BN G
-    type: RIFT
+    type: RIFT_FADE
     index: G
   - name: BN H
-    type: RIFT
+    type: EMPTY
     index: H
   - name: BN I
-    type: RIFT
+    type: EMPTY
     index: I
   - name: BN J
-    type: RIFT
+    type: RIFT_FADE
     index: J
   - name: BN K
-    type: RIFT
+    type: DEEP_RIFT
     index: K
   - name: BN L
-    type: RIFT
+    type: DEEP_RIFT
     index: L
   - name: BN M
-    type: RIFT
+    type: DEEP_RIFT
     index: M
   - name: BN N
-    type: RIFT
+    type: DEEP_RIFT
     index: N
   - name: BN O
-    type: RIFT
+    type: EMPTY
     index: O
   - name: BN P
-    type: RIFT
+    type: EMPTY
     index: P

@@ -22,10 +22,10 @@ subsectors:
     type: RIFT
     index: F
   - name: Best G
-    type: MINIMAL
+    type: RIFT
     index: G
   - name: Best H
-    type: DEEP_RIFT
+    type: RIFT_FADE
     index: H
   - name: Best I
     type: RIFT
@@ -37,17 +37,17 @@ subsectors:
     type: RIFT_FADE
     index: K
   - name: Best L
-    type: RIFT
+    type: EMPTY
     index: L
   - name: Best M
-    type: RIFT
+    type: RIFT_FADE
     index: M
   - name: Best N
-    type: RIFT_FADE
+    type: DEEP_RIFT
     index: N
   - name: Best O
     type: DEEP_RIFT
     index: O
   - name: Best P
-    type: DEEP_RIFT
+    type: EMPTY
     index: P
