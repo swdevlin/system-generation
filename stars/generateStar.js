@@ -1,4 +1,4 @@
-const {generateBaseStar} = require("./generateBaseStar");
+const generateBaseStar = require("./generateBaseStar");
 const multiStellarBase = require("./multiStellarBase");
 const {ORBIT_TYPES} = require("../utils");
 

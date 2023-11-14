@@ -160,7 +160,7 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap, sc
         solarSystem.addMoons();
         solarSystem.assignAtmospheres();
         solarSystem.calculateScanPoints();
-        const text = `${sector.name} ${solarSystem.coordinates} ${solarSystem.primaryStar.textDump(0, '', '', 0, [])}`;
+        const text = `${sector.name} ${solarSystem.coordinates} ${solarSystem.primaryStar.textDump(0, '', '', 0, [1])}`;
         // const html = solarSystem.primaryStar.htmlDump().join('\n');
         fs.writeFileSync(`${outputDir}/${subsector.name}-${solarSystem.coordinates}.txt`, text);
         const json = JSON.stringify(solarSystem.primaryStar, null, 2);

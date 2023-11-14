@@ -1,5 +1,5 @@
 const {twoD6, d6} = require("../dice");
-const {generateBaseStar} = require("./generateBaseStar");
+const generateBaseStar = require("./generateBaseStar");
 const Star = require("./star");
 const makeCooler = require("./makeCooler");
 const {TYPES_BY_TEMP, isHotter, ORBIT_TYPES} = require("../utils");

@@ -3,17 +3,19 @@ const randomAngle = () => {
   return Math.random() * 2 * Math.PI;
 }
 
-const orbitPosition = (orbit) => {
-  const x = orbit * AU;
-  const y = 0;
+const orbitPosition = (obj, starY) => {
+  const x = obj.orbit * AU;
+  const y = starY ? starY : 0;
 
   const angle = randomAngle();
   const radius = x;
   return {
+    au: x,
     x: x + radius * Math.cos(angle),
-    y: radius * Math.sin(angle),
-    orbit: orbit,
-    au: x
+    y: y + radius * Math.sin(angle),
+    orbit: obj.orbit,
+    orbitSequence: obj.orbitSequence,
+    stellarObject: obj
   }
 }
 

@@ -24,6 +24,7 @@ const {
   terrestrialDensity
 } = require("../terrestrialPlanets");
 const {assignMoons} = require("../moons");
+const {Star} = require("../stars");
 
 const Random = require("random-js").Random;
 const r = new Random();
@@ -326,17 +327,35 @@ class SolarSystem {
     }
   }
 
+  countObjects(star) {
+    let total = star.stellarObjects.length;
+    for (const obj of star.stellarObjects)
+      if (obj instanceof Star)
+        total += this.countObjects(obj);
+    return total;
+  }
+
+  addLocations(star, locations) {
+    for (const obj of star.stellarObjects) {
+      locations.push(orbitPosition(obj, star.y));
+      if (obj instanceof Star) {
+        obj.y = locations[locations.length-1].y;
+        this.addLocations(obj, locations);
+      }
+    }
+  }
+
   travelGrid() {
-    const distances = new Array(this.primaryStar.stellarObjects.length);
-    for (const i in this.primaryStar.stellarObjects)
-      distances[i] = new Array(this.primaryStar.stellarObjects.length);
+    let totalObjects = this.countObjects(this.primaryStar);
+    const distances = new Array(totalObjects);
+    for (let i=0; i < totalObjects; i++)
+      distances[i] = new Array(totalObjects);
 
     const locations = [];
-    for (const obj of this.primaryStar.stellarObjects)
-      locations.push(orbitPosition(obj.orbit))
+    this.addLocations(this.primaryStar, locations);
 
-    for (const i in this.primaryStar.stellarObjects)
-      for (const j in this.primaryStar.stellarObjects) {
+    for (let i= 0; i < totalObjects; i++)
+      for (let j= 0; j < totalObjects; j++) {
         if (i===j)
           distances[i][j] = {
             distance: 0
@@ -347,19 +366,19 @@ class SolarSystem {
           };
       }
     let grid = '<table><thead><tr><th></th>';
-    for (const i in this.primaryStar.stellarObjects) {
-      const obj = this.primaryStar.stellarObjects[i];
-      if (obj.constructor.name !== 'TerrestrialPlanet' || obj.size !== 'S')
+    for (const i in locations) {
+      const obj = locations[i].stellarObject;
+      if ((obj.constructor.name !== 'TerrestrialPlanet' || obj.size !== 'S') && !(obj instanceof Star))
         grid += `<th>${obj.orbitSequence}</th>`;
     }
     grid += '</tr></thead><tbody>';
-    for (const i in distances) {
-      const obj = this.primaryStar.stellarObjects[i];
-      if (obj.constructor.name !== 'TerrestrialPlanet' || obj.size !== 'S') {
+    for (let i=0; i < totalObjects; i++) {
+      const obj = locations[i].stellarObject;
+      if ((obj.constructor.name !== 'TerrestrialPlanet' || obj.size !== 'S') && !(obj instanceof Star)) {
         grid += `<tr><th>${obj.orbitSequence}</th>`;
-        for (const j in distances) {
-          const target = this.primaryStar.stellarObjects[j];
-          if (target.constructor.name !== 'TerrestrialPlanet' || target.size !== 'S') {
+        for (let j=0; j < totalObjects; j++) {
+          const target = locations[j].stellarObject;
+          if ((target.constructor.name !== 'TerrestrialPlanet' || target.size !== 'S') && !(target instanceof Star)) {
             grid += '<td>';
             if (distances[i][j].distance !== 0)
               grid += travelTime(distances[i][j].distance, 4);

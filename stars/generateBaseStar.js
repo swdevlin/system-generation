@@ -75,6 +75,5 @@ const generateBaseStar = (dm, orbitType) => {
 
 };
 
-module.exports = {
-  generateBaseStar: generateBaseStar,
-};
+module.exports = generateBaseStar;
+

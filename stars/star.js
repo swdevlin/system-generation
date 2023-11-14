@@ -220,10 +220,6 @@ class Star {
   }
 
   textDump(spacing, prefix, postfix, index, starIndex) {
-    if (index === 0)
-      starIndex.push(1);
-    else
-      starIndex[starIndex.length - 1]++;
     const jumpShadow = 100 * this.diameter * SOL_DIAMETER / AU;
     this.jump = auToOrbit(jumpShadow);
     let displayedJump = false;
@@ -234,17 +230,18 @@ class Star {
     } else
       this.orbitSequence = 'A';
     if (this.stellarType === 'D')
-      s += `${prefix}White dwarf${postfix}\n`;
+      s += `${prefix}✸ White dwarf${postfix}\n`;
     else {
-      s += `${prefix}${this.stellarType}${this.subtype} ${this.stellarClass}${postfix}\n`;
+      s += `${prefix}✸ ${this.stellarType}${this.subtype} ${this.stellarClass}${postfix}\n`;
+      let index = 0;
+      let starCount = 0;
       for (const stellar of this.stellarObjects) {
         index++;
-        const newIndex = (stellar instanceof Star) ? 0 : index;
         if (stellar.orbit > this.jump && !displayedJump) {
           s += `${' '.repeat(spacing + 2)}^^^ ${jumpShadow.toFixed(2)} ^^^\n`;
           displayedJump = true;
         }
-        const dumpParams = [spacing + 2, '', '', newIndex, starIndex];
+        const dumpParams = [spacing + 2, '', '', index, starIndex];
         if (Math.abs(this.hzco - stellar.orbit) <= 0.2) {
           dumpParams[1] = '>>';
           dumpParams[2] = '<<';
@@ -252,7 +249,14 @@ class Star {
           dumpParams[1] = '>';
           dumpParams[2] = '<';
         }
+        if (stellar instanceof Star) {
+          starCount++;
+          dumpParams[3] = 0;
+          starIndex.push(starCount);
+        }
         s += stellar.textDump(...dumpParams);
+        if (stellar instanceof Star)
+          starIndex.pop();
       }
     }
     return s;
