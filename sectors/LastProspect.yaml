@@ -13,7 +13,7 @@ subsectors:
     type: LOW
     index: C
   - name: Last D
-    type: LOW
+    type: MODERATE
     index: D
   - name: Last E
     type: RIFT
@@ -22,10 +22,10 @@ subsectors:
     type: RIFT
     index: F
   - name: Last G
-    type: LOW
+    type: MODERATE
     index: G
   - name: Last H
-    type: LOW
+    type: MODERATE
     index: H
   - name: Last I
     type: RIFT_FADE
@@ -34,7 +34,7 @@ subsectors:
     type: MINIMAL
     index: J
   - name: Last K
-    type: RIFT
+    type: MINIMAL
     index: K
   - name: Last L
     type: RIFT

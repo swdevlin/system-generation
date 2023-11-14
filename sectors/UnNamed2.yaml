@@ -1,53 +1,53 @@
 name: Unnamed 2
 abbreviation: Un2
 X: -13
-Y: 2
+Y: 1
 subsectors:
   - name: Un2 A
-    type: SPARSE
+    type: LOW
     index: A
   - name: Un2 B
-    type: MINIMAL
+    type: MODERATE
     index: B
   - name: Un2 C
-    type: MINIMAL
+    type: LOW
     index: C
   - name: Un2 D
-    type: MINIMAL
+    type: MODERATE
     index: D
   - name: Un2 E
-    type: MINIMAL
+    type: MODERATE
     index: E
   - name: Un2 F
-    type: RIFT_FADE
+    type: MODERATE
     index: F
   - name: Un2 G
-    type: RIFT_FADE
+    type: MODERATE
     index: G
   - name: Un2 H
-    type: RIFT_FADE
+    type: MODERATE
     index: H
   - name: Un2 I
-    type: DEEP_RIFT
+    type: MODERATE
     index: I
   - name: Un2 J
-    type: DEEP_RIFT
+    type: MODERATE
     index: J
   - name: Un2 K
-    type: DEEP_RIFT
+    type: MODERATE
     index: K
   - name: Un2 L
-    type: DEEP_RIFT
+    type: MODERATE
     index: L
   - name: Un2 M
-    type: DEEP_RIFT
+    type: MODERATE
     index: M
   - name: Un2 N
-    type: DEEP_RIFT
+    type: MODERATE
     index: N
   - name: Un2 O
-    type: EMPTY
+    type: SPARSE
     index: O
   - name: Un2 P
-    type: EMPTY
+    type: SPARSE
     index: P
