@@ -9,19 +9,19 @@ const {
   romanNumeral
 } = require("../utils");
 const {threeD6, twoD6, d4, d6, d10, d8} = require("../dice");
-const {GasGiant} = require("../gasGiants");
+const {GasGiant, gasGiantQuantity} = require("../gasGiants");
 const {
   PlanetoidBelt,
   determineBeltComposition,
   determineBeltBulk,
   determineBeltResourceRating,
-  addSignificantBodies
+  addSignificantBodies, planetoidBeltQuantity
 } = require("../planetoidBelts");
 const {
   terrestrialWorldSize,
   TerrestrialPlanet,
   terrestrialComposition,
-  terrestrialDensity
+  terrestrialDensity, terrestrialPlanetQuantity
 } = require("../terrestrialPlanets");
 const {assignMoons} = require("../moons");
 const {Star} = require("../stars");
@@ -176,11 +176,11 @@ class SolarSystem {
     star.addStellarObject(pb);
   };
 
-  addTerrestrialPlanet(star, orbit_index, orbit) {
+  addTerrestrialPlanet({star, orbitIndex, orbit, uwp}) {
     const size = terrestrialWorldSize();
-    if (orbit_index !== null)
-      orbit = star.occupiedOrbits[orbit_index];
-    const p = new TerrestrialPlanet(size, orbit);
+    if (orbitIndex !== undefined)
+      orbit = star.occupiedOrbits[orbitIndex];
+    const p = new TerrestrialPlanet(size, orbit, uwp);
     p.composition = terrestrialComposition(star, p);
     p.density = terrestrialDensity(p.composition);
     p.eccentricity = eccentricity(0);
@@ -190,26 +190,34 @@ class SolarSystem {
     return p;
   };
 
-  addGasGiant(star, orbit_index) {
-    let roll= r.integer(1,6);
-    if (star.spread < 0.1)
-      roll -= 1;
-    if (this.primaryStar.stellarType ==='M' && this.primaryStar.stellarClass === 'V')
-      roll -= 1;
-    else if (this.primaryStar.stellarClass === 'VI')
-      roll -= 1;
-    else if (['L', 'T', 'Y'].includes(this.primaryStar.stellarType))
-      roll -= 1;
+  addGasGiant({star, orbitIndex, size}) {
+    if (!size) {
+      let roll= r.integer(1,6);
+      if (star.spread < 0.1)
+        roll -= 1;
+      if (this.primaryStar.stellarType ==='M' && this.primaryStar.stellarClass === 'V')
+        roll -= 1;
+      else if (this.primaryStar.stellarClass === 'VI')
+        roll -= 1;
+      else if (['L', 'T', 'Y'].includes(this.primaryStar.stellarType))
+        roll -= 1;
+      if (roll <= 2)
+        size = 'GS';
+      else if (roll <= 5)
+        size = 'GM';
+      else
+        size = 'GL';
+    }
     let gg;
-    if (roll <= 2)
-      gg = new GasGiant('GS', SOL_DIAMETER * (r.die(3) + r.die(3)), r.integer(2,7) * 5);
-    else if (roll < 5)
-      gg = new GasGiant('GM', SOL_DIAMETER * (d6() + 6), 20*(threeD6()-1));
+    if (size === 'GS')
+      gg = new GasGiant(size, SOL_DIAMETER * (r.die(3) + r.die(3)), r.integer(2,7) * 5);
+    else if (size === 'GM')
+      gg = new GasGiant(size, SOL_DIAMETER * (d6() + 6), 20*(threeD6()-1));
     else
-      gg = new GasGiant('GL', SOL_DIAMETER * (twoD6()+6), r.die(3)*50*(threeD6()+4));
+      gg = new GasGiant(size, SOL_DIAMETER * (twoD6()+6), r.die(3)*50*(threeD6()+4));
     if (gg.mass >= 3000)
       gg.mass = 4000-200*(twoD6()-2);
-    gg.orbit = star.occupiedOrbits[orbit_index];
+    gg.orbit = star.occupiedOrbits[orbitIndex];
     gg.eccentricity = eccentricity(0);
     gg.axialTilt = axialTilt();
     star.addStellarObject(gg);
@@ -234,7 +242,7 @@ class SolarSystem {
       if (p === undefined)
         console.log('not enough orbits');
       else
-        this.addGasGiant(p[0], p[1]);
+        this.addGasGiant({star: p[0], orbitIndex: p[1]});
     }
 
     for (let i=0; i < this.planetoidBelts; i++) {
@@ -250,7 +258,7 @@ class SolarSystem {
       if (p === undefined)
         console.log('not enough orbits');
       else
-        this.addTerrestrialPlanet(p[0], p[1]);
+        this.addTerrestrialPlanet({star: p[0], orbitIndex: p[1]});
     }
 
     this.remainingOrbits = allOrbits;
@@ -265,9 +273,11 @@ class SolarSystem {
     for (const star of this.stars)
       for (const stellarObject of star.stellarObjects)
         if ([ORBIT_TYPES.TERRESTRIAL, ORBIT_TYPES.PLANETOID_BELT_OBJECT].includes(stellarObject.orbitType)) {
-          stellarObject.atmosphere = determineAtmosphere(star, stellarObject);
+          if (stellarObject.atmosphere.code === null)
+            stellarObject.atmosphere = determineAtmosphere(star, stellarObject);
           stellarObject.meanTemperature = meanTemperature(star, stellarObject);
-          stellarObject.hydrographics = determineHydrographics(star, stellarObject);
+          if (stellarObject.hydrographics.code === null)
+            stellarObject.hydrographics = determineHydrographics(star, stellarObject);
           for (const moon of stellarObject.moons)
             moon.atmosphere = determineMoonAtmosphere(star, stellarObject, moon);
         }
@@ -306,7 +316,7 @@ class SolarSystem {
       [star, orbit] = this.randomStarAndOrbit();
       const roll = twoD6();
       if (roll < 12) {
-        const p = this.addTerrestrialPlanet(star, null, orbit);
+        const p = this.addTerrestrialPlanet({star: star, orbit: orbit});
         if (roll === 8)
           p.eccentricity = eccentricity(5);
         else
@@ -319,7 +329,7 @@ class SolarSystem {
           p.retrograde = true;
       } else {
         [star, original] = this.randomPlanet();
-        const p = this.addTerrestrialPlanet(star, null, original.orbit);
+        const p = this.addTerrestrialPlanet({star: star, orbit: original.orbit});
         const trojan = p.diameter > original.diameter ? original : p;
         trojan.trojanOffset = r.pick([-1, 1]) * 60;
       }
@@ -391,6 +401,26 @@ class SolarSystem {
     grid += '</tbody></table>';
     return grid;
   }
+
+  preassignedBody({star, body, orbitIndex}) {
+    if (body.uwp.includes('000000')) {
+      this.addPlanetoidBelt(star, orbitIndex);
+      this.planetoidBelts++;
+    } else if (body.uwp === 'Small Gas Giant') {
+      this.gasGiants++;
+      this.addGasGiant({star: star, orbitIndex: orbitIndex, size: 'GS'});
+    } else if (body.uwp === 'Gas Giant') {
+      this.gasGiants++;
+      this.addGasGiant({star: star, orbitIndex: orbitIndex, size: 'GM'});
+    } else if (body.uwp === 'Large Gas Giant') {
+      this.gasGiants++;
+      this.addGasGiant({star: star, orbitIndex: orbitIndex, size: 'GL'});
+    } else {
+      this.addTerrestrialPlanet({star: star, orbitIndex: orbitIndex, uwp: body.uwp})
+      this.terrestrialPlanets++;
+    }
+  }
+
 }
 
 module.exports = SolarSystem;

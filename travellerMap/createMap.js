@@ -10,8 +10,8 @@ async function createMap(systems, meta, mapDir, sectorName) {
       data: systems,
       metadata: meta,
       accept: 'image/svg+xml',
-      style: 'atlas',
-      options: 8395
+      style: 'print',
+      options: 8435
     })
   });
   const blob = await response.text();

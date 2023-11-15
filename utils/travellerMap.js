@@ -7,6 +7,7 @@ class TravellerMap {
     this.Y = 0;
     this.subSectors = {};
     this.abbreviation = '';
+    this.regions = []
   }
 
   sep = '\t';
@@ -50,9 +51,23 @@ class TravellerMap {
      </Allegiances>
     <Borders>
     </Borders>
+    ${this.regionDump()}
     <Routes>
     </Routes>
   </Sector>`
+  }
+
+  regionDump() {
+    if (this.regions.length === 0)
+      return '';
+    let xml = '<Regions>\n'
+    for (const region of this.regions) {
+      xml += `<Region Color="${region.Color}" LabelPosition="${region.LabelPosition}" Label="${region.Label}">`;
+      xml += region.parsecs.join(' ');
+      xml += '</Region>\n'
+    }
+    xml += '</Regions>\n';
+    return xml;
   }
 
   addSystem(solarSystem) {

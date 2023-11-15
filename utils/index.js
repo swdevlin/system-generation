@@ -50,14 +50,27 @@ const toHex = (v) => {
     return 'G';
   if (v === 17)
     return 'H';
-  return v;
+  return v.toString();
 }
 
 const hexToInt = (v) => {
   if (v >= 'A')
     return v.charCodeAt(0) - 55;
   else
-    return v;
+    return parseInt(v);
+}
+
+const deconstructUWP = (uwp) => {
+  return {
+    starPort: uwp[0],
+    size: hexToInt(uwp[1]),
+    atmosphere: hexToInt(uwp[2]),
+    hydrographics: hexToInt(uwp[3]),
+    population: hexToInt(uwp[4]),
+    government: hexToInt(uwp[5]),
+    lawLevel: hexToInt(uwp[6]),
+    techLevel: hexToInt(uwp[8]),
+  }
 }
 
 const isHotter = (starA, starB) => {
@@ -159,6 +172,8 @@ const sequenceIdentifier = (index, starIndex) => {
 }
 
 const orbitText = (orbit, index, starIndex) => {
+  if (!orbit)
+    index = index;
   if (index)
     return `${orbitToAU(orbit).toFixed(2)} (${orbit.toFixed(2)}) ${sequenceIdentifier(index, starIndex)}`;
   else
@@ -196,6 +211,7 @@ module.exports = {
   romanNumeral: romanNumeral,
   sequenceIdentifier: sequenceIdentifier,
   starIdentifier: starIdentifier,
+  deconstructUWP: deconstructUWP,
 };
 
 

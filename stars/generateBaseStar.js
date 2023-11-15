@@ -2,6 +2,7 @@ const {twoD6} = require("../dice");
 const stellarTypeLookup = require("./stellarTypeLookup");
 const subtypeLookup = require("./subtypeLookup");
 const Star = require("./star");
+const giantsLookup = require("./giantsLookup");
 
 const hotLookup = (dm, stellarClass) => {
   const roll = twoD6() + dm;
@@ -14,20 +15,6 @@ const hotLookup = (dm, stellarClass) => {
       return 'B';
     else
       return 'O';
-}
-
-const giantsLookup = (dm) => {
-  const roll = twoD6() + dm;
-  let stellarClass;
-  if (roll <= 8)
-    stellarClass = 'III';
-  else if (roll <= 10)
-    stellarClass = 'II';
-  else if (roll <= 11)
-    stellarClass = 'Ib';
-  else
-    stellarClass = 'Ia';
-  return stellarClass;
 }
 
 const specialLookup = (dm) => {
@@ -57,9 +44,13 @@ const specialLookup = (dm) => {
   };
 }
 
-const generateBaseStar = (dm, orbitType) => {
-  let stellarClass = '';
-  let stellarType = stellarTypeLookup(0);
+const generateBaseStar = ({dm, orbitType, stellarClass, stellarType, subtype}) => {
+  if (!stellarClass)
+    stellarClass = '';
+
+  if (!stellarType)
+    stellarType = stellarTypeLookup(0);
+
   if (stellarType === 'Special') {
     const s= specialLookup(0);
     stellarClass = s.stellarClass;
@@ -68,11 +59,14 @@ const generateBaseStar = (dm, orbitType) => {
     stellarType = hotLookup(0);
     stellarClass = 'V';
   } else {
-    stellarClass = 'V';
+    if (!stellarClass)
+      stellarClass = 'V';
   }
-  const subtype = subtypeLookup(true, stellarType, stellarClass);
-  return new Star(stellarClass, stellarType, subtype, orbitType);
 
+  if (!subtype)
+    subtype = subtypeLookup(true, stellarType, stellarClass);
+
+  return new Star(stellarClass, stellarType, subtype, orbitType);
 };
 
 module.exports = generateBaseStar;

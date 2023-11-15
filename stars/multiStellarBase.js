@@ -58,7 +58,7 @@ const multiStellarBase = (primary, orbitType) => {
     stellarType = secondaryType(dm);
 
   if (stellarType === 'Random') {
-    star = generateBaseStar(0, orbitType);
+    star = generateBaseStar({dm: 0, orbitType: orbitType});
     if (isHotter(star, primary))
       stellarType = 'Lesser';
   }

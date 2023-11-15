@@ -27,6 +27,24 @@ subsectors:
   - name: Deepn H
     type: SPARSE
     index: H
+    required:
+      - x: 6
+        y: 4
+        star:
+          type: K5
+          class: Giant
+        name: HNP-A
+        bodies:
+          - empty
+          - empty
+          - empty
+          - empty
+          - empty
+          - empty
+          - uwp: X000000-0
+          - uwp: X521000-0
+            habitable: outer
+          - uwp: Small Gas Giant
   - name: Deepn I
     type: SPARSE
     index: I
@@ -51,3 +69,25 @@ subsectors:
   - name: Deepn P
     type: MINIMAL
     index: P
+regions:
+  - Color: DarkBlue
+    LabelPosition: 3014
+    Label: Hennlix Nebula
+    parsecs:
+      - 2614
+      - 2715
+      - 2814
+      - 2915
+      - 3014
+      - 3114
+      - 3214
+      - 3215
+      - 3216
+      - 3116
+      - 3016
+      - 2917
+      - 2816
+      - 2716
+      - 2616
+      - 2615
+      - 2614

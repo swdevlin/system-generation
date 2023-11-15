@@ -6,6 +6,26 @@ subsectors:
   - name: NSoY A
     type: SPARSE
     index: A
+    required:
+      - x: 5
+        y: 7
+        star: K3
+        name: NSY-X AL-Alpha
+        bodies:
+          - uwp: Small Gas Giant
+          - uwp: Large Gas Giant
+          - uwp: X8B7000-0
+          - uwp: Super-earth
+          - uwp: X111000-0
+          - uwp: Large Gas Giant
+          - uwp: X000000-0
+          - uwp: X000000-0
+          - uwp: X610000-0
+          - uwp: Small Gas Giant
+          - uwp: X000000-0
+          - uwp: Small Gas Giant
+          - uwp: Large Gas Giant
+          - uwp: X000000-0
   - name: NSoY B
     type: SPARSE
     index: B

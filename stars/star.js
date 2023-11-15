@@ -301,6 +301,7 @@ class Star {
     lines.push('</ul>');
     return lines;
   }
+
 }
 
 module.exports = Star;

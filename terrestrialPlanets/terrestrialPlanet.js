@@ -1,9 +1,10 @@
-const {ORBIT_TYPES, toHex, orbitText, sequenceIdentifier} = require("../utils");
+const {ORBIT_TYPES, toHex, orbitText, sequenceIdentifier, deconstructUWP} = require("../utils");
 const {moonTextDump, moonHTMLDump} = require("../moons");
 
 class TerrestrialPlanet {
-  constructor(size, orbit) {
-    this.size = size;
+  constructor(size, orbit, uwp) {
+    const components = uwp ? deconstructUWP(uwp) : null;
+    this.size = components ? components.size : size;
     this.orbit = orbit;
     this.period = 0;
     this.composition = '';
@@ -15,11 +16,20 @@ class TerrestrialPlanet {
     this.moons = [];
     this.hasRing = false;
     this.orbitType = ORBIT_TYPES.TERRESTRIAL;
-    this.atmosphere = {code: 0, irritant: false, characteristic: ''};
-    this.hydrographics = {code: 0};
-    this.populationCode = 0;
-    this.governmentCode = 0;
-    this.lawLevelCode = 0;
+    this.atmosphere = {
+      code: components ? components.atmosphere : null,
+      irritant: false,
+      characteristic: ''
+    };
+    this.hydrographics = {
+      code: components ? components.hydrographics : null,
+      distribution: null
+    };
+    this.populationCode = components ? components.population : 0;
+    this.governmentCode = components ? components.government : 0;
+    this.lawLevelCode = components ? components.lawLevel : 0;
+    this.starPort = components ? components.starPort : 'X';
+    this.techLevel = components ? components.techLevel : 0;
     this.albedo = 0;
   }
 
