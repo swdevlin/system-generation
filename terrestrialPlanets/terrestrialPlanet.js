@@ -33,6 +33,10 @@ class TerrestrialPlanet {
     this.albedo = 0;
   }
 
+  get uwp() {
+    return `${this.starPort}${toHex(this.size)}${toHex(this.atmosphere.code)}${toHex(this.hydrographics.code)}${toHex(this.populationCode)}${toHex(this.governmentCode)}${toHex(this.lawLevelCode)}-${this.techLevel}`;
+  }
+
   get diameter() {
     if (this.size === 0)
       return 0;

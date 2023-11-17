@@ -2,6 +2,7 @@
 class TravellerMap {
   constructor(sectorName) {
     this.systems = [];
+    this.refereeSystems = [];
     this.sectorName = sectorName;
     this.X = 0;
     this.Y = 0;
@@ -12,9 +13,12 @@ class TravellerMap {
 
   sep = '\t';
 
-  systemDump() {
+  systemDump(referee) {
     let output = 'Hex\tName\tUWP\tBases\tRemarks\tZone\tPBG\tAllegiance\tStars\t{Ix}\t(Ex)\t[Cx]\tNobility\tW\n';
-    output += this.systems.join('\n');
+    if (referee)
+      output += this.refereeSystems.join('\n');
+    else
+      output += this.systems.join('\n');
     return output;
   }
 
@@ -74,11 +78,11 @@ class TravellerMap {
     // hex
     let line = solarSystem.coordinates + this.sep;
     // name
-    line += this.sep;
+    line += solarSystem.name + this.sep;
     // uwp
     line += '???????-?' + this.sep;
     // bases
-    line += this.sep;
+    line += solarSystem.bases + this.sep;
     // remarks
     line += this.sep;
     // zone
@@ -104,6 +108,9 @@ class TravellerMap {
     // worlds
     line += solarSystem.terrestrialPlanets;
     this.systems.push(line);
+    const mw = solarSystem.mainWorld;
+    line = line.replace('???????-?', mw.uwp);
+    this.refereeSystems.push(line);
   }
 
 }

@@ -4,8 +4,7 @@ const {
   SOL_DIAMETER,
   eccentricity,
   determineHydrographics,
-  determineAtmosphere,
-  determineMoonAtmosphere, meanTemperature, axialTilt, calculateAlbedo, orbitPosition, AU, calculateDistance, travelTime,
+  meanTemperature, axialTilt, calculateAlbedo, orbitPosition, AU, calculateDistance, travelTime,
   romanNumeral
 } = require("../utils");
 const {threeD6, twoD6, d4, d6, d10, d8} = require("../dice");
@@ -24,7 +23,8 @@ const {
   terrestrialDensity, terrestrialPlanetQuantity
 } = require("../terrestrialPlanets");
 const {assignMoons} = require("../moons");
-const {Star} = require("../stars");
+const {Star, addCompanion} = require("../stars");
+const {determineMoonAtmosphere} = require("../atmosphere");
 
 const Random = require("random-js").Random;
 const r = new Random();
@@ -38,8 +38,10 @@ class SolarSystem {
     this.sector = null;
     this.coordinates = null;
     this.remainingOrbits = [];
-    this.name = name;
+    this.name = name ? name : '';
     this.scanPoints = 0;
+    this._mainWorld = null;
+    this.bases = '';
   }
 
   calculateScanPoints() {
@@ -416,11 +418,34 @@ class SolarSystem {
       this.gasGiants++;
       this.addGasGiant({star: star, orbitIndex: orbitIndex, size: 'GL'});
     } else {
-      this.addTerrestrialPlanet({star: star, orbitIndex: orbitIndex, uwp: body.uwp})
+      this.addTerrestrialPlanet({star: star, orbitIndex: orbitIndex, uwp: body.uwp});
       this.terrestrialPlanets++;
     }
   }
 
+  getPossibleMainWorlds(star, possibleMainWorlds) {
+    for (const stellarObject of star.stellarObjects)
+      if (stellarObject instanceof Star)
+        this.getPossibleMainWorlds(stellarObject, possibleMainWorlds);
+      else if (!(stellarObject instanceof GasGiant))
+        possibleMainWorlds.push([Math.abs(star.hzco - stellarObject.orbit), stellarObject])
+  }
+
+  get mainWorld() {
+    if (this._mainWorld)
+      return this._mainWorld;
+    const possibleMainWorlds = [];
+    for (const star of this.stars)
+      this.getPossibleMainWorlds(star, possibleMainWorlds)
+    possibleMainWorlds.sort((a,b) => {
+      if (Math.abs(a[0] - b[0]) > 0.1)
+        return a[0] - b[0];
+
+      return b[1].populationCode - a[1].populationCode;
+    });
+    this._mainWorld = possibleMainWorlds[0][1];
+    return this._mainWorld;
+  }
 }
 
 module.exports = SolarSystem;

@@ -7,7 +7,7 @@ const {gasGiantQuantity} = require("./gasGiants");
 const {planetoidBeltQuantity} = require("./planetoidBelts");
 const {terrestrialPlanetQuantity} = require("./terrestrialPlanets");
 const {calculatePeriod, companionOrbit, additionalStarDM, ORBIT_TYPES} = require("./utils");
-const {generateStar} = require("./stars");
+const {generateStar, addCompanion, generateCloseCompanion, generateNearCompanion, generateFarCompanion} = require("./stars");
 const {SolarSystem} = require("./solarSystems");
 const {createMap} = require("./travellerMap");
 const TravellerMap = require("./utils/travellerMap");
@@ -85,12 +85,6 @@ const companionDM = (star) => {
   return dm;
 }
 
-const addCompanion = (star) => {
-  star.companion = generateStar(star, 0, ORBIT_TYPES.COMPANION);
-  star.companion.orbit = companionOrbit();
-  star.companion.period = calculatePeriod(star.companion, star);
-}
-
 const COL_OFFSETS = [24, 0, 8, 16];
 const ROW_OFFSETS = [0, 0, 10, 20, 30];
 
@@ -120,26 +114,49 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap, sc
       }
       if (r.bool(chance)) {
         let star;
-        const systemName = (defined && defined.name) ? defined.name : `${sector.name} ${coordinate(row, col)}`;
+        const systemName = (defined && defined.name) ? defined.name : `${coordinate(row, col)}`;
         const solarSystem = new SolarSystem(systemName);
         solarSystem.sector = sector.name;
         solarSystem.coordinates = coordinate(row+rowOffset, col+colOffset);
+        solarSystem.name = `${solarSystem.coordinates}`
         if (defined) {
-          const tokens = defined.star.type.split('');
-          let stellarClass = null;
-          if (defined.star.class)
-            if (defined.star.class === 'Giant')
-              stellarClass = giantsLookup(0);
-            else
-              stellarClass = defined.star.class;
-          const star = generateBaseStar({
-            dm: 0,
-            orbitType: ORBIT_TYPES.PRIMARY,
-            stellarType: tokens[0],
-            stellarClass: stellarClass,
-            subtype: parseInt(tokens[1]) }
-          );
-          solarSystem.addPrimary(star);
+          if (defined && defined.name)
+            solarSystem.name = defined.name;
+          if (defined.star) {
+            const tokens = defined.star.type.split('');
+            let stellarClass = null;
+            if (defined.star.class)
+              if (defined.star.class === 'Giant')
+                stellarClass = giantsLookup(0);
+              else
+                stellarClass = defined.star.class;
+            const star = generateBaseStar({
+                dm: 0,
+                orbitType: ORBIT_TYPES.PRIMARY,
+                stellarType: tokens[0],
+                stellarClass: stellarClass,
+                subtype: parseInt(tokens[1])
+              }
+            );
+            if (defined.star.companion)
+              addCompanion(star);
+            solarSystem.addPrimary(star);
+            if (defined.star.secondaries)
+              for (const secondary of defined.star.secondaries) {
+                let companion;
+                if (secondary.near)
+                  companion = generatenearCompanion(star);
+                else if (secondary.far)
+                  companion = generateFarCompanion(star);
+                if (secondary.close)
+                  companion = generateCloseCompanion(star);
+                if (companion)
+                  solarSystem.addStar(companion);
+              }
+          } else
+            solarSystem.addPrimary(generateStar(null, 0, ORBIT_TYPES.PRIMARY));
+          if (defined.bases)
+            solarSystem.bases = defined.bases;
         } else
           solarSystem.addPrimary(generateStar(null, 0, ORBIT_TYPES.PRIMARY));
         const primary = solarSystem.primaryStar;
@@ -147,34 +164,24 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap, sc
           let dm = additionalStarDM(primary);
           if (twoD6() + dm >= 10) {
             star = generateStar(primary, 0, ORBIT_TYPES.COMPANION);
-            primary.companion = star;
             star.orbit = d6() / 10 + (twoD6() - 7) / 100;
             star.period = calculatePeriod(star, primary);
+            primary.companion = star;
           }
           if (twoD6() + dm >= 10) {
-            star = generateStar(primary, 0, ORBIT_TYPES.CLOSE);
-            star.orbit = d6() - 1;
-            if (star.orbit === 0)
-              star.orbit = 0.5;
-            else
-              star.orbit += r.integer(0, 9) / 10 - 0.5;
-            star.period = calculatePeriod(star, primary);
+            star = generateCloseCompanion(primary);
             if (twoD6() + companionDM(star) >= 10)
               addCompanion(star);
             solarSystem.addStar(star);
           }
           if (twoD6() + dm >= 10) {
-            star = generateStar(primary, 0, ORBIT_TYPES.NEAR);
-            star.orbit = d6() + 5 + r.integer(0, 9) / 10 - 0.5;
-            star.period = calculatePeriod(star, primary);
+            star = generateNearCompanion(primary);
             if (twoD6() + companionDM(star) >= 10)
               addCompanion(star);
             solarSystem.addStar(star);
           }
           if (twoD6() + dm >= 10) {
-            star = generateStar(primary, 0, ORBIT_TYPES.FAR);
-            star.orbit = d6() + 11 + r.integer(0, 9) / 10 - 0.5;
-            star.period = calculatePeriod(star, primary);
+            star = generateFarCompanion(primary);
             if (twoD6() + companionDM(star) >= 10)
               addCompanion(star);
             solarSystem.addStar(star);
@@ -245,6 +252,10 @@ commander
   if (!fs.existsSync(mapDir))
     fs.mkdirSync(mapDir, { recursive: true });
 
+  const refereeMapDir = `${options.output}/referee-maps`;
+  if (!fs.existsSync(refereeMapDir))
+    fs.mkdirSync(refereeMapDir, { recursive: true });
+
   const outputDir = `${options.output}/${sector.name}`;
   if (!fs.existsSync(outputDir))
     fs.mkdirSync(outputDir, { recursive: true });
@@ -263,9 +274,23 @@ commander
     generateSubsector(outputDir, sector, subsector, index, travellerMap, scanPoints);
   }
   fs.writeFileSync(`${outputDir}/systems.csv`, travellerMap.systemDump());
+  fs.writeFileSync(`${outputDir}/referee-systems.csv`, travellerMap.systemDump(true));
   fs.writeFileSync(`${outputDir}/meta.xml`, travellerMap.metaDataDump());
   fs.writeFileSync(`${outputDir}/scanPoints.csv`, scanPoints.join('\n'));
-  await createMap(travellerMap.systemDump(), travellerMap.metaDataDump(), mapDir, sector.name);
+  await createMap({
+    systems: travellerMap.systemDump(true),
+    meta: travellerMap.metaDataDump(),
+    mapDir: refereeMapDir,
+    sectorName: sector.name,
+    forReferee: true
+  });
+  await createMap({
+    systems: travellerMap.systemDump(),
+    meta: travellerMap.metaDataDump(),
+    mapDir: mapDir,
+    sectorName: sector.name,
+    forReferee: false
+  });
   console.log('done');
 })()
 .then(() => process.exit(0))

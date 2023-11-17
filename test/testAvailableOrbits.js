@@ -1,13 +1,13 @@
 "use strict";
 
 const chai = require('chai');
-const Star = require("../star");
-const SolarSystem = require("../solarSystem");
 const {ORBIT_TYPES} = require("../utils");
 const Random = require("random-js").Random;
 
 const r = new Random();
 const {d6} = require("../dice");
+const {Star} = require("../stars");
+const {SolarSystem} = require("../solarSystems");
 
 chai.should();
 

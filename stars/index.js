@@ -152,3 +152,7 @@ module.exports.starEccentricity = require("./starEccentricity");
 module.exports.generateStar = require("./generateStar");
 module.exports.stellarTypeLookup = require("./stellarTypeLookup");
 module.exports.subtypeLookup = require("./subtypeLookup");
+module.exports.addCompanion = require("./addCompanion");
+module.exports.generateCloseCompanion = require("./generateCloseCompanion");
+module.exports.generateNearCompanion = require("./generateNearCompanion");
+module.exports.generateFarCompanion = require("./generateFarCompanion");

@@ -1,4 +1,4 @@
-const {ORBIT_TYPES, orbitText, sequenceIdentifier} = require("../utils");
+const {ORBIT_TYPES, orbitText, sequenceIdentifier, toHex} = require("../utils");
 
 class PlanetoidBelt {
   constructor(orbit) {
@@ -13,6 +13,21 @@ class PlanetoidBelt {
     this.bulk = null;
     this.resourceRating = null;
     this.significantBodies = [];
+    this.atmosphere = {
+      code: 0,
+      irritant: false,
+      characteristic: ''
+    };
+    this.hydrographics = {
+      code: 0,
+      distribution: null
+    };
+    this.populationCode = 0;
+    this.governmentCode = 0;
+    this.lawLevelCode = 0;
+    this.starPort = 'X';
+    this.techLevel = 0;
+    this.size = 0;
   }
 
   textDump(spacing, prefix, postfix, index, starIndex) {
@@ -26,6 +41,11 @@ class PlanetoidBelt {
 
     return [`<li class="planetoid ${additionalClass}"><span class="orbit">${orbitText(this.orbit)}</span>X000000 Planetoid belt</li>`];
   }
+
+  get uwp() {
+    return `${this.starPort}${toHex(this.size)}${toHex(this.atmosphere.code)}${toHex(this.hydrographics.code)}${toHex(this.populationCode)}${toHex(this.governmentCode)}${toHex(this.lawLevelCode)}-${this.techLevel}`;
+  }
+
 }
 
 module.exports = PlanetoidBelt;

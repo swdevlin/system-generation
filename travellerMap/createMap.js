@@ -1,6 +1,7 @@
 const {writeFileSync} = require("fs");
 
-async function createMap(systems, meta, mapDir, sectorName) {
+async function createMap({systems, meta, mapDir, sectorName, forReferee}) {
+  const options = forReferee ? 49159 : 8435;
   const response = await fetch('https://travellermap.com/api/poster', {
     method: 'POST',
     headers: {
@@ -11,7 +12,7 @@ async function createMap(systems, meta, mapDir, sectorName) {
       metadata: meta,
       accept: 'image/svg+xml',
       style: 'print',
-      options: 8435
+      options: options
     })
   });
   const blob = await response.text();

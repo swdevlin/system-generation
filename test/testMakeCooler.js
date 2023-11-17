@@ -1,11 +1,10 @@
 "use strict";
 
 const chai = require('chai');
-const Star = require("../star");
-const SolarSystem = require("../solarSystem");
 const {ORBIT_TYPES} = require("../utils");
-const makeCooler = require("../makeCooler");
 const {ROLL_CACHE} = require("../dice");
+const {Star} = require("../stars");
+const makeCooler = require("../stars/makeCooler");
 
 chai.should();
 

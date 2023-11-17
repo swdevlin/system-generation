@@ -73,22 +73,23 @@ subsectors:
         y: 2
       - x: 7
         y: 4
+        star:
+          type: F7
+          companion: K2
+          secondaries:
+            - far: G2
         name: Demnan
-        bases: Scout, Navy
-        gasgiant: 1
+        bases: SN
         uwp: E567000-0
-        stellarObjects:
-          - star: F7
-            stellarObjects:
-            - companion: K2
-            - terrestrial:
-            - gasgiant: large
-            - belt: large
-            - terrestrial: E567000-0
-            - gasgiant: large
-            - terrestrial:
-            - gasgiant: small
-          - star: G2
+        bodies:
+          - uwp: terrestrial
+          - uwp: Large Gas Giant
+          - uwp: X000000-0
+          - uwp: E567000-0
+          - uwp: X000000-0
+          - uwp: Large Gas Giant
+          - uwp: terrestrial
+          - uwp: Small Gas Giant
   - name: IC M
     type: RIFT
     index: M
