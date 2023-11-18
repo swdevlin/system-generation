@@ -242,25 +242,28 @@ class SolarSystem {
 
     for (let i=0; i < this.gasGiants; i++) {
       const p = allOrbits.pop();
-      if (p === undefined)
+      if (p === undefined) {
         console.log('not enough orbits');
-      else
+        break;
+      } else
         this.addGasGiant({star: p[0], orbitIndex: p[1]});
     }
 
     for (let i=0; i < this.planetoidBelts; i++) {
       const p = allOrbits.pop();
-      if (p === undefined)
+      if (p === undefined) {
         console.log('not enough orbits');
-      else
+        break;
+      } else
         this.addPlanetoidBelt(p[0], p[1]);
     }
 
     for (let i=0; i < this.terrestrialPlanets; i++) {
       const p = allOrbits.pop();
-      if (p === undefined)
+      if (p === undefined) {
         console.log('not enough orbits');
-      else
+        break;
+      } else
         this.addTerrestrialPlanet({star: p[0], orbitIndex: p[1]});
     }
 
@@ -425,6 +428,9 @@ class SolarSystem {
         uwp: body.uwp,
         size: superEarthWorldSize()
       });
+      this.terrestrialPlanets++;
+    } else if (body.uwp === 'terrestrial') {
+      this.addTerrestrialPlanet({star: star, orbitIndex: orbitIndex,});
       this.terrestrialPlanets++;
     } else {
       this.addTerrestrialPlanet({star: star, orbitIndex: orbitIndex, uwp: body.uwp});
