@@ -14,3 +14,4 @@ module.exports.terrestrialComposition = require('./terrestrialComposition').terr
 module.exports.terrestrialDensity = require('./terrestrialComposition').terrestrialDensity;
 module.exports.TerrestrialPlanet = require('./TerrestrialPlanet');
 module.exports.terrestrialWorldSize = require('./terrestrialWorldSize');
+module.exports.superEarthWorldSize = require('./superEarthWorldSize');

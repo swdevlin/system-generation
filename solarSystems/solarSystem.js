@@ -20,7 +20,7 @@ const {
   terrestrialWorldSize,
   TerrestrialPlanet,
   terrestrialComposition,
-  terrestrialDensity, terrestrialPlanetQuantity
+  terrestrialDensity, terrestrialPlanetQuantity, superEarthWorldSize
 } = require("../terrestrialPlanets");
 const {assignMoons} = require("../moons");
 const {Star, addCompanion} = require("../stars");
@@ -178,8 +178,9 @@ class SolarSystem {
     star.addStellarObject(pb);
   };
 
-  addTerrestrialPlanet({star, orbitIndex, orbit, uwp}) {
-    const size = terrestrialWorldSize();
+  addTerrestrialPlanet({star, orbitIndex, orbit, size, uwp}) {
+    if (!size)
+      size = terrestrialWorldSize();
     if (orbitIndex !== undefined)
       orbit = star.occupiedOrbits[orbitIndex];
     const p = new TerrestrialPlanet(size, orbit, uwp);
@@ -417,6 +418,14 @@ class SolarSystem {
     } else if (body.uwp === 'Large Gas Giant') {
       this.gasGiants++;
       this.addGasGiant({star: star, orbitIndex: orbitIndex, size: 'GL'});
+    } else if (body.uwp === 'Super-Earth') {
+      this.addTerrestrialPlanet({
+        star: star,
+        orbitIndex: orbitIndex,
+        uwp: body.uwp,
+        size: superEarthWorldSize()
+      });
+      this.terrestrialPlanets++;
     } else {
       this.addTerrestrialPlanet({star: star, orbitIndex: orbitIndex, uwp: body.uwp});
       this.terrestrialPlanets++;

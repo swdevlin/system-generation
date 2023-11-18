@@ -10,7 +10,7 @@ const terrestrialWorldSize = () => {
       return d6() + d6();
     case 5:
     case 6:
-      return d6() + d6()+3;
+      return d6() + d6() + 3;
   }
 }
 

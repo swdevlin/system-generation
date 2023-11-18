@@ -9,13 +9,14 @@ subsectors:
     required:
       - x: 5
         y: 7
-        star: K3
+        star:
+          type: K3
         name: NSY-X AL-Alpha
         bodies:
           - uwp: Small Gas Giant
           - uwp: Large Gas Giant
           - uwp: X8B7000-0
-          - uwp: Super-earth
+          - uwp: Super-Earth
           - uwp: X111000-0
           - uwp: Large Gas Giant
           - uwp: X000000-0
