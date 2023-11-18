@@ -10,8 +10,8 @@ const terrestrialPlanetQuantity = (solarSystem) => {
 }
 
 module.exports.terrestrialPlanetQuantity = terrestrialPlanetQuantity;
-module.exports.terrestrialComposition = require('./terrestrialComposition').terrestrialComposition;
-module.exports.terrestrialDensity = require('./terrestrialComposition').terrestrialDensity;
+module.exports.terrestrialComposition = require('./terrestrialComposition');
+module.exports.terrestrialDensity = require('./terrestrialDensity');
 module.exports.TerrestrialPlanet = require('./TerrestrialPlanet');
 module.exports.terrestrialWorldSize = require('./terrestrialWorldSize');
 module.exports.superEarthWorldSize = require('./superEarthWorldSize');
