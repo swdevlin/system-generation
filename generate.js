@@ -120,8 +120,10 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap, sc
         solarSystem.coordinates = coordinate(row+rowOffset, col+colOffset);
         solarSystem.name = `${solarSystem.coordinates}`
         if (defined) {
-          if (defined && defined.name)
+          if (defined.name)
             solarSystem.name = defined.name;
+          if (defined.remarks)
+            solarSystem.remarks = defined.remarks;
           if (defined.star) {
             const tokens = defined.star.type.split('');
             let stellarClass = null;

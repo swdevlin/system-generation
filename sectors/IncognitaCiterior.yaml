@@ -61,6 +61,7 @@ subsectors:
         name: Garva-411
         gasgiant: 1
         uwp: X310000-0
+        remarks: "{Anomaly}"
         stellarObjects:
           - star: Neutron Star
             stellarObjects:

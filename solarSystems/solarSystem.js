@@ -42,6 +42,7 @@ class SolarSystem {
     this.scanPoints = 0;
     this._mainWorld = null;
     this.bases = '';
+    this.remarks = '';
   }
 
   calculateScanPoints() {
@@ -446,6 +447,16 @@ class SolarSystem {
         possibleMainWorlds.push([Math.abs(star.hzco - stellarObject.orbit), stellarObject])
   }
 
+  getPossibleGGMainWorlds(star, possibleMainWorlds) {
+    for (const stellarObject of star.stellarObjects)
+      if (stellarObject instanceof Star)
+        this.getPossibleGGMainWorlds(stellarObject, possibleMainWorlds);
+      else if (stellarObject instanceof GasGiant)
+        for (const moon of stellarObject.moons)
+          if (moon.size != 'S')
+            possibleMainWorlds.push([Math.abs(star.hzco - stellarObject.orbit), moon])
+  }
+
   get mainWorld() {
     if (this._mainWorld)
       return this._mainWorld;
@@ -458,6 +469,18 @@ class SolarSystem {
 
       return b[1].populationCode - a[1].populationCode;
     });
+    if (possibleMainWorlds.length === 0) {
+      console.log('Only gas giants. Checking for moons.')
+      for (const star of this.stars)
+        this.getPossibleGGMainWorlds(star, possibleMainWorlds);
+      possibleMainWorlds.sort((a,b) => {
+        if (Math.abs(a[0] - b[0]) > 0.1)
+          return a[0] - b[0];
+
+        return b[1].size - a[1].size;
+      });
+    }
+
     this._mainWorld = possibleMainWorlds[0][1];
     return this._mainWorld;
   }

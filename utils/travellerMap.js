@@ -84,7 +84,7 @@ class TravellerMap {
     // bases
     line += solarSystem.bases + this.sep;
     // remarks
-    line += this.sep;
+    line += solarSystem.remarks + this.sep;
     // zone
     line += '-' + this.sep;
     // PBG
@@ -94,7 +94,7 @@ class TravellerMap {
     // Stars
     let stars = ''
     for (const star of solarSystem.stars) {
-      stars += `${star.stellarType}${star.subtype} ${star.stellarClass} `
+      stars += `${star.stellarType}${star.subtype? star.subtype : ''} ${star.stellarClass} `
     }
     line += stars + this.sep;
     // importance
