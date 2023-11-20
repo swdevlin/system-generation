@@ -1,4 +1,5 @@
-const {twoD6} = require("../dice");
+const {Random} = require("random-js");
+const r = new Random();
 
 const TERRESTRIAL_DENSITY = {
   'Exotic Ice': 0.03,
@@ -10,10 +11,9 @@ const TERRESTRIAL_DENSITY = {
 } ;
 
 const terrestrialDensity = (composition) => {
-  const roll = twoD6();
   let base = TERRESTRIAL_DENSITY[composition];
   const step = (composition === 'Compressed Metal') ? 0.05 : 0.03;
-  return base + step * (roll -2);
+  return base + r.real(-1* step, step);
 };
 
 module.exports =  terrestrialDensity;
