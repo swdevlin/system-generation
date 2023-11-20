@@ -75,12 +75,17 @@ class TravellerMap {
   }
 
   addSystem(solarSystem) {
+    const mw = solarSystem.mainWorld;
+
     // hex
     let line = solarSystem.coordinates + this.sep;
     // name
     line += solarSystem.name + this.sep;
     // uwp
-    line += '???????-?' + this.sep;
+    if (solarSystem.known)
+      line += mw.uwp + this.sep;
+    else
+      line += '???????-?' + this.sep;
     // bases
     line += solarSystem.bases + this.sep;
     // remarks
@@ -108,7 +113,7 @@ class TravellerMap {
     // worlds
     line += solarSystem.terrestrialPlanets;
     this.systems.push(line);
-    const mw = solarSystem.mainWorld;
+
     line = line.replace('???????-?', mw.uwp);
     this.refereeSystems.push(line);
   }

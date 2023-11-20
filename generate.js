@@ -6,14 +6,12 @@ const {twoD6, d6} = require("./dice");
 const {gasGiantQuantity} = require("./gasGiants");
 const {planetoidBeltQuantity} = require("./planetoidBelts");
 const {terrestrialPlanetQuantity} = require("./terrestrialPlanets");
-const {calculatePeriod, companionOrbit, additionalStarDM, ORBIT_TYPES} = require("./utils");
+const {calculatePeriod, additionalStarDM, ORBIT_TYPES} = require("./utils");
 const {generateStar, addCompanion, generateCloseCompanion, generateNearCompanion, generateFarCompanion} = require("./stars");
 const {SolarSystem} = require("./solarSystems");
 const {createMap} = require("./travellerMap");
 const TravellerMap = require("./utils/travellerMap");
-const Star = require("./stars/star");
 const generateBaseStar = require("./stars/generateBaseStar");
-const stellarTypeLookup = require("./stars/stellarTypeLookup");
 const giantsLookup = require("./stars/giantsLookup");
 
 const SUBSECTOR_TYPES = {
@@ -124,6 +122,7 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap, sc
             solarSystem.name = defined.name;
           if (defined.remarks)
             solarSystem.remarks = defined.remarks;
+          solarSystem.known = defined.known ? defined.known : false;
           if (defined.star) {
             const tokens = defined.star.type.split('');
             let stellarClass = null;
