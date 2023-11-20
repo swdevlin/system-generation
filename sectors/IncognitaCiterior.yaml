@@ -58,6 +58,7 @@ subsectors:
         y: 2
       - x: 5
         y: 6
+        known: true
         name: Garva-411
         gasgiant: 1
         uwp: X310000-0
@@ -74,6 +75,7 @@ subsectors:
         y: 2
       - x: 7
         y: 4
+        known: true
         star:
           type: F7
           companion: K2
