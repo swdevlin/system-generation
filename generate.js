@@ -16,19 +16,15 @@ const giantsLookup = require("./stars/giantsLookup");
 
 const SUBSECTOR_TYPES = {
   DENSE: { chance: 0.60},
-  STANDARD: { chance: 0.5},
-  MODERATE: { chance: 0.4},
+  STANDARD: { chance: 0.50},
+  MODERATE: { chance: 0.40},
   LOW: { chance: 0.30},
   SPARSE: { chance: 0.20},
-  MINIMAL: { chance: 0.12},
-  RIFT: { chance: 0.05},
+  MINIMAL: { chance: 0.10},
+  RIFT: { chance: 1/36},
   RIFT_FADE: { chance: 0.02},
   DEEP_RIFT: { chance: 0.01},
   EMPTY: { chance: 0.0},
-  RIFT_TOPEDGE: { chance: 0.5},
-  RIFT_BOTTOMEDGE: { chance: 0.5},
-  RIFT_LEFTEDGE: { chance: 0.5},
-  RIFT_RIGHTEDGE: { chance: 0.5},
 }
 
 const r = new Random();
@@ -38,28 +34,7 @@ const coordinate = (row, col) => {
 }
 
 const parseChance = (row, col, subsector_type) => {
-  switch (subsector_type) {
-    case "DENSE":
-    case "STANDARD":
-    case "MOEDERATE":
-    case "LOW":
-    case "SPARSE":
-    case "MINIMAL":
-    case "RIFT":
-    case "RIFT_FADE":
-    case "DEEP_RIFT":
-    case "EMPTY":
-      return SUBSECTOR_TYPES[subsector_type].chance;
-    case 'RIFT_TOPEDGE':
-      return (row > 4) ? SUBSECTOR_TYPES.RIFT.chance : SUBSECTOR_TYPES.SPARSE.chance;
-    case 'RIFT_BOTTOMEDGE':
-      return (row < 7) ? SUBSECTOR_TYPES.RIFT.chance : SUBSECTOR_TYPES.SPARSE.chance;
-    case 'RIFT_LEFTEDGE':
-      return (col > 2) ? SUBSECTOR_TYPES.RIFT.chance : SUBSECTOR_TYPES.SPARSE.chance;
-    case 'RIFT_RIGHTEDGE':
-      return (col < 7) ? SUBSECTOR_TYPES.RIFT.chance : SUBSECTOR_TYPES.SPARSE.chance;
-  }
-  return undefined;
+  return SUBSECTOR_TYPES[subsector_type].chance;
 }
 
 const companionDM = (star) => {

@@ -4,26 +4,25 @@ const {
   SOL_DIAMETER,
   eccentricity,
   determineHydrographics,
-  meanTemperature, axialTilt, calculateAlbedo, orbitPosition, AU, calculateDistance, travelTime,
-  romanNumeral
+  meanTemperature, axialTilt, calculateAlbedo, orbitPosition, calculateDistance, travelTime,
 } = require("../utils");
-const {threeD6, twoD6, d4, d6, d10, d8} = require("../dice");
-const {GasGiant, gasGiantQuantity} = require("../gasGiants");
+const {threeD6, twoD6, d4, d6, d10} = require("../dice");
+const {GasGiant} = require("../gasGiants");
 const {
   PlanetoidBelt,
   determineBeltComposition,
   determineBeltBulk,
   determineBeltResourceRating,
-  addSignificantBodies, planetoidBeltQuantity
+  addSignificantBodies
 } = require("../planetoidBelts");
 const {
   terrestrialWorldSize,
   TerrestrialPlanet,
   terrestrialComposition,
-  terrestrialDensity, terrestrialPlanetQuantity, superEarthWorldSize
+  terrestrialDensity, superEarthWorldSize
 } = require("../terrestrialPlanets");
 const {assignMoons} = require("../moons");
-const {Star, addCompanion} = require("../stars");
+const {Star} = require("../stars");
 const {determineMoonAtmosphere} = require("../atmosphere");
 
 const Random = require("random-js").Random;
@@ -46,7 +45,7 @@ class SolarSystem {
   }
 
   calculateScanPoints() {
-    if (this.scanPoints == 0) {
+    if (this.scanPoints === 0) {
       this.scanPoints = d4() + d4();
       switch (this.stars.length) {
         case 1: break;
@@ -453,8 +452,7 @@ class SolarSystem {
         this.getPossibleGGMainWorlds(stellarObject, possibleMainWorlds);
       else if (stellarObject instanceof GasGiant)
         for (const moon of stellarObject.moons)
-          if (moon.size != 'S')
-            possibleMainWorlds.push([Math.abs(star.hzco - stellarObject.orbit), moon])
+          possibleMainWorlds.push([Math.abs(star.hzco - stellarObject.orbit), moon])
   }
 
   get mainWorld() {
@@ -477,10 +475,11 @@ class SolarSystem {
         if (Math.abs(a[0] - b[0]) > 0.1)
           return a[0] - b[0];
 
-        return b[1].size - a[1].size;
+        const bSize = b[1].size === 'S' ? '-1' : b[1].size;
+        const aSize = a[1].size === 'S' ? '-1' : a[1].size;
+        return bSize - aSize;
       });
     }
-
     this._mainWorld = possibleMainWorlds[0][1];
     return this._mainWorld;
   }
