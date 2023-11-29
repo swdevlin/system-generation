@@ -2,6 +2,7 @@ name: Few Glimmers
 abbreviation: FewG
 X: -15
 Y: 4
+unusualChance: 0.1
 subsectors:
   - name: FewG A
     type: DEEP_RIFT

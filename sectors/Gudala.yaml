@@ -2,6 +2,7 @@ name: Gudala
 abbreviation: Gudala
 X: -12
 Y: 0
+unusualChance: 0.1
 subsectors:
   - name: Gudala A
     type: STANDARD

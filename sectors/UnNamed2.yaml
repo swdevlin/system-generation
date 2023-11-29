@@ -2,6 +2,7 @@ name: Unnamed 2
 abbreviation: Un2
 X: -13
 Y: 1
+unusualChance: 0.1
 subsectors:
   - name: Un2 A
     type: LOW

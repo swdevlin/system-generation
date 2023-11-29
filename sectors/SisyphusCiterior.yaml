@@ -2,6 +2,7 @@ name: Sisyphus Citerior
 abbreviation: SisCit
 X: -16
 Y: 2
+unusualChance: 0.1
 subsectors:
   - name: SisCit A
     type: SPARSE

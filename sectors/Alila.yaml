@@ -2,6 +2,7 @@ name: Alila
 abbreviation: Alila
 X: -13
 Y: 0
+unusualChance: 0.1
 subsectors:
   - name: Alila A
     type: STANDARD

@@ -2,6 +2,7 @@ name: Far Shore 2
 abbreviation: Far2
 X: -15
 Y: 4
+unusualChance: 0.1
 subsectors:
   - name: Far2 A
     type: RIFT_FADE

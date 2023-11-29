@@ -2,6 +2,7 @@ name: Kaalin Unnamed
 abbreviation: KU
 X: -13
 Y: 0
+unusualChance: 0.1
 subsectors:
   - name: KU A
     type: STANDARD

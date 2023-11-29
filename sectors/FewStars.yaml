@@ -2,6 +2,7 @@ name: Few Stars
 abbreviation: FewS
 X: -12
 Y: 2
+unusualChance: 0.1
 subsectors:
   - name: FewS A
     type: RIFT_FADE

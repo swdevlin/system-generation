@@ -2,6 +2,7 @@ name: Kaalin Ulterior
 abbreviation: KaaUlt
 X: -13
 Y: 1
+unusualChance: 0.1
 subsectors:
   - name: KaaUlt A
     type: MODERATE

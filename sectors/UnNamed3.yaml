@@ -2,6 +2,7 @@ name: Unnamed 3
 abbreviation: Un3
 X: -13
 Y: 2
+unusualChance: 0.1
 subsectors:
   - name: Un3 A
     type: SPARSE

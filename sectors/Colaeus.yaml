@@ -2,6 +2,7 @@ name: Colaeus
 abbreviation: Col
 X: -17
 Y: 2
+unusualChance: 0.1
 subsectors:
   - name: Col A
     type: MINIMAL

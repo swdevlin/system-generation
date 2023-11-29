@@ -2,6 +2,7 @@ name: Far Shore of Yonder
 abbreviation: FSoY
 X: -18
 Y: 2
+unusualChance: 0.1
 subsectors:
   - name: FSoY A
     type: EMPTY

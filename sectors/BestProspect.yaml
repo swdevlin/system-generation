@@ -2,6 +2,7 @@ name: Best Prospect
 abbreviation: Best
 X: -17
 Y: 3
+unusualChance: 0.1
 subsectors:
   - name: Best A
     type: SPARSE

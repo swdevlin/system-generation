@@ -2,6 +2,7 @@ name: Incognita Citerior
 abbreviation: IC
 X: -10
 Y: 1
+unusualChance: 0.1
 subsectors:
   - name: IC A
     type: LOW
