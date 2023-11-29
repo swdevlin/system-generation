@@ -1,4 +1,5 @@
-const {twoD6, die} = require("../dice");
+const {twoD6, die, d6, d10} = require("../dice");
+const {STELLAR_TYPES} = require("../utils");
 
 const MASS = {
   'O0': {
@@ -145,11 +146,28 @@ const MASS = {
 }
 
 const starMass= (star) => {
-  if (star.stellarType === 'D') {
+  if (star.stellarType === STELLAR_TYPES.BrownDwarf) {
+    return d6()/100 + (twoD6() + twoD6() - 1)/1000;
+  } else if (star.stellarType === STELLAR_TYPES.NeutronStar) {
+    let m = 1 + d10() / 10;
+    if (d6() === 6)
+      m += (d6()-1)/10;
+    return m;
+  } else if (star.stellarType === STELLAR_TYPES.WhiteDwarf) {
     return (twoD6()-1)/10 + die(10)/100;
-  } else {
+  } else if (star.stellarType === STELLAR_TYPES.BlackHole) {
+    let m = 2.1 + d10()/10;
+    let d;
+    do {
+      d = d6();
+      m += d;
+    } while (d === 6);
+    m -= 1;
+    return m;
+  } else if (!star.isAnomaly) {
     return MASS[star.dataKey][star.stellarClass];
-  }
+  } else
+    return null;
 }
 
 module.exports = starMass;

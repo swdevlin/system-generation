@@ -33,6 +33,18 @@ const ORBIT_TYPES = {
   PLANETOID_BELT_OBJECT: 13,
 }
 
+const STELLAR_TYPES = {
+  WhiteDwarf: 'D',
+  BrownDwarf: 'BD',
+  BlackHole: 'BH',
+  Pulsar: 'PSR',
+  NeutronStar: 'NS',
+  StarCluster: 'SC',
+  Anomaly: 'AN',
+  Nebula: 'NB',
+  Protostar: 'PS',
+}
+
 const toHex = (v) => {
   if (v === 10)
     return 'A';
@@ -205,6 +217,7 @@ module.exports = {
   computeBaseline: computeBaseline,
   TYPES_BY_TEMP: TYPES_BY_TEMP,
   ORBIT_TYPES: ORBIT_TYPES,
+  STELLAR_TYPES: STELLAR_TYPES,
   AU: AU,
   StarColour: StarColour,
   SOL_DIAMETER: SOL_DIAMETER,

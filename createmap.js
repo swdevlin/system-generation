@@ -1,6 +1,6 @@
 const commander= require('commander');
 const fs= require('fs');
-const {createMap} = require("./travellerMap");
+const createMap = require("./travellerMap/createMap");
 
 
 // noinspection HtmlDeprecatedTag,XmlDeprecatedElement

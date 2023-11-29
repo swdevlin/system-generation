@@ -80,10 +80,14 @@ class TravellerMap {
     // hex
     let line = solarSystem.coordinates + this.sep;
     // name
-    line += solarSystem.name + this.sep;
+    if (solarSystem.name)
+      line += solarSystem.name + this.sep;
+    else
+      line += `${solarSystem.starsString()}${this.sep}`;
+      // line += `${solarSystem.coordinates}: ${solarSystem.starsString()}${this.sep}`;
     // uwp
     if (solarSystem.known)
-      line += mw.uwp + this.sep;
+      line += mw ? mw.uwp + this.sep : '???????-?';
     else
       line += '???????-?' + this.sep;
     // bases
@@ -114,7 +118,8 @@ class TravellerMap {
     line += solarSystem.terrestrialPlanets;
     this.systems.push(line);
 
-    line = line.replace('???????-?', mw.uwp);
+    if (mw)
+      line = line.replace('???????-?', mw.uwp);
     this.refereeSystems.push(line);
   }
 

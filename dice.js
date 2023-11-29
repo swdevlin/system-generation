@@ -56,6 +56,10 @@ const die = (sides, number=1) => {
   return total;
 }
 
+const percentageChance = (p) => {
+  return rng.bool(p);
+}
+
 module.exports = {
   die: die,
   d2: d2,
@@ -68,5 +72,6 @@ module.exports = {
   twoD6: twoD6,
   threeD6: threeD6,
   fluxRoll: fluxRoll,
+  percentageChance: percentageChance,
   ROLL_CACHE: ROLL_CACHE,
 }

@@ -6,13 +6,20 @@ const {twoD6, d6} = require("./dice");
 const {gasGiantQuantity} = require("./gasGiants");
 const {planetoidBeltQuantity} = require("./planetoidBelts");
 const {terrestrialPlanetQuantity} = require("./terrestrialPlanets");
-const {calculatePeriod, additionalStarDM, ORBIT_TYPES} = require("./utils");
-const {generateStar, addCompanion, generateCloseCompanion, generateNearCompanion, generateFarCompanion} = require("./stars");
-const {SolarSystem} = require("./solarSystems");
-const {createMap} = require("./travellerMap");
+const {calculatePeriod, additionalStarDM, ORBIT_TYPES, companionOrbit} = require("./utils");
 const TravellerMap = require("./utils/travellerMap");
 const generateBaseStar = require("./stars/generateBaseStar");
-const giantsLookup = require("./stars/giantsLookup");
+// const giantsLookup = require("./stars/giantsLookup");
+const StellarClassification = require("./stars/StellarClassification");
+const Star = require("./stars/star");
+const {determineStarClassification} = require("./stars/determineStarClassification");
+const generateCloseSecondary = require("./stars/generateCloseSecondary");
+const generateNearSecondary = require("./stars/generateNearSecondary");
+const generateFarSecondary = require("./stars/generateFarSecondary");
+const addCompanion = require("./stars/addCompanion");
+const giantsStellarClassLookup = require("./lookups/giantsStellarClassLookup");
+const SolarSystem = require("./solarSystems/solarSystem");
+const createMap = require("./travellerMap/createMap");
 
 const SUBSECTOR_TYPES = {
   DENSE: { chance: 0.60},
@@ -61,6 +68,24 @@ const companionDM = (star) => {
 const COL_OFFSETS = [24, 0, 8, 16];
 const ROW_OFFSETS = [0, 0, 10, 20, 30];
 
+const predefinedClassification = (star) => {
+  const tokens = star.type.split('');
+
+  const classification = new StellarClassification();
+  if (star.class) {
+    if (star.class === 'Giant')
+      classification.stellarClass = giantsStellarClassLookup(0);
+    else
+      classification.stellarClass = star.class;
+  } else {
+    classification.stellarClass = 'V';
+  }
+  classification.stellarType = tokens[0];
+  classification.subtype = parseInt(tokens[1]);
+
+  return classification;
+}
+
 const generateSubsector = (outputDir, sector, subsector, index, travellerMap, scanPoints) => {
   const rowOffset = ROW_OFFSETS[Math.ceil(index/4)];
   const colOffset = COL_OFFSETS[index % 4];
@@ -85,128 +110,161 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap, sc
               break;
             }
       }
-      if (r.bool(chance)) {
-        let star;
-        const systemName = (defined && defined.name) ? defined.name : `${coordinate(row, col)}`;
-        const solarSystem = new SolarSystem(systemName);
-        solarSystem.sector = sector.name;
-        solarSystem.coordinates = coordinate(row+rowOffset, col+colOffset);
-        solarSystem.name = `${solarSystem.coordinates}`
-        if (defined) {
-          if (defined.name)
-            solarSystem.name = defined.name;
-          if (defined.remarks)
-            solarSystem.remarks = defined.remarks;
-          solarSystem.known = defined.known ? defined.known : false;
-          if (defined.star) {
-            const tokens = defined.star.type.split('');
-            let stellarClass = null;
-            if (defined.star.class)
-              if (defined.star.class === 'Giant')
-                stellarClass = giantsLookup(0);
-              else
-                stellarClass = defined.star.class;
-            const star = generateBaseStar({
-                dm: 0,
-                orbitType: ORBIT_TYPES.PRIMARY,
-                stellarType: tokens[0],
-                stellarClass: stellarClass,
-                subtype: parseInt(tokens[1])
-              }
-            );
-            if (defined.star.companion)
-              addCompanion(star);
-            solarSystem.addPrimary(star);
-            if (defined.star.secondaries)
-              for (const secondary of defined.star.secondaries) {
-                let companion;
-                if (secondary.near)
-                  companion = generatenearCompanion(star);
-                else if (secondary.far)
-                  companion = generateFarCompanion(star);
-                if (secondary.close)
-                  companion = generateCloseCompanion(star);
-                if (companion)
-                  solarSystem.addStar(companion);
-              }
-          } else
-            solarSystem.addPrimary(generateStar(null, 0, ORBIT_TYPES.PRIMARY));
-          if (defined.bases)
-            solarSystem.bases = defined.bases;
-        } else
-          solarSystem.addPrimary(generateStar(null, 0, ORBIT_TYPES.PRIMARY));
-        const primary = solarSystem.primaryStar;
-        if (!defined || !defined.bodies) {
-          let dm = additionalStarDM(primary);
-          if (twoD6() + dm >= 10) {
-            star = generateStar(primary, 0, ORBIT_TYPES.COMPANION);
-            star.orbit = d6() / 10 + (twoD6() - 7) / 100;
-            star.period = calculatePeriod(star, primary);
-            primary.companion = star;
-          }
-          if (twoD6() + dm >= 10) {
-            star = generateCloseCompanion(primary);
-            if (twoD6() + companionDM(star) >= 10)
-              addCompanion(star);
-            solarSystem.addStar(star);
-          }
-          if (twoD6() + dm >= 10) {
-            star = generateNearCompanion(primary);
-            if (twoD6() + companionDM(star) >= 10)
-              addCompanion(star);
-            solarSystem.addStar(star);
-          }
-          if (twoD6() + dm >= 10) {
-            star = generateFarCompanion(primary);
-            if (twoD6() + companionDM(star) >= 10)
-              addCompanion(star);
-            solarSystem.addStar(star);
-          }
-        }
-        solarSystem.determineAvailableOrbits();
-        if (defined && defined.bodies) {
-          primary.totalObjects = 20;
-          primary.assignOrbits();
-          primary.totalObjects = defined.bodies.length;
-          let orbitIndex = 0;
-          for (const body of defined.bodies) {
-            if (body !== 'empty') {
-              if (body.habitable) {
-                if (body.habitable === 'outer')
-                  while (primary.occupiedOrbits[orbitIndex] <= primary.hzco)
-                    orbitIndex++;
-                else if (body.habitable === 'inner')
-                  while (primary.occupiedOrbits[orbitIndex+1] < primary.hzco)
-                    orbitIndex++;
-                else
-                  while (primary.occupiedOrbits[orbitIndex] < primary.hzco)
-                    orbitIndex++;
-              }
-              solarSystem.preassignedBody({star: solarSystem.primaryStar, body: body, orbitIndex: orbitIndex});
-           } else
-              solarSystem.primaryStar.totalObjects--;
-            orbitIndex++;
-          }
-        } else {
-          solarSystem.gasGiants = gasGiantQuantity(solarSystem);
-          solarSystem.planetoidBelts = planetoidBeltQuantity(solarSystem);
-          solarSystem.terrestrialPlanets = terrestrialPlanetQuantity(solarSystem);
+      if (!r.bool(chance))
+        continue;
 
-          solarSystem.distributeObjects();
-          solarSystem.assignOrbits();
-          solarSystem.addAnomalousPlanets();
+      let star;
+      // const systemName = (defined && defined.name) ? defined.name : `${coordinate(row, col)}`;
+      const systemName = (defined && defined.name) ? defined.name : null;
+      const solarSystem = new SolarSystem(systemName);
+      solarSystem.sector = sector.name;
+      solarSystem.coordinates = coordinate(row+rowOffset, col+colOffset);
+      // solarSystem.name = `${solarSystem.coordinates}`;
+      let unusualChance = sector.unusualChance / 100;
+      if (defined) {
+        if (defined.unusualChance) {
+          unusualChance = defined.unusualChance / 100;
         }
-        solarSystem.addMoons();
-        solarSystem.assignAtmospheres();
-        solarSystem.calculateScanPoints();
-        const text = `${sector.name} ${solarSystem.coordinates} ${solarSystem.primaryStar.textDump(0, '', '', 0, [1])}`;
-        fs.writeFileSync(`${outputDir}/${subsector.name}-${solarSystem.coordinates}.txt`, text);
-        const json = JSON.stringify(solarSystem.primaryStar, null, 2);
-        fs.writeFileSync(`${outputDir}/${subsector.name}-${solarSystem.coordinates}.json`, json);
-        fs.writeFileSync(`${outputDir}/${subsector.name}-${solarSystem.coordinates}-travel.html`, solarSystem.travelGrid());
-        travellerMap.addSystem(solarSystem);
-        scanPoints.push(`${subsector.name} ${solarSystem.coordinates},${solarSystem.scanPoints}`)
+        if (defined.name)
+          solarSystem.name = defined.name;
+        if (defined.remarks)
+          solarSystem.remarks = defined.remarks;
+        solarSystem.known = defined.known ? defined.known : false;
+        if (defined.star) {
+          const classification = predefinedClassification(defined.star);
+          const star = new Star(classification, ORBIT_TYPES.PRIMARY);
+          if (defined.star.companion) {
+            const classification = predefinedClassification(defined.star.companion);
+            const companion = new Star(classification, ORBIT_TYPES.COMPANION);
+            star.companion = companion;
+            companion.orbit = companionOrbit();
+            companion.period = calculatePeriod(companion, star);
+          }
+          solarSystem.addPrimary(star);
+          if (defined.star.secondaries)
+            for (const secondary of defined.star.secondaries) {
+              let companion;
+              if (secondary.near) {
+                const classification = (secondary.near.type) ? predefinedClassification(secondary.near) : null;
+                companion = generateNearSecondary({
+                  star: star,
+                  unusualChance: unusualChance,
+                  classification: classification
+                });
+              }
+
+              if (secondary.far) {
+                const classification = (secondary.far.type) ? predefinedClassification(secondary.far) : null;
+                companion = generateFarSecondary({
+                  star: star,
+                  unusualChance: unusualChance,
+                  classification: classification
+                });
+              }
+
+              if (secondary.close) {
+                const classification = (secondary.close.type) ? predefinedClassification(secondary.close) : null;
+                companion = generateCloseSecondary({
+                  star: star,
+                  unusualChance: unusualChance,
+                  classification: classification
+                });
+              }
+              if (companion)
+                solarSystem.addStar(companion);
+            }
+        } else {
+          const classification = determineStarClassification({unusualChance: unusualChance});
+          const s = new Star(classification, ORBIT_TYPES.PRIMARY);
+          solarSystem.addPrimary(s);
+        }
+        if (defined.bases) {
+          solarSystem.bases = defined.bases;
+        }
+      } else {
+        const classification = determineStarClassification({unusualChance: unusualChance});
+        const s = new Star(classification, ORBIT_TYPES.PRIMARY);
+        solarSystem.addPrimary(s);
       }
+
+      const primary = solarSystem.primaryStar;
+
+      if (!defined || !defined.bodies) {
+        let dm = additionalStarDM(primary);
+        if (twoD6() + dm >= 10) {
+          const classification = determineStarClassification({
+            unusualChance: unusualChance,
+            primary: primary,
+            orbitType: ORBIT_TYPES.COMPANION
+          });
+          star = new Star(classification, ORBIT_TYPES.COMPANION);
+          star.orbit = d6() / 10 + (twoD6() - 7) / 100;
+          star.period = calculatePeriod(star, primary);
+          primary.companion = star;
+        }
+        if (twoD6() + dm >= 10) {
+          star = generateCloseSecondary({star: primary, unusualChance: 0});
+          if (twoD6() + companionDM(star) >= 10)
+            addCompanion({star: star, unusualChance: unusualChance});
+          solarSystem.addStar(star);
+        }
+        if (twoD6() + dm >= 10) {
+          star = generateNearSecondary({star: primary, unusualChance: 0});
+          if (twoD6() + companionDM(star) >= 10)
+            addCompanion({star: star, unusualChance: unusualChance});
+          solarSystem.addStar(star);
+        }
+        if (twoD6() + dm >= 10) {
+          star = generateFarSecondary({star: primary, unusualChance: 0});
+          if (twoD6() + companionDM(star) >= 10)
+            addCompanion({star: star, unusualChance: unusualChance});
+          solarSystem.addStar(star);
+        }
+      }
+
+      solarSystem.determineAvailableOrbits();
+      if (defined && defined.bodies) {
+        primary.totalObjects = 20;
+        primary.assignOrbits();
+        primary.totalObjects = defined.bodies.length;
+        let orbitIndex = 0;
+        for (const body of defined.bodies) {
+          if (body !== 'empty') {
+            if (body.habitable) {
+              if (body.habitable === 'outer')
+                while (primary.occupiedOrbits[orbitIndex] <= primary.hzco)
+                  orbitIndex++;
+              else if (body.habitable === 'inner')
+                while (primary.occupiedOrbits[orbitIndex+1] < primary.hzco)
+                  orbitIndex++;
+              else
+                while (primary.occupiedOrbits[orbitIndex] < primary.hzco)
+                  orbitIndex++;
+            }
+            solarSystem.preassignedBody({star: solarSystem.primaryStar, body: body, orbitIndex: orbitIndex});
+         } else
+            solarSystem.primaryStar.totalObjects--;
+          orbitIndex++;
+        }
+      } else {
+        solarSystem.gasGiants = gasGiantQuantity(solarSystem);
+        solarSystem.planetoidBelts = planetoidBeltQuantity(solarSystem);
+        solarSystem.terrestrialPlanets = terrestrialPlanetQuantity(solarSystem);
+
+        solarSystem.distributeObjects();
+        solarSystem.assignOrbits();
+        solarSystem.addAnomalousPlanets();
+      }
+      solarSystem.addMoons();
+      solarSystem.assignAtmospheres();
+      solarSystem.calculateScanPoints();
+      const text = `${sector.name} ${solarSystem.coordinates} ${solarSystem.primaryStar.textDump(0, '', '', 0, [1])}`;
+      fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-${subsector.name}.txt`, text);
+      const json = JSON.stringify(solarSystem.primaryStar, null, 2);
+      fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-${subsector.name}.json`, json);
+      fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-${subsector.name}travel.html`, solarSystem.travelGrid());
+      travellerMap.addSystem(solarSystem);
+      scanPoints.push(`${subsector.name} ${solarSystem.coordinates},${solarSystem.scanPoints}`)
     }
  }
 

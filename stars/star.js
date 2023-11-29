@@ -1,5 +1,5 @@
 const {determineDataKey, ORBIT_TYPES, computeBaseline, orbitText, AU, SOL_DIAMETER, orbitToAU, auToOrbit, StarColour,
-  starIdentifier
+  starIdentifier, STELLAR_TYPES
 } = require("../utils");
 const {MINIMUM_ALLOWABLE_ORBIT} = require("./index");
 const {twoD6, d6, d3, d10, d100} = require("../dice");
@@ -7,39 +7,50 @@ const starMass = require("./starMass");
 const starDiameter = require("./starDiameter");
 const starTemperature = require("./starTemperature");
 const {starEccentricity} = require("./starEccentricity");
+const subtypeLookup = require("../lookups/subtypeLookup");
 
 const Random = require("random-js").Random;
 const r = new Random();
 
 class Star {
-  constructor(stellarClass, stellarType, subtype, orbitType) {
-    this.stellarClass = stellarClass;
+  constructor(classification, orbitType) {
+    this.stellarClass = classification.stellarClass;
+    this.stellarType = classification.stellarType;
     this.totalObjects = 0;
-    if (stellarType === 'BD') {
-      this.stellarClass = '';
-      switch (d6()) {
-        case 1:
-        case 2:
-          this.stellarType = 'L';
-          break;
-        case 3:
-        case 4:
-          this.stellarType = 'T';
-          break;
-        case 5:
-        case 6:
-          this.stellarType = 'Y';
-          break;
-      }
-      this.subtype = r.integer(0, 9);
-    } else {
-      this.stellarType = stellarType;
-      this.subtype = subtype;
-    }
+
+    if (!this.isAnomaly)
+      this.subtype = subtypeLookup({
+        isPrimary: orbitType === ORBIT_TYPES.PRIMARY,
+        stellarType: this.stellarType,
+        stellarClass: this.stellarClass
+      });
+    else
+      this.subtype = null;
 
     this.orbitType = orbitType;
 
     this.mass = starMass(this);
+    if (this.stellarType === 'BD') {
+      if (this.mass >= 0.08) {
+        this.stellarType = 'L';
+        this.subtype = 0;
+      } else if (this.mass >= 0.06) {
+        this.stellarType = 'L';
+        this.subtype = 5;
+      } else if (this.mass >= 0.05) {
+        this.stellarType = 'T';
+        this.subtype = 0;
+      } else if (this.mass >= 0.04) {
+        this.stellarType = 'T';
+        this.subtype = 5;
+      } else if (this.mass >= 0.025) {
+        this.stellarType = 'Y';
+        this.subtype = 0;
+      } else {
+        this.stellarType = 'Y';
+        this.subtype = 5;
+      }
+    }
 
     this.diameter = starDiameter(this);
 
@@ -82,6 +93,21 @@ class Star {
     this.stellarObjects = [];
     this.occupiedOrbits = [];
     this.orbitSequence = '';
+  }
+
+  get isAnomaly() {
+    return [
+      STELLAR_TYPES.Anomaly,
+      STELLAR_TYPES.BlackHole,
+      STELLAR_TYPES.BrownDwarf,
+      STELLAR_TYPES.Nebula,
+      STELLAR_TYPES.NeutronStar,
+      STELLAR_TYPES.Protostar,
+      STELLAR_TYPES.Pulsar,
+      STELLAR_TYPES.StarCluster,
+      STELLAR_TYPES.WhiteDwarf,
+    ].includes(this.stellarType)
+
   }
 
   get dataKey() {

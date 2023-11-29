@@ -1,10 +1,17 @@
 const {ORBIT_TYPES, companionOrbit, calculatePeriod} = require("../utils");
-const generateStar = require("./generateStar");
+const {multiStarClassification} = require("./determineStarClassification");
+const Star = require("./star");
 
-const addCompanion = (star) => {
-  star.companion = generateStar(star, 0, ORBIT_TYPES.COMPANION);
-  star.companion.orbit = companionOrbit();
-  star.companion.period = calculatePeriod(star.companion, star);
+const addCompanion = ({star, unusualChance}) => {
+  const classification = multiStarClassification({
+    unusualChance: unusualChance,
+    primary: star,
+    orbitType: ORBIT_TYPES.COMPANION
+  });
+  const companion = new Star(classification, ORBIT_TYPES.COMPANION);
+  star.companion = companion;
+  companion.orbit = companionOrbit();
+  companion.period = calculatePeriod(companion, star);
 }
 
 module.exports = addCompanion;

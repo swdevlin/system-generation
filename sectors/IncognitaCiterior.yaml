@@ -79,9 +79,11 @@ subsectors:
         known: true
         star:
           type: F7
-          companion: K2
+          companion:
+            type: K2
           secondaries:
-            - far: G2
+            - far:
+                type: G2
         name: Demnan
         bases: SN
         uwp: E567000-0

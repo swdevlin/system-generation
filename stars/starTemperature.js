@@ -1,3 +1,4 @@
+const {STELLAR_TYPES} = require("../utils");
 const TEMPERATURE = {
   'O0': 50000,
   'O5': 40000,
@@ -23,7 +24,7 @@ const TEMPERATURE = {
 }
 
 const starTemperature = (star) => {
-  if (star.stellarType === 'D') {
+  if (star.stellarType === STELLAR_TYPES.WhiteDwarf) {
     if (star.mass < 0.1)
       return 100000;
     else if (star.mass < 0.5)
@@ -42,9 +43,10 @@ const starTemperature = (star) => {
       return 4000;
     else
       return 3800;
-  } else {
+  } else if (!star.isAnomaly) {
     return TEMPERATURE[star.dataKey];
-  }
+  } else
+    return null;
 }
 
 module.exports = starTemperature;

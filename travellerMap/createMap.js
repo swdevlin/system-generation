@@ -12,6 +12,7 @@ async function createMap({systems, meta, mapDir, sectorName, forReferee}) {
       metadata: meta,
       accept: 'image/svg+xml',
       style: 'print',
+      scale: 96,
       options: options
     })
   });
@@ -20,3 +21,10 @@ async function createMap({systems, meta, mapDir, sectorName, forReferee}) {
 }
 
 module.exports = createMap;
+
+/*
+      style: 'fasa',
+      stellar: 1,
+      scale: 96,
+
+ */

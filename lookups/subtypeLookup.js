@@ -1,6 +1,6 @@
 const {twoD6} = require("../dice");
 
-const subtypeLookup = (isPrimary, stellarType, stellarClass) => {
+const subtypeLookup = ({isPrimary, stellarType, stellarClass}) => {
   const roll = twoD6();
 
   let subtype;

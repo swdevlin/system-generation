@@ -143,16 +143,3 @@ const MINIMUM_ALLOWABLE_ORBIT= {
 }
 
 module.exports.MINIMUM_ALLOWABLE_ORBIT = MINIMUM_ALLOWABLE_ORBIT;
-
-module.exports.Star = require("./star");
-module.exports.starDiameter = require("./starDiameter");
-module.exports.starMass = require("./starMass");
-module.exports.starTemperature = require("./starTemperature");
-module.exports.starEccentricity = require("./starEccentricity");
-module.exports.generateStar = require("./generateStar");
-module.exports.stellarTypeLookup = require("./stellarTypeLookup");
-module.exports.subtypeLookup = require("./subtypeLookup");
-module.exports.addCompanion = require("./addCompanion");
-module.exports.generateCloseCompanion = require("./generateCloseCompanion");
-module.exports.generateNearCompanion = require("./generateNearCompanion");
-module.exports.generateFarCompanion = require("./generateFarCompanion");

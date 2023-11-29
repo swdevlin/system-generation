@@ -4,7 +4,7 @@ const {
   SOL_DIAMETER,
   eccentricity,
   determineHydrographics,
-  meanTemperature, axialTilt, calculateAlbedo, orbitPosition, calculateDistance, travelTime,
+  meanTemperature, axialTilt, calculateAlbedo, orbitPosition, calculateDistance, travelTime, STELLAR_TYPES,
 } = require("../utils");
 const {threeD6, twoD6, d4, d6, d10} = require("../dice");
 const {GasGiant} = require("../gasGiants");
@@ -22,8 +22,8 @@ const {
   terrestrialDensity, superEarthWorldSize
 } = require("../terrestrialPlanets");
 const {assignMoons} = require("../moons");
-const {Star} = require("../stars");
 const {determineMoonAtmosphere} = require("../atmosphere");
+const Star = require("../stars/star");
 
 const Random = require("random-js").Random;
 const r = new Random();
@@ -42,6 +42,7 @@ class SolarSystem {
     this._mainWorld = null;
     this.bases = '';
     this.remarks = '';
+    this.interesting = false;
   }
 
   calculateScanPoints() {
@@ -77,10 +78,30 @@ class SolarSystem {
   addStar(star) {
     this.stars.push(star);
     this.primaryStar.addStellarObject(star);
+    if (star.isAnomaly && star.stellarType !== STELLAR_TYPES.BrownDwarf && star.stellarType !== STELLAR_TYPES.WhiteDwarf)
+      this.remarks = '{Anomaly}';
   }
 
   get primaryStar() {
     return this.stars[0];
+  }
+
+  starString(star) {
+    if (star.isAnomaly)
+      return star.stellarType;
+    else
+      return `${star.stellarType}${star.subtype} ${star.stellarClass}`;
+  }
+
+  starsString() {
+    let s = [];
+    for (const star of this.stars) {
+      let t = this.starString(star);
+      if (star.companion)
+        t += `,${this.starString(star.companion)}`;
+      s.push(t);
+    }
+    return s.join('/');
   }
 
   get starCount() {
@@ -480,7 +501,12 @@ class SolarSystem {
         return bSize - aSize;
       });
     }
-    this._mainWorld = possibleMainWorlds[0][1];
+    try {
+      this._mainWorld = possibleMainWorlds[0][1];
+    } catch(err) {
+      if (err instanceof TypeError)
+        return null;
+    }
     return this._mainWorld;
   }
 }
