@@ -47,7 +47,7 @@ const computeStats = (sector) => {
       if (star.isAnomaly)
         stats.anomalies[stellarType] = (stats.anomalies[stellarType] || 0) + 1;
 
-      const systemSize = orbitToAU(star.orbit + star.occupiedOrbits[star.occupiedOrbits.length-1]);
+      const systemSize = orbitToAU(star.orbit) + orbitToAU(star.occupiedOrbits[star.occupiedOrbits.length-1]);
       if (systemSize < stats.smallestSolarSystem)
         stats.smallestSolarSystem = systemSize;
       if (systemSize > stats.largestSolarSystem)
