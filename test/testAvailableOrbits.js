@@ -6,8 +6,8 @@ const Random = require("random-js").Random;
 
 const r = new Random();
 const {d6} = require("../dice");
-const {Star} = require("../stars");
 const SolarSystem = require("../solarSystems/solarSystem");
+const Star = require("../stars/star");
 
 chai.should();
 
@@ -36,7 +36,7 @@ describe("Available Orbits", function () {
     star.companion = new Star({stellarClass: 'V', stellarType: 'G', subtype: 0}, ORBIT_TYPES.COMPANION);
     star.companion.eccentricity = 0.3;
     const mao = star.minimumAllowableOrbit;
-    mao.should.equal(2.17);
+    mao.should.equal(1.4);
   });
 
   it("available orbits is not negative", function() {

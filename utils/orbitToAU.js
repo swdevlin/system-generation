@@ -8,7 +8,7 @@ const orbitToAU = (orbit) => {
   if (orbit === 20)
     return ORBIT_TO_AU[orbit];
   else if (orbit > 20)
-    return ORBIT_TO_AU[20] + (orbit-20) * (ORBIT_TO_AU[0] - ORBIT_TO_AU[19]) ;
+    return ORBIT_TO_AU[20] + (orbit-20) * (ORBIT_TO_AU[20] - ORBIT_TO_AU[19]) ;
 
   const o = Math.trunc(orbit);
   const d = orbit - o;

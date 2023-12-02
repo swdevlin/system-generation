@@ -3,8 +3,8 @@
 const chai = require('chai');
 const {ORBIT_TYPES, STELLAR_TYPES} = require("../utils");
 const {ROLL_CACHE} = require("../dice");
-const {Star} = require("../stars");
 const makeCooler = require("../stars/makeCooler");
+const Star = require("../stars/star");
 
 chai.should();
 
@@ -38,7 +38,6 @@ describe("tests for makeCooler function", function () {
     ROLL_CACHE.push(3);
     let coolerStar = makeCooler(star, ORBIT_TYPES.NEAR);
     coolerStar.stellarClass.should.equal('');
-    coolerStar.stellarType.should.equal('');
     coolerStar.stellarType.should.equal(STELLAR_TYPES.BrownDwarf);
 
     ROLL_CACHE.push(2);

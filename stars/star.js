@@ -8,6 +8,7 @@ const starDiameter = require("./starDiameter");
 const starTemperature = require("./starTemperature");
 const {starEccentricity} = require("./starEccentricity");
 const subtypeLookup = require("../lookups/subtypeLookup");
+const computeBaselineOrbitNumber = require("./computeBaselineOrbitNumber");
 
 const Random = require("random-js").Random;
 const r = new Random();
@@ -180,34 +181,31 @@ class Star {
     return (orbit > this.availableOrbits.at(-1)[1])
   }
 
-  assignOrbits() {
+  assignOrbits(primary) {
     this.baseline = computeBaseline(this);
     if (this.availableOrbits.length === 0)
       return;
-    let baselineOrbitNumber;
-    if (this.baseline >= 1 && this.baseline <= this.totalObjects) {
-      const div = (this.hzco < 1.0) ? 100 : 10;
-      baselineOrbitNumber = this.hzco + (twoD6() - 7) / div;
-    } else if (this.baseline < 1) {
-      if (this.minimumAllowableOrbit >= 1.0)
-        baselineOrbitNumber = this.hzco - this.baseline + this.totalObjects + (twoD6() - 2) / 10;
-      else
-        baselineOrbitNumber = this.minimumAllowableOrbit - this.baseline / 10 + (twoD6() - 2) / 100;
-    } else if (this.baseline > this.totalObjects) {
-      if (this.hzco - this.baseline + this.totalObjects >= 1.0)
-        baselineOrbitNumber = this.hzco - this.baseline + this.totalObjects + (twoD6() - 7) / 5;
-      else
-        baselineOrbitNumber = this.hzco - (this.baseline + this.totalObjects + (twoD6() - 7) / 5) / 10;
-      if (baselineOrbitNumber < 0)
-        baselineOrbitNumber = Math.max(this.hzco - 0.1, this.minimumAllowableOrbit + this.totalObjects / 100);
-    }
+
+    let baselineOrbitNumber = computeBaselineOrbitNumber(this);
+
     this.emptyOrbits = Math.max(0, twoD6() - 9);
 
     this.spread = (baselineOrbitNumber - this.minimumAllowableOrbit) / Math.max(1, this.baseline);
+
     if (this.spread <= 0)
       this.spread = this.minimumAllowableOrbit / Math.max(1, this.baseline);
-    if (this.spread * this.totalObjects > 20)
-      this.spread = this.totalOrbits / (this.totalObjects + this.emptyOrbits);
+
+    const possibleOrbits = this.availableOrbits.reduce((orbits, range) => {
+      return orbits + range[1]-range[0];
+    }, 0);
+
+    // if (this.spread * (this.totalObjects + this.emptyOrbits) > 20)
+    if (this.spread * (this.totalObjects + this.emptyOrbits) > possibleOrbits)
+      if (this.orbit === 0)
+        this.spread = possibleOrbits / (this.totalObjects + this.emptyOrbits);
+      else
+        this.spread = possibleOrbits / (this.totalObjects + this.emptyOrbits + 1);
+
     let orbit = this.minimumAllowableOrbit + this.spread + ((twoD6() - 7) * this.spread) / 10;
     this.occupiedOrbits.push(orbit);
     for (let i = 1; i < this.totalObjects + this.emptyOrbits; i++) {
@@ -269,11 +267,16 @@ class Star {
         }
         const dumpParams = [spacing + 2, '', '', index, starIndex];
         if (Math.abs(this.hzco - stellar.orbit) <= 0.2) {
-          dumpParams[1] = '>>';
-          dumpParams[2] = '<<';
+          dumpParams[1] = '🌐 ';
+          dumpParams[2] = '';
         } else if (Math.abs(this.hzco - stellar.orbit) <= 1) {
-          dumpParams[1] = '>';
-          dumpParams[2] = '<';
+          if (this.hzco > stellar.orbit) {
+            dumpParams[1] = '🔥 ';
+            dumpParams[2] = '';
+          } else {
+            dumpParams[1] = '❄ ';
+            dumpParams[2] = '';
+          }
         }
         if (stellar instanceof Star) {
           starCount++;

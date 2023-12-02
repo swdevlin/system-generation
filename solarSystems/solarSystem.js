@@ -249,7 +249,7 @@ class SolarSystem {
 
   assignOrbits() {
     for (const star of this.stars)
-      star.assignOrbits();
+      star.assignOrbits(this.primaryStar);
 
     let allOrbits = [];
     for (const star of this.stars) {

@@ -6,10 +6,7 @@ const {twoD6, d6} = require("./dice");
 const {gasGiantQuantity} = require("./gasGiants");
 const {planetoidBeltQuantity} = require("./planetoidBelts");
 const {terrestrialPlanetQuantity} = require("./terrestrialPlanets");
-const {calculatePeriod, additionalStarDM, ORBIT_TYPES, companionOrbit} = require("./utils");
-const TravellerMap = require("./utils/travellerMap");
-const generateBaseStar = require("./stars/generateBaseStar");
-// const giantsLookup = require("./stars/giantsLookup");
+const {calculatePeriod, additionalStarDM, ORBIT_TYPES, companionOrbit, orbitToAU} = require("./utils");
 const StellarClassification = require("./stars/StellarClassification");
 const Star = require("./stars/star");
 const {determineStarClassification} = require("./stars/determineStarClassification");
@@ -20,6 +17,8 @@ const addCompanion = require("./stars/addCompanion");
 const giantsStellarClassLookup = require("./lookups/giantsStellarClassLookup");
 const SolarSystem = require("./solarSystems/solarSystem");
 const createMap = require("./travellerMap/createMap");
+const TravellerMap = require("./travellerMap/travellerMap");
+const computeStats = require("./solarSystems/computeStats");
 
 const SUBSECTOR_TYPES = {
   DENSE: { chance: 0.60},
@@ -84,6 +83,11 @@ const predefinedClassification = (star) => {
   classification.subtype = parseInt(tokens[1]);
 
   return classification;
+}
+
+const dumpStats = async (sector, outputDir) => {
+  const stats = computeStats(sector);
+  fs.writeFileSync(`${outputDir}/stats.yaml`, yaml.dump(stats));
 }
 
 const generateSubsector = (outputDir, sector, subsector, index, travellerMap, scanPoints) => {
@@ -264,7 +268,8 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap, sc
       fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-${subsector.name}.json`, json);
       fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-${subsector.name}travel.html`, solarSystem.travelGrid());
       travellerMap.addSystem(solarSystem);
-      scanPoints.push(`${subsector.name} ${solarSystem.coordinates},${solarSystem.scanPoints}`)
+      scanPoints.push(`${subsector.name} ${solarSystem.coordinates},${solarSystem.scanPoints}`);
+      sector.solarSystems.push(solarSystem);
     }
  }
 
@@ -279,6 +284,7 @@ commander
 (async () => {
   const options = commander.opts()
   const sector = yaml.load(fs.readFileSync(options.sector, 'utf8'));
+  sector.solarSystems = [];
 
   console.log(`${sector.name}`);
 
@@ -307,6 +313,7 @@ commander
     travellerMap.subSectors[subsector.index] = subsector.name;
     generateSubsector(outputDir, sector, subsector, index, travellerMap, scanPoints);
   }
+  await dumpStats(sector, outputDir);
   fs.writeFileSync(`${outputDir}/systems.csv`, travellerMap.systemDump());
   fs.writeFileSync(`${outputDir}/referee-systems.csv`, travellerMap.systemDump(true));
   fs.writeFileSync(`${outputDir}/meta.xml`, travellerMap.metaDataDump());
