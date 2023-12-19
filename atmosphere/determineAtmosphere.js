@@ -8,6 +8,7 @@ const cold1 = require("./cold1");
 
 const r = new Random();
 
+// Page 78
 determineAtmosphere = (star, planet) => {
   let atmo;
   if (planet.size === 'R' || planet.size === 'S' || planet.size < 2) {

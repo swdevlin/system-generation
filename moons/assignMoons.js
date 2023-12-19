@@ -140,6 +140,7 @@ const assignMoons = (star) => {
             governmentCode: 0,
             populationCode: 0,
             lawLevelCode: 0,
+            biomassRating: null,
             axialTilt: axialTilt(),
           });
         }

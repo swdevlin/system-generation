@@ -14,6 +14,13 @@ class TerrestrialPlanet {
     this.trojanOffset = null;
     this.axialTilt = 0;
     this.moons = [];
+    this.biomassRating = 0;
+    this.biocomplexityCode = 0;
+    this.biodiversityRating = 0;
+    this.compatibilityRating = 0;
+    this.resourceRating = 2;
+    this.currentNativeSophont = false;
+    this.extinctNativeSophont = false;
     this.hasRing = false;
     this.orbitType = ORBIT_TYPES.TERRESTRIAL;
     this.atmosphere = {

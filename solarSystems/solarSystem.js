@@ -24,6 +24,9 @@ const {
 const {assignMoons} = require("../moons");
 const {determineMoonAtmosphere} = require("../atmosphere");
 const Star = require("../stars/star");
+const biomass = require("../utils/assignBiomass");
+const resourceRating = require("../utils/resourceRating");
+const habitabilityRating = require("../utils/habitabilityRating");
 
 const Random = require("random-js").Random;
 const r = new Random();
@@ -310,6 +313,30 @@ class SolarSystem {
         }
   }
 
+  assignBiomass() {
+    for (const star of this.stars)
+      for (const stellarObject of star.stellarObjects)
+        if (stellarObject.orbitType === ORBIT_TYPES.TERRESTRIAL)
+          stellarObject.biomassRating = biomass(star, stellarObject);
+          // TODO: Moons
+  }
+
+  assignResourceRatings() {
+    for (const star of this.stars)
+      for (const stellarObject of star.stellarObjects)
+        if (stellarObject.orbitType === ORBIT_TYPES.TERRESTRIAL)
+          stellarObject.resourceRating = resourceRating(stellarObject);
+          // TODO: Moons
+  }
+
+  assignHabitabilityRatings() {
+    for (const star of this.stars)
+      for (const stellarObject of star.stellarObjects)
+        if (stellarObject.orbitType === ORBIT_TYPES.TERRESTRIAL)
+          stellarObject.habitabilityRating = habitabilityRating(stellarObject);
+          // TODO: Moons
+  }
+
   randomStar() {
     const hasOrbits = this.stars.filter(star => star.availableOrbits.length > 0);
     const i = r.integer(0, hasOrbits.length-1);
@@ -324,9 +351,9 @@ class SolarSystem {
       star = this.randomStar();
       orbit = twoD6() - 2 + d10()/10;
       if (star.minimumOrbit > 10) {
-        const newO = r.integer(star.availableOrbits[0][0]*10, star.availableOrbits[0][1]*10);
+        const newO = r.integer(star.availableOrbits[0][0]*10, star.availableOrbits[0][1]*10)/10;
         console.log(`high minimum orbit: ${this.sector} ${this.coordinates} ${star.minimumOrbit} ${newO}`)
-        orbit = newO / 10;
+        orbit = newO;
       } else
         orbit = twoD6() - 2 + d10()/10;
       count++;

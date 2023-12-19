@@ -1,3 +1,4 @@
+require('dotenv').config();
 const Random = require("random-js").Random;
 const commander= require('commander');
 const yaml= require('js-yaml');
@@ -19,6 +20,7 @@ const SolarSystem = require("./solarSystems/solarSystem");
 const createMap = require("./travellerMap/createMap");
 const TravellerMap = require("./travellerMap/travellerMap");
 const computeStats = require("./solarSystems/computeStats");
+const refereeReference = require("./solarSystems/refereeReference");
 
 const SUBSECTOR_TYPES = {
   DENSE: { chance: 0.60},
@@ -90,7 +92,12 @@ const dumpStats = async (sector, outputDir) => {
   fs.writeFileSync(`${outputDir}/stats.yaml`, yaml.dump(stats));
 }
 
-const generateSubsector = (outputDir, sector, subsector, index, travellerMap, scanPoints) => {
+const dumpRefereeReference = async (sector, outputDir) => {
+  const reference = refereeReference(sector);
+  fs.writeFileSync(`${outputDir}/referee.csv`, reference.join('\n'));
+}
+
+const generateSubsector = (outputDir, sector, subsector, index, travellerMap) => {
   const rowOffset = ROW_OFFSETS[Math.ceil(index/4)];
   const colOffset = COL_OFFSETS[index % 4];
   for (let col=1; col <= 8; col++)
@@ -261,14 +268,15 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap, sc
       }
       solarSystem.addMoons();
       solarSystem.assignAtmospheres();
-      solarSystem.calculateScanPoints();
+      solarSystem.assignBiomass();
+      solarSystem.assignResourceRatings();
+      solarSystem.assignHabitabilityRatings();
       const text = `${sector.name} ${solarSystem.coordinates} ${solarSystem.primaryStar.textDump(0, '', '', 0, [1])}`;
       fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-${subsector.name}.txt`, text);
       const json = JSON.stringify(solarSystem.primaryStar, null, 2);
       fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-${subsector.name}.json`, json);
       fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-${subsector.name}travel.html`, solarSystem.travelGrid());
       travellerMap.addSystem(solarSystem);
-      scanPoints.push(`${subsector.name} ${solarSystem.coordinates},${solarSystem.scanPoints}`);
       sector.solarSystems.push(solarSystem);
     }
  }
@@ -302,7 +310,6 @@ commander
   else
     fs.readdirSync(outputDir).forEach(f => fs.rmSync(`${outputDir}/${f}`));
 
-  const scanPoints = [];
   let index = 0;
   const travellerMap = new TravellerMap(sector.name);
   travellerMap.X = sector.X;
@@ -311,13 +318,13 @@ commander
   for (const subsector of sector.subsectors) {
     index++;
     travellerMap.subSectors[subsector.index] = subsector.name;
-    generateSubsector(outputDir, sector, subsector, index, travellerMap, scanPoints);
+    generateSubsector(outputDir, sector, subsector, index, travellerMap);
   }
   await dumpStats(sector, outputDir);
+  await dumpRefereeReference(sector, outputDir);
   fs.writeFileSync(`${outputDir}/systems.csv`, travellerMap.systemDump());
   fs.writeFileSync(`${outputDir}/referee-systems.csv`, travellerMap.systemDump(true));
   fs.writeFileSync(`${outputDir}/meta.xml`, travellerMap.metaDataDump());
-  fs.writeFileSync(`${outputDir}/scanPoints.csv`, scanPoints.join('\n'));
   await createMap({
     systems: travellerMap.systemDump(true),
     meta: travellerMap.metaDataDump(),
