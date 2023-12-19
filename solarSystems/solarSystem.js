@@ -311,16 +311,30 @@ class SolarSystem {
   }
 
   randomStar() {
-    const i = r.integer(0, this.stars.length-1);
-    return this.stars[i];
+    const hasOrbits = this.stars.filter(star => star.availableOrbits.length > 0);
+    const i = r.integer(0, hasOrbits.length-1);
+    return hasOrbits[i];
   }
 
   randomStarAndOrbit() {
     let star;
     let orbit;
+    let count = 0;
     do {
       star = this.randomStar();
       orbit = twoD6() - 2 + d10()/10;
+      if (star.minimumOrbit > 10) {
+        const newO = r.integer(star.availableOrbits[0][0]*10, star.availableOrbits[0][1]*10);
+        console.log(`high minimum orbit: ${this.sector} ${this.coordinates} ${star.minimumOrbit} ${newO}`)
+        orbit = newO / 10;
+      } else
+        orbit = twoD6() - 2 + d10()/10;
+      count++;
+      if (count > 100) {
+        console.log(JSON.stringify(this.stars, null, 2));
+        throw('bad');
+      }
+
     } while (!star.orbitValid(orbit));
     return [star, orbit];
   }

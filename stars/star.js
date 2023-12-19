@@ -11,7 +11,6 @@ const subtypeLookup = require("../lookups/subtypeLookup");
 const computeBaselineOrbitNumber = require("./computeBaselineOrbitNumber");
 
 const Random = require("random-js").Random;
-const r = new Random();
 
 class Star {
   constructor(classification, orbitType) {
@@ -94,6 +93,13 @@ class Star {
     this.stellarObjects = [];
     this.occupiedOrbits = [];
     this.orbitSequence = '';
+  }
+
+  get minimumOrbit() {
+    if (this.availableOrbits.length > 0)
+      return this.availableOrbits[0][0];
+    else
+      return null;
   }
 
   get isAnomaly() {

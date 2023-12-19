@@ -6,7 +6,7 @@ const {twoD6, d6} = require("./dice");
 const {gasGiantQuantity} = require("./gasGiants");
 const {planetoidBeltQuantity} = require("./planetoidBelts");
 const {terrestrialPlanetQuantity} = require("./terrestrialPlanets");
-const {calculatePeriod, additionalStarDM, ORBIT_TYPES, companionOrbit, orbitToAU} = require("./utils");
+const {calculatePeriod, additionalStarDM, ORBIT_TYPES, companionOrbit} = require("./utils");
 const StellarClassification = require("./stars/StellarClassification");
 const Star = require("./stars/star");
 const {determineStarClassification} = require("./stars/determineStarClassification");
@@ -286,7 +286,7 @@ commander
   const sector = yaml.load(fs.readFileSync(options.sector, 'utf8'));
   sector.solarSystems = [];
 
-  console.log(`${sector.name}`);
+  console.log(`Generating ${sector.name}`);
 
   const mapDir = `${options.output}/maps`;
   if (!fs.existsSync(mapDir))
@@ -332,7 +332,6 @@ commander
     sectorName: sector.name,
     forReferee: false
   });
-  console.log('done');
 })()
 .then(() => process.exit(0))
 .catch(err => {
