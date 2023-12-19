@@ -1,0 +1,54 @@
+name: Troy
+abbreviation: Troy
+X: -19
+Y: -9
+unusualChance: 0.1
+subsectors:
+  - name: Troy A
+    type: MODERATE
+    index: A
+  - name: Troy B
+    type: MODERATE
+    index: B
+  - name: Troy C
+    type: MODERATE
+    index: C
+  - name: Troy D
+    type: MODERATE
+    index: D
+  - name: Troy E
+    type: MODERATE
+    index: E
+  - name: Troy F
+    type: MODERATE
+    index: F
+  - name: Troy G
+    type: MODERATE
+    index: G
+  - name: Troy H
+    type: MODERATE
+    index: H
+  - name: Troy I
+    type: MODERATE
+    index: I
+  - name: Troy J
+    type: MODERATE
+    index: J
+  - name: Troy K
+    type: MODERATE
+    index: K
+  - name: Troy L
+    type: MODERATE
+    index: L
+  - name: Troy M
+    type: MODERATE
+    index: M
+  - name: Troy N
+    type: STANDARD
+    index: N
+  - name: Troy O
+    type: MODERATE
+    index: O
+  - name: Troy P
+    type: MODERATE
+    index: P

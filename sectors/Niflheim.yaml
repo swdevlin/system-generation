@@ -1,0 +1,54 @@
+name: Niflheim
+abbreviation: Nif
+X: -17
+Y: -9
+unusualChance: 0.1
+subsectors:
+  - name: Nif A
+    type: MODERATE
+    index: A
+  - name: Nif B
+    type: MODERATE
+    index: B
+  - name: Nif C
+    type: MODERATE
+    index: C
+  - name: Nif D
+    type: MODERATE
+    index: D
+  - name: Nif E
+    type: STANDARD
+    index: E
+  - name: Nif F
+    type: MODERATE
+    index: F
+  - name: Nif G
+    type: MODERATE
+    index: G
+  - name: Nif H
+    type: STANDARD
+    index: H
+  - name: Nif I
+    type: MODERATE
+    index: I
+  - name: Nif J
+    type: STANDARD
+    index: J
+  - name: Nif K
+    type: MODERATE
+    index: K
+  - name: Nif L
+    type: MODERATE
+    index: L
+  - name: Nif M
+    type: LOW
+    index: M
+  - name: Nif N
+    type: STANDARD
+    index: N
+  - name: Nif O
+    type: MODERATE
+    index: O
+  - name: Nif P
+    type: STANDARD
+    index: P

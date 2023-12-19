@@ -1,0 +1,54 @@
+name: Gimli
+abbreviation: Gimli
+X: -18
+Y: -9
+unusualChance: 0.1
+subsectors:
+  - name: Gimli A
+    type: MODERATE
+    index: A
+  - name: Gimli B
+    type: MODERATE
+    index: B
+  - name: Gimli C
+    type: MODERATE
+    index: C
+  - name: Gimli D
+    type: MODERATE
+    index: D
+  - name: Gimli E
+    type: STANDARD
+    index: E
+  - name: Gimli F
+    type: MODERATE
+    index: F
+  - name: Gimli G
+    type: MODERATE
+    index: G
+  - name: Gimli H
+    type: STANDARD
+    index: H
+  - name: Gimli I
+    type: MODERATE
+    index: I
+  - name: Gimli J
+    type: STANDARD
+    index: J
+  - name: Gimli K
+    type: MODERATE
+    index: K
+  - name: Gimli L
+    type: MODERATE
+    index: L
+  - name: Gimli M
+    type: LOW
+    index: M
+  - name: Gimli N
+    type: STANDARD
+    index: N
+  - name: Gimli O
+    type: MODERATE
+    index: O
+  - name: Gimli P
+    type: STANDARD
+    index: P
