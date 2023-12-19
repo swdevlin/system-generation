@@ -1,7 +1,7 @@
 name: Kaalin Ulterior
 abbreviation: KaaUlt
-X: -13
-Y: 1
+X: -15
+Y: -2
 unusualChance: 0.1
 subsectors:
   - name: KaaUlt A

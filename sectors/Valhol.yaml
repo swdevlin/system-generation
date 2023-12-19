@@ -1,0 +1,54 @@
+name: Valhol
+abbreviation: Valhol
+X: -18
+Y: -8
+unusualChance: 0.1
+subsectors:
+  - name: Valhol A
+    type: STANDARD
+    index: A
+  - name: Valhol B
+    type: MODERATE
+    index: B
+  - name: Valhol C
+    type: STANDARD
+    index: C
+  - name: Valhol D
+    type: MODERATE
+    index: D
+  - name: Valhol E
+    type: MODERATE
+    index: E
+  - name: Valhol F
+    type: MODERATE
+    index: F
+  - name: Valhol G
+    type: STANDARD
+    index: G
+  - name: Valhol H
+    type: STANDARD
+    index: H
+  - name: Valhol I
+    type: MODERATE
+    index: I
+  - name: Valhol J
+    type: STANDARD
+    index: J
+  - name: Valhol K
+    type: STANDARD
+    index: K
+  - name: Valhol L
+    type: MODERATE
+    index: L
+  - name: Valhol M
+    type: STANDARD
+    index: M
+  - name: Valhol N
+    type: LOW
+    index: N
+  - name: Valhol O
+    type: MODERATE
+    index: O
+  - name: Valhol P
+    type: STANDARD
+    index: P

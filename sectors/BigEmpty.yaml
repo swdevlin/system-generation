@@ -1,7 +1,7 @@
 name: Big Empty
 abbreviation: BigE
 X: -10
-Y: 2
+Y: -3
 unusualChance: 0
 subsectors:
   - name: BigE A

@@ -1,7 +1,7 @@
 name: Crossing
 abbreviation: Cross
-X: -18
-Y: 3
+X: -19
+Y: -5
 unusualChance: 0.1
 subsectors:
   - name: Cross A

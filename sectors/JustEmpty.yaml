@@ -1,54 +1,54 @@
-name: Few Glimmers
-abbreviation: FewG
-X: -16
+name: Just Empty
+abbreviation: JE
+X: -15
 Y: -4
 unusualChance: 0.1
 subsectors:
-  - name: FewG A
-    type: DEEP_RIFT
+  - name: JE A
+    type: RIFT_FADE
     index: A
-  - name: FewG B
+  - name: JE B
     type: RIFT_FADE
     index: B
-  - name: FewG C
+  - name: JE C
     type: RIFT_FADE
     index: C
-  - name: FewG D
+  - name: JE D
     type: RIFT_FADE
     index: D
-  - name: FewG E
-    type: RIFT_FADE
+  - name: JE E
+    type: DEEP_RIFT
     index: E
-  - name: FewG F
+  - name: JE F
     type: RIFT_FADE
     index: F
-  - name: FewG G
-    type: MINIMAL
+  - name: JE G
+    type: EMPTY
     index: G
-  - name: FewG H
-    type: RIFT_FADE
+  - name: JE H
+    type: DEEP_RIFT
     index: H
-  - name: FewG I
-    type: RIFT_FADE
+  - name: JE I
+    type: DEEP_RIFT
     index: I
-  - name: FewG J
-    type: RIFT_FADE
+  - name: JE J
+    type: EMPTY
     index: J
-  - name: FewG K
+  - name: JE K
     type: RIFT
     index: K
-  - name: FewG L
+  - name: JE L
     type: RIFT_FADE
     index: L
-  - name: FewG M
+  - name: JE M
     type: RIFT_FADE
     index: M
-  - name: FewG N
+  - name: JE N
     type: RIFT_FADE
     index: N
-  - name: FewG O
+  - name: JE O
     type: RIFT_FADE
     index: O
-  - name: FewG P
+  - name: JE P
     type: RIFT_FADE
     index: P

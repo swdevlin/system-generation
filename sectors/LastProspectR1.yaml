@@ -1,0 +1,54 @@
+name: Last Prospect Rimward
+abbreviation: LastPR
+X: -20
+Y: -5
+unusualChance: 0.1
+subsectors:
+  - name: LastPR A
+    type: RIFT
+    index: A
+  - name: LastPR B
+    type: RIFT_FADE
+    index: B
+  - name: LastPR C
+    type: RIFT_FADE
+    index: C
+  - name: LastPR D
+    type: RIFT_FADE
+    index: D
+  - name: LastPR E
+    type: RIFT
+    index: E
+  - name: LastPR F
+    type: RIFT
+    index: F
+  - name: LastPR G
+    type: RIFT_FADE
+    index: G
+  - name: LastPR H
+    type: RIFT_FADE
+    index: H
+  - name: LastPR I
+    type: RIFT_FADE
+    index: I
+  - name: LastPR J
+    type: RIFT_FADE
+    index: J
+  - name: LastPR K
+    type: RIFT_FADE
+    index: K
+  - name: LastPR L
+    type: RIFT
+    index: L
+  - name: LastPR M
+    type: RIFT_FADE
+    index: M
+  - name: LastPR N
+    type: RIFT_FADE
+    index: N
+  - name: LastPR O
+    type: RIFT_FADE
+    index: O
+  - name: LastPR P
+    type: RIFT
+    index: P

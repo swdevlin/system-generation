@@ -1,7 +1,7 @@
 name: No Shore
 abbreviation: NS
 X: -11
-Y: 2
+Y: -3
 unusualChance: 0.1
 subsectors:
   - name: NS A

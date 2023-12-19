@@ -1,0 +1,54 @@
+name: Bitfrost
+abbreviation: Bit
+X: -19
+Y: -8
+unusualChance: 0.1
+subsectors:
+  - name: Bit A
+    type: MODERATE
+    index: A
+  - name: Bit B
+    type: MODERATE
+    index: B
+  - name: Bit C
+    type: MODERATE
+    index: C
+  - name: Bit D
+    type: LOW
+    index: D
+  - name: Bit E
+    type: STANDARD
+    index: E
+  - name: Bit F
+    type: STANDARD
+    index: F
+  - name: Bit G
+    type: MODERATE
+    index: G
+  - name: Bit H
+    type: LOW
+    index: H
+  - name: Bit I
+    type: MODERATE
+    index: I
+  - name: Bit J
+    type: STANDARD
+    index: J
+  - name: Bit K
+    type: MODERATE
+    index: K
+  - name: Bit L
+    type: STANDARD
+    index: L
+  - name: Bit M
+    type: STANDARD
+    index: M
+  - name: Bit N
+    type: MODERATE
+    index: N
+  - name: Bit O
+    type: MODERATE
+    index: O
+  - name: Bit P
+    type: STANDARD
+    index: P

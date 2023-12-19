@@ -1,7 +1,7 @@
 name: Vilaakasii
 abbreviation: Vilaa
 X: -11
-Y: 1
+Y: -2
 unusualChance: 0.1
 subsectors:
   - name: Vilaa A

@@ -1,7 +1,7 @@
 name: Giskakii
 abbreviation: Gis
 X: -11
-Y: 0
+Y: -1
 unusualChance: 0.1
 subsectors:
   - name: Gis A

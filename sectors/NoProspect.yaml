@@ -1,7 +1,7 @@
 name: No Prospect
 abbreviation: NoP
-X: -16
-Y: 3
+X: -18
+Y: -4
 unusualChance: 0.1
 subsectors:
   - name: NoP A

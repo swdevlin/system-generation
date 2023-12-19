@@ -1,0 +1,54 @@
+name: Hvergelmir
+abbreviation: Hver
+X: -17
+Y: -8
+unusualChance: 0.1
+subsectors:
+  - name: Hver A
+    type: STANDARD
+    index: A
+  - name: Hver B
+    type: STANDARD
+    index: B
+  - name: Hver C
+    type: MODERATE
+    index: C
+  - name: Hver D
+    type: MODERATE
+    index: D
+  - name: Hver E
+    type: STANDARD
+    index: E
+  - name: Hver F
+    type: LOW
+    index: F
+  - name: Hver G
+    type: MODERATE
+    index: G
+  - name: Hver H
+    type: STANDARD
+    index: H
+  - name: Hver I
+    type: MODERATE
+    index: I
+  - name: Hver J
+    type: STANDARD
+    index: J
+  - name: Hver K
+    type: STANDARD
+    index: K
+  - name: Hver L
+    type: MODERATE
+    index: L
+  - name: Hver M
+    type: STANDARD
+    index: M
+  - name: Hver N
+    type: STANDARD
+    index: N
+  - name: Hver O
+    type: MODERATE
+    index: O
+  - name: Hver P
+    type: STANDARD
+    index: P

@@ -1,7 +1,7 @@
 name: Sisyphus Citerior
 abbreviation: SisCit
-X: -16
-Y: 2
+X: -18
+Y: -3
 unusualChance: 0.1
 subsectors:
   - name: SisCit A

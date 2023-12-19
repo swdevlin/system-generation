@@ -1,7 +1,7 @@
 name: Black Night
 abbreviation: BN
-X: -15
-Y: 3
+X: -17
+Y: -4
 unusualChance: 0.1
 subsectors:
   - name: BN A

@@ -1,7 +1,7 @@
 name: Near Side of Yonder
 abbreviation: NSoY
 X: -13
-Y: 1
+Y: -2
 unusualChance: 0.1
 subsectors:
   - name: NSoY A
