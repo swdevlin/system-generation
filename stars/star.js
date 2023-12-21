@@ -11,7 +11,6 @@ const subtypeLookup = require("../lookups/subtypeLookup");
 const computeBaselineOrbitNumber = require("./computeBaselineOrbitNumber");
 const StellarObject = require("../stellarObject");
 
-const Random = require("random-js").Random;
 
 class Star extends StellarObject {
   constructor(classification, orbitType) {

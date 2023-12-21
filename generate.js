@@ -21,7 +21,7 @@ const createMap = require("./travellerMap/createMap");
 const TravellerMap = require("./travellerMap/travellerMap");
 const computeStats = require("./solarSystems/computeStats");
 const refereeReference = require("./solarSystems/refereeReference");
-const systemMap = require("./systemMap");
+
 
 const SUBSECTOR_TYPES = {
   DENSE: { chance: 0.60},

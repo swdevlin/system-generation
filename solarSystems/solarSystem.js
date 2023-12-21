@@ -324,7 +324,7 @@ class SolarSystem {
     for (const star of this.stars)
       for (const stellarObject of star.stellarObjects)
         if (stellarObject.orbitType === ORBIT_TYPES.TERRESTRIAL)
-          stellarObject.biomassRating = biomass(star, stellarObject);
+          biomass(star, stellarObject);
           // TODO: Moons
   }
 
