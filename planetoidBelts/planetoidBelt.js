@@ -1,7 +1,9 @@
 const {ORBIT_TYPES, orbitText, sequenceIdentifier, toHex} = require("../utils");
+const StellarObject = require("../stellarObject");
 
-class PlanetoidBelt {
+class PlanetoidBelt extends StellarObject {
   constructor(orbit) {
+    super();
     this.orbit = orbit;
     this.moons = [];
     this.orbitType = ORBIT_TYPES.PLANETOID_BELT;

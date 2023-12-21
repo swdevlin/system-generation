@@ -48,6 +48,13 @@ class SolarSystem {
     this.interesting = false;
   }
 
+  mapName() {
+    if (this.name)
+      return this.name;
+    else
+      return `${this.sector} ${this.coordinates}`;
+  }
+
   calculateScanPoints() {
     if (this.scanPoints === 0) {
       this.scanPoints = d4() + d4();

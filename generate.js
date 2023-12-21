@@ -21,6 +21,7 @@ const createMap = require("./travellerMap/createMap");
 const TravellerMap = require("./travellerMap/travellerMap");
 const computeStats = require("./solarSystems/computeStats");
 const refereeReference = require("./solarSystems/refereeReference");
+const systemMap = require("./systemMap");
 
 const SUBSECTOR_TYPES = {
   DENSE: { chance: 0.60},
@@ -275,7 +276,7 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap) =>
       fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-${subsector.name}.txt`, text);
       const json = JSON.stringify(solarSystem.primaryStar, null, 2);
       fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-${subsector.name}.json`, json);
-      fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-${subsector.name}travel.html`, solarSystem.travelGrid());
+      fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-${subsector.name}-travel.html`, solarSystem.travelGrid());
       travellerMap.addSystem(solarSystem);
       sector.solarSystems.push(solarSystem);
     }

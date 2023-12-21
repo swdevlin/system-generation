@@ -1,4 +1,5 @@
 const {AU} = require("./index");
+
 const randomAngle = () => {
   return Math.random() * 2 * Math.PI;
 }
@@ -9,10 +10,13 @@ const orbitPosition = (obj, starY) => {
 
   const angle = randomAngle();
   const radius = x;
+  obj.orbitPosition.x = x + radius * Math.cos(angle);
+  obj.orbitPosition.y = y + radius * Math.sin(angle);
+
   return {
     au: x,
-    x: x + radius * Math.cos(angle),
-    y: y + radius * Math.sin(angle),
+    x: obj.orbitPosition.x,
+    y: obj.orbitPosition.y,
     orbit: obj.orbit,
     orbitSequence: obj.orbitSequence,
     stellarObject: obj

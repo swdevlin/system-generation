@@ -9,11 +9,13 @@ const starTemperature = require("./starTemperature");
 const {starEccentricity} = require("./starEccentricity");
 const subtypeLookup = require("../lookups/subtypeLookup");
 const computeBaselineOrbitNumber = require("./computeBaselineOrbitNumber");
+const StellarObject = require("../stellarObject");
 
 const Random = require("random-js").Random;
 
-class Star {
+class Star extends StellarObject {
   constructor(classification, orbitType) {
+    super();
     this.stellarClass = classification.stellarClass;
     this.stellarType = classification.stellarType;
     this.totalObjects = 0;

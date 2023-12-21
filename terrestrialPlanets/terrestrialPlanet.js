@@ -1,8 +1,11 @@
 const {ORBIT_TYPES, toHex, orbitText, sequenceIdentifier, deconstructUWP} = require("../utils");
 const {moonTextDump, moonHTMLDump} = require("../moons");
+const StellarObject = require("../stellarObject");
 
-class TerrestrialPlanet {
+class TerrestrialPlanet extends StellarObject {
   constructor(size, orbit, uwp) {
+    super();
+
     const components = uwp ? deconstructUWP(uwp) : null;
     this.size = components ? components.size : size;
     this.orbit = orbit;

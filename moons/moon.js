@@ -1,7 +1,9 @@
 const Atmosphere = require("../atmosphere/Atmosphere");
+const StellarObject = require("../stellarObject");
 
-class Moon {
+class Moon extends StellarObject {
   constructor() {
+    super();
     this.orbit = null;
     this.size = null;
     this.eccentricity = null;
