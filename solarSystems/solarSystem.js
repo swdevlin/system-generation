@@ -28,6 +28,7 @@ const biomass = require("../utils/assignBiomass");
 const resourceRating = require("../utils/resourceRating");
 const habitabilityRating = require("../utils/habitabilityRating");
 const {starColour} = require("../utils/starColours");
+const inclination = require("../utils/inclination");
 
 const Random = require("random-js").Random;
 const r = new Random();
