@@ -277,10 +277,11 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap) =>
       const json = JSON.stringify(solarSystem.primaryStar, null, 2);
       fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-${subsector.name}.json`, json);
       fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-${subsector.name}-travel.html`, solarSystem.travelGrid());
+      fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-${subsector.name}-map.svg`, solarSystem.systemMap());
       travellerMap.addSystem(solarSystem);
       sector.solarSystems.push(solarSystem);
     }
- }
+}
 
 // noinspection HtmlDeprecatedTag,XmlDeprecatedElement
 commander

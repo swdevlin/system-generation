@@ -17,7 +17,6 @@ describe("Available Orbits", function () {
   beforeEach(function () {
     solarSystem = new SolarSystem();
     const star = new Star({stellarClass: 'V', stellarType: 'K', subtype: 5}, ORBIT_TYPES.PRIMARY);
-    star.eccentricity = 0;
     star.companion = new Star({stellarClass: 'V', stellarType: 'M', subtype: 6}, ORBIT_TYPES.COMPANION);
     star.companion.eccentricity = 0.00237;
     solarSystem.addPrimary(star);

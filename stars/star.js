@@ -76,9 +76,7 @@ class Star extends StellarObject {
 
     this.colour = StarColour[this.stellarType];
 
-    if (orbitType === ORBIT_TYPES.PRIMARY)
-      this.eccentricity = 0;
-    else
+    if (orbitType !== ORBIT_TYPES.PRIMARY)
       this.eccentricity = starEccentricity(this);
 
     this.companion = null;
@@ -296,46 +294,6 @@ class Star extends StellarObject {
       }
     }
     return s;
-  }
-
-  htmlDump(additionalClass) {
-    if (additionalClass === undefined)
-      additionalClass = '';
-    let lines = [];
-    this.jump = auToOrbit(100 * this.diameter * SOL_DIAMETER / AU);
-    let displayedJump = false;
-    let s = '';
-    if (this.orbitType !== ORBIT_TYPES.PRIMARY)
-      s = `<span class="orbit">${orbitText(this.orbit)}`;
-    if (this.stellarType === 'D')
-      s += `<span class="star">White Dwarf</span>`;
-    else
-      s += `<span class="star">${this.stellarType}${this.subtype} ${this.stellarClass}</span>`;
-    if (this.orbitType !== ORBIT_TYPES.PRIMARY)
-      lines.push(`<li class="${additionalClass}">${s}</li>`);
-    else
-      lines.push(`<div class="${additionalClass}">${s}</div>`);
-    lines.push('<ul>');
-    for (const stellar of this.stellarObjects) {
-      if (stellar.orbit > this.jump && !displayedJump) {
-        lines.push('<li><hr/></li>');
-        displayedJump = true;
-      }
-      let habitableClass = '';
-      if (Math.abs(this.hzco - stellar.orbit) <= 0.2)
-        habitableClass = 'habitable';
-      else if (Math.abs(this.hzco - stellar.orbit) <= 1)
-        habitableClass = 'fringe';
-      else if (this.hzco < stellar.orbit)
-        habitableClass = 'outside';
-      else
-        habitableClass = 'inside';
-      // lines.push(`<li class="${habitableClass}">`);
-      lines = lines.concat(stellar.htmlDump(habitableClass));
-      // lines.push(`</li>`);
-    }
-    lines.push('</ul>');
-    return lines;
   }
 
 }

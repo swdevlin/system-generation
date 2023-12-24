@@ -1,5 +1,5 @@
 const {ORBIT_TYPES, toHex, orbitText, sequenceIdentifier, deconstructUWP} = require("../utils");
-const {moonTextDump, moonHTMLDump} = require("../moons");
+const {moonTextDump} = require("../moons");
 const StellarObject = require("../stellarObject");
 
 class TerrestrialPlanet extends StellarObject {
@@ -11,8 +11,6 @@ class TerrestrialPlanet extends StellarObject {
     this.orbit = orbit;
     this.period = 0;
     this.composition = '';
-    this.eccentricity = 0;
-    this.inclination = 0;
     this.retrograde = false;
     this.trojanOffset = null;
     this.axialTilt = 0;
@@ -77,22 +75,6 @@ class TerrestrialPlanet extends StellarObject {
     for (const moon of this.moons)
       s += moonTextDump(moon, spacing+2);
     return s;
-  }
-
-  htmlDump(additionalClass) {
-    if (additionalClass === undefined)
-      additionalClass = '';
-    let html = [];
-    const label = this.orbitType === ORBIT_TYPES.PLANETOID_BELT_OBJECT ? 'Belt significant body' : 'Terrestrial planet';
-    html.push(`<li class="planet ${additionalClass}"><span class="orbit">${orbitText(this.orbit)}</span> <span class="uwp">X${toHex(this.size)}${toHex(this.atmosphere.code)}${toHex(this.hydrographics.code)}${toHex(this.populationCode)}${toHex(this.governmentCode)}${toHex(this.lawLevelCode)}</span> ${label}</li>`);
-    if (this.moons.length > 0) {
-      html.push('<ul>');
-      for (const moon of this.moons)
-        html = html.concat(moonHTMLDump(moon));
-      html.push('</ul>');
-
-    }
-    return html;
   }
 
 }

@@ -37,13 +37,6 @@ class PlanetoidBelt extends StellarObject {
     return `${' '.repeat(spacing)}${prefix}${orbitText(this.orbit, index, starIndex)} Planetoid belt${postfix}\n`;
   }
 
-  htmlDump(additionalClass) {
-    if (additionalClass === undefined)
-      additionalClass = '';
-
-    return [`<li class="planetoid ${additionalClass}"><span class="orbit">${orbitText(this.orbit)}</span>X000000 Planetoid belt</li>`];
-  }
-
   get uwp() {
     return `${this.starPort}${toHex(this.size)}${toHex(this.atmosphere.code)}${toHex(this.hydrographics.code)}${toHex(this.populationCode)}${toHex(this.governmentCode)}${toHex(this.lawLevelCode)}-${this.techLevel}`;
   }

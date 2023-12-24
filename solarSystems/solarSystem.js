@@ -27,6 +27,7 @@ const Star = require("../stars/star");
 const biomass = require("../utils/assignBiomass");
 const resourceRating = require("../utils/resourceRating");
 const habitabilityRating = require("../utils/habitabilityRating");
+const {starColour} = require("../utils/starColours");
 
 const Random = require("random-js").Random;
 const r = new Random();
@@ -218,6 +219,7 @@ class SolarSystem {
     p.composition = terrestrialComposition(star, p);
     p.density = terrestrialDensity(p.composition);
     p.eccentricity = eccentricity(0);
+    p.inclination = inclination();
     p.axialTilt = axialTilt();
     p.albedo = calculateAlbedo(p);
     star.addStellarObject(p);
@@ -422,12 +424,66 @@ class SolarSystem {
 
   addLocations(star, locations) {
     for (const obj of star.stellarObjects) {
-      locations.push(orbitPosition(obj, star.y));
-      if (obj instanceof Star) {
-        obj.y = locations[locations.length-1].y;
+      locations.push(orbitPosition(obj, star));
+      if (obj instanceof Star)
         this.addLocations(obj, locations);
-      }
     }
+  }
+
+  systemMap() {
+    const locations = [];
+    this.addLocations(this.primaryStar, locations);
+
+    const svg = [];
+    const maxSize = Math.ceil(locations.reduce((m, l) => {
+      return Math.max(l.radius + l.parentRadius, m);
+    }, 0));
+    const scale = 1000 / maxSize;
+    const midPoint = 1025;
+    const primary = `<circle cx="${midPoint}" cy="${midPoint}" r="25" fill="${starColour(this.primaryStar)}" />`;
+    svg.push('<svg version="1.1" width="2050" height="2050" xmlns="http://www.w3.org/2000/svg">');
+    svg.push(primary);
+    for (const l of locations) {
+      let size = 10;
+      let colour;
+      if (l.stellarObject.orbitType <= ORBIT_TYPES.COMPANION) {
+        size = 20;
+        colour = starColour(l.stellarObject);
+      } else if (l.stellarObject.orbitType === ORBIT_TYPES.GAS_GIANT) {
+        if (l.stellarObject.code === 'GS')
+          size = 15;
+        else if (l.stellarObject.code === 'GM')
+          size = 17;
+        else
+          size = 19;
+        colour = "purple";
+      } else if (l.stellarObject.orbitType === ORBIT_TYPES.PLANETOID_BELT) {
+        size = 0;
+        colour = "black";
+      } else if (l.stellarObject.orbitType === ORBIT_TYPES.PLANETOID_BELT_OBJECT) {
+        if (l.stellarObject.size === 'S' || l.stellarObject.size === 'R')
+          size = 2;
+        else
+          size = 3 + l.stellarObject.size;
+        colour = "grey";
+      } else {
+        size = 3 + l.stellarObject.size;
+        if (l.stellarObject.hydrographics.code === 0)
+          colour = '#933A16';
+        else
+          colour = `hsl(210, ${parseInt(l.stellarObject.hydrographics.code)*10}%, 50%)`;
+      }
+
+      if (size !== 0) {
+        const circle = `<circle cx="${midPoint + l.x * scale}" cy="${midPoint + l.y * scale}" r="${size}" fill="${colour}" />`;
+        svg.push(circle)
+      }
+      const strokeWidth = size === 0 ? 3 : 1;
+      const orbit = `<circle cx="${midPoint + l.orbitCentreX * scale}" cy="${midPoint + l.orbitCentreY * scale}" r="${l.radius * scale}" fill="none" stroke="grey" stroke-width="${strokeWidth}" stroke-dasharray="9, 15"/>`;
+      svg.push(orbit)
+    }
+    svg.push('</svg>');
+    return svg.join('\n');
   }
 
   travelGrid() {
