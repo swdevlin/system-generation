@@ -1,7 +1,7 @@
 "use strict";
 
 const chai = require('chai');
-const terrestrialCompositionDM = require("../terrestrialPlanets/terrestrialCompositionDM");
+const terrestrialCompositionDM = require("../terrestrialPlanet/terrestrialCompositionDM");
 chai.should();
 
 describe("Available Orbits", function () {

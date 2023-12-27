@@ -15,12 +15,6 @@ const {
   determineBeltResourceRating,
   addSignificantBodies
 } = require("../planetoidBelts");
-const {
-  terrestrialWorldSize,
-  TerrestrialPlanet,
-  terrestrialComposition,
-  terrestrialDensity, superEarthWorldSize
-} = require("../terrestrialPlanets");
 const Star = require("../stars/star");
 const biomass = require("../utils/assignBiomass");
 const resourceRating = require("../utils/resourceRating");
@@ -30,6 +24,10 @@ const inclination = require("../utils/inclination");
 const assignAtmosphere = require("../atmosphere/assignAtmosphere");
 const assignMoonAtmosphere = require("../atmosphere/assignMoonAtmosphere");
 const assignMoons = require("../moons/assignMoons");
+const terrestrialWorldSize = require("../terrestrialPlanet/terrestrialWorldSize");
+const TerrestrialPlanet = require("../terrestrialPlanet/terrestrialPlanet");
+const terrestrialComposition = require("../terrestrialPlanet/terrestrialComposition");
+const terrestrialDensity = require("../terrestrialPlanet/terrestrialDensity");
 
 const Random = require("random-js").Random;
 const r = new Random();

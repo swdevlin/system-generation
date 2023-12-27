@@ -3,7 +3,7 @@
 const chai = require('chai');
 
 const {ROLL_CACHE} = require("../dice");
-const {terrestrialComposition} = require("../terrestrialPlanets");
+const {terrestrialComposition} = require("../terrestrialPlanet");
 
 chai.should();
 

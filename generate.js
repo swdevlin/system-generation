@@ -6,7 +6,6 @@ const fs= require('fs');
 const {twoD6, d6} = require("./dice");
 const {gasGiantQuantity} = require("./gasGiants");
 const {planetoidBeltQuantity} = require("./planetoidBelts");
-const {terrestrialPlanetQuantity} = require("./terrestrialPlanets");
 const {calculatePeriod, additionalStarDM, ORBIT_TYPES, companionOrbit} = require("./utils");
 const StellarClassification = require("./stars/StellarClassification");
 const Star = require("./stars/star");
@@ -21,6 +20,7 @@ const createMap = require("./travellerMap/createMap");
 const TravellerMap = require("./travellerMap/travellerMap");
 const computeStats = require("./solarSystems/computeStats");
 const refereeReference = require("./solarSystems/refereeReference");
+const terrestrialPlanetQuantity = require("./terrestrialPlanet/terrestrialPlanetQuantity");
 
 
 const SUBSECTOR_TYPES = {

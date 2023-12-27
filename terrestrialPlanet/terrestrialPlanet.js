@@ -2,7 +2,7 @@ const {ORBIT_TYPES, toHex, orbitText, sequenceIdentifier, deconstructUWP} = requ
 const StellarObject = require("../stellarObject");
 const Atmosphere = require("../atmosphere/Atmosphere");
 const moonTextDump = require("../moons/moonTextDump");
-const {determineTaint} = require('./taint');
+const {determineTaint} = require("../atmosphere/taint");
 
 class TerrestrialPlanet extends StellarObject {
   constructor(size, orbit, uwp) {
