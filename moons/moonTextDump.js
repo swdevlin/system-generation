@@ -9,5 +9,4 @@ const moonTextDump = (moon, spacing) => {
   return `${' '.repeat(spacing)}${moon.orbit.orbit.toFixed(2)} ${description}\n`;
 }
 
-module.exports.moonTextDump = moonTextDump;
-module.exports.assignMoons = require('./assignMoons');
+module.exports = moonTextDump;

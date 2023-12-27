@@ -1,5 +1,6 @@
 const {twoD6, d6, threeD6, d3} = require("../dice");
 const {ORBIT_TYPES, hillSpherePD, eccentricity, axialTilt} = require("../utils");
+const Moon = require("./moon");
 
 const Random = require("random-js").Random;
 const r = new Random();
@@ -130,19 +131,13 @@ const assignMoons = (star) => {
           if (twoD6()+dm > 9)
             period *= -1;
 
-          stellarObject.moons.push({
-            orbit: orbit,
-            size: size,
-            eccentricity: ecc,
-            period: period,
-            atmosphere: { code: 0, irritant: false, characteristic: ''},
-            hydrographics: { code: 0},
-            governmentCode: 0,
-            populationCode: 0,
-            lawLevelCode: 0,
-            biomassRating: null,
-            axialTilt: axialTilt(),
-          });
+          const moon = new Moon();
+          moon.orbit = orbit;
+          moon.size = size;
+          moon.eccentricity = ecc;
+          moon.hydrographics.code = 0;
+          stellarObject.moons.push(moon);
+          moon.axialTilt = axialTilt();
         }
       }
       stellarObject.moons.sort((a, b) => Math.abs(a.orbit.orbit) - Math.abs(b.orbit.orbit));

@@ -1,6 +1,6 @@
 const {ORBIT_TYPES, orbitText, sequenceIdentifier} = require("../utils");
-const {moonTextDump} = require("../moons");
 const StellarObject = require("../stellarObject");
+const moonTextDump = require("../moons/moonTextDump");
 
 class GasGiant extends StellarObject {
   constructor(code, diameter, mass, orbit) {

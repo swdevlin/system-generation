@@ -21,14 +21,15 @@ const {
   terrestrialComposition,
   terrestrialDensity, superEarthWorldSize
 } = require("../terrestrialPlanets");
-const {assignMoons} = require("../moons");
-const {determineMoonAtmosphere} = require("../atmosphere");
 const Star = require("../stars/star");
 const biomass = require("../utils/assignBiomass");
 const resourceRating = require("../utils/resourceRating");
 const habitabilityRating = require("../utils/habitabilityRating");
 const {starColour} = require("../utils/starColours");
 const inclination = require("../utils/inclination");
+const assignAtmosphere = require("../atmosphere/assignAtmosphere");
+const assignMoonAtmosphere = require("../atmosphere/assignMoonAtmosphere");
+const assignMoons = require("../moons/assignMoons");
 
 const Random = require("random-js").Random;
 const r = new Random();
@@ -222,7 +223,10 @@ class SolarSystem {
     p.eccentricity = eccentricity(0);
     p.inclination = inclination();
     p.axialTilt = axialTilt();
-    p.albedo = calculateAlbedo(p);
+    if (p.atmosphere.code === null)
+      assignAtmosphere(star, p);
+    if (p.hydrographics.code === null)
+      p.hydrographics = determineHydrographics(star, p);    p.albedo = calculateAlbedo(p);
     star.addStellarObject(p);
     return p;
   };
@@ -313,13 +317,12 @@ class SolarSystem {
     for (const star of this.stars)
       for (const stellarObject of star.stellarObjects)
         if ([ORBIT_TYPES.TERRESTRIAL, ORBIT_TYPES.PLANETOID_BELT_OBJECT].includes(stellarObject.orbitType)) {
-          if (stellarObject.atmosphere.code === null)
-            stellarObject.atmosphere = determineAtmosphere(star, stellarObject);
+          assignAtmosphere(star, stellarObject);
           stellarObject.meanTemperature = meanTemperature(star, stellarObject);
           if (stellarObject.hydrographics.code === null)
             stellarObject.hydrographics = determineHydrographics(star, stellarObject);
           for (const moon of stellarObject.moons)
-            moon.atmosphere = determineMoonAtmosphere(star, stellarObject, moon);
+            assignMoonAtmosphere(star, stellarObject, moon);
         }
   }
 

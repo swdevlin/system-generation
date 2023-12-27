@@ -1,6 +1,8 @@
 const {ORBIT_TYPES, toHex, orbitText, sequenceIdentifier, deconstructUWP} = require("../utils");
-const {moonTextDump} = require("../moons");
 const StellarObject = require("../stellarObject");
+const Atmosphere = require("../atmosphere/Atmosphere");
+const moonTextDump = require("../moons/moonTextDump");
+const {determineTaint} = require('./taint');
 
 class TerrestrialPlanet extends StellarObject {
   constructor(size, orbit, uwp) {
@@ -24,11 +26,13 @@ class TerrestrialPlanet extends StellarObject {
     this.extinctNativeSophont = false;
     this.hasRing = false;
     this.orbitType = ORBIT_TYPES.TERRESTRIAL;
-    this.atmosphere = {
-      code: components ? components.atmosphere : null,
-      irritant: false,
-      characteristic: ''
-    };
+    this.atmosphere = new Atmosphere();
+    if (components) {
+      this.atmosphere.code = components.atmosphere;
+      if ([2,4,7,9].includes(components.atmosphere))
+        this.atmosphere.taint = determineTaint();
+      // todo: 10+
+    }
     this.hydrographics = {
       code: components ? components.hydrographics : null,
       distribution: null

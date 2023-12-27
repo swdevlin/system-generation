@@ -1,5 +1,7 @@
 const {ORBIT_TYPES, orbitText, sequenceIdentifier, toHex} = require("../utils");
 const StellarObject = require("../stellarObject");
+const Atmosphere = require("../atmosphere/Atmosphere");
+const AtmosphereDensities = require("../atmosphere/AtmosphereDensities");
 
 class PlanetoidBelt extends StellarObject {
   constructor(orbit) {
@@ -15,11 +17,9 @@ class PlanetoidBelt extends StellarObject {
     this.bulk = null;
     this.resourceRating = null;
     this.significantBodies = [];
-    this.atmosphere = {
-      code: 0,
-      irritant: false,
-      characteristic: ''
-    };
+    this.atmosphere = new Atmosphere();
+    this.atmosphere.code = 0;
+    this.atmosphere.density = AtmosphereDensities.NONE;
     this.hydrographics = {
       code: 0,
       distribution: null

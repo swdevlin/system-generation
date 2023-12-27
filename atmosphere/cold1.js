@@ -1,65 +1,91 @@
 const {twoD6, d6} = require("../dice");
-const Atmosphere = require("./Atmosphere");
+const AtmosphereDensities = require("./AtmosphereDensities");
+const corrosiveAtmosphere = require("./corrosiveAtmosphere");
+const {insidiousHazard, insidiousAtmosphere} = require("./insidiousAtmosphere");
+const unusualAtmosphere = require("./unusualAtmosphere");
+const {determineTaint} = require("./taint");
 
-const cold1 = (orbitOffset, planetSize) => {
-  const roll = twoD6() - 7 + planetSize;
-  const atmosphere = new Atmosphere();
+// page 95
+const cold1 = (star, planet) => {
+  const orbitOffset = planet.orbit - star.hzco;
+  const roll = twoD6() - 7 + planet.size;
 
-  if (roll < 1)
-    return atmosphere;
-
-  if (roll < 3)
-    atmosphere.code = 1;
-  else if (roll === 3) {
-    atmosphere.code = 10;
-    atmosphere.characteristic = 'Very Thin';
-    if (d6() >= 4)
-      atmosphere.irritant = true;
-  } else if (roll === 4) {
-    atmosphere.code = 10;
-    atmosphere.characteristic = 'Thin';
-    atmosphere.irritant = true;
-  } else if (roll === 5) {
-    atmosphere.code = 10;
-    atmosphere.characteristic = 'Thin';
-  } else if (roll === 6) {
-    atmosphere.code = 10;
-    atmosphere.characteristic = '';
-  } else if (roll === 7) {
-    atmosphere.code = 10;
-    atmosphere.characteristic = '';
-    atmosphere.irritant = true;
-  } else if (roll === 8) {
-    atmosphere.code = 10;
-    atmosphere.characteristic = 'Dense';
-  } else if (roll === 9) {
-    atmosphere.code = 10;
-    atmosphere.characteristic = 'Dense';
-    atmosphere.irritant = true;
-  } else if (roll === 10) {
-    atmosphere.code = 10;
-    atmosphere.characteristic = 'Very Dense';
-    if (d6() >= 4)
-      atmosphere.irritant = true;
-  } else if (roll === 11)
-    atmosphere.code = 11;
-  else if (roll === 12)
-    atmosphere.code = 12;
-  else if (roll === 13)
-    atmosphere.code = 13;
-  else if (roll === 14)
-    atmosphere.code = 11;
-  else if (roll === 15)
-    atmosphere.code = 15;
-  else if (roll === 16) {
-    atmosphere.code = 16;
-    atmosphere.gasType = 'Helium';
-  } else {
-    atmosphere.code = 17;
-    atmosphere.gasType = 'Hydrogen';
+  if (roll < 1) {
+    planet.atmosphere.code = 0;
+    planet.atmosphere.density = AtmosphereDensities.NONE;
+  } else switch (roll) {
+    case 1:
+    case 2:
+      planet.atmosphere.code = 1;
+      planet.atmosphere.density = AtmosphereDensities.TRACE;
+      break;
+    case 3:
+      planet.atmosphere.code = 10;
+      planet.atmosphere.density = AtmosphereDensities.VERY_THIN;
+      if (d6() >= 4)
+        planet.atmosphere.irritant = true;
+      break;
+    case 4:
+      planet.atmosphere.code = 10;
+      planet.atmosphere.density = AtmosphereDensities.THIN;
+      planet.atmosphere.irritant = true;
+      break;
+    case 5:
+      planet.atmosphere.code = 10;
+      planet.atmosphere.density = AtmosphereDensities.THIN;
+      break;
+    case 6:
+      planet.atmosphere.code = 10;
+      planet.atmosphere.density = AtmosphereDensities.STANDARD;
+      break;
+    case 7:
+      planet.atmosphere.code = 10;
+      planet.atmosphere.density = AtmosphereDensities.STANDARD;
+      planet.atmosphere.irritant = true;
+      break;
+    case 8:
+      planet.atmosphere.code = 10;
+      planet.atmosphere.density = AtmosphereDensities.DENSE;
+      break;
+    case 9:
+      planet.atmosphere.code = 10;
+      planet.atmosphere.density = AtmosphereDensities.DENSE;
+      planet.atmosphere.irritant = true;
+      break;
+    case 10:
+      planet.atmosphere.code = 10;
+      planet.atmosphere.density = AtmosphereDensities.VERY_DENSE;
+      if (d6() >= 4) {
+        planet.atmosphere.irritant = true;
+      }
+      break;
+    case 11:
+    case 14:
+      corrosiveAtmosphere(star, planet);
+      break;
+    case 12:
+      insidiousAtmosphere(star, planet);
+      break;
+    case 13:
+      planet.atmosphere.code = 13;
+      planet.atmosphere.density = AtmosphereDensities.VERY_DENSE;
+      break;
+    case 15:
+      unusualAtmosphere(star, planet);
+      break;
+    case 16:
+      planet.atmosphere.code = 16;
+      planet.atmosphere.gasType = 'Helium';
+      planet.atmosphere.density = AtmosphereDensities.GAS;
+      break;
+    default:
+      planet.atmosphere.code = 17;
+      planet.atmosphere.gasType = 'Hydrogen';
+      planet.atmosphere.density = AtmosphereDensities.GAS;
+      break;
   }
-
-  return atmosphere;
+  if (planet.atmosphere.irritant)
+    planet.atmosphere.taint = determineTaint(planet.atmosphere);
 }
 
 module.exports = cold1;

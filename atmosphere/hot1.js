@@ -1,59 +1,81 @@
 const {twoD6, d6} = require("../dice");
-const Atmosphere = require("./Atmosphere");
+const AtmosphereDensities = require("./AtmosphereDensities");
+const {determineTaint} = require('./taint');
 
-const hot1 = (orbitOffset, planetSize) => {
-  const roll = twoD6() - 7 + planetSize;
-  const atmosphere = new Atmosphere();
-  if (roll < 1)
-    return atmosphere;
-
-  if (roll === 1)
-    atmosphere.code = 1;
-  else if (roll === 2) {
-    atmosphere.code = 10;
-    atmosphere.characteristic = 'Very Thin';
-    atmosphere.irritant = true;
-  } else if (roll === 3) {
-    atmosphere.code = 10;
-    atmosphere.characteristic = 'Very Thin';
-  } else if (roll === 4) {
-    atmosphere.code = 10;
-    atmosphere.characteristic = 'Thin';
-    atmosphere.irritant = true;
-  } else if (roll === 5) {
-    atmosphere.code = 10;
-    atmosphere.characteristic = 'Thin';
-  } else if (roll === 6) {
-    atmosphere.code = 10;
-    atmosphere.characteristic = '';
-  } else if (roll === 7) {
-    atmosphere.code = 10;
-    atmosphere.characteristic = '';
-    atmosphere.irritant = true;
-  } else if (roll === 8) {
-    atmosphere.code = 10;
-    atmosphere.characteristic = 'Dense';
-  } else if (roll === 9) {
-    atmosphere.code = 10;
-    atmosphere.characteristic = 'Dense';
-    atmosphere.irritant = true;
-  } else if (roll === 10) {
-    atmosphere.code = 10;
-    atmosphere.characteristic = 'Very Dense';
-    if (d6() >= 4)
-      atmosphere.irritant = true;
-  } else if (roll === 11 || roll === 13)
-    atmosphere.code = 11;
-  else if (roll === 12 || roll === 14)
-    atmosphere.code = 12;
-  else if (roll === 15)
-    atmosphere.code = 15;
-  else if (roll === 16)
-    atmosphere.code = 16;
-  else
-    atmosphere.code = 17;
-
-  return atmosphere;
+// page 94
+const hot1 = (star, planet) => {
+  const roll = twoD6() - 7 + planet.size;
+  if (roll < 1) {
+    planet.atmosphere.code = 0;
+    planet.atmosphere.density = AtmosphereDensities.NONE;
+  } else switch (roll) {
+    case 1:
+      planet.atmosphere.code = 1;
+      planet.atmosphere.density = AtmosphereDensities.TRACE;
+      break;
+    case 2:
+      planet.atmosphere.code = 10;
+      planet.atmosphere.density = AtmosphereDensities.VERY_THIN;
+      planet.atmosphere.irritant = true;
+      break;
+    case 3:
+      planet.atmosphere.code = 10;
+      planet.atmosphere.density = AtmosphereDensities.VERY_THIN;
+      break;
+    case 4:
+      planet.atmosphere.code = 10;
+      planet.atmosphere.density = AtmosphereDensities.THIN;
+      planet.atmosphere.irritant = true;
+      break;
+    case 5:
+      planet.atmosphere.code = 10;
+      planet.atmosphere.density = AtmosphereDensities.THIN;
+      break;
+    case 6:
+      planet.atmosphere.code = 10;
+      planet.atmosphere.density = AtmosphereDensities.STANDARD;
+      break;
+    case 7:
+      planet.atmosphere.code = 10;
+      planet.atmosphere.density = AtmosphereDensities.STANDARD;
+      planet.atmosphere.irritant = true;
+      break;
+    case 8:
+      planet.atmosphere.code = 10;
+      planet.atmosphere.density = AtmosphereDensities.DENSE;
+      break;
+    case 9:
+      planet.atmosphere.code = 10;
+      planet.atmosphere.density = AtmosphereDensities.DENSE;
+      planet.atmosphere.irritant = true;
+      break;
+    case 10:
+      planet.atmosphere.code = 10;
+      planet.atmosphere.density = AtmosphereDensities.VERY_DENSE;
+      if (d6() >= 4) {
+        planet.atmosphere.irritant = true;
+      }
+      break;
+    case 11:
+    case 13:
+      planet.atmosphere.code = 11;
+      break;
+    case 12:
+    case 14:
+      planet.atmosphere.code = 12;
+      break;
+    case 15:
+      planet.atmosphere.code = 15;
+      break;
+    case 16:
+      planet.atmosphere.code = 16;
+      break;
+    default:
+      planet.atmosphere.code = 17;
+      break;
+  }
+  if (planet.atmosphere.irritant)
+    planet.atmosphere.taint = determineTaint(planet.atmosphere);
 }
 
 module.exports = hot1;

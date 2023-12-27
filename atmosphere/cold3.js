@@ -1,60 +1,87 @@
 const {twoD6, d6} = require("../dice");
-const Atmosphere = require("./Atmosphere");
+const AtmosphereDensities = require("./AtmosphereDensities");
+const {determineTaint} = require("./taint");
 
-const cold3 = (orbitOffset, planetSize) => {
-  const roll = twoD6() - 7 + planetSize;
-  const atmosphere = new Atmosphere();
+// page 95
+const cold3 = (star, planet) => {
+  const orbitOffset = planet.orbit - star.hzco;
+  const roll = twoD6() - 7 + planet.size;
 
-  if (roll < 1)
-    return atmosphere;
+  if (roll < 1) {
+    planet.atmosphere.code = 0;
+    planet.atmosphere.density = AtmosphereDensities.NONE;
+  } else switch (roll) {
+    case 1:
+    case 2:
+      planet.atmosphere.code = 1;
+      break;
+    case 3:
+      planet.atmosphere.code = 10;
+      planet.atmosphere.density = AtmosphereDensities.VERY_THIN;
+      if (d6() >= 4) {
+        planet.atmosphere.irritant = true;
+      }
+      break;
+    case 4:
+      planet.atmosphere.code = 10;
+      planet.atmosphere.density = AtmosphereDensities.THIN;
+      planet.atmosphere.irritant = true;
+      break;
+    case 5:
+      planet.atmosphere.code = 10;
+      planet.atmosphere.density = AtmosphereDensities.THIN;
+      break;
+    case 6:
+      planet.atmosphere.code = 10;
+      planet.atmosphere.density = AtmosphereDensities.STANDARD;
+      break;
+    case 7:
+      planet.atmosphere.code = 10;
+      planet.atmosphere.density = AtmosphereDensities.STANDARD;
+      planet.atmosphere.irritant = true;
+      break;
+    case 8:
+      planet.atmosphere.code = 10;
+      planet.atmosphere.density = AtmosphereDensities.DENSE;
+      break;
+    case 9:
+      planet.atmosphere.code = 10;
+      planet.atmosphere.density = AtmosphereDensities.DENSE;
+      planet.atmosphere.irritant = true;
+      break;
+    case 10:
+      planet.atmosphere.code = 10;
+      planet.atmosphere.density = AtmosphereDensities.VERY_DENSE;
+      if (d6() >= 4) {
+        planet.atmosphere.irritant = true;
+      }
+      break;
+    case 11:
+      planet.atmosphere.code = 11;
+      break;
+    case 12:
+      planet.atmosphere.code = 12;
+      break;
+    case 13:
+      planet.atmosphere.code = 16;
+      planet.atmosphere.density = AtmosphereDensities.GAS;
+      planet.atmosphere.gasType = 'Helium';
+      break;
+    case 14:
+    case 16:
+    case 17:
+    default:
+      planet.atmosphere.code = 17;
+      planet.atmosphere.density = AtmosphereDensities.GAS;
+      planet.atmosphere.gasType = 'Hydrogen';
+      break;
+    case 15:
+      planet.atmosphere.code = 15;
+      break;
+  }
 
-  if (roll < 3)
-    atmosphere.code = 1;
-  else if (roll === 3) {
-    atmosphere.code = 10;
-    atmosphere.characteristic = 'Very Thin';
-    if (d6() >= 4)
-      atmosphere.irritant = true;
-  } else if (roll === 4) {
-    atmosphere.code = 10;
-    atmosphere.characteristic = 'Thin';
-    atmosphere.irritant = true;
-  } else if (roll === 5) {
-    atmosphere.code = 10;
-    atmosphere.characteristic = 'Thin';
-  } else if (roll === 6) {
-    atmosphere.code = 10;
-    atmosphere.characteristic = '';
-  } else if (roll === 7) {
-    atmosphere.code = 10;
-    atmosphere.characteristic = '';
-    atmosphere.irritant = true;
-  } else if (roll === 8) {
-    atmosphere.code = 10;
-    atmosphere.characteristic = 'Dense';
-  } else if (roll === 9) {
-    atmosphere.code = 10;
-    atmosphere.characteristic = 'Dense';
-    atmosphere.irritant = true;
-  } else if (roll === 10) {
-    atmosphere.code = 10;
-    atmosphere.characteristic = 'Very Dense';
-    if (d6() >= 4)
-      atmosphere.irritant = true;
-  } else if (roll === 11)
-    atmosphere.code = 11;
-  else if (roll === 12)
-    atmosphere.code = 12;
-  else if (roll === 13) {
-    atmosphere.code = 16;
-    atmosphere.gasType = 'Helium';
-  } else if (roll === 14 || roll === 16 || roll >= 17) {
-    atmosphere.code = 17;
-    atmosphere.gasType = 'Hydrogen';
-  } else if (roll === 15)
-    atmosphere.code = 15;
-
-  return atmosphere;
+  if (planet.atmosphere.irritant)
+    planet.atmosphere.taint = determineTaint(planet.atmosphere);
 }
 
 module.exports = cold3;
