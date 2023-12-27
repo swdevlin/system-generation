@@ -28,6 +28,7 @@ const terrestrialWorldSize = require("../terrestrialPlanet/terrestrialWorldSize"
 const TerrestrialPlanet = require("../terrestrialPlanet/terrestrialPlanet");
 const terrestrialComposition = require("../terrestrialPlanet/terrestrialComposition");
 const terrestrialDensity = require("../terrestrialPlanet/terrestrialDensity");
+const superEarthWorldSize = require("../terrestrialPlanet/superEarthWorldSize");
 
 const Random = require("random-js").Random;
 const r = new Random();
