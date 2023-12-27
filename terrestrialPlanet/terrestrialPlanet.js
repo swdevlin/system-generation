@@ -30,7 +30,7 @@ class TerrestrialPlanet extends StellarObject {
     if (components) {
       this.atmosphere.code = components.atmosphere;
       if ([2,4,7,9].includes(components.atmosphere))
-        this.atmosphere.taint = determineTaint();
+        this.atmosphere.taint = determineTaint(this.atmosphere);
       // todo: 10+
     }
     this.hydrographics = {
