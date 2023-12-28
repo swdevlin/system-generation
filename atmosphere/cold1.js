@@ -7,7 +7,6 @@ const {determineTaint} = require("./taint");
 
 // page 95
 const cold1 = (star, planet) => {
-  const orbitOffset = planet.orbit - star.hzco;
   const roll = twoD6() - 7 + planet.size;
 
   if (roll < 1) {

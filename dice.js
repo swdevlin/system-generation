@@ -60,6 +60,10 @@ const percentageChance = (p) => {
   return rng.bool(p);
 }
 
+const clearCache = () => {
+  ROLL_CACHE.length = 0;
+}
+
 module.exports = {
   die: die,
   d2: d2,
@@ -74,4 +78,5 @@ module.exports = {
   fluxRoll: fluxRoll,
   percentageChance: percentageChance,
   ROLL_CACHE: ROLL_CACHE,
+  clearCache: clearCache,
 }

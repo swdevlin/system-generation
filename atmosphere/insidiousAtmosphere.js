@@ -43,6 +43,7 @@ const insidiousHazard = (planet) => {
 
 const insidiousAtmosphere = (star, planet) => {
   corrosiveAtmosphere(star, planet);
+  planet.atmosphere.code = 12;
   insidiousHazard(planet);
 }
 

@@ -152,12 +152,15 @@ class Star extends StellarObject {
   }
 
   get luminosity() {
-    let luminosity = this.diameter ** 2 + (this.temperature / 5772) ** 4;
-    if (luminosity > 10)
-      luminosity = Math.round(luminosity);
-    else
-      luminosity = Math.round(luminosity * 100) / 100;
+    let luminosity = (this.diameter ** 2) * ((this.temperature / 5772) ** 4);
     return luminosity;
+  }
+
+  get totalLuminosity() {
+    let l = this.luminosity;
+    if (this.companion)
+      l += this.companion.luminosity;
+    return l;
   }
 
   get hzco() {

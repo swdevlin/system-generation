@@ -4,7 +4,7 @@ const {
   SOL_DIAMETER,
   eccentricity,
   determineHydrographics,
-  meanTemperature, axialTilt, calculateAlbedo, orbitPosition, calculateDistance, travelTime, STELLAR_TYPES,
+  meanTemperature, axialTilt, orbitPosition, calculateDistance, travelTime, STELLAR_TYPES,
 } = require("../utils");
 const {threeD6, twoD6, d4, d6, d10} = require("../dice");
 const {GasGiant} = require("../gasGiants");
@@ -30,6 +30,9 @@ const terrestrialComposition = require("../terrestrialPlanet/terrestrialComposit
 const terrestrialDensity = require("../terrestrialPlanet/terrestrialDensity");
 const superEarthWorldSize = require("../terrestrialPlanet/superEarthWorldSize");
 const {nativeSophont} = require("../utils/sophonts");
+const calculateGreenhouse = require("../atmosphere/calculateGreenhouse");
+const calculateAlbedo = require("../atmosphere/albedo");
+const assignPhysicalCharacteristics = require("../terrestrialPlanet/assignPhysicalCharacteristics");
 
 const Random = require("random-js").Random;
 const r = new Random();
@@ -218,15 +221,7 @@ class SolarSystem {
     if (orbitIndex !== undefined)
       orbit = star.occupiedOrbits[orbitIndex];
     const p = new TerrestrialPlanet(size, orbit, uwp);
-    p.composition = terrestrialComposition(star, p);
-    p.density = terrestrialDensity(p.composition);
-    p.eccentricity = eccentricity(0);
-    p.inclination = inclination();
-    p.axialTilt = axialTilt();
-    if (p.atmosphere.code === null)
-      assignAtmosphere(star, p);
-    if (p.hydrographics.code === null)
-      p.hydrographics = determineHydrographics(star, p);    p.albedo = calculateAlbedo(p);
+    assignPhysicalCharacteristics(star, p);
     star.addStellarObject(p);
     return p;
   };

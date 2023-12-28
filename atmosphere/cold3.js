@@ -4,7 +4,6 @@ const {determineTaint} = require("./taint");
 
 // page 95
 const cold3 = (star, planet) => {
-  const orbitOffset = planet.orbit - star.hzco;
   const roll = twoD6() - 7 + planet.size;
 
   if (roll < 1) {
@@ -14,6 +13,7 @@ const cold3 = (star, planet) => {
     case 1:
     case 2:
       planet.atmosphere.code = 1;
+      planet.atmosphere.density = AtmosphereDensities.TRACE;
       break;
     case 3:
       planet.atmosphere.code = 10;

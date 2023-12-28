@@ -1,15 +1,23 @@
-const {AU, orbitToAU, ORBIT_TYPES} = require("./index");
+const {AU, orbitToAU, ORBIT_TYPES} = require("../utils");
 const {twoD6, d6} = require("../dice");
 const Random = require("random-js").Random;
 const r = new Random();
 
-const calculateAlbedo = (planet) => {
+const calculateAlbedo = (star, planet) => {
   if (typeof planet === 'GasGiant') {
     return 0.05 + twoD6() * 0.05;
   }
 
   let albedo = 0;
-  if (planet.density > 0.5)
+  if (planet.composition.indexOf('Ice') >= 0) {
+    if (planet.orbit - star.hzco <= 2)
+      albedo += 0.2 + (twoD6()-3) * 0.05;
+    else {
+      albedo += 0.25 + (twoD6() - 2) * 0.07;
+      if (albedo < 0.4)
+        albedo -= (d6()-1) * 0.05;
+    }
+  } else
     albedo += 0.04 + (twoD6()-2) * 0.02;
   if ((planet.atmosphere.code >= 1 && planet.atmosphere.code <= 3) || planet.atmosphere.code === 14)
     albedo += (twoD6()-3) * 0.01;
@@ -24,6 +32,7 @@ const calculateAlbedo = (planet) => {
   else if (planet.hydrographics.code > 6)
     albedo += (twoD6()-4) * 0.03;
 
+  albedo = Math.min(0.98, Math.max(0.02, albedo));
   return albedo;
 }
 

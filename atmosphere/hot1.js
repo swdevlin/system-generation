@@ -1,6 +1,9 @@
 const {twoD6, d6} = require("../dice");
 const AtmosphereDensities = require("./AtmosphereDensities");
 const {determineTaint} = require('./taint');
+const unusualAtmosphere = require("./unusualAtmosphere");
+const corrosiveAtmosphere = require("./corrosiveAtmosphere");
+const {insidiousAtmosphere} = require("./insidiousAtmosphere");
 
 // page 94
 const hot1 = (star, planet) => {
@@ -58,20 +61,25 @@ const hot1 = (star, planet) => {
       break;
     case 11:
     case 13:
+      corrosiveAtmosphere(star, planet);
       planet.atmosphere.code = 11;
       break;
     case 12:
     case 14:
-      planet.atmosphere.code = 12;
+      insidiousAtmosphere(star, planet);
       break;
     case 15:
-      planet.atmosphere.code = 15;
+      unusualAtmosphere(star, planet);
       break;
     case 16:
       planet.atmosphere.code = 16;
+      planet.atmosphere.gasType = 'Helium';
+      planet.atmosphere.density = AtmosphereDensities.GAS;
       break;
     default:
       planet.atmosphere.code = 17;
+      planet.atmosphere.gasType = 'Hydrogen';
+      planet.atmosphere.density = AtmosphereDensities.GAS;
       break;
   }
   if (planet.atmosphere.irritant)

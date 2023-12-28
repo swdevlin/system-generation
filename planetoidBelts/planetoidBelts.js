@@ -1,7 +1,13 @@
 const {twoD6, d6, d3, d2, d100} = require("../dice");
-const {ORBIT_TYPES} = require("../utils");
+const {ORBIT_TYPES, eccentricity, axialTilt, determineHydrographics} = require("../utils");
 const TerrestrialPlanet = require("../terrestrialPlanet/terrestrialPlanet");
 const terrestrialDensity = require("../terrestrialPlanet/terrestrialDensity");
+const terrestrialComposition = require("../terrestrialPlanet/terrestrialComposition");
+const inclination = require("../utils/inclination");
+const assignAtmosphere = require("../atmosphere/assignAtmosphere");
+const calculateAlbedo = require("../atmosphere/albedo");
+const calculateGreenhouse = require("../atmosphere/calculateGreenhouse");
+const assignPhysicalCharacteristics = require("../terrestrialPlanet/assignPhysicalCharacteristics");
 const Random = require("random-js").Random;
 
 const r = new Random();
@@ -140,8 +146,7 @@ const addSignificantBodies = (star, belt) => {
   for (let i=0; i < bodies; i++) {
     let orbit = belt.orbit + calculateOrbitOffset(star, belt);
     const p = new TerrestrialPlanet(1, orbit);
-    p.composition = significantBodyType(belt);
-    p.density = terrestrialDensity(p.composition);
+    assignPhysicalCharacteristics(star, p);
     p.orbitType = ORBIT_TYPES.PLANETOID_BELT_OBJECT;
     star.addStellarObject(p);
   }
@@ -162,8 +167,7 @@ const addSignificantBodies = (star, belt) => {
   for (let i=0; i < bodies; i++) {
     let orbit = belt.orbit + calculateOrbitOffset(star, belt);
     const p = new TerrestrialPlanet('S', orbit);
-    p.composition = significantBodyType(belt);
-    p.density = terrestrialDensity(p.composition);
+    assignPhysicalCharacteristics(star, p);
     p.orbitType = ORBIT_TYPES.PLANETOID_BELT_OBJECT;
     star.addStellarObject(p);
   }

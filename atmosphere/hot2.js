@@ -1,5 +1,4 @@
 const {twoD6, d6} = require("../dice");
-const Atmosphere = require("./Atmosphere");
 const typeChange = require("./hotTypeChange");
 const AtmosphereDensities = require("./AtmosphereDensities");
 
@@ -36,35 +35,35 @@ const hot2 = (star, planet) => {
       planet.atmosphere.density = AtmosphereDensities.VERY_THIN;
       if (d6() >= 4)
         planet.atmosphere.irritant = true;
-      hotTypeChange(planet.atmosphere, 0);
+      hotTypeChange(star, planet, 0);
       break;
     case 5:
       planet.atmosphere.code = 10;
       planet.atmosphere.density = AtmosphereDensities.THIN;
       if (d6() >= 4)
         planet.atmosphere.irritant = true;
-      hotTypeChange(planet.atmosphere, 0);
+      hotTypeChange(star, planet, 0);
       break;
     case 6:
       planet.atmosphere.code = 10;
       planet.atmosphere.density = AtmosphereDensities.STANDARD;
       if (d6() >= 4)
         planet.atmosphere.irritant = true;
-      hotTypeChange(planet.atmosphere, 0);
+      hotTypeChange(star, planet, 0);
       break;
     case 7:
       planet.atmosphere.code = 10;
       planet.atmosphere.density = AtmosphereDensities.DENSE;
       if (d6() >= 4)
         planet.atmosphere.irritant = true;
-      hotTypeChange(planet.atmosphere, 1);
+      hotTypeChange(star, planet, 1);
       break;
     case 8:
       planet.atmosphere.code = 10;
       planet.atmosphere.density = AtmosphereDensities.VERY_DENSE;
       if (d6() >= 4)
         planet.atmosphere.irritant = true;
-      hotTypeChange(planet.atmosphere, 1);
+      hotTypeChange(star, planet, 1);
       break;
     case 9:
     case 10:
@@ -82,12 +81,12 @@ const hot2 = (star, planet) => {
     case 16:
       planet.atmosphere.code = 16;
       planet.atmosphere.density = AtmosphereDensities.GAS;
-      planet.gasType = 'Helium';
+      planet.atmosphere.gasType = 'Helium';
       break;
     default:
       planet.atmosphere.code = 17;
       planet.atmosphere.density = AtmosphereDensities.GAS;
-      planet.gasType = 'Hydrogen';
+      planet.atmosphere.gasType = 'Hydrogen';
       break;
   }
 
