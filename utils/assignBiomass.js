@@ -11,8 +11,6 @@ const assignBiomass = (star, planet) => {
   planet.compatibilityRating = compatibilityRating(star, planet);
   planet.nativeSophont = nativeSophont(star, planet);
   planet.extinctSophont = extinctSophont(star, planet);
-  if (planet.nativeSophont || planet.extinctSophont)
-    console.log(`Sophont at ${planet.orbit}`);
 }
 
 
