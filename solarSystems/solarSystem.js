@@ -29,6 +29,7 @@ const TerrestrialPlanet = require("../terrestrialPlanet/terrestrialPlanet");
 const terrestrialComposition = require("../terrestrialPlanet/terrestrialComposition");
 const terrestrialDensity = require("../terrestrialPlanet/terrestrialDensity");
 const superEarthWorldSize = require("../terrestrialPlanet/superEarthWorldSize");
+const {nativeSophont} = require("../utils/sophonts");
 
 const Random = require("random-js").Random;
 const r = new Random();
@@ -353,6 +354,22 @@ class SolarSystem {
     const hasOrbits = this.stars.filter(star => star.availableOrbits.length > 0);
     const i = r.integer(0, hasOrbits.length-1);
     return hasOrbits[i];
+  }
+
+  get hasNativeSophont() {
+    for (const star of this.stars)
+      for (const stellarObject of star.stellarObjects)
+        if (stellarObject.nativeSophont)
+          return true;
+    return false;
+  }
+
+  get hasExtinctSophont() {
+    for (const star of this.stars)
+      for (const stellarObject of star.stellarObjects)
+        if (stellarObject.extinctSophont)
+          return true;
+    return false;
   }
 
   randomStarAndOrbit() {

@@ -9,7 +9,8 @@ async function createMap({systems, meta, mapDir, sectorName, forReferee}) {
   };
 
   if (forReferee) {
-    params.options = 49159;
+    params.options = 9207;
+    // params.options = 49159;
   } else {
     params.options = 8439;
     params.scale = 96;

@@ -8,7 +8,9 @@ class TravellerMap {
     this.Y = 0;
     this.subSectors = {};
     this.abbreviation = '';
-    this.regions = []
+    this.regions = [];
+    this.nativeSophonts = [];
+    this.extinctSophonts = [];
   }
 
   sep = '\t';
@@ -22,7 +24,7 @@ class TravellerMap {
     return output;
   }
 
-  metaDataDump() {
+  metaDataDump(referee) {
     return `<?xml version="1.0"?>
     <Sector xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Tags="MTU" Abbreviation="${this.abbreviation}">
       <Name>${this.sectorName}</Name>
@@ -52,23 +54,30 @@ class TravellerMap {
       </Subsectors>
       <Allegiances>
         <Allegiance Code="NaHu" Base="Na">Non-Aligned, Human-dominated</Allegiance>
+        <Allegiance Code="NS" Base="Ns">New Sophont</Allegiance>
      </Allegiances>
-    <Borders>
-    </Borders>
-    ${this.regionDump()}
-    <Routes>
-    </Routes>
+    <Borders></Borders>
+    ${this.regionDump(referee)}
+    <Routes></Routes>
   </Sector>`
   }
 
-  regionDump() {
-    if (this.regions.length === 0)
+  regionDump(referee) {
+    if (this.regions.length === 0 && this.extinctSophonts.length === 0 && this.nativeSophonts.length === 0)
       return '';
     let xml = '<Regions>\n'
     for (const region of this.regions) {
       xml += `<Region Color="${region.Color}" LabelPosition="${region.LabelPosition}" Label="${region.Label}">`;
       xml += region.parsecs.join(' ');
       xml += '</Region>\n'
+    }
+    if (referee) {
+      for (const system of this.nativeSophonts) {
+        xml += `<Region Color="#87CEEB">${system.coordinates}</Region>\n`;
+      }
+      for (const system of this.extinctSophonts) {
+        xml += `<Region Color="#CD5C5C">${system.coordinates}</Region>\n`;
+      }
     }
     xml += '</Regions>\n';
     return xml;
@@ -121,6 +130,10 @@ class TravellerMap {
     if (mw)
       line = line.replace('???????-?', mw.uwp);
     this.refereeSystems.push(line);
+    if (solarSystem.hasNativeSophont)
+      this.nativeSophonts.push(solarSystem);
+    if (solarSystem.hasExtinctSophont)
+      this.extinctSophonts.push(solarSystem);
   }
 
 }

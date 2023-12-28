@@ -327,9 +327,10 @@ commander
   fs.writeFileSync(`${outputDir}/systems.csv`, travellerMap.systemDump());
   fs.writeFileSync(`${outputDir}/referee-systems.csv`, travellerMap.systemDump(true));
   fs.writeFileSync(`${outputDir}/meta.xml`, travellerMap.metaDataDump());
+  fs.writeFileSync(`${outputDir}/referee-meta.xml`, travellerMap.metaDataDump(true));
   await createMap({
     systems: travellerMap.systemDump(true),
-    meta: travellerMap.metaDataDump(),
+    meta: travellerMap.metaDataDump(true),
     mapDir: refereeMapDir,
     sectorName: sector.name,
     forReferee: true
