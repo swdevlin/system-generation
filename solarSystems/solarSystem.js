@@ -493,8 +493,9 @@ class SolarSystem {
         const circle = `<circle cx="${midPoint + l.x * scale}" cy="${midPoint + l.y * scale}" r="${size}" fill="${colour}" />`;
         svg.push(circle)
       }
-      const strokeWidth = size === 0 ? 3 : 1;
-      const orbit = `<circle cx="${midPoint + l.orbitCentreX * scale}" cy="${midPoint + l.orbitCentreY * scale}" r="${l.radius * scale}" fill="none" stroke="grey" stroke-width="${strokeWidth}" stroke-dasharray="9, 15"/>`;
+      const strokeWidth = size === 0 ? 3 : l.habitableZone ? 2 : 1;
+      const strokeColour = l.habitableZone ? '#008800' : 'grey';
+      const orbit = `<circle cx="${midPoint + l.orbitCentreX * scale}" cy="${midPoint + l.orbitCentreY * scale}" r="${l.radius * scale}" fill="none" stroke="${strokeColour}" stroke-width="${strokeWidth}" stroke-dasharray="9, 15"/>`;
       svg.push(orbit)
     }
     svg.push('</svg>');
