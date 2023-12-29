@@ -132,7 +132,7 @@ class TravellerMap {
     this.refereeSystems.push(line);
     if (solarSystem.hasNativeSophont)
       this.nativeSophonts.push(solarSystem);
-    if (solarSystem.hasExtinctSophont)
+    else if (solarSystem.hasExtinctSophont)
       this.extinctSophonts.push(solarSystem);
   }
 
