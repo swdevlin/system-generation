@@ -5,7 +5,6 @@ const { execSync } = require('child_process');
 const yaml = require("js-yaml");
 
 const sectorsDir = './sectors';
-const outputDir = './output/maps';
 
 const generateScript = './generate.js';
 
@@ -18,6 +17,7 @@ const svgName = (yamlName) => {
 commander
   .version('0.0.1', '-v, --version')
   .usage('[OPTIONS]...')
+  .option('-o, --output <dir>', 'Directory for the output', 'output')
   .option('-f, --force', 'Generate even if not new', false)
   .parse(process.argv);
 
@@ -25,7 +25,7 @@ const options = commander.opts();
 
 fs.readdirSync(sectorsDir).forEach((yamlFile) => {
   if (yamlFile.endsWith('.yaml')) {
-    const svgFile = path.join(outputDir, svgName(yamlFile));
+    const svgFile = path.join(options.output, 'maps', svgName(yamlFile));
 
     let needToGenerate = true;
     if (fs.existsSync(svgFile) && !options.force) {
@@ -35,7 +35,7 @@ fs.readdirSync(sectorsDir).forEach((yamlFile) => {
     }
 
     if (needToGenerate) {
-      const command = `node ${generateScript} --sector "${path.join(sectorsDir, yamlFile)}"`;
+      const command = `node ${generateScript} --output "${options.output}" --sector "${path.join(sectorsDir, yamlFile)}"`;
       execSync(command, { stdio: 'inherit' });
     }
   }
