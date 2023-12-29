@@ -20,19 +20,14 @@ const biomass = require("../utils/assignBiomass");
 const resourceRating = require("../utils/resourceRating");
 const habitabilityRating = require("../utils/habitabilityRating");
 const {starColour} = require("../utils/starColours");
-const inclination = require("../utils/inclination");
 const assignAtmosphere = require("../atmosphere/assignAtmosphere");
 const assignMoonAtmosphere = require("../atmosphere/assignMoonAtmosphere");
 const assignMoons = require("../moons/assignMoons");
 const terrestrialWorldSize = require("../terrestrialPlanet/terrestrialWorldSize");
 const TerrestrialPlanet = require("../terrestrialPlanet/terrestrialPlanet");
-const terrestrialComposition = require("../terrestrialPlanet/terrestrialComposition");
-const terrestrialDensity = require("../terrestrialPlanet/terrestrialDensity");
 const superEarthWorldSize = require("../terrestrialPlanet/superEarthWorldSize");
-const {nativeSophont} = require("../utils/sophonts");
-const calculateGreenhouse = require("../atmosphere/calculateGreenhouse");
-const calculateAlbedo = require("../atmosphere/albedo");
 const assignPhysicalCharacteristics = require("../terrestrialPlanet/assignPhysicalCharacteristics");
+const assignSocialCharacteristics = require("../terrestrialPlanet/assignSocialCharacteristics");
 
 const Random = require("random-js").Random;
 const r = new Random();
@@ -51,14 +46,6 @@ class SolarSystem {
     this._mainWorld = null;
     this.bases = '';
     this.remarks = '';
-    this.interesting = false;
-  }
-
-  mapName() {
-    if (this.name)
-      return this.name;
-    else
-      return `${this.sector} ${this.coordinates}`;
   }
 
   calculateScanPoints() {
@@ -133,7 +120,6 @@ class SolarSystem {
   determineAvailableOrbits() {
     let maxOrbit;
     let minOrbit;
-    let luminosity;
     const primary = this.primaryStar;
     if (primary.stellarType !== 'D') {
       minOrbit = primary.minimumAllowableOrbit;
@@ -324,9 +310,14 @@ class SolarSystem {
   assignBiomass() {
     for (const star of this.stars)
       for (const stellarObject of star.stellarObjects)
-        if (stellarObject.orbitType === ORBIT_TYPES.TERRESTRIAL)
+        if (stellarObject.orbitType === ORBIT_TYPES.TERRESTRIAL) {
           biomass(star, stellarObject);
+          if (stellarObject.nativeSophont) {
+            // todo: determine sophont
+            assignSocialCharacteristics(star, stellarObject);
+          }
           // TODO: Moons
+        }
   }
 
   assignResourceRatings() {
@@ -456,7 +447,7 @@ class SolarSystem {
     const scale = 1000 / maxSize;
     const midPoint = 1025;
     const primary = `<circle cx="${midPoint}" cy="${midPoint}" r="25" fill="${starColour(this.primaryStar)}" />`;
-    svg.push('<svg version="1.1" width="2050" height="2050" xmlns="http://www.w3.org/2000/svg">');
+    svg.push('<svg width="2050" height="2050" xmlns="http://www.w3.org/2000/svg">');
     svg.push(primary);
     for (const l of locations) {
       let size = 10;
@@ -603,10 +594,16 @@ class SolarSystem {
     for (const star of this.stars)
       this.getPossibleMainWorlds(star, possibleMainWorlds)
     possibleMainWorlds.sort((a,b) => {
-      if (Math.abs(a[0] - b[0]) > 0.1)
-        return a[0] - b[0];
-
-      return b[1].populationCode - a[1].populationCode;
+      if (b[1].populationCode === a[1].populationCode) {
+        if (Math.abs(a[0] - b[0]) > 0.1)
+          return a[0] - b[0];
+        else {
+          const bSize = b[1].size === 'S' ? -1 : b[1].size;
+          const aSize = a[1].size === 'S' ? -1 : a[1].size;
+          return bSize - aSize;
+        }
+      } else
+        return b[1].populationCode - a[1].populationCode;
     });
     if (possibleMainWorlds.length === 0) {
       console.log('Only gas giants. Checking for moons.')
