@@ -93,7 +93,7 @@ class TravellerMap {
       line += solarSystem.name + this.sep;
     else
       line += `${solarSystem.starsString()}${this.sep}`;
-      // line += `${solarSystem.coordinates}: ${solarSystem.starsString()}${this.sep}`;
+
     // uwp
     if (solarSystem.known)
       line += mw ? mw.uwp + this.sep : '???????-?';
@@ -129,11 +129,12 @@ class TravellerMap {
 
     if (mw)
       line = line.replace('???????-?', mw.uwp);
-    this.refereeSystems.push(line);
-    if (solarSystem.hasNativeSophont)
+    if (solarSystem.hasNativeSophont) {
       this.nativeSophonts.push(solarSystem);
-    else if (solarSystem.hasExtinctSophont)
+      line = line.replace(solarSystem.starsString(), '');
+    } else if (solarSystem.hasExtinctSophont)
       this.extinctSophonts.push(solarSystem);
+    this.refereeSystems.push(line);
   }
 
 }
