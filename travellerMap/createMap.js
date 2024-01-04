@@ -26,7 +26,7 @@ async function createMap({systems, meta, mapDir , sectorName , forReferee}) {
   if (forReferee) {
     params.options = SectorGrid | SubsectorGrid | SectorsSelected | BordersMajor | BordersMinor | NamesMajor | NamesMinor;
     // params.options = 49159;
-    params.scale = 128;
+    params.scale = 64;
   } else {
     params.options = SectorGrid | SubsectorGrid | SectorsSelected | BordersMajor | BordersMinor | NamesMajor | NamesMinor;
     // params.options = 8439;
