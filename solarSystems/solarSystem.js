@@ -429,6 +429,9 @@ class SolarSystem {
   }
 
   addLocations(star, locations) {
+    if (star.companion)
+      locations.push(orbitPosition(star.companion, star));
+
     for (const obj of star.stellarObjects) {
       locations.push(orbitPosition(obj, star));
       if (obj instanceof Star)
@@ -594,7 +597,7 @@ class SolarSystem {
     for (const star of this.stars)
       this.getPossibleMainWorlds(star, possibleMainWorlds)
     possibleMainWorlds.sort((a,b) => {
-      if (b[1].populationCode === a[1].populationCode) {
+      if (b[1].population.code === a[1].population.code) {
         if (Math.abs(a[0] - b[0]) > 0.1)
           return a[0] - b[0];
         else {
@@ -603,7 +606,7 @@ class SolarSystem {
           return bSize - aSize;
         }
       } else
-        return b[1].populationCode - a[1].populationCode;
+        return b[1].population.code - a[1].population.code;
     });
     if (possibleMainWorlds.length === 0) {
       console.log('Only gas giants. Checking for moons.')
