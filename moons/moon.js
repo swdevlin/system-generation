@@ -1,6 +1,7 @@
 const Atmosphere = require("../atmosphere/Atmosphere");
 const StellarObject = require("../stellarObject");
 const AtmosphereDensities = require("../atmosphere/AtmosphereDensities");
+const Population = require("../population/Population");
 
 class Moon extends StellarObject {
   constructor() {
@@ -14,7 +15,7 @@ class Moon extends StellarObject {
     this.atmosphere.density = AtmosphereDensities.NONE;
     this.hydrographics = { code: 0, distribution: null };
     this.governmentCode = 0;
-    this.populationCode = 0;
+    this.population = new Population();
     this.lawLevelCode = 0;
     this.biomassRating = 0;
     this.axialTilt = null;

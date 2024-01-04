@@ -17,7 +17,7 @@ describe("Starport tests", function () {
   });
 
   it("tech level less than 9 has no starport", function() {
-    planet.populationCode = 9;
+    planet.population.code = 9;
     planet.techLevel = 8;
     assignStarport(planet);
     planet.starPort.should.equal('X')
@@ -26,7 +26,7 @@ describe("Starport tests", function () {
   it("2 or less has starport X", function() {
     ROLL_CACHE.push(0);
     ROLL_CACHE.push(2);
-    planet.populationCode = 7;
+    planet.population.code = 7;
     planet.techLevel = 9;
     assignStarport(planet);
     planet.starPort.should.equal('X')
@@ -35,7 +35,7 @@ describe("Starport tests", function () {
   it("4 or less has starport E", function() {
     ROLL_CACHE.push(0);
     ROLL_CACHE.push(4);
-    planet.populationCode = 7;
+    planet.population.code = 7;
     planet.techLevel = 9;
     assignStarport(planet);
     planet.starPort.should.equal('E')
@@ -44,7 +44,7 @@ describe("Starport tests", function () {
   it("6 or less has starport D", function() {
     ROLL_CACHE.push(0);
     ROLL_CACHE.push(6);
-    planet.populationCode = 7;
+    planet.population.code = 7;
     planet.techLevel = 9;
     assignStarport(planet);
     planet.starPort.should.equal('D')
@@ -53,7 +53,7 @@ describe("Starport tests", function () {
   it("8 or less has starport C", function() {
     ROLL_CACHE.push(0);
     ROLL_CACHE.push(8);
-    planet.populationCode = 7;
+    planet.population.code = 7;
     planet.techLevel = 9;
     assignStarport(planet);
     planet.starPort.should.equal('C')
@@ -62,7 +62,7 @@ describe("Starport tests", function () {
   it("10 or less has starport B", function() {
     ROLL_CACHE.push(0);
     ROLL_CACHE.push(10);
-    planet.populationCode = 7;
+    planet.population.code = 7;
     planet.techLevel = 9;
     assignStarport(planet);
     planet.starPort.should.equal('B')
@@ -71,7 +71,7 @@ describe("Starport tests", function () {
   it("11 or more has starport A", function() {
     ROLL_CACHE.push(0);
     ROLL_CACHE.push(11);
-    planet.populationCode = 7;
+    planet.population.code = 7;
     planet.techLevel = 9;
     assignStarport(planet);
     planet.starPort.should.equal('A')
@@ -88,27 +88,27 @@ describe("Starport DM tests", function () {
   });
 
   it("test DMs", function() {
-    planet.populationCode = 2;
+    planet.population.code = 2;
     let dm = starportDMs(planet);
     dm.should.equal(-2);
 
-    planet.populationCode = 4;
+    planet.population.code = 4;
     dm = starportDMs(planet);
     dm.should.equal(-1);
 
-    planet.populationCode = 7;
+    planet.population.code = 7;
     dm = starportDMs(planet);
     dm.should.equal(0);
 
-    planet.populationCode = 9;
+    planet.population.code = 9;
     dm = starportDMs(planet);
     dm.should.equal(1);
 
-    planet.populationCode = 10;
+    planet.population.code = 10;
     dm = starportDMs(planet);
     dm.should.equal(2);
 
-    planet.populationCode = 12;
+    planet.population.code = 12;
     dm = starportDMs(planet);
     dm.should.equal(2);
   });

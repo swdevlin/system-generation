@@ -2,6 +2,7 @@ const {ORBIT_TYPES, orbitText, sequenceIdentifier, toHex} = require("../utils");
 const StellarObject = require("../stellarObject");
 const Atmosphere = require("../atmosphere/Atmosphere");
 const AtmosphereDensities = require("../atmosphere/AtmosphereDensities");
+const Population = require("../population/Population");
 
 class PlanetoidBelt extends StellarObject {
   constructor(orbit) {
@@ -24,7 +25,7 @@ class PlanetoidBelt extends StellarObject {
       code: 0,
       distribution: null
     };
-    this.populationCode = 0;
+    this.population = new Population();
     this.governmentCode = 0;
     this.lawLevelCode = 0;
     this.starPort = 'X';
@@ -38,7 +39,7 @@ class PlanetoidBelt extends StellarObject {
   }
 
   get uwp() {
-    return `${this.starPort}${toHex(this.size)}${toHex(this.atmosphere.code)}${toHex(this.hydrographics.code)}${toHex(this.populationCode)}${toHex(this.governmentCode)}${toHex(this.lawLevelCode)}-${this.techLevel}`;
+    return `${this.starPort}${toHex(this.size)}${toHex(this.atmosphere.code)}${toHex(this.hydrographics.code)}${toHex(this.population.code)}${toHex(this.governmentCode)}${toHex(this.lawLevelCode)}-${this.techLevel}`;
   }
 
 }

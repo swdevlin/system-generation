@@ -2,13 +2,13 @@ const {d3, twoD6} = require("../dice");
 
 function starportDMs(planet) {
   let dm = 0;
-  if (planet.populationCode <= 2)
+  if (planet.population.code <= 2)
     dm -= 2;
-  else if (planet.populationCode <= 4)
+  else if (planet.population.code <= 4)
     dm -= 1;
-  else if (planet.populationCode >= 8 && planet.populationCode <= 9)
+  else if (planet.population.code >= 8 && planet.population.code <= 9)
     dm += 1;
-  else if (planet.populationCode >= 10)
+  else if (planet.population.code >= 10)
     dm += 2;
 
   return dm;

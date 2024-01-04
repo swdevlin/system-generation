@@ -6,9 +6,11 @@ const otherStarLookup = ({primary, unusualChance}) => {
   const roll = twoD6() + dm;
 
   if (roll <= 2) {
-    if (percentageChance(unusualChance))
+    console.log('checking for unusual');
+    if (percentageChance(unusualChance)) {
+      console.log('>>>>> got unusual <<<<<');
       return 'NS';
-    else
+    } else
       return 'D';
   } else if (roll <= 7)
     return 'D';

@@ -1,4 +1,4 @@
-const {d6} = require("../dice");
+const {d6, d3} = require("../dice");
 
 function techLevelDMs(planet) {
   let dm = 0;
@@ -19,13 +19,13 @@ function techLevelDMs(planet) {
   else if (planet.hydrographics.code === 10)
     dm += 2;
 
-  if (planet.populationCode >=1 && planet.populationCode <= 5)
+  if (planet.population.code >=1 && planet.population.code <= 5)
     dm +=1;
-  else if (planet.populationCode === 8)
+  else if (planet.population.code === 8)
     dm +=1;
-  else if (planet.populationCode === 9)
+  else if (planet.population.code === 9)
     dm +=2;
-  else if (planet.populationCode >= 10)
+  else if (planet.population.code >= 10)
     dm +=4;
 
   if (planet.governmentCode === 0)
@@ -42,11 +42,43 @@ function techLevelDMs(planet) {
   return dm;
 }
 
+function nativeSophontTechLevelDMs(star, planet) {
+  let dm = 0;
+  if (star.age <1)
+    dm -= 1;
+  else if (star.age >= 2 && star.age < 4)
+    dm += 1;
+  else if (star.age >= 4)
+    dm += 2;
+
+  if (planet.governmentCode === 1)
+    dm += 1;
+  else if (planet.governmentCode === 5)
+    dm += 1;
+  else if (planet.governmentCode === 7)
+    dm += 1;
+
+  if (planet.population.code > 7)
+    dm += 1;
+  return dm;
+}
+
 function assignTechLevel(planet) {
   planet.techLevel = d6() + techLevelDMs(planet);
 }
 
+function assignNativeSophontTechLevel(star, planet) {
+  planet.techLevel = Math.min(
+    parseInt(process.env.maxNativeSophontTechLevel),
+    Math.max(
+      1, d3() + d3() + d3() - 2 + nativeSophontTechLevelDMs(star, planet)
+    )
+  );
+}
+
 module.exports = {
   assignTechLevel: assignTechLevel,
+  assignNativeSophontTechLevel: assignNativeSophontTechLevel,
   techLevelDMs: techLevelDMs,
+  nativeSophontTechLevelDMs: nativeSophontTechLevelDMs,
 };

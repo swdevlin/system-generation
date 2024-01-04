@@ -3,6 +3,7 @@ const StellarObject = require("../stellarObject");
 const Atmosphere = require("../atmosphere/Atmosphere");
 const moonTextDump = require("../moons/moonTextDump");
 const {determineTaint} = require("../atmosphere/taint");
+const Population = require("../population/Population");
 
 class TerrestrialPlanet extends StellarObject {
   constructor(size, orbit, uwp) {
@@ -37,16 +38,18 @@ class TerrestrialPlanet extends StellarObject {
       code: components ? components.hydrographics : null,
       distribution: null
     };
-    this.populationCode = components ? components.population : 0;
+    this.population = new Population();
+    this.population.code = components ? components.population : 0;
     this.governmentCode = components ? components.government : 0;
     this.lawLevelCode = components ? components.lawLevel : 0;
     this.starPort = components ? components.starPort : 'X';
     this.techLevel = components ? components.techLevel : 0;
+    this.tradeCodes = [];
     this.albedo = 0;
   }
 
   get uwp() {
-    return `${this.starPort}${toHex(this.size)}${toHex(this.atmosphere.code)}${toHex(this.hydrographics.code)}${toHex(this.populationCode)}${toHex(this.governmentCode)}${toHex(this.lawLevelCode)}-${this.techLevel}`;
+    return `${this.starPort}${toHex(this.size)}${toHex(this.atmosphere.code)}${toHex(this.hydrographics.code)}${toHex(this.population.code)}${toHex(this.governmentCode)}${toHex(this.lawLevelCode)}-${toHex(this.techLevel)}`;
   }
 
   get diameter() {
@@ -75,7 +78,7 @@ class TerrestrialPlanet extends StellarObject {
   textDump(spacing, prefix, postfix, index, starIndex) {
     this.orbitSequence = sequenceIdentifier(index, starIndex);
     const label = this.orbitType === ORBIT_TYPES.PLANETOID_BELT_OBJECT ? 'Belt significant body' : 'Terrestrial planet';
-    let s = `${' '.repeat(spacing)}${prefix}${orbitText(this.orbit, index, starIndex)} X${toHex(this.size)}${toHex(this.atmosphere.code)}${toHex(this.hydrographics.code)}${toHex(this.populationCode)}${toHex(this.governmentCode)}${toHex(this.lawLevelCode)} ${label}${postfix}\n`;
+    let s = `${' '.repeat(spacing)}${prefix}${orbitText(this.orbit, index, starIndex)} X${toHex(this.size)}${toHex(this.atmosphere.code)}${toHex(this.hydrographics.code)}${toHex(this.population.code)}${toHex(this.governmentCode)}${toHex(this.lawLevelCode)} ${label}${postfix}\n`;
     for (const moon of this.moons)
       s += moonTextDump(moon, spacing+2);
     return s;
