@@ -21,6 +21,7 @@ const TravellerMap = require("./travellerMap/travellerMap");
 const computeStats = require("./solarSystems/computeStats");
 const refereeReference = require("./solarSystems/refereeReference");
 const terrestrialPlanetQuantity = require("./terrestrialPlanet/terrestrialPlanetQuantity");
+const toJSON = require("./utils/toJSON");
 
 
 const SUBSECTOR_TYPES = {
@@ -272,12 +273,13 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap) =>
       solarSystem.assignBiomass();
       solarSystem.assignResourceRatings();
       solarSystem.assignHabitabilityRatings();
-      const text = `${sector.name} ${solarSystem.coordinates} ${solarSystem.primaryStar.textDump(0, '', '', 0, [1])}`;
-      fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-${subsector.name}.txt`, text);
-      const json = JSON.stringify(solarSystem.primaryStar, null, 2);
-      fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-${subsector.name}.json`, json);
       fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-${subsector.name}-travel.html`, solarSystem.travelGrid());
       fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-${subsector.name}-map.svg`, solarSystem.systemMap());
+      const text = `${sector.name} ${solarSystem.coordinates} ${solarSystem.primaryStar.textDump(0, '', '', 0, [1])}`;
+      fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-${subsector.name}.txt`, text);
+      let asJson = toJSON(solarSystem.primaryStar);
+      asJson = JSON.stringify(asJson, null, 2);
+      fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-${subsector.name}.json`, asJson);
       travellerMap.addSystem(solarSystem);
       sector.solarSystems.push(solarSystem);
     }
