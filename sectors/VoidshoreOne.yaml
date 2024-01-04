@@ -2,7 +2,7 @@ name: Voidshore One
 abbreviation: VS 1
 X: -22
 Y: -12
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: VS 1 A
     type: SPARSE

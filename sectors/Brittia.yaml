@@ -2,7 +2,7 @@ name: Brittia
 abbreviation: Brit
 X: -19
 Y: -6
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: Brit A
     type: RIFT

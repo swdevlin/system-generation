@@ -2,7 +2,7 @@ name: Voidshore Two
 abbreviation: VS 2
 X: -21
 Y: -12
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: VS 2 A
     type: LOW

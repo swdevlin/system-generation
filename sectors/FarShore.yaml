@@ -2,7 +2,7 @@ name: Far Shore
 abbreviation: Far
 X: -18
 Y: -5
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: Far A
     type: DEEP_RIFT

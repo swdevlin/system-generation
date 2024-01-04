@@ -2,7 +2,7 @@ name: Just Empty
 abbreviation: JE
 X: -15
 Y: -4
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: JE A
     type: RIFT_FADE

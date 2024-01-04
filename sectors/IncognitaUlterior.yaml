@@ -2,7 +2,7 @@ name: Incognita Ulterior
 abbreviation: IU
 X: -10
 Y: -1
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: UC A
     type: STANDARD

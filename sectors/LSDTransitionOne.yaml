@@ -2,7 +2,7 @@ name: LSD Transition One
 abbreviation: LSD One
 X: -20
 Y: -11
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: LSD One A
     type: MINIMAL

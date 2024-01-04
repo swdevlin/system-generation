@@ -2,7 +2,7 @@ name: Big Island
 abbreviation: BigI
 X: -15
 Y: -11
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: BigI A
     type: LOW

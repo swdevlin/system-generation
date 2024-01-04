@@ -2,7 +2,7 @@ name: Voidshore Nine
 abbreviation: VS9
 X: -18
 Y: -13
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: VS 9 A
     type: LOW

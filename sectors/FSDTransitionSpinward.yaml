@@ -2,7 +2,7 @@ name: FSD Transition Spinward
 abbreviation: FSD TS
 X: -21
 Y: -11
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: FSD TS A
     type: MODERATE

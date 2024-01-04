@@ -2,7 +2,7 @@ name: Voidshore Ten
 abbreviation: VS10
 X: -17
 Y: -13
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: VS 10 A
     type: LOW

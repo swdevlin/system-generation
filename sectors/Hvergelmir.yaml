@@ -2,7 +2,7 @@ name: Hvergelmir
 abbreviation: Hver
 X: -17
 Y: -8
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: Hver A
     type: STANDARD

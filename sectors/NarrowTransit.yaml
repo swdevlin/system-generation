@@ -2,7 +2,7 @@ name: Narrow Transit
 abbreviation: NT
 X: -17
 Y: 1
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: NT A
     type: SPARSE

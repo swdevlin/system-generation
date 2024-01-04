@@ -2,7 +2,7 @@ name: Bitfrost
 abbreviation: Bit
 X: -19
 Y: -8
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: Bit A
     type: MODERATE

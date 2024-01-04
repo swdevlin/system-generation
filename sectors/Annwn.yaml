@@ -2,7 +2,7 @@ name: Anwnn
 abbreviation: Anwnn
 X: -21
 Y: -6
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: Anwnn A
     type: RIFT_FADE

@@ -2,7 +2,7 @@ name: Unnamed 4
 abbreviation: Un4
 X: -14
 Y: -3
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: Un4 A
     type: RIFT

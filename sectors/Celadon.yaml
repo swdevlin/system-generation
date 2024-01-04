@@ -2,7 +2,7 @@ name: Celadon
 abbreviation: Cela
 X: -20
 Y: -10
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: Cela A
     type: MODERATE

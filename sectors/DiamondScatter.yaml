@@ -2,7 +2,7 @@ name: Diamond Scatter
 abbreviation: DS
 X: -16
 Y: -3
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: DS A
     type: LOW

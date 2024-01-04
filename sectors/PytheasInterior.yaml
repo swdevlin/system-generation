@@ -2,7 +2,7 @@ name: Pytheas Interior
 abbreviation: PyI
 X: -15
 Y: 1
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: PyI A
     type: LOW

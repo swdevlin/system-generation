@@ -2,7 +2,7 @@ name: Lemuria
 abbreviation: Lem
 X: -18
 Y: -6
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: Lem A
     type: MODERATE

@@ -2,7 +2,7 @@ name: Riftsedge Bridge
 abbreviation: ReBr
 X: -22
 Y: -11
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: ReBr A
     type: MODERATE

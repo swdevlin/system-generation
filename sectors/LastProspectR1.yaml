@@ -2,7 +2,7 @@ name: Last Prospect Rimward
 abbreviation: LastPR
 X: -20
 Y: -5
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: LastPR A
     type: RIFT

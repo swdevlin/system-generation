@@ -2,7 +2,7 @@ name: First Prospect
 abbreviation: First
 X: -13
 Y: -3
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: First A
     type: SPARSE

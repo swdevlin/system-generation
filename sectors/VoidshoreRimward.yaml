@@ -2,7 +2,7 @@ name: Voidshore Rimward
 abbreviation: VSRim
 X: -15
 Y: -13
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: VSRim A
     type: MODERATE

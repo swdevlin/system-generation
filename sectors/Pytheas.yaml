@@ -2,7 +2,7 @@ name: Pytheas
 abbreviation: Pytheas
 X: -17
 Y: -3
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: Pytheas A
     type: MODERATE

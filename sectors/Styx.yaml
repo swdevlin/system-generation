@@ -1,8 +1,8 @@
 name: Styx
 abbreviation: Styx
-X: -20
-Y: 7
-unusualChance: 0.1
+X: -22
+Y: -8
+unusualChance: 1
 subsectors:
   - name: Styx A
     type: RIFT_FADE

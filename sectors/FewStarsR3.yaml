@@ -2,7 +2,7 @@ name: Few Stars Rimward 3
 abbreviation: FewSR3
 X: -12
 Y: 5
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: FewSR3 A
     type: MODERATE

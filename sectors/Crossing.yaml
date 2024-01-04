@@ -2,7 +2,7 @@ name: Crossing
 abbreviation: Cross
 X: -19
 Y: -5
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: Cross A
     type: RIFT

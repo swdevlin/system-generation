@@ -2,7 +2,7 @@ name: LSD Transition Trailing
 abbreviation: LSD TT
 X: -16
 Y: -11
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: LSD TT A
     type: SPARSE

@@ -2,7 +2,7 @@ name: VS-X
 abbreviation: VSX
 X: -22
 Y: -13
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: VSX A
     type: MINIMAL

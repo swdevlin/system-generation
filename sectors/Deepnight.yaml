@@ -2,7 +2,7 @@ name: Deepnight
 abbreviation: Deepn
 X: -12
 Y: -2
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: Deepn A
     type: LOW

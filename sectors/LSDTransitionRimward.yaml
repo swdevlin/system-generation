@@ -2,7 +2,7 @@ name: LSD Transition Rimward
 abbreviation: LSD TR
 X: -19
 Y: -12
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: LSD TR A
     type: MINIMAL

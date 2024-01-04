@@ -2,7 +2,7 @@ name: LSD Transition Four
 abbreviation: LSD 4
 X: -17
 Y: -11
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: LSD 4 A
     type: MINIMAL

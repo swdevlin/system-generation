@@ -2,7 +2,7 @@ name: Orion's Spit Rimward
 abbreviation: OSR
 X: -20
 Y: -14
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: OSR A
     type: RIFT

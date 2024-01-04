@@ -2,7 +2,7 @@ name: Acheron
 abbreviation: Ach
 X: -22
 Y: -9
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: Ach A
     type: RIFT_FADE

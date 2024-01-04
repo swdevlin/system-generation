@@ -2,7 +2,7 @@ name: No Prospect
 abbreviation: NoP
 X: -18
 Y: -4
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: NoP A
     type: DEEP_RIFT

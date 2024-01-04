@@ -2,7 +2,7 @@ name: Riftsedge Central
 abbreviation: ReCe
 X: -23
 Y: -12
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: ReCe A
     type: RIFT_FADE

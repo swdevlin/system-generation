@@ -2,7 +2,7 @@ name: Wilderlands
 abbreviation: Wldr
 X: -18
 Y: -7
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: Wldr A
     type: STANDARD

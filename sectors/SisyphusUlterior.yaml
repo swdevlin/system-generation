@@ -2,7 +2,7 @@ name: Sisyphus Ulterior
 abbreviation: SisUlt
 X: -16
 Y: 1
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: SisUlt A
     type: SPARSE

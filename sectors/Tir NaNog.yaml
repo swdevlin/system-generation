@@ -2,7 +2,7 @@ name: Tir NaNog
 abbreviation: Tir
 X: -21
 Y: -8
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: Tir A
     type: SPARSE

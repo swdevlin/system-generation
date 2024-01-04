@@ -2,7 +2,7 @@ name: Ifingr
 abbreviation: Ifingr
 X: -17
 Y: -7
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: Ifingr A
     type: MODERATE

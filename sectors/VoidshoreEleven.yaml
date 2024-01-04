@@ -2,7 +2,7 @@ name: Voidshore Eleven
 abbreviation: VS11
 X: -16
 Y: -13
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: VS 11 A
     type: LOW

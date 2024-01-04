@@ -2,7 +2,7 @@ name: Elivagar
 abbreviation: Eliv
 X: -17
 Y: -10
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: Eliv A
     type: MODERATE

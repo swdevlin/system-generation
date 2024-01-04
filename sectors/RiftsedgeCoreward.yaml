@@ -2,7 +2,7 @@ name: Riftsedge Coreward
 abbreviation: ReCo
 X: -23
 Y: -11
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: ReCo A
     type: RIFT_FADE

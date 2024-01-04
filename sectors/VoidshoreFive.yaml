@@ -2,7 +2,7 @@ name: Voidshore Five
 abbreviation: VS 5
 X: -17
 Y: -12
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: VS 5 A
     type: SPARSE

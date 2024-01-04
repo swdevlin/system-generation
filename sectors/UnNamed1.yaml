@@ -2,7 +2,7 @@ name: Unnamed 1
 abbreviation: Un1
 X: -14
 Y: -1
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: Un1 A
     type: STANDARD

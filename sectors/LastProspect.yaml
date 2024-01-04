@@ -2,7 +2,7 @@ name: Last Prospect
 abbreviation: Last
 X: -20
 Y: -4
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: Last A
     type: RIFT

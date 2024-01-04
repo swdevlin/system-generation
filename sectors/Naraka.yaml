@@ -2,7 +2,7 @@ name: Naraka
 abbreviation: Naraka
 X: -19
 Y: -10
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: Naraka A
     type: MODERATE

@@ -2,7 +2,7 @@ name: Kaalin Citerior
 abbreviation: KaaCit
 X: -15
 Y: -3
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: KaaCit A
     type: LOW

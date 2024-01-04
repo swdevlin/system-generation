@@ -2,7 +2,7 @@ name: Few Stars Rimward
 abbreviation: FewSR1
 X: -12
 Y: 3
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: FewSR1 A
     type: RIFT_FADE

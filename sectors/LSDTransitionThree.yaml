@@ -2,7 +2,7 @@ name: LSD Transition Three
 abbreviation: LSD 3
 X: -18
 Y: -11
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: LSD 3 A
     type: RIFT_FADE

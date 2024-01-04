@@ -1,0 +1,54 @@
+name: Open Rift Rimward
+abbreviation: ORR
+X: -21
+Y: -5
+unusualChance: 1
+subsectors:
+  - name: ORR A
+    type: DEEP_RIFT
+    index: A
+  - name: ORR B
+    type: DEEP_RIFT
+    index: B
+  - name: ORR C
+    type: DEEP_RIFT
+    index: C
+  - name: ORR D
+    type: RIFT_FADE
+    index: D
+  - name: ORR E
+    type: DEEP_RIFT
+    index: E
+  - name: ORR F
+    type: DEEP_RIFT
+    index: F
+  - name: ORR G
+    type: DEEP_RIFT
+    index: G
+  - name: ORR H
+    type: RIFT_FADE
+    index: H
+  - name: ORR I
+    type: DEEP_RIFT
+    index: I
+  - name: ORR J
+    type: DEEP_RIFT
+    index: J
+  - name: ORR K
+    type: DEEP_RIFT
+    index: K
+  - name: ORR L
+    type: DEEP_RIFT
+    index: L
+  - name: ORR M
+    type: DEEP_RIFT
+    index: M
+  - name: ORR N
+    type: DEEP_RIFT
+    index: N
+  - name: ORR O
+    type: DEEP_RIFT
+    index: O
+  - name: ORR P
+    type: DEEP_RIFT
+    index: P

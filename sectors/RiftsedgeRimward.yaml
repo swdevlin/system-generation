@@ -2,7 +2,7 @@ name: Riftsedge Rimward
 abbreviation: ReRi
 X: -23
 Y: -13
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: ReRi A
     type: RIFT_FADE

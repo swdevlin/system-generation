@@ -2,7 +2,7 @@ name: Harappa
 abbreviation: Hara
 X: -20
 Y: -7
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: Hara A
     type: LOW

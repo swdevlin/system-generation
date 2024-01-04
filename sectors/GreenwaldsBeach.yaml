@@ -1,8 +1,8 @@
 name: Greenwald's Beach
 abbreviation: GB
 X: -18
-Y: 1
-unusualChance: 0.1
+Y: -2
+unusualChance: 1
 subsectors:
   - name: GB A
     type: LOW

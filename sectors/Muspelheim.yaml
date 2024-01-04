@@ -2,7 +2,7 @@ name: Muspelheim
 abbreviation: Musp
 X: -17
 Y: -6
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: Musp A
     type: MODERATE

@@ -2,7 +2,7 @@ name: Black Night
 abbreviation: BN
 X: -17
 Y: -4
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: BN A
     type: RIFT_FADE

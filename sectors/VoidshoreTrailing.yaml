@@ -2,7 +2,7 @@ name: Voidshore Trailing
 abbreviation: VS Trail
 X: -15
 Y: -12
-unusualChance: 0.1
+unusualChance: 1
 subsectors:
   - name: VS Trail A
     type: MODERATE
