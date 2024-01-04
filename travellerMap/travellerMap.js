@@ -104,11 +104,11 @@ class TravellerMap {
     // remarks
     line += solarSystem.remarks + this.sep;
     // zone
-    line += '-' + this.sep;
+    line += '' + this.sep;
     // PBG
     line += '0' + solarSystem.planetoidBelts + solarSystem.gasGiants + this.sep;
     // allegiance
-    line += '-' + this.sep;
+    line += '' + this.sep;
     // Stars
     let stars = ''
     for (const star of solarSystem.stars) {
@@ -131,9 +131,12 @@ class TravellerMap {
       line = line.replace('???????-?', mw.uwp);
     if (solarSystem.hasNativeSophont) {
       this.nativeSophonts.push(solarSystem);
-      line = line.replace(solarSystem.starsString(), '');
+      // line = line.replace(solarSystem.starsString(), '');
     } else if (solarSystem.hasExtinctSophont)
       this.extinctSophonts.push(solarSystem);
+    if (mw)
+      line = line.replace(solarSystem.starsString(), mw.uwp);
+    // line = line.replace(solarSystem.starsString(), ' ');
     this.refereeSystems.push(line);
   }
 
