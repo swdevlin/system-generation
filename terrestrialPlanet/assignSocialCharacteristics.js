@@ -1,4 +1,4 @@
-const {d3, twoD6} = require("../dice");
+const {twoD6} = require("../dice");
 const {assignStarport} = require("./assignStarport");
 const {assignTechLevel, assignNativeSophontTechLevel} = require("./assignTechLevel");
 const assignPopulation = require("../population/assignPopulation");
