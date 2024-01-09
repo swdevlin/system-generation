@@ -5,8 +5,44 @@ Y: -2
 unusualChance: 1
 subsectors:
   - name: NSoY A
-    type: SPARSE
+    type: LOW
     index: A
+  - name: NSoY B
+    type: LOW
+    index: B
+  - name: NSoY C
+    type: LOW
+    index: C
+  - name: NSoY D
+    type: LOW
+    index: D
+  - name: NSoY E
+    type: SPARSE
+    index: E
+  - name: NSoY F
+    type: SPARSE
+    index: F
+  - name: NSoY G
+    type: SPARSE
+    index: G
+  - name: NSoY H
+    type: SPARSE
+    index: H
+  - name: NSoY I
+    type: SPARSE
+    index: I
+  - name: NSoY J
+    type: SPARSE
+    index: J
+  - name: NSoY K
+    type: SPARSE
+    index: K
+  - name: NSoY L
+    type: SPARSE
+    index: L
+  - name: NSoY M
+    type: SPARSE
+    index: M
     required:
       - x: 5
         y: 7
@@ -28,48 +64,12 @@ subsectors:
           - uwp: Small Gas Giant
           - uwp: Large Gas Giant
           - uwp: X000000-0
-  - name: NSoY B
-    type: SPARSE
-    index: B
-  - name: NSoY C
-    type: SPARSE
-    index: C
-  - name: NSoY D
-    type: SPARSE
-    index: D
-  - name: NSoY E
-    type: SPARSE
-    index: E
-  - name: NSoY F
-    type: SPARSE
-    index: F
-  - name: NSoY G
-    type: SPARSE
-    index: G
-  - name: NSoY H
-    type: SPARSE
-    index: H
-  - name: NSoY I
-    type: MINIMAL
-    index: I
-  - name: NSoY J
-    type: MINIMAL
-    index: J
-  - name: NSoY K
-    type: MINIMAL
-    index: K
-  - name: NSoY L
-    type: MINIMAL
-    index: L
-  - name: NSoY M
-    type: MINIMAL
-    index: M
   - name: NSoY N
     type: MINIMAL
     index: N
   - name: NSoY O
-    type: RIFT
+    type: MINIMAL
     index: O
   - name: NSoY P
-    type: RIFT
+    type: MINIMAL
     index: P
