@@ -7,10 +7,11 @@ const {assignTradeCodes} = require("../economics/assignTradeCodes");
 const assignSocialCharacteristics = (star, planet) => {
   console.log('assigning social characteristics');
   assignPopulation(star, planet);
-  planet.governmentCode = twoD6() - 7 + planet.population.code;
+
+  planet.governmentCode = Math.max(twoD6() - 7 + planet.population.code, 0);
   // todo: flesh out government
 
-  planet.lawLevelCode = twoD6() - 7 + planet.governmentCode;
+  planet.lawLevelCode = Math.max(twoD6() - 7 + planet.governmentCode, 0);
   // todo: flesh out law level
 
   // todo: switch for native vs RAW

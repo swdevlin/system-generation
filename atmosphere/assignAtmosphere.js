@@ -11,21 +11,22 @@ const r = new Random();
 
 // Page 78
 assignAtmosphere = (star, planet) => {
-  if (planet.size === 'R' || planet.size === 'S' || planet.size < 2) {
-    planet.atmosphere.code = 0;
-  } else {
-    const orbitOffset = planet.orbit - star.hzco;
-    if (orbitOffset < -2)
-      hot2(star, planet);
-    else if (orbitOffset < -1)
-      hot1(star, planet);
-    else if (orbitOffset > 2)
-      cold3(star, planet);
-    else if (orbitOffset > 1)
-      cold1(star, planet);
-    else
-      hzAtmosphere(star, planet);
-  }
+  if (planet.atmosphere.code === null)
+    if (planet.size === 'R' || planet.size === 'S' || planet.size < 2) {
+      planet.atmosphere.code = 0;
+    } else {
+      const orbitOffset = planet.orbit - star.hzco;
+      if (orbitOffset < -2)
+        hot2(star, planet);
+      else if (orbitOffset < -1)
+        hot1(star, planet);
+      else if (orbitOffset > 2)
+        cold3(star, planet);
+      else if (orbitOffset > 1)
+        cold1(star, planet);
+      else
+        hzAtmosphere(star, planet);
+    }
 
   switch (planet.atmosphere.density) {
     case AtmosphereDensities.NONE:

@@ -6,7 +6,7 @@ const fs= require('fs');
 const {twoD6, d6} = require("./dice");
 const {gasGiantQuantity} = require("./gasGiants");
 const {planetoidBeltQuantity} = require("./planetoidBelts");
-const {calculatePeriod, additionalStarDM, ORBIT_TYPES, companionOrbit} = require("./utils");
+const {calculatePeriod, additionalStarDM, ORBIT_TYPES, companionOrbit, shuffleArray} = require("./utils");
 const StellarClassification = require("./stars/StellarClassification");
 const Star = require("./stars/star");
 const {determineStarClassification} = require("./stars/determineStarClassification");
@@ -202,7 +202,7 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap) =>
 
       const primary = solarSystem.primaryStar;
 
-      if (!defined || !defined.bodies) {
+      if (!defined || !defined.bodies || !defined.randomBodies) {
         let dm = additionalStarDM(primary);
         if (twoD6() + dm >= 10) {
           const classification = determineStarClassification({
@@ -236,28 +236,36 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap) =>
       }
 
       solarSystem.determineAvailableOrbits();
-      if (defined && defined.bodies) {
-        primary.totalObjects = 20;
-        primary.assignOrbits();
-        primary.totalObjects = defined.bodies.length;
-        let orbitIndex = 0;
-        for (const body of defined.bodies) {
-          if (body !== 'empty') {
-            if (body.habitable) {
-              if (body.habitable === 'outer')
-                while (primary.occupiedOrbits[orbitIndex] <= primary.hzco)
-                  orbitIndex++;
-              else if (body.habitable === 'inner')
-                while (primary.occupiedOrbits[orbitIndex+1] < primary.hzco)
-                  orbitIndex++;
-              else
-                while (primary.occupiedOrbits[orbitIndex] < primary.hzco)
-                  orbitIndex++;
-            }
-            solarSystem.preassignedBody({star: solarSystem.primaryStar, body: body, orbitIndex: orbitIndex});
-         } else
-            solarSystem.primaryStar.totalObjects--;
-          orbitIndex++;
+      if (defined) {
+        if (defined.bodies) {
+          primary.totalObjects = 20;
+          primary.assignOrbits();
+          primary.totalObjects = defined.bodies.length;
+          let orbitIndex = 0;
+          for (const body of defined.bodies) {
+            if (body !== 'empty') {
+              if (body.habitable) {
+                if (body.habitable === 'outer')
+                  while (primary.occupiedOrbits[orbitIndex] <= primary.hzco)
+                    orbitIndex++;
+                else if (body.habitable === 'inner')
+                  while (primary.occupiedOrbits[orbitIndex + 1] < primary.hzco)
+                    orbitIndex++;
+                else
+                  while (primary.occupiedOrbits[orbitIndex] < primary.hzco)
+                    orbitIndex++;
+              }
+              solarSystem.preassignedBody({star: solarSystem.primaryStar, body: body, orbitIndex: orbitIndex});
+            } else
+              solarSystem.primaryStar.totalObjects--;
+            orbitIndex++;
+          }
+        } else if (defined.randomBodies) {
+          solarSystem.gasGiants = defined.randomBodies.gasGiants;
+          solarSystem.planetoidBelts = defined.randomBodies.planetoidBelts;
+          solarSystem.terrestrialPlanets = defined.randomBodies.terrestrialPlanets;
+          solarSystem.distributeObjects();
+          solarSystem.assignOrbits();
         }
       } else {
         solarSystem.gasGiants = gasGiantQuantity(solarSystem);

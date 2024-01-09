@@ -207,7 +207,9 @@ class SolarSystem {
     if (orbitIndex !== undefined)
       orbit = star.occupiedOrbits[orbitIndex];
     const p = new TerrestrialPlanet(size, orbit, uwp);
-    assignPhysicalCharacteristics(star, p);
+
+    if (!uwp)
+      assignPhysicalCharacteristics(star, p);
     star.addStellarObject(p);
     return p;
   };
@@ -300,8 +302,7 @@ class SolarSystem {
         if ([ORBIT_TYPES.TERRESTRIAL, ORBIT_TYPES.PLANETOID_BELT_OBJECT].includes(stellarObject.orbitType)) {
           assignAtmosphere(star, stellarObject);
           stellarObject.meanTemperature = meanTemperature(star, stellarObject);
-          if (stellarObject.hydrographics.code === null)
-            stellarObject.hydrographics = determineHydrographics(star, stellarObject);
+          stellarObject.hydrographics = determineHydrographics(star, stellarObject);
           for (const moon of stellarObject.moons)
             assignMoonAtmosphere(star, stellarObject, moon);
         }
@@ -560,7 +561,6 @@ class SolarSystem {
       this.addTerrestrialPlanet({
         star: star,
         orbitIndex: orbitIndex,
-        uwp: body.uwp,
         size: superEarthWorldSize()
       });
       this.terrestrialPlanets++;
