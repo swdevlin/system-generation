@@ -423,6 +423,8 @@ class SolarSystem {
 
   countObjects(star) {
     let total = star.stellarObjects.length;
+    if (star.companion)
+      total += this.countObjects(star.companion);
     for (const obj of star.stellarObjects)
       if (obj instanceof Star)
         total += this.countObjects(obj);
@@ -430,8 +432,8 @@ class SolarSystem {
   }
 
   addLocations(star, locations) {
-    if (star.companion)
-      locations.push(orbitPosition(star.companion, star));
+    // if (star.companion)
+    //   locations.push(orbitPosition(star.companion, star));
 
     for (const obj of star.stellarObjects) {
       locations.push(orbitPosition(obj, star));

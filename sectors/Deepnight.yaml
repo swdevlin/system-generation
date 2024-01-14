@@ -31,24 +31,137 @@ subsectors:
     required:
       - x: 6
         y: 4
-        star:
+        name: HNP-A
+        primary:
           type: K5
           class: Giant
-        name: HNP-A
-        bodies:
-          - empty
-          - empty
-          - empty
-          - empty
-          - empty
-          - empty
-          - uwp: X000000-0
-          - uwp: X521000-0
-            habitable: outer
-          - uwp: Small Gas Giant
+          bodies:
+            - empty
+            - empty
+            - empty
+            - empty
+            - empty
+            - empty
+            - uwp: X000000-0
+            - uwp: X521000-0
+              habitable: outer
+            - uwp: Small Gas Giant
   - name: Deepn I
     type: SPARSE
     index: I
+    systems:
+      - x: 1
+        y: 6
+      - x: 1
+        y: 7
+      - x: 2
+        y: 2
+        name: Gehalka
+        primary:
+          type: M4
+          bodies:
+            - empty
+            - empty
+            - empty
+            - uwp: Small Gas Giant
+            - uwp: Small Gas Giant
+      - x: 2
+        y: 8
+      - x: 3
+        y: 4
+        name: Irn-Alaz
+        primary:
+          type: M5
+          companion:
+            type: K5
+          bodies:
+            - uwp: terrestrial
+            - uwp: X674000-0
+              habitable: true
+            - uwp: Small Gas Giant
+            - uwp: terrestrial
+            - uwp: X000000-0
+            - uwp: Large Gas Giant
+      - x: 3
+        y: 6
+        name: Hirnz
+        star:
+          type: M2
+          bodies:
+            - uwp: X221000-0
+            - uwp: Small Gas Giant
+            - uwp: Small Gas Giant
+      - x: 3
+        y: 7
+        name: Ohral
+        primary:
+          type: M4
+          companion:
+            type: A9
+          bodies:
+            - uwp: Large Gas Giant
+            - uwp: Super-Earth
+            - uwp: X9B9000-0
+            - uwp: X6A5000-0
+            - uwp: X5A3000-0
+            - uwp: X000000-0
+            - uwp: Small Gas Giant
+            - uwp: Small Gas Giant
+      - x: 4
+        y: 2
+        name: Onkonani
+        primary:
+          type: G5
+          bodies:
+            - uwp: empty
+            - uwp: X000000-0
+            - uwp: Small Gas Giant
+      - x: 4
+        y: 4
+        name: Kahhe
+        bases: Research
+        primary:
+          type: G6
+          bodies:
+            - uwp: Large Gas Giant
+            - uwp: Small Gas Giant
+            - uwp: X000000-0
+          far:
+            type: BD
+            bodies:
+              - uwp: Large Gas Giant
+              - uwp: Small Gas Giant
+              - uwp: X000000-0
+      - x: 4
+        y: 6
+      - x: 5
+        y: 2
+      - x: 5
+        y: 4
+      - x: 5
+        y: 5
+      - x: 5
+        y: 6
+      - x: 5
+        y: 7
+      - x: 5
+        y: 8
+      - x: 6
+        y: 2
+      - x: 6
+        y: 3
+      - x: 6
+        y: 5
+      - x: 6
+        y: 7
+      - x: 7
+        y: 9
+      - x: 8
+        y: 3
+      - x: 8
+        y: 4
+      - x: 8
+        y: 7
   - name: Deepn J
     type: MINIMAL
     index: J
