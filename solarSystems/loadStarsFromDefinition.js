@@ -8,6 +8,7 @@ const generateNearSecondary = require("../stars/generateNearSecondary");
 const generateFarSecondary = require("../stars/generateFarSecondary");
 const {twoD6, d6} = require("../dice");
 const addCompanion = require("../stars/addCompanion");
+const companionDM = require("../stars/companionDM");
 
 const loadStarsFromDefinition = ({sector, subsector, definition, solarSystem}) => {
   let unusualChance = sector.unusualChance / 100;
@@ -44,7 +45,7 @@ const loadStarsFromDefinition = ({sector, subsector, definition, solarSystem}) =
     if (definition.primary.far) {
       const classification = (definition.primary.far.type) ? predefinedClassification(definition.primary.far) : null;
       far = generateFarSecondary({
-        star: solarSystem.primary,
+        star: primary,
         unusualChance: unusualChance,
         classification: classification
       });

@@ -547,7 +547,8 @@ class SolarSystem {
   }
 
   preassignedBody({star, body, orbitIndex}) {
-    if (body.uwp.includes('000000')) {
+    const planetoidBelt = /^.000.../;
+    if (planetoidBelt.test(body)) {
       this.addPlanetoidBelt(star, orbitIndex);
       this.planetoidBelts++;
     } else if (body.uwp === 'Small Gas Giant') {

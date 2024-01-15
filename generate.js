@@ -26,6 +26,7 @@ const predefinedClassification = require("./stars/predefinedClassification");
 const starFromDefinition = require("./stars/starFromDefinition");
 const loadStarsFromDefinition = require("./solarSystems/loadStarsFromDefinition");
 const assignStars = require("./solarSystems/assignStars");
+const loadPlanetsFromDefinition = require("./solarSystems/loadPlanetsFromDefinition");
 
 
 const SUBSECTOR_TYPES = {
@@ -120,44 +121,12 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap) =>
       solarSystem.determineAvailableOrbits();
 
       if (defined) {
-        if (defined.bodies) {
-          primary.totalObjects = 20;
-          primary.assignOrbits();
-          primary.totalObjects = defined.bodies.length;
-          let orbitIndex = 0;
-          for (const body of defined.bodies) {
-            if (body !== 'empty') {
-              if (body.habitable) {
-                if (body.habitable === 'outer')
-                  while (primary.occupiedOrbits[orbitIndex] <= primary.hzco)
-                    orbitIndex++;
-                else if (body.habitable === 'inner')
-                  while (primary.occupiedOrbits[orbitIndex + 1] < primary.hzco)
-                    orbitIndex++;
-                else
-                  while (primary.occupiedOrbits[orbitIndex] < primary.hzco)
-                    orbitIndex++;
-              }
-              solarSystem.preassignedBody({star: solarSystem.primaryStar, body: body, orbitIndex: orbitIndex});
-            } else
-              solarSystem.primaryStar.totalObjects--;
-            orbitIndex++;
-          }
-        } else if (defined.randomBodies) {
-          solarSystem.gasGiants = defined.randomBodies.gasGiants;
-          solarSystem.planetoidBelts = defined.randomBodies.planetoidBelts;
-          solarSystem.terrestrialPlanets = defined.randomBodies.terrestrialPlanets;
-          solarSystem.distributeObjects();
-          solarSystem.assignOrbits();
-        } else {
-          solarSystem.gasGiants = gasGiantQuantity(solarSystem);
-          solarSystem.planetoidBelts = planetoidBeltQuantity(solarSystem);
-          solarSystem.terrestrialPlanets = terrestrialPlanetQuantity(solarSystem);
-
-          solarSystem.distributeObjects();
-          solarSystem.assignOrbits();
-          solarSystem.addAnomalousPlanets();
-        }
+        loadPlanetsFromDefinition({
+          sector: sector,
+          subsector: subsector,
+          definition: defined,
+          solarSystem: solarSystem
+        });
       } else {
         solarSystem.gasGiants = gasGiantQuantity(solarSystem);
         solarSystem.planetoidBelts = planetoidBeltQuantity(solarSystem);

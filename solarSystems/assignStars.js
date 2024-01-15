@@ -13,7 +13,7 @@ const assignStars = ({solarSystem, unusualChance}) => {
   const s = new Star(classification, ORBIT_TYPES.PRIMARY);
   solarSystem.addPrimary(s);
 
-  let dm = additionalStarDM(primary);
+  let dm = additionalStarDM(s);
   if (twoD6() + dm >= 10) {
     const classification = determineStarClassification({
       unusualChance: unusualChance,
@@ -22,26 +22,26 @@ const assignStars = ({solarSystem, unusualChance}) => {
     });
     star = new Star(classification, ORBIT_TYPES.COMPANION);
     star.orbit = d6() / 10 + (twoD6() - 7) / 100;
-    star.period = calculatePeriod(star, solarSystem.primary);
-    solarSystem.primary.companion = star;
+    star.period = calculatePeriod(star, solarSystem.primaryStar);
+    solarSystem.primaryStar.companion = star;
   }
 
   if (twoD6() + dm >= 10) {
-    star = generateCloseSecondary({star: solarSystem.primary, unusualChance: 0});
+    star = generateCloseSecondary({star: solarSystem.primaryStar, unusualChance: 0});
     if (twoD6() + companionDM(star) >= 10)
       addCompanion({star: star, unusualChance: unusualChance});
     solarSystem.addStar(star);
   }
 
   if (twoD6() + dm >= 10) {
-    star = generateNearSecondary({star: solarSystem.primary, unusualChance: 0});
+    star = generateNearSecondary({star: solarSystem.primaryStar, unusualChance: 0});
     if (twoD6() + companionDM(star) >= 10)
       addCompanion({star: star, unusualChance: unusualChance});
     solarSystem.addStar(star);
   }
 
   if (twoD6() + dm >= 10) {
-    star = generateFarSecondary({star: solarSystem.primary, unusualChance: 0});
+    star = generateFarSecondary({star: solarSystem.primaryStar, unusualChance: 0});
     if (twoD6() + companionDM(star) >= 10)
       addCompanion({star: star, unusualChance: unusualChance});
     solarSystem.addStar(star);

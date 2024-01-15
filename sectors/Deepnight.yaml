@@ -136,10 +136,44 @@ subsectors:
         y: 6
       - x: 5
         y: 2
+        name: Ikadni
+        primary:
+          type: M3
+          bodies:
+            - uwp: Large Gas Giant
+            - uwp: Small Gas Giant
+            - uwp: XAB7000-0
+            - uwp: X520000-0
+            - uwp: Small Gas Giant
       - x: 5
         y: 4
+        name: Ghoudek
+        primary:
+          type: K5
+          companion:
+            type: K5
+          bodies:
+            - uwp: X200000-0
+            - uwp: Small Gas Giant
+            - uwp: Small Gas Giant
+            - uwp: D6A2346-9
+            - uwp: Small Gas Giant
+            - uwp: Small Gas Giant
+          far:
+            type: M6
       - x: 5
         y: 5
+        name: Alikherrnz
+        primary:
+          type: K6
+          bodies:
+            - uwp: D000546-9
+            - uwp: Super-Earth
+            - uwp: D767946-9
+            - uwp: D000546-9
+            - uwp: Small Gas Giant
+          far:
+            type: M8
       - x: 5
         y: 6
       - x: 5

@@ -19,13 +19,16 @@ class Star extends StellarObject {
     this.stellarType = classification.stellarType;
     this.totalObjects = 0;
 
-    if (!this.isAnomaly)
-      this.subtype = subtypeLookup({
-        isPrimary: orbitType === ORBIT_TYPES.PRIMARY,
-        stellarType: this.stellarType,
-        stellarClass: this.stellarClass
-      });
-    else
+    if (!this.isAnomaly) {
+        if (classification.subtype)
+            this.subtype = classification.subtype;
+        else
+            this.subtype = subtypeLookup({
+                isPrimary: orbitType === ORBIT_TYPES.PRIMARY,
+                stellarType: this.stellarType,
+                stellarClass: this.stellarClass
+            });
+    }else
       this.subtype = null;
 
     this.orbitType = orbitType;
@@ -127,6 +130,8 @@ class Star extends StellarObject {
   get minimumAllowableOrbit() {
     if (this.stellarType === 'D')
       return 0;
+    else if (this.stellarType === STELLAR_TYPES.NeutronStar)
+      return 0.001;
     else {
       const mao = MINIMUM_ALLOWABLE_ORBIT[this.dataKey][this.stellarClass];
       if (this.companion)
