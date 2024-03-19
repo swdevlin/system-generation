@@ -32,6 +32,7 @@ subsectors:
       - x: 6
         y: 4
         name: HNP-A
+        known: false
         primary:
           type: K5
           class: Giant
@@ -57,6 +58,7 @@ subsectors:
       - x: 2
         y: 2
         name: Gehalka
+        known: false
         primary:
           type: M4
           bodies:
@@ -70,6 +72,7 @@ subsectors:
       - x: 3
         y: 4
         name: Irn-Alaz
+        known: false
         primary:
           type: M5
           companion:
@@ -85,6 +88,7 @@ subsectors:
       - x: 3
         y: 6
         name: Hirnz
+        known: false
         star:
           type: M2
           bodies:
@@ -94,6 +98,7 @@ subsectors:
       - x: 3
         y: 7
         name: Ohral
+        known: false
         primary:
           type: M4
           companion:
@@ -110,16 +115,18 @@ subsectors:
       - x: 4
         y: 2
         name: Onkonani
+        known: false
         primary:
           type: G5
           bodies:
-            - uwp: empty
+            - empty
             - uwp: X000000-0
             - uwp: Small Gas Giant
       - x: 4
         y: 4
         name: Kahhe
-        bases: Research
+        known: false
+        bases: R
         primary:
           type: G6
           bodies:
@@ -134,9 +141,28 @@ subsectors:
               - uwp: X000000-0
       - x: 4
         y: 6
+        name: Okh-Kahl
+        known: false
+        primary:
+          type: B3
+          bodies:
+            - uwp: Large Gas Giant
+            - uwp: X530000-0
+            - uwp: X8A0000-0
+            - uwp: X320000-0
+            - uwp: Small Gas Giant
+            - uwp: Small Gas Giant
+            - uwp: X430000-0
+            - uwp: Large Gas Giant
+          far:
+            type: M9
+            bodies:
+              - uwp: X000000-0
+
       - x: 5
         y: 2
         name: Ikadni
+        known: false
         primary:
           type: M3
           bodies:
@@ -148,6 +174,7 @@ subsectors:
       - x: 5
         y: 4
         name: Ghoudek
+        known: false
         primary:
           type: K5
           companion:
@@ -164,6 +191,7 @@ subsectors:
       - x: 5
         y: 5
         name: Alikherrnz
+        known: false
         primary:
           type: K6
           bodies:
@@ -176,18 +204,107 @@ subsectors:
             type: M8
       - x: 5
         y: 6
+        name: E-Ehkri
+        known: false
+        counts:
+          terrestrialPlanets: 4
+          planetoidBelts: 0
+          gasGiants: 0
+        primary:
+          type: BD
       - x: 5
         y: 7
+        name: Abonek
+        known: false
+        primary:
+          type: M6
+          bodies:
+            - uwp: X667000-0
+            - uwp: X78A000-0
+            - uwp: Large Gas Giant
+            - uwp: Small Gas Giant
+            - uwp: Small Gas Giant
+            - uwp: X4A1000-0
+            - uwp: X720000-0
+            - uwp: X221000-0
+            - uwp: Small Gas Giant
+            - uwp: X210000-0
       - x: 5
         y: 8
+        name: Insk
+        known: false
+        primary:
+          type: M5
+          companion:
+            type: M5
+          bodies:
+            - uwp: X610000-0
+            - uwp: X000000-0
+            - uwp: X100000-0
+            - uwp: Small Gas Giant
+            - uwp: X9A1000-0
       - x: 6
         y: 2
+        name: Airgi
+        known: false
+        primary:
+          type: M5
+          bodies:
+            - uwp: X210000-0
+            - uwp: X843000-0
+            - uwp: Small Gas Giant
+            - uwp: X000000-0
+            - uwp: Large Gas Giant
       - x: 6
         y: 3
+        name: Tinzal
+        known: false
+        primary:
+          type: G2
+          bodies:
+            - uwp: X000000-0
+            - uwp: X341000-0
+            - uwp: D756546-9
+            - uwp: Small Gas Giant
+            - uwp: X000000-0
+            - uwp: Small Gas Giant
+            - uwp: Large Gas Giant
+            - uwp: Small Gas Giant
+            - uwp: X311000-0
+          far:
+            type: M8
+            bodies:
+              - uwp: X422000-0
+              - uwp: X688246-9
+              - uwp: Small Gas Giant
       - x: 6
         y: 5
+        name: Kgni
+        known: false
+        primary:
+          type: K5
+          bodies:
+            - uwp: X320000-0
+            - uwp: X000000-0
+            - uwp: Large Gas Giant
+            - uwp: Small Gas Giant
+            - uwp: X200000-0
+          far:
+            type: K7
       - x: 6
         y: 7
+        name: Danh-In
+        known: false
+        primary:
+          type: K6
+          orbits:
+            - uwp: Small Gas Giant
+            - uwp: Small Gas Giant
+            - uwp: Small Gas Giant
+            - uwp: Small Gas Giant
+            - uwp: Large Gas Giant
+            - uwp: Large Gas Giant
+            - uwp: X000000-0
       - x: 7
         y: 9
       - x: 8
