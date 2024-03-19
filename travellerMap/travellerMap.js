@@ -88,8 +88,9 @@ class TravellerMap {
 
     // hex
     let line = solarSystem.coordinates + this.sep;
+
     // name
-    if (solarSystem.name)
+    if (solarSystem.name && solarSystem.known)
       line += solarSystem.name + this.sep;
     else
       line += `${solarSystem.starsString()}${this.sep}`;
@@ -99,44 +100,55 @@ class TravellerMap {
       line += mw ? mw.uwp + this.sep : '???????-?';
     else
       line += '???????-?' + this.sep;
+
     // bases
     line += solarSystem.bases + this.sep;
+
     // remarks
     line += solarSystem.remarks + this.sep;
+
     // zone
     line += '' + this.sep;
+
     // PBG
     line += '0' + solarSystem.planetoidBelts + solarSystem.gasGiants + this.sep;
+
     // allegiance
     line += '' + this.sep;
+
     // Stars
     let stars = ''
     for (const star of solarSystem.stars) {
       stars += `${star.stellarType}${star.subtype? star.subtype : ''} ${star.stellarClass} `
     }
     line += stars + this.sep;
+
     // importance
     line += '{}' + this.sep;
+
     // Economic
     line += '()' + this.sep;
+
     // Cultural
     line += '[]' + this.sep;
+
     // nobility
     line += this.sep;
+
     // worlds
     line += solarSystem.terrestrialPlanets;
     this.systems.push(line);
 
     if (mw)
       line = line.replace('???????-?', mw.uwp);
-    if (solarSystem.hasNativeSophont) {
+    if (solarSystem.hasNativeSophont)
       this.nativeSophonts.push(solarSystem);
-      // line = line.replace(solarSystem.starsString(), '');
-    } else if (solarSystem.hasExtinctSophont)
+    else if (solarSystem.hasExtinctSophont)
       this.extinctSophonts.push(solarSystem);
+
     if (mw)
       line = line.replace(solarSystem.starsString(), mw.uwp);
-    // line = line.replace(solarSystem.starsString(), ' ');
+
     this.refereeSystems.push(line);
   }
 
