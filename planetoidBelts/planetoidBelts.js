@@ -34,9 +34,9 @@ const planetoidBeltQuantity = (solarSystem) => {
 
 const determineBeltComposition = (star, belt) => {
   let roll = twoD6();
-  if (belt.orbit < star.hzco)
+  if (belt.effectiveHZCODeviation < 0)
     roll -= 4;
-  if (belt.orbit > star.hzco + 2)
+  if (belt.effectiveHZCODeviation > 2)
     roll += 4;
 
   if (roll < 1) {
@@ -141,11 +141,12 @@ const addSignificantBodies = (star, belt) => {
   let bodies = twoD6() - 12 + belt.bulk;
   if (belt.span < 0.1)
     bodies -=4;
-  if (belt.orbit > star.hzco + 3)
+  if (belt.effectiveHZCODeviation > 3)
     bodies += 2;
   for (let i=0; i < bodies; i++) {
     let orbit = belt.orbit + calculateOrbitOffset(star, belt);
     const p = new TerrestrialPlanet(1, orbit);
+    p.setOrbit(star, orbit);
     assignPhysicalCharacteristics(star, p);
     p.orbitType = ORBIT_TYPES.PLANETOID_BELT_OBJECT;
     star.addStellarObject(p);
@@ -153,9 +154,9 @@ const addSignificantBodies = (star, belt) => {
 
   bodies = twoD6() - 10;
   let dm = 0;
-  if (star.hzco+2 <= belt.orbit && belt.orbit <= star.hzco+3)
+  if (belt.effectiveHZCODeviation >= 2 && belt.effectiveHZCODeviation <= 3)
     dm += 1;
-  if (belt.orbit > star.hzco+3)
+  if (belt.effectiveHZCODeviation > 3)
     dm += 3;
   if (belt.span > 1)
     dm += 1;
@@ -167,6 +168,7 @@ const addSignificantBodies = (star, belt) => {
   for (let i=0; i < bodies; i++) {
     let orbit = belt.orbit + calculateOrbitOffset(star, belt);
     const p = new TerrestrialPlanet('S', orbit);
+    p.setOrbit(star, orbit);
     assignPhysicalCharacteristics(star, p);
     p.orbitType = ORBIT_TYPES.PLANETOID_BELT_OBJECT;
     star.addStellarObject(p);

@@ -279,11 +279,11 @@ class Star extends StellarObject {
           displayedJump = true;
         }
         const dumpParams = [spacing + 2, '', '', index, starIndex];
-        if (Math.abs(this.hzco - stellar.orbit) <= 0.2) {
+        if (Math.abs(stellar.effectiveHZCODeviation) <= 0.2) {
           dumpParams[1] = '🌐 ';
           dumpParams[2] = '';
-        } else if (Math.abs(this.hzco - stellar.orbit) <= 1) {
-          if (this.hzco > stellar.orbit) {
+        } else if (Math.abs(stellar.effectiveHZCODeviation) <= 1) {
+          if (stellar.effectiveHZCODeviation < 0) {
             dumpParams[1] = '🔥 ';
             dumpParams[2] = '';
           } else {

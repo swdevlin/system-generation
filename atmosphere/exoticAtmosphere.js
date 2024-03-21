@@ -9,9 +9,9 @@ const exoticAtmosphere = (star, planet) => {
   let roll = twoD6();
   if (planet.size >= 2 && planet.size <= 4)
     roll -= 2;
-  if (planet.orbit < star.hzco-1)
+  if (planet.effectiveHZCODeviation < -1)
     roll -= 2;
-  if (planet.orbit > star.hzco+2)
+  if (planet.effectiveHZCODeviation > 2)
     roll += 2;
 
     planet.atmosphere.code = 10;

@@ -12,6 +12,7 @@ class TerrestrialPlanet extends StellarObject {
     const components = uwp ? deconstructUWP(uwp) : null;
     this.size = components ? components.size : size;
     this.orbit = orbit;
+    if (orbit)
     this.period = 0;
     this.composition = '';
     this.retrograde = false;

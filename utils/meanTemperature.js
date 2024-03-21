@@ -10,13 +10,13 @@ const TEMPERATURE_LOOKUP = [
 meanTemperature = (star, planet) => {
   let roll = twoD6();
 
-  if (planet.orbit < star.hzco - 1) {
+  if (planet.effectiveHZCODeviation < -1) {
     roll = 7;
-    roll += 4 + Math.round(((star.hzco - 1) - planet.orbit) / 0.5);
-  } else if (planet.orbit > star.hzco + 1) {
+    roll += 4 + Math.round((-1* planet.effectiveHZCODeviation - 1) / 0.5);
+  } else if (planet.effectiveHZCODeviation > 1) {
     roll = 7;
     roll -= 4;
-    roll -= Math.round((planet.orbit - (star.hzco+1)) / 0.5);
+    roll -= Math.round((planet.effectiveHZCODeviation - 1) / 0.5);
   }
 
   // page 47
