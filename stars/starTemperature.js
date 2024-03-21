@@ -24,7 +24,7 @@ const TEMPERATURE = {
 }
 
 const starTemperature = (star) => {
-  if (star.stellarType === STELLAR_TYPES.WhiteDwarf) {
+  if (star.stellarType === STELLAR_TYPES.WhiteDwarf || star.stellarType === STELLAR_TYPES.NeutronStar) {
     if (star.mass < 0.1)
       return 100000;
     else if (star.mass < 0.5)

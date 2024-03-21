@@ -10,7 +10,7 @@ const calculateAlbedo = (star, planet) => {
 
   let albedo = 0;
   if (planet.composition.indexOf('Ice') >= 0) {
-    if (planet.orbit - star.hzco <= 2)
+    if (planet.effectiveHZCODeviation <= 2)
       albedo += 0.2 + (twoD6()-3) * 0.05;
     else {
       albedo += 0.25 + (twoD6() - 2) * 0.07;

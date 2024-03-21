@@ -19,13 +19,16 @@ class Star extends StellarObject {
     this.stellarType = classification.stellarType;
     this.totalObjects = 0;
 
-    if (!this.isAnomaly)
-      this.subtype = subtypeLookup({
-        isPrimary: orbitType === ORBIT_TYPES.PRIMARY,
-        stellarType: this.stellarType,
-        stellarClass: this.stellarClass
-      });
-    else
+    if (!this.isAnomaly) {
+        if (classification.subtype)
+            this.subtype = classification.subtype;
+        else
+            this.subtype = subtypeLookup({
+                isPrimary: orbitType === ORBIT_TYPES.PRIMARY,
+                stellarType: this.stellarType,
+                stellarClass: this.stellarClass
+            });
+    }else
       this.subtype = null;
 
     this.orbitType = orbitType;
@@ -127,6 +130,8 @@ class Star extends StellarObject {
   get minimumAllowableOrbit() {
     if (this.stellarType === 'D')
       return 0;
+    else if (this.stellarType === STELLAR_TYPES.NeutronStar)
+      return 0.001;
     else {
       const mao = MINIMUM_ALLOWABLE_ORBIT[this.dataKey][this.stellarClass];
       if (this.companion)
@@ -274,11 +279,11 @@ class Star extends StellarObject {
           displayedJump = true;
         }
         const dumpParams = [spacing + 2, '', '', index, starIndex];
-        if (Math.abs(this.hzco - stellar.orbit) <= 0.2) {
+        if (Math.abs(stellar.effectiveHZCODeviation) <= 0.2) {
           dumpParams[1] = '🌐 ';
           dumpParams[2] = '';
-        } else if (Math.abs(this.hzco - stellar.orbit) <= 1) {
-          if (this.hzco > stellar.orbit) {
+        } else if (Math.abs(stellar.effectiveHZCODeviation) <= 1) {
+          if (stellar.effectiveHZCODeviation < 0) {
             dumpParams[1] = '🔥 ';
             dumpParams[2] = '';
           } else {

@@ -61,41 +61,45 @@ subsectors:
         y: 6
         known: true
         name: Garva-411
-        gasgiant: 1
         uwp: X310000-0
         remarks: "{Anomaly}"
-        stellarObjects:
-          - star: Neutron Star
-            stellarObjects:
-              - wide empty zone
-              - belt
-              - terrestrial
-              - gasgiant: small
-              - rogue
+        primary:
+          type: NS
+          bodies:
+            - empty
+            - empty
+            - empty
+            - empty
+            - empty
+            - empty
+            - empty
+            - uwp: X000000-0
+            - uwp: X310000-0
+            - uwp: Small Gas Giant
+            - uwp: terrestrial
       - x: 7
         y: 2
       - x: 7
         y: 4
         known: true
-        star:
-          type: F7
-          companion:
-            type: K2
-          secondaries:
-            - far:
-                type: G2
         name: Demnan
         bases: SN
         uwp: E567000-0
-        bodies:
-          - uwp: terrestrial
-          - uwp: Large Gas Giant
-          - uwp: X000000-0
-          - uwp: E567000-0
-          - uwp: X000000-0
-          - uwp: Large Gas Giant
-          - uwp: terrestrial
-          - uwp: Small Gas Giant
+        primary:
+          type: F7
+          companion:
+            type: K2
+          bodies:
+            - uwp: terrestrial
+            - uwp: Large Gas Giant
+            - uwp: X000000-0
+            - uwp: E567000-0
+            - uwp: X000000-0
+            - uwp: Large Gas Giant
+            - uwp: terrestrial
+            - uwp: Small Gas Giant
+          far:
+            type: G2
   - name: IC M
     type: RIFT
     index: M

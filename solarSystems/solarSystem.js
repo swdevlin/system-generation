@@ -192,7 +192,7 @@ class SolarSystem {
 
   addPlanetoidBelt(star, orbit_index) {
     const pb = new PlanetoidBelt();
-    pb.orbit = star.occupiedOrbits[orbit_index];
+    pb.setOrbit(star, star.occupiedOrbits[orbit_index]);
     pb.span = star.spread * twoD6()/10;
     determineBeltComposition(star, pb);
     determineBeltBulk(star, pb);
@@ -207,6 +207,7 @@ class SolarSystem {
     if (orbitIndex !== undefined)
       orbit = star.occupiedOrbits[orbitIndex];
     const p = new TerrestrialPlanet(size, orbit, uwp);
+    p.setOrbit(star, orbit);
 
     if (!uwp)
       assignPhysicalCharacteristics(star, p);
@@ -241,7 +242,7 @@ class SolarSystem {
       gg = new GasGiant(size, SOL_DIAMETER * (twoD6()+6), r.die(3)*50*(threeD6()+4));
     if (gg.mass >= 3000)
       gg.mass = 4000-200*(twoD6()-2);
-    gg.orbit = star.occupiedOrbits[orbitIndex];
+    gg.setOrbit(star, star.occupiedOrbits[orbitIndex]);
     gg.eccentricity = eccentricity(0);
     gg.axialTilt = axialTilt();
     star.addStellarObject(gg);
@@ -423,6 +424,8 @@ class SolarSystem {
 
   countObjects(star) {
     let total = star.stellarObjects.length;
+    if (star.companion)
+      total += this.countObjects(star.companion);
     for (const obj of star.stellarObjects)
       if (obj instanceof Star)
         total += this.countObjects(obj);
@@ -430,8 +433,8 @@ class SolarSystem {
   }
 
   addLocations(star, locations) {
-    if (star.companion)
-      locations.push(orbitPosition(star.companion, star));
+    // if (star.companion)
+    //   locations.push(orbitPosition(star.companion, star));
 
     for (const obj of star.stellarObjects) {
       locations.push(orbitPosition(obj, star));
@@ -545,7 +548,8 @@ class SolarSystem {
   }
 
   preassignedBody({star, body, orbitIndex}) {
-    if (body.uwp.includes('000000')) {
+    const planetoidBelt = /^.000.../;
+    if (planetoidBelt.test(body)) {
       this.addPlanetoidBelt(star, orbitIndex);
       this.planetoidBelts++;
     } else if (body.uwp === 'Small Gas Giant') {
@@ -578,7 +582,7 @@ class SolarSystem {
       if (stellarObject instanceof Star)
         this.getPossibleMainWorlds(stellarObject, possibleMainWorlds);
       else if (!(stellarObject instanceof GasGiant))
-        possibleMainWorlds.push([Math.abs(star.hzco - stellarObject.orbit), stellarObject])
+        possibleMainWorlds.push([Math.abs(stellarObject.effectiveHZCODeviation), stellarObject])
   }
 
   getPossibleGGMainWorlds(star, possibleMainWorlds) {
@@ -587,7 +591,7 @@ class SolarSystem {
         this.getPossibleGGMainWorlds(stellarObject, possibleMainWorlds);
       else if (stellarObject instanceof GasGiant)
         for (const moon of stellarObject.moons)
-          possibleMainWorlds.push([Math.abs(star.hzco - stellarObject.orbit), moon])
+          possibleMainWorlds.push([Math.abs(stellarObject.effectiveHZCODeviation), moon])
   }
 
   get mainWorld() {

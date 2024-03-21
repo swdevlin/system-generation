@@ -1,3 +1,4 @@
+const {d6} = require("../dice");
 const DIAMETER = {
   'O0': {
     'Ia': 25,
@@ -144,7 +145,9 @@ const DIAMETER = {
 
 const starDiameter = (star) => {
   if (star.stellarType === 'D') {
-    return 1/star.mass*0.01;
+    return 1 / star.mass * 0.01;
+  } else if (star.stellarType === 'NS') {
+    return 19 + d6();
   } else {
     return DIAMETER[star.dataKey][star.stellarClass]
   }
