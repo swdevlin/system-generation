@@ -1,11 +1,12 @@
 const {AU} = require("./index");
+const orbitToAU = require("./orbitToAU");
 
 const randomAngle = () => {
   return Math.random() * 2 * Math.PI;
 }
 
 const orbitPosition = (obj, star) => {
-  const x = obj.orbit * AU;
+  const x = orbitToAU(obj.orbit)*AU;
   const y = 0;
   const offsetX = star ? star.orbitPosition.x : 0;
   const offsetY = star ? star.orbitPosition.y : 0;
