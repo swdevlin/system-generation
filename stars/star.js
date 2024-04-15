@@ -1,5 +1,5 @@
 const {determineDataKey, ORBIT_TYPES, computeBaseline, orbitText, AU, SOL_DIAMETER, orbitToAU, auToOrbit, StarColour,
-  starIdentifier, STELLAR_TYPES
+  starIdentifier, STELLAR_TYPES, travelTime
 } = require("../utils");
 const {MINIMUM_ALLOWABLE_ORBIT} = require("./index");
 const {twoD6, d6, d3, d10, d100} = require("../dice");
@@ -153,7 +153,6 @@ class Star extends StellarObject {
     }
     this.stellarObjects.splice(i, 0, item);
     item.period = Math.sqrt(orbitToAU(item.orbit) ** 3 / mass);
-
   }
 
   get luminosity() {

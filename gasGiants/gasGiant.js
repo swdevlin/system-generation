@@ -25,6 +25,7 @@ class GasGiant extends StellarObject {
       s+= 'Medium gas giant';
     else if (this.code === 'GL')
       s+= 'Large gas giant';
+    s += `; j: ${this.safeJumpTime(4)}`
     s += `${postfix}\n`;
     for (const moon of this.moons)
       s += moonTextDump(moon, spacing+2);

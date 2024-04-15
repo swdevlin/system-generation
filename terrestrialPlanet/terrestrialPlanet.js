@@ -79,7 +79,7 @@ class TerrestrialPlanet extends StellarObject {
   textDump(spacing, prefix, postfix, index, starIndex) {
     this.orbitSequence = sequenceIdentifier(index, starIndex);
     const label = this.orbitType === ORBIT_TYPES.PLANETOID_BELT_OBJECT ? 'Belt significant body' : 'Terrestrial planet';
-    let s = `${' '.repeat(spacing)}${prefix}${orbitText(this.orbit, index, starIndex)} X${toHex(this.size)}${toHex(this.atmosphere.code)}${toHex(this.hydrographics.code)}${toHex(this.population.code)}${toHex(this.governmentCode)}${toHex(this.lawLevelCode)} ${label}${postfix}\n`;
+    let s = `${' '.repeat(spacing)}${prefix}${orbitText(this.orbit, index, starIndex)} X${toHex(this.size)}${toHex(this.atmosphere.code)}${toHex(this.hydrographics.code)}${toHex(this.population.code)}${toHex(this.governmentCode)}${toHex(this.lawLevelCode)} ${label}; j: ${this.safeJumpTime(4)}${postfix}\n`;
     for (const moon of this.moons)
       s += moonTextDump(moon, spacing+2);
     return s;
