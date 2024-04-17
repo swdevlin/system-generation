@@ -4,11 +4,14 @@ const Atmosphere = require("../atmosphere/Atmosphere");
 const moonTextDump = require("../moons/moonTextDump");
 const {determineTaint} = require("../atmosphere/taint");
 const Population = require("../population/Population");
+const {randomInt} = require("../dice");
 
+const SIZE_STEP = 1600;
 class TerrestrialPlanet extends StellarObject {
   constructor(size, orbit, uwp) {
     super();
 
+    this.sizeVariance = randomInt(SIZE_STEP/2 - SIZE_STEP, SIZE_STEP + SIZE_STEP/2);
     const components = uwp ? deconstructUWP(uwp) : null;
     this.size = components ? components.size : size;
     this.orbit = orbit;
@@ -54,13 +57,15 @@ class TerrestrialPlanet extends StellarObject {
   }
 
   get diameter() {
+    const sizeStep = 1600;
     if (this.size === 0)
       return 0;
-    if (this.size === 'R')
+    else if (this.size === 'R')
       return 0;
-    if (this.size === 'S')
-      return 600;
-    return this.size * 1600;
+    else if (this.size === 'S')
+      return 600 + this.sizeVariance / 4;
+    else
+      return this.size * sizeStep + this.sizeVariance;
   }
 
   get gravity() {

@@ -60,6 +60,10 @@ const percentageChance = (p) => {
   return rng.bool(p);
 }
 
+const randomInt = (min, max) => {
+  return rng.integer(min, max);
+}
+
 const clearCache = () => {
   ROLL_CACHE.length = 0;
 }
@@ -77,6 +81,7 @@ module.exports = {
   threeD6: threeD6,
   fluxRoll: fluxRoll,
   percentageChance: percentageChance,
+  randomInt: randomInt,
   ROLL_CACHE: ROLL_CACHE,
   clearCache: clearCache,
 }
