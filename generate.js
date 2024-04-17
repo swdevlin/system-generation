@@ -194,6 +194,7 @@ commander
     systems: travellerMap.systemDump(true),
     meta: travellerMap.metaDataDump(true),
     mapDir: refereeMapDir,
+    sectorDir: outputDir,
     sectorName: sector.name,
     forReferee: true
   });
@@ -201,6 +202,7 @@ commander
     systems: travellerMap.systemDump(),
     meta: travellerMap.metaDataDump(),
     mapDir: mapDir,
+    sectorDir: outputDir,
     sectorName: sector.name,
     forReferee: false
   });
