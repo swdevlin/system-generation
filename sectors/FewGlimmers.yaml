@@ -17,38 +17,38 @@ subsectors:
     type: RIFT_FADE
     index: D
   - name: FewG E
-    type: RIFT_FADE
+    type: DEEP_RIFT
     index: E
   - name: FewG F
-    type: RIFT_FADE
+    type: DEEP_RIFT
     index: F
   - name: FewG G
-    type: MINIMAL
+    type: DEEP_RIFT
     index: G
   - name: FewG H
-    type: RIFT_FADE
+    type: DEEP_RIFT
     index: H
   - name: FewG I
-    type: RIFT_FADE
+    type: DEEP_RIFT
     index: I
   - name: FewG J
-    type: RIFT_FADE
+    type: DEEP_RIFT
     index: J
   - name: FewG K
-    type: RIFT
+    type: DEEP_RIFT
     index: K
   - name: FewG L
-    type: RIFT_FADE
+    type: DEEP_RIFT
     index: L
   - name: FewG M
-    type: RIFT_FADE
+    type: DEEP_RIFT
     index: M
   - name: FewG N
-    type: RIFT_FADE
+    type: DEEP_RIFT
     index: N
   - name: FewG O
-    type: RIFT_FADE
+    type: DEEP_RIFT
     index: O
   - name: FewG P
-    type: RIFT_FADE
+    type: DEEP_RIFT
     index: P
