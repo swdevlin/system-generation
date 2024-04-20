@@ -55,6 +55,10 @@ const dumpStats = async (sector, outputDir) => {
 const dumpRefereeReference = async (sector, outputDir) => {
   const reference = refereeReference(sector);
   fs.writeFileSync(`${outputDir}/referee.csv`, reference.join('\n'));
+
+  let asJson = toJSON(sector);
+  asJson = JSON.stringify(asJson, null, 2);
+  fs.writeFileSync(`${outputDir}/${sector.name}.json`, asJson);
 }
 
 const generateSubsector = (outputDir, sector, subsector, index, travellerMap) => {
