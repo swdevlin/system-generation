@@ -7,14 +7,8 @@ const {twoD6, d6} = require("./dice");
 const {gasGiantQuantity} = require("./gasGiants");
 const {planetoidBeltQuantity} = require("./planetoidBelts");
 const {calculatePeriod, additionalStarDM, ORBIT_TYPES, companionOrbit} = require("./utils");
-const StellarClassification = require("./stars/StellarClassification");
 const Star = require("./stars/star");
 const {determineStarClassification} = require("./stars/determineStarClassification");
-const generateCloseSecondary = require("./stars/generateCloseSecondary");
-const generateNearSecondary = require("./stars/generateNearSecondary");
-const generateFarSecondary = require("./stars/generateFarSecondary");
-const addCompanion = require("./stars/addCompanion");
-const giantsStellarClassLookup = require("./lookups/giantsStellarClassLookup");
 const SolarSystem = require("./solarSystems/solarSystem");
 const createMap = require("./travellerMap/createMap");
 const TravellerMap = require("./travellerMap/travellerMap");
@@ -22,8 +16,6 @@ const computeStats = require("./solarSystems/computeStats");
 const refereeReference = require("./solarSystems/refereeReference");
 const terrestrialPlanetQuantity = require("./terrestrialPlanet/terrestrialPlanetQuantity");
 const toJSON = require("./utils/toJSON");
-const predefinedClassification = require("./stars/predefinedClassification");
-const starFromDefinition = require("./stars/starFromDefinition");
 const loadStarsFromDefinition = require("./solarSystems/loadStarsFromDefinition");
 const assignStars = require("./solarSystems/assignStars");
 const loadPlanetsFromDefinition = require("./solarSystems/loadPlanetsFromDefinition");
@@ -202,6 +194,7 @@ commander
     systems: travellerMap.systemDump(true),
     meta: travellerMap.metaDataDump(true),
     mapDir: refereeMapDir,
+    sectorDir: outputDir,
     sectorName: sector.name,
     forReferee: true
   });
@@ -209,6 +202,7 @@ commander
     systems: travellerMap.systemDump(),
     meta: travellerMap.metaDataDump(),
     mapDir: mapDir,
+    sectorDir: outputDir,
     sectorName: sector.name,
     forReferee: false
   });

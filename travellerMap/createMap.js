@@ -15,7 +15,7 @@ const WorldColors = 0x4000;         // 16384
 const FilledBorders = 0x8000;       // 32768
 
 
-async function createMap({systems, meta, mapDir , sectorName , forReferee}) {
+async function createMap({systems, meta, mapDir, sectorDir, sectorName , forReferee}) {
   const params = {
     data: systems,
     metadata: meta,
@@ -42,6 +42,10 @@ async function createMap({systems, meta, mapDir , sectorName , forReferee}) {
   });
   const blob = await response.text();
   writeFileSync(`${mapDir}/${sectorName}.svg`, blob);
+  if (forReferee)
+    writeFileSync(`${sectorDir}/${sectorName}-referee.svg`, blob);
+  else
+    writeFileSync(`${sectorDir}/${sectorName}.svg`, blob);
 }
 
 module.exports = createMap;

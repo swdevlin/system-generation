@@ -1,5 +1,5 @@
 const {determineDataKey, ORBIT_TYPES, computeBaseline, orbitText, AU, SOL_DIAMETER, orbitToAU, auToOrbit, StarColour,
-  starIdentifier, STELLAR_TYPES
+  starIdentifier, STELLAR_TYPES, travelTime
 } = require("../utils");
 const {MINIMUM_ALLOWABLE_ORBIT} = require("./index");
 const {twoD6, d6, d3, d10, d100} = require("../dice");
@@ -153,7 +153,6 @@ class Star extends StellarObject {
     }
     this.stellarObjects.splice(i, 0, item);
     item.period = Math.sqrt(orbitToAU(item.orbit) ** 3 / mass);
-
   }
 
   get luminosity() {
@@ -174,6 +173,10 @@ class Star extends StellarObject {
       luminosity += this.companion.luminosity;
     const d = Math.sqrt(luminosity);
     return auToOrbit(d);
+  }
+
+  get jumpShadow() {
+    return 100 * this.diameter * SOL_DIAMETER / AU;
   }
 
   get totalOrbits() {
@@ -257,8 +260,7 @@ class Star extends StellarObject {
   }
 
   textDump(spacing, prefix, postfix, index, starIndex) {
-    const jumpShadow = 100 * this.diameter * SOL_DIAMETER / AU;
-    this.jump = auToOrbit(jumpShadow);
+    this.jump = auToOrbit(this.jumpShadow);
     let displayedJump = false;
     let s = `${' '.repeat(spacing)}`;
     if (this.orbitType !== ORBIT_TYPES.PRIMARY) {
@@ -275,7 +277,7 @@ class Star extends StellarObject {
       for (const stellar of this.stellarObjects) {
         index++;
         if (stellar.orbit > this.jump && !displayedJump) {
-          s += `${' '.repeat(spacing + 2)}^^^ ${jumpShadow.toFixed(2)} ^^^\n`;
+          s += `${' '.repeat(spacing + 2)}^^^ ${this.jumpShadow.toFixed(2)} ^^^\n`;
           displayedJump = true;
         }
         const dumpParams = [spacing + 2, '', '', index, starIndex];
@@ -283,7 +285,7 @@ class Star extends StellarObject {
           dumpParams[1] = '🌐 ';
           dumpParams[2] = '';
         } else if (Math.abs(stellar.effectiveHZCODeviation) <= 1) {
-          if (stellar.effectiveHZCODeviation < 0) {
+          if (stellar.effectiveHZCODeviation > 0) {
             dumpParams[1] = '🔥 ';
             dumpParams[2] = '';
           } else {

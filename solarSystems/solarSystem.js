@@ -4,7 +4,7 @@ const {
   SOL_DIAMETER,
   eccentricity,
   determineHydrographics,
-  meanTemperature, axialTilt, orbitPosition, calculateDistance, travelTime, STELLAR_TYPES,
+  meanTemperature, axialTilt, orbitPosition, calculateDistance, travelTime, STELLAR_TYPES, AU,
 } = require("../utils");
 const {threeD6, twoD6, d4, d6, d10} = require("../dice");
 const {GasGiant} = require("../gasGiants");
@@ -455,6 +455,9 @@ class SolarSystem {
     const midPoint = 1025;
     const primary = `<circle cx="${midPoint}" cy="${midPoint}" r="25" fill="${starColour(this.primaryStar)}" />`;
     svg.push('<svg width="2050" height="2050" xmlns="http://www.w3.org/2000/svg">');
+    const jsize = this.primaryStar.jumpShadow*AU*scale;
+    const jumpShadow = `<circle cx="${midPoint}" cy="${midPoint}" r="${jsize}" fill="#DDDDDD" />`;
+    svg.push(jumpShadow);
     svg.push(primary);
     for (const l of locations) {
       let size = 10;

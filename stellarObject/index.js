@@ -1,3 +1,6 @@
+const {SOL_DIAMETER, AU} = require("../utils");
+const travelTime = require("../utils/travelTime");
+
 class StellarObject {
   constructor() {
     this.orbitPosition = {x: 0, y: 0};
@@ -14,6 +17,13 @@ class StellarObject {
       this.effectiveHZCODeviation = star.hzco - orbitNumber;
   }
 
+  get jumpShadow() {
+    return 100 * this.diameter;
+  }
+
+  safeJumpTime(mDrive) {
+    return travelTime(this.diameter, mDrive, true);
+  }
 }
 
 module.exports = StellarObject;
