@@ -151,7 +151,7 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap) =>
 
 // noinspection HtmlDeprecatedTag,XmlDeprecatedElement
 commander
-  .version('0.0.1', '-v, --version')
+  .version('0.4', '-v, --version')
   .usage('[OPTIONS]...')
   .option('-s, --sector <filname>', 'File with sector definition', '')
   .option('-o, --output <dir>', 'Directory for the output', 'output')

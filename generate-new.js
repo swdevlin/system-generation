@@ -15,7 +15,7 @@ const svgName = (yamlName) => {
 }
 
 commander
-  .version('0.0.1', '-v, --version')
+  .version('0.4', '-v, --version')
   .usage('[OPTIONS]...')
   .option('-o, --output <dir>', 'Directory for the output', 'output')
   .option('-f, --force', 'Generate even if not new', false)
