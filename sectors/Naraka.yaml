@@ -3,6 +3,7 @@ abbreviation: Naraka
 X: -19
 Y: -10
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: Naraka A
     type: MODERATE

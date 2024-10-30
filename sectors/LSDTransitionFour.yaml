@@ -3,6 +3,7 @@ abbreviation: LSD 4
 X: -17
 Y: -11
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: LSD 4 A
     type: MINIMAL

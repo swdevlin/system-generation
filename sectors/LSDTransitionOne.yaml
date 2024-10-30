@@ -3,6 +3,7 @@ abbreviation: LSD One
 X: -20
 Y: -11
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: LSD One A
     type: MINIMAL

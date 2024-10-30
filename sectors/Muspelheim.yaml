@@ -3,6 +3,7 @@ abbreviation: Musp
 X: -17
 Y: -6
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: Musp A
     type: MODERATE

@@ -3,6 +3,7 @@ abbreviation: Last
 X: -20
 Y: -4
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: Last A
     type: RIFT

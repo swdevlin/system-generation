@@ -3,6 +3,7 @@ abbreviation: LSD TT
 X: -16
 Y: -11
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: LSD TT A
     type: SPARSE

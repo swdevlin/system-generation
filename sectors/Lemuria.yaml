@@ -3,6 +3,7 @@ abbreviation: Lem
 X: -18
 Y: -6
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: Lem A
     type: MODERATE

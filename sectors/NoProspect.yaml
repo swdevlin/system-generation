@@ -3,6 +3,7 @@ abbreviation: NoP
 X: -18
 Y: -4
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: NoP A
     type: DEEP_RIFT

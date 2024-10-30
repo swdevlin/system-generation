@@ -3,6 +3,7 @@ abbreviation: ReBr
 X: -22
 Y: -11
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: ReBr A
     type: MODERATE

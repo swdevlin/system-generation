@@ -3,6 +3,7 @@ abbreviation: LastPR
 X: -20
 Y: -5
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: LastPR A
     type: RIFT

@@ -3,6 +3,7 @@ abbreviation: NSoY
 X: -13
 Y: -2
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: NSoY A
     type: LOW

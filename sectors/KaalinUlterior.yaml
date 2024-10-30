@@ -3,6 +3,7 @@ abbreviation: KaaUlt
 X: -15
 Y: -2
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: KaaUlt A
     type: MODERATE

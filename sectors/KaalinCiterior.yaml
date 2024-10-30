@@ -3,6 +3,7 @@ abbreviation: KaaCit
 X: -15
 Y: -3
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: KaaCit A
     type: LOW

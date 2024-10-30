@@ -3,6 +3,7 @@ abbreviation: SisCit
 X: -18
 Y: -3
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: SisCit A
     type: SPARSE

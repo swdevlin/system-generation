@@ -3,6 +3,7 @@ abbreviation: Lethe
 X: -22
 Y: -10
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: Lethe A
     type: SPARSE

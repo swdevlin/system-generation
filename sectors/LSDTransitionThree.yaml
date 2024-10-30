@@ -3,6 +3,7 @@ abbreviation: LSD 3
 X: -18
 Y: -11
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: LSD 3 A
     type: RIFT_FADE

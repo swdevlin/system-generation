@@ -3,6 +3,7 @@ abbreviation: ReCo
 X: -23
 Y: -11
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: ReCo A
     type: RIFT_FADE
