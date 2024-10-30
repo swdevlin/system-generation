@@ -3,6 +3,7 @@ abbreviation: ORR
 X: -21
 Y: -5
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: ORR A
     type: DEEP_RIFT

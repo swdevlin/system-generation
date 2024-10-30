@@ -3,6 +3,7 @@ abbreviation: Oly
 X: -20
 Y: -8
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: Oly A
     type: STANDARD

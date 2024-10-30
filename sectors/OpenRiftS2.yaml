@@ -3,6 +3,7 @@ abbreviation: ORS2
 X: -23
 Y: -4
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: ORS2 A
     type: SPARSE
