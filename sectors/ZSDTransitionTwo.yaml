@@ -3,6 +3,7 @@ abbreviation: ZSD Two
 X: -19
 Y: -11
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: ZSD Two A
     type: DEEP_RIFT

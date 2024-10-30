@@ -3,6 +3,7 @@ abbreviation: VS8
 X: -19
 Y: -13
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: VS 8 A
     type: SPARSE

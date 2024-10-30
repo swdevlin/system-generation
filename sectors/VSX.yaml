@@ -3,6 +3,7 @@ abbreviation: VSX
 X: -22
 Y: -13
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: VSX A
     type: MINIMAL

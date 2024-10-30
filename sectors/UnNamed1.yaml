@@ -3,6 +3,7 @@ abbreviation: Un1
 X: -14
 Y: -1
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: Un1 A
     type: STANDARD

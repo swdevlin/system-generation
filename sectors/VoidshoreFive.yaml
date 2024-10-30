@@ -3,6 +3,7 @@ abbreviation: VS 5
 X: -17
 Y: -12
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: VS 5 A
     type: SPARSE

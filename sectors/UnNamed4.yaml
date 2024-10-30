@@ -3,6 +3,7 @@ abbreviation: Un4
 X: -14
 Y: -3
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: Un4 A
     type: RIFT

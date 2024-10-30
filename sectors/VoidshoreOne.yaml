@@ -3,6 +3,7 @@ abbreviation: VS 1
 X: -22
 Y: -12
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: VS 1 A
     type: SPARSE

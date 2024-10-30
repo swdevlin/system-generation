@@ -3,6 +3,7 @@ abbreviation: Wldr
 X: -18
 Y: -7
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: Wldr A
     type: STANDARD

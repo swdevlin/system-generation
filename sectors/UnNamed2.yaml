@@ -3,6 +3,7 @@ abbreviation: Un2
 X: -14
 Y: -2
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: Un2 A
     type: LOW

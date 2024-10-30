@@ -3,6 +3,7 @@ abbreviation: VS7
 X: -21
 Y: -13
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: VS 7 A
     type: MODERATE

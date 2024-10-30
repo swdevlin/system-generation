@@ -3,6 +3,7 @@ abbreviation: VS10
 X: -17
 Y: -13
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: VS 10 A
     type: LOW

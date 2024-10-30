@@ -3,6 +3,7 @@ abbreviation: Styx
 X: -22
 Y: -8
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: Styx A
     type: RIFT_FADE

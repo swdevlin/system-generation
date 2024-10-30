@@ -3,6 +3,7 @@ abbreviation: Valhol
 X: -18
 Y: -8
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: Valhol A
     type: STANDARD

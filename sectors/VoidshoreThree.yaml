@@ -3,6 +3,7 @@ abbreviation: VS 3
 X: -20
 Y: -12
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: VS 3 A
     type: MODERATE

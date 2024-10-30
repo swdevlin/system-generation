@@ -3,6 +3,7 @@ abbreviation: VS9
 X: -18
 Y: -13
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: VS 9 A
     type: LOW

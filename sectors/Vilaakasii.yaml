@@ -3,6 +3,7 @@ abbreviation: Vilaa
 X: -11
 Y: -2
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: Vilaa A
     type: LOW
