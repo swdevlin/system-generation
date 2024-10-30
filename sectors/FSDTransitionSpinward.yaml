@@ -3,6 +3,7 @@ abbreviation: FSD TS
 X: -21
 Y: -11
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: FSD TS A
     type: MODERATE

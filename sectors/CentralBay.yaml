@@ -3,6 +3,7 @@ abbreviation: CBay
 X: -19
 Y: 2
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: CBay A
     type: DEEP_RIFT

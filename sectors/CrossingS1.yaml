@@ -3,6 +3,7 @@ abbreviation: CrossS
 X: -20
 Y: -5
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: CrossS A
     type: RIFT_FADE

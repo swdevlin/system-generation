@@ -3,6 +3,7 @@ abbreviation: Balt
 X: -20
 Y: -6
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: Balt A
     type: RIFT_FADE

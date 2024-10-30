@@ -3,6 +3,7 @@ abbreviation: Idirda
 X: -14
 Y: 1
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: Idirda A
     type: STANDARD

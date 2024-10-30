@@ -3,6 +3,7 @@ abbreviation: JE
 X: -15
 Y: -4
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: JE A
     type: RIFT_FADE

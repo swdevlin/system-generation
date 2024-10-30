@@ -3,6 +3,7 @@ abbreviation: Atl
 X: -19
 Y: -7
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: Atl A
     type: MODERATE

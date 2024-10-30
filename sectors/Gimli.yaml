@@ -3,6 +3,7 @@ abbreviation: Gimli
 X: -18
 Y: -9
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: Gimli A
     type: MODERATE

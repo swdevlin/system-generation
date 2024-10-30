@@ -3,6 +3,7 @@ abbreviation: Hades
 X: -21
 Y: -7
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: Hades A
     type: RIFT

@@ -3,6 +3,7 @@ abbreviation: AnwnnS2
 X: -23
 Y: -6
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: AnwnnS2 A
     type: RIFT_FADE

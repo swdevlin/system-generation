@@ -3,6 +3,7 @@ abbreviation: CBayS2
 X: -21
 Y: 2
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: CBayS2 A
     type: MODERATE

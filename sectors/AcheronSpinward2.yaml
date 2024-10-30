@@ -3,6 +3,7 @@ abbreviation: AchS2
 X: -24
 Y: -9
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: AchS2 A
     type: SPARSE

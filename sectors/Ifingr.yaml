@@ -3,6 +3,7 @@ abbreviation: Ifingr
 X: -17
 Y: -7
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: Ifingr A
     type: MODERATE

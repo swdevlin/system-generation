@@ -3,6 +3,7 @@ abbreviation: BN
 X: -17
 Y: -4
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: BN A
     type: RIFT_FADE

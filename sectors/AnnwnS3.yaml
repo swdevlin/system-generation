@@ -3,6 +3,7 @@ abbreviation: AnwnnS3
 X: -24
 Y: -6
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: AnwnnS3 A
     type: SPARSE

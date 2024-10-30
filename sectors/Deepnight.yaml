@@ -3,6 +3,7 @@ abbreviation: Deepn
 X: -12
 Y: -2
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: Deepn A
     type: LOW

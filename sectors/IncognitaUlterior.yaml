@@ -3,6 +3,7 @@ abbreviation: IU
 X: -10
 Y: -1
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: UC A
     type: STANDARD

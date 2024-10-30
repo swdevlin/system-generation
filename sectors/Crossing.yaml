@@ -3,6 +3,7 @@ abbreviation: Cross
 X: -19
 Y: -5
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: Cross A
     type: RIFT

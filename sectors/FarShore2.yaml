@@ -3,6 +3,7 @@ abbreviation: Far2
 X: -17
 Y: -5
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: Far2 A
     type: RIFT_FADE

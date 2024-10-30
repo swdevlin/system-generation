@@ -3,6 +3,7 @@ abbreviation: Hubur
 X: -21
 Y: -10
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: Hubur A
     type: MODERATE

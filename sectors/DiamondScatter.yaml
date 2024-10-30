@@ -3,6 +3,7 @@ abbreviation: DS
 X: -16
 Y: -3
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: DS A
     type: LOW

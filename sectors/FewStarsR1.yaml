@@ -3,6 +3,7 @@ abbreviation: FewSR1
 X: -12
 Y: 3
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: FewSR1 A
     type: RIFT_FADE

@@ -3,6 +3,7 @@ abbreviation: Brit
 X: -19
 Y: -6
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: Brit A
     type: RIFT

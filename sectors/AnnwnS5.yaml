@@ -3,6 +3,7 @@ abbreviation: AnwnnS5
 X: -26
 Y: -6
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: AnwnnS5 A
     type: MODERATE

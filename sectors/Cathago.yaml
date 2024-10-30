@@ -3,6 +3,7 @@ abbreviation: Cath
 X: -21
 Y: -9
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: Cath A
     type: MODERATE

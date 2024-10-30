@@ -3,6 +3,7 @@ abbreviation: BigE
 X: -10
 Y: -3
 unusualChance: 0
+defaultSI: 3
 subsectors:
   - name: BigE A
     type: RIFT_FADE

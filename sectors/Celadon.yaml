@@ -3,6 +3,7 @@ abbreviation: Cela
 X: -20
 Y: -10
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: Cela A
     type: MODERATE

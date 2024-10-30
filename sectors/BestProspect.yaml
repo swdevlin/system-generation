@@ -3,6 +3,7 @@ abbreviation: Best
 X: -17
 Y: 3
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: Best A
     type: SPARSE

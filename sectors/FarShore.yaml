@@ -3,6 +3,7 @@ abbreviation: Far
 X: -18
 Y: -5
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: Far A
     type: DEEP_RIFT

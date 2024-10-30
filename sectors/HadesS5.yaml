@@ -3,6 +3,7 @@ abbreviation: HadesS5
 X: -26
 Y: -7
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: HadesS5 A
     type: SPARSE

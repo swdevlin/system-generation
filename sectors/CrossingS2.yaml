@@ -3,6 +3,7 @@ abbreviation: CrossS2
 X: -21
 Y: -5
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: CrossS2 A
     type: DEEP_RIFT

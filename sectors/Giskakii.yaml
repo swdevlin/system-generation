@@ -3,6 +3,7 @@ abbreviation: Gis
 X: -11
 Y: -1
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: Gis A
     type: STANDARD

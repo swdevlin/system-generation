@@ -3,6 +3,7 @@ abbreviation: HadesS3
 X: -24
 Y: -7
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: HadesS3 A
     type: RIFT

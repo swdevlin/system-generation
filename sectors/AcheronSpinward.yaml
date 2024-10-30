@@ -3,6 +3,7 @@ abbreviation: AchS
 X: -23
 Y: -9
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: AchS A
     type: RIFT_FADE

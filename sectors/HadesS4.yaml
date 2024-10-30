@@ -3,6 +3,7 @@ abbreviation: HadesS4
 X: -25
 Y: -7
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: HadesS4 A
     type: RIFT_FADE

@@ -3,6 +3,7 @@ abbreviation: AnwnnS4
 X: -25
 Y: -6
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: AnwnnS4 A
     type: MODERATE

@@ -3,6 +3,7 @@ abbreviation: CrossS5
 X: -24
 Y: -5
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: CrossS5 A
     type: MODERATE
