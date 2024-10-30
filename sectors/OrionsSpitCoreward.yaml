@@ -3,6 +3,7 @@ abbreviation: OSC
 X: -20
 Y: -13
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: OSC A
     type: SPARSE

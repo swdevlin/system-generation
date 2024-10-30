@@ -3,6 +3,7 @@ abbreviation: OSR
 X: -20
 Y: -14
 unusualChance: 1
+defaultSI: 3
 subsectors:
   - name: OSR A
     type: RIFT
