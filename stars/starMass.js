@@ -145,7 +145,7 @@ const MASS = {
   'Y5': {'': 0.013},
 }
 
-const starMass= (star) => {
+const starMass = (star) => {
   if (star.stellarType === STELLAR_TYPES.BrownDwarf) {
     return d6()/100 + (twoD6() + twoD6() - 1)/1000;
   } else if (star.stellarType === STELLAR_TYPES.NeutronStar) {

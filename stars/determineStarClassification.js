@@ -55,9 +55,11 @@ const multiStarClassification = ({primary, unusualChance, orbitType}) => {
   } else if (type === 'Sibling') {
     classification.stellarType = primary.stellarType;
     classification.stellarClass = primary.stellarClass;
-    if (classification.stellarType === 'M')
+    if (classification.stellarType === 'M') {
       classification.subtype = Math.min(9, primary.subtype + d6());
-    else {
+      if (classification.stellarClass === 'IV')
+        classification.stellarClass = 'III'
+    } else {
       classification.subtype = primary.subtype + d6();
       if (classification.subtype > 9) {
         classification.subtype -= 10;

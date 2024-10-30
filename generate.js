@@ -52,6 +52,14 @@ const dumpStats = async (sector, outputDir) => {
   fs.writeFileSync(`${outputDir}/stats.yaml`, yaml.dump(stats));
 }
 
+const dumpSurveyIndex = async (sector, outputDir) => {
+  const surveyIndex = {x: sector.X, y: sector.Y, hexes: {}};
+  for (const solarSystem of sector.solarSystems) {
+    surveyIndex.hexes[solarSystem.coordinates] = solarSystem.surveyIndex;
+  }
+  fs.writeFileSync(`${outputDir}/surveyIndex.yaml`, yaml.dump(surveyIndex));
+}
+
 const dumpRefereeReference = async (sector, outputDir) => {
   const reference = refereeReference(sector);
   fs.writeFileSync(`${outputDir}/referee.csv`, reference.join('\n'));
@@ -61,9 +69,23 @@ const dumpRefereeReference = async (sector, outputDir) => {
   fs.writeFileSync(`${outputDir}/${sector.name}.json`, asJson);
 }
 
+const defaultSI = (sector) => {
+  if (sector.defaultSI)
+    return sector.defaultSI;
+
+  const distance = Math.abs(sector.x) + Math.abs(sector.y);
+  if (distance < 15)
+    return 3;
+  else if (distance < 22)
+    return 2;
+  else
+    return 1;
+}
+
 const generateSubsector = (outputDir, sector, subsector, index, travellerMap) => {
   const rowOffset = ROW_OFFSETS[Math.ceil(index/4)];
   const colOffset = COL_OFFSETS[index % 4];
+  let si = defaultSI(sector);
   for (let col=1; col <= 8; col++)
     for (let row=1; row <= 10; row++) {
       let chance = 0;
@@ -93,8 +115,11 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap) =>
       const solarSystem = new SolarSystem(systemName);
       solarSystem.sector = sector.name;
       solarSystem.coordinates = coordinate(row+rowOffset, col+colOffset);
+
       let unusualChance = sector.unusualChance / 100;
       if (defined) {
+        if (defined.surveyIndex)
+          si = defined.surveyIndex;
         if (defined.name)
           solarSystem.name = defined.name;
         if (defined.remarks)
@@ -109,8 +134,10 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap) =>
           definition: defined,
           solarSystem: solarSystem,
         })
-      } else
+      } else {
         assignStars({solarSystem: solarSystem, unusualChance: unusualChance});
+      }
+      solarSystem.surveyIndex = si;
 
       const primary = solarSystem.primaryStar;
 
@@ -194,6 +221,7 @@ commander
   fs.writeFileSync(`${outputDir}/referee-systems.csv`, travellerMap.systemDump(true));
   fs.writeFileSync(`${outputDir}/meta.xml`, travellerMap.metaDataDump());
   fs.writeFileSync(`${outputDir}/referee-meta.xml`, travellerMap.metaDataDump(true));
+  await dumpSurveyIndex(sector, outputDir);
   await createMap({
     systems: travellerMap.systemDump(true),
     meta: travellerMap.metaDataDump(true),

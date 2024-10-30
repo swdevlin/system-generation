@@ -21,20 +21,30 @@ const makeCooler = (star) => {
       classification.subtype = '';
     }
   } else {
-    classification.stellarType = TYPES_BY_TEMP[TYPES_BY_TEMP.indexOf(star.stellarType) + 1];
+    let tempIndex = TYPES_BY_TEMP.indexOf(star.stellarType);
+    if (tempIndex === TYPES_BY_TEMP.length - 1)
+      classification.stellarType = star.stellarType;
+    else
+      classification.stellarType = TYPES_BY_TEMP[TYPES_BY_TEMP.indexOf(star.stellarType) + 1];
     classification.stellarClass = star.stellarClass;
     classification.subtype = subtypeLookup({
       isPrimary: false,
       stellarType: star.stellarType,
       stellarClass: star.stellarClass
     });
-    if (classification.stellarType === 'O' && classification.stellarClass === 'IV')
-      classification.stellarClass = 'V';
-    else if (classification.stellarType === 'F' && classification.stellarClass === 'VI')
-      classification.stellarClass = 'V';
-    else if (classification.stellarType === 'A' && classification.stellarClass === 'VI')
-      classification.stellarClass = 'V';
   }
+
+  if (classification.stellarType === 'O' && classification.stellarClass === 'IV')
+    classification.stellarClass = 'V';
+  else if (classification.stellarType === 'F' && classification.stellarClass === 'VI')
+    classification.stellarClass = 'V';
+  else if (classification.stellarType === 'A' && classification.stellarClass === 'VI')
+    classification.stellarClass = 'V';
+  else if (classification.stellarType === 'M' && classification.stellarClass === 'IV')
+    classification.stellarClass = 'V';
+  else if (classification.stellarType === 'K' && classification.subtype >= 5 && classification.stellarClass === 'IV')
+    classification.stellarClass = 'V';
+
   return classification;
 };
 

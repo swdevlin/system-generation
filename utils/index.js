@@ -4,7 +4,7 @@ const Random = require("random-js").Random;
 
 const r = new Random();
 
-const TYPES_BY_TEMP = ['O', 'B', 'A', 'F', 'G', 'K', 'M'];
+const TYPES_BY_TEMP = ['O', 'B', 'A', 'F', 'G', 'K', 'M', 'D', 'L', 'T', 'Y'];
 
 const AU = 149597870.9;
 
@@ -19,6 +19,9 @@ const StarColour = {
   'K': 'Light Orange',
   'M': 'Orange Red',
   'D': 'White',
+  'L': 'Deep Dim Red',
+  'T': 'Deep Dim Red',
+  'Y': 'Deep Dim Red',
 }
 
 const ORBIT_TYPES = {
@@ -46,28 +49,37 @@ const STELLAR_TYPES = {
 }
 
 const toHex = (v) => {
-  if (v === 10)
-    return 'A';
-  if (v === 11)
-    return 'B';
-  if (v === 12)
-    return 'C';
-  if (v === 13)
-    return 'D';
-  if (v === 14)
-    return 'E';
-  if (v === 15)
-    return 'F';
-  if (v === 16)
-    return 'G';
-  if (v === 17)
-    return 'H';
-  return v.toString();
+  switch (v) {
+    case 10:
+      return 'A';
+    case 11:
+      return 'B';
+    case 12:
+      return 'C';
+    case 13:
+      return 'D';
+    case 14:
+      return 'E';
+    case 15:
+      return 'F';
+    case 16:
+      return 'G';
+    case 17:
+      return 'H';
+    case 18:
+      return 'J';
+    case 19:
+      return 'K';
+    default:
+      return v.toString();
+  }
 }
 
 const hexToInt = (v) => {
-  if (v >= 'A')
+  if (v >= 'A' && v <= 'H')
     return v.charCodeAt(0) - 55;
+  else if (v >= 'J')
+    return v.charCodeAt(0) - 56;
   else
     return parseInt(v);
 }

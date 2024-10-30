@@ -13,7 +13,7 @@ commander
   .parse(process.argv);
 
 ;(async () => {
-  const options = commander.opts()
+  const options = commander.opts();
   const systems = fs.readFileSync(`${options.sectordir}/${options.name}/systems.csv`, 'utf8');
   const meta = fs.readFileSync(`${options.sectordir}/${options.name}/meta.xml`, 'utf8');
   await createMap({

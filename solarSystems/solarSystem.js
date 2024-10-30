@@ -46,6 +46,7 @@ class SolarSystem {
     this._mainWorld = null;
     this.bases = '';
     this.remarks = '';
+    this.surveyIndex = 0;
   }
 
   calculateScanPoints() {
