@@ -22,6 +22,9 @@ const toJSON = (obj) => {
   for (const key of getters(obj))
     json[key] = toJSON(obj[key]);
 
+  if (typeof obj.safeJumpTime === 'function')
+    json['safeJumpTime'] = toJSON(obj.safeJumpTime(4));
+
   return json;
 }
 

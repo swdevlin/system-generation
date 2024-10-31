@@ -1,3 +1,5 @@
 node_modules
 .idea
 output
+/maps-to-foundry.bat
+/generate.bat
