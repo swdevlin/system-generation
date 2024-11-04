@@ -19,7 +19,7 @@ describe("tests for makeCooler function", function () {
     ROLL_CACHE.push(2);
     ROLL_CACHE.push(2);
     const coolerStar = makeCooler(star);
-    coolerStar.stellarClass.should.equal(star.stellarClass);
+    coolerStar.stellarClass.should.equal('V');
     coolerStar.stellarType.should.equal(star.stellarType);
     star.subtype.should.be.above(coolerStar.subtype);
   });

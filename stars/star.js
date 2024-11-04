@@ -7,7 +7,6 @@ const starMass = require("./starMass");
 const starDiameter = require("./starDiameter");
 const starTemperature = require("./starTemperature");
 const {starEccentricity} = require("./starEccentricity");
-const subtypeLookup = require("../lookups/subtypeLookup");
 const computeBaselineOrbitNumber = require("./computeBaselineOrbitNumber");
 const StellarObject = require("../stellarObject");
 
@@ -17,20 +16,10 @@ class Star extends StellarObject {
     super();
     this.stellarClass = classification.stellarClass;
     this.stellarType = classification.stellarType;
+    this.isProtostar = classification.isProtostar;
+    this.subtype = classification.subtype;
+
     this.totalObjects = 0;
-
-    if (!this.isAnomaly) {
-        if (classification.subtype)
-            this.subtype = classification.subtype;
-        else
-            this.subtype = subtypeLookup({
-                isPrimary: orbitType === ORBIT_TYPES.PRIMARY,
-                stellarType: this.stellarType,
-                stellarClass: this.stellarClass
-            });
-    }else
-      this.subtype = null;
-
     this.orbitType = orbitType;
 
     this.mass = starMass(this);
@@ -56,7 +45,12 @@ class Star extends StellarObject {
       }
     }
 
-    this.diameter = starDiameter(this);
+    try {
+      this.diameter = starDiameter(this);
+    } catch (e) {
+      console.log(JSON.stringify(classification, null, 2));
+      throw e;
+    }
 
     this.temperature = starTemperature(this);
 
@@ -109,6 +103,7 @@ class Star extends StellarObject {
       STELLAR_TYPES.Anomaly,
       STELLAR_TYPES.BlackHole,
       STELLAR_TYPES.BrownDwarf,
+      'L', 'T', 'Y',
       STELLAR_TYPES.Nebula,
       STELLAR_TYPES.NeutronStar,
       STELLAR_TYPES.Protostar,
@@ -183,6 +178,17 @@ class Star extends StellarObject {
     let orbits = 0;
     for (const o of this.availableOrbits)
       orbits += o[1] - o[0];
+    if (orbits > 0 && !this.companion)
+      orbits += 1;
+    return Math.trunc(orbits);
+  }
+
+  debugOrbits() {
+    let orbits = 0;
+    for (const o of this.availableOrbits) {
+      console.log(o);
+      orbits += o[1] - o[0];
+    }
     if (orbits > 0 && !this.companion)
       orbits += 1;
     return Math.trunc(orbits);

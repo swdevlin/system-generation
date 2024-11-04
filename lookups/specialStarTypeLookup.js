@@ -5,14 +5,10 @@ const unusualStarLookup = require("./unusualStarLookup");
 const StellarClassification = require("../stars/StellarClassification");
 const hotStarLookup = require("./hotStarLookup");
 
-const specialStarTypeLookup = ({dm, unusualChance}) => {
-  if (unusualChance)
-    if (percentageChance(unusualChance))
-      return unusualStarLookup(0);
-
+const specialStarTypeLookup = () => {
   const stellarClassification = new StellarClassification();
 
-  const roll = twoD6() + dm;
+  const roll = twoD6();
   switch (roll) {
     case 2:
     case 3:
@@ -30,7 +26,7 @@ const specialStarTypeLookup = ({dm, unusualChance}) => {
       stellarClassification.stellarClass = 'III';
       break;
     default:
-      stellarClassification.stellarClass = giantsStellarClassLookup(0);
+      stellarClassification.stellarClass = giantsStellarClassLookup();
       break;
   }
 
@@ -39,10 +35,7 @@ const specialStarTypeLookup = ({dm, unusualChance}) => {
     stellarClass: stellarClassification.stellarClass
   });
   if (stellarClassification.stellarType === 'hot')
-    stellarClassification.stellarType = hotStarLookup({
-      dm: 0,
-      stellarClass: stellarClassification.stellarClass
-    });
+    stellarClassification.stellarType = hotStarLookup({stellarClass: stellarClassification.stellarClass});
 
   return stellarClassification;
 }

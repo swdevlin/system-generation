@@ -1,26 +1,30 @@
 const {twoD6} = require("../dice");
 
-const hotStarLookup = ({dm, stellarClass}) => {
-  const roll = twoD6() + dm;
+const hotStarLookup = ({stellarClass}) => {
+  const roll = twoD6();
 
-  if (roll <= 2)
-    return 'A';
-  else if (roll >= 12)
-    return stellarClass === 'IV' ? 'B' : 'O';
-  else
-    switch (roll) {
-      case 3:
-      case 4:
-      case 5:
-      case 6:
-      case 7:
-      case 8:
-      case 9:
-        return stellarClass === 'VI' ? 'B' : 'A';
-      case 10:
-      case 11:
-        return 'B';
-    }
+  let type;
+  switch (roll) {
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+    case 9:
+      type = (stellarClass === 'VI') ? 'B' : 'A';
+      break;
+    case 10:
+    case 11:
+      type = 'B';
+      break;
+    case 12:
+      type = (stellarClass === 'IV') ? 'B' : 'O';
+      break;
+  }
+
+  return type;
 }
 
 module.exports = hotStarLookup;

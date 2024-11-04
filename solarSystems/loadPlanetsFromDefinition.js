@@ -1,13 +1,7 @@
 const {determineStarClassification, primaryStarClassification} = require("../stars/determineStarClassification");
 const Star = require("../stars/star");
 const {ORBIT_TYPES, companionOrbit, calculatePeriod, additionalStarDM} = require("../utils");
-const predefinedClassification = require("../stars/predefinedClassification");
-const starFromDefinition = require("../stars/starFromDefinition");
-const generateCloseSecondary = require("../stars/generateCloseSecondary");
-const generateNearSecondary = require("../stars/generateNearSecondary");
-const generateFarSecondary = require("../stars/generateFarSecondary");
 const {twoD6, d6} = require("../dice");
-const addCompanion = require("../stars/addCompanion");
 const {gasGiantQuantity} = require("../gasGiants");
 const {planetoidBeltQuantity} = require("../planetoidBelts");
 const terrestrialPlanetQuantity = require("../terrestrialPlanet/terrestrialPlanetQuantity");

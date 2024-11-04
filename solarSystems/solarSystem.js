@@ -174,7 +174,23 @@ class SolarSystem {
   }
 
   pickStar() {
-    let roll = r.integer(1, this.totalOrbits);
+    let roll;
+    try {
+      roll = r.integer(1, this.totalOrbits);
+    } catch (e) {
+      console.log(e);
+        for (const star of this.stars) {
+          console.log('class: ', star.stellarClass);
+          console.log('type: ', star.stellarType);
+          console.log('subtype: ', star.subtype);
+          console.log('orbitType: ', star.orbitType);
+          console.log('orbitIndex: ', star.orbitIndex);
+
+          star.debugOrbits();
+        }
+
+      throw e;
+    }
     for (const star of this.stars) {
       roll -= star.totalOrbits;
       if (roll <= 0)

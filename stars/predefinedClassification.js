@@ -13,7 +13,7 @@ const predefinedClassification = (star) => {
 
     if (star.class) {
       if (star.class === 'Giant')
-        classification.stellarClass = giantsStellarClassLookup(0);
+        classification.stellarClass = giantsStellarClassLookup();
       else
         classification.stellarClass = star.class;
     } else {

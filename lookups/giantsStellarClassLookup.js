@@ -1,7 +1,7 @@
 const {twoD6} = require("../dice");
 
-const giantsStellarClassLookup = (dm) => {
-  const roll = twoD6() + dm;
+const giantsStellarClassLookup = () => {
+  const roll = twoD6();
 
   if (roll <= 2)
     return 'III';

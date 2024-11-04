@@ -164,13 +164,18 @@ const starMass = (star) => {
     } while (d === 6);
     m -= 1;
     return m;
+  } else if (['Y', 'L', 'T'].includes(star.stellarType)) {
+    try {
+      return MASS[star.dataKey][star.stellarClass];
+    } catch(err) {
+      console.log(star.dataKey, star.stellarClass)
+    }
   } else if (!star.isAnomaly) {
     try {
       return MASS[star.dataKey][star.stellarClass];
     } catch(err) {
       console.log(star.dataKey, star.stellarClass)
     }
-
   } else
     return null;
 }

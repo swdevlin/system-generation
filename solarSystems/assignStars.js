@@ -15,15 +15,20 @@ const assignStars = ({solarSystem, unusualChance}) => {
 
   let dm = additionalStarDM(s);
   if (twoD6() + dm >= 10) {
-    const classification = determineStarClassification({
-      unusualChance: unusualChance,
-      primary: solarSystem.primary,
-      orbitType: ORBIT_TYPES.COMPANION
-    });
-    star = new Star(classification, ORBIT_TYPES.COMPANION);
-    star.orbit = d6() / 10 + (twoD6() - 7) / 100;
-    star.period = calculatePeriod(star, solarSystem.primaryStar);
-    solarSystem.primaryStar.companion = star;
+    try {
+      const classification = determineStarClassification({
+        unusualChance: unusualChance,
+        primary: solarSystem.primary,
+        orbitType: ORBIT_TYPES.COMPANION
+      });
+      star = new Star(classification, ORBIT_TYPES.COMPANION);
+      star.orbit = d6() / 10 + (twoD6() - 7) / 100;
+      star.period = calculatePeriod(star, solarSystem.primaryStar);
+      solarSystem.primaryStar.companion = star;
+    } catch (e) {
+      console.log(JSON.stringify(s, null, 2));
+      console.log(JSON.stringify(classification, null, 2));
+    }
   }
 
   if (twoD6() + dm >= 10) {

@@ -22,10 +22,8 @@ const starTypeLookup = ({dm, stellarClass}) => {
       case 9:
       case 10:
         return 'G';
-        break;
       case 11:
         return stellarClass === 'VI' ? 'G' : 'F';
-        break;
     }
 }
 

@@ -3,6 +3,7 @@ const generateBaseStar = require("./generateBaseStar");
 const Star = require("./star");
 const makeCooler = require("./makeCooler");
 const {TYPES_BY_TEMP, isHotter, ORBIT_TYPES} = require("../utils");
+const StellarClassification = require("./StellarClassification");
 
 const secondaryType = (dm) => {
   const roll = twoD6() + dm;
@@ -66,7 +67,7 @@ const multiStellarBase = (primary, orbitType) => {
   if (stellarType === 'Lesser')
     star = makeCooler(primary, orbitType);
   else if (stellarType === 'Twin') {
-    star = new Star(primary.stellarClass, primary.stellarType, primary.subtype, orbitType);
+    star = new Star({stellarClass: primary.stellarClass, stellarType: primary.stellarType, subtype: primary.subtype}, orbitType);
   } else if (stellarType === 'Sibling') {
     stellarType = primary.stellarType;
     stellarClass = primary.stellarClass;
@@ -77,17 +78,18 @@ const multiStellarBase = (primary, orbitType) => {
       if (subtype > 9) {
         subtype -= 10;
         stellarType = TYPES_BY_TEMP[TYPES_BY_TEMP.indexOf(stellarType) + 1];
-        if (stellarClass === 'VI' && ['A', 'F'].includes(stellarType))
+        if (stellarClass === 'VI' && ['A', 'F'].includes(stellarType)) {
+          console.log('multiStellarBase 1');
           stellarType = 'G';
-        else if (stellarClass === 'IV' && ((stellarType === 'K' && subtype >=5) || stellarType === 'M') )
+        } else if (stellarClass === 'IV' && ((stellarType === 'K' && subtype >=5) || stellarType === 'M') )
           stellarClass = 'V';
       }
     }
-    star = new Star(stellarClass, stellarType, subtype, orbitType);
+    star = new Star({stellarClass: stellarClass, stellarType: stellarType, subtype: subtype}, orbitType);
   } else if (stellarType === 'D') {
-    star = new Star(stellarType, stellarType, subtype, orbitType);
+    star = new Star({stellarClass: stellarClass, stellarType: stellarType, subtype: subtype}, orbitType);
   } else if (stellarType === 'BD') {
-    star = new Star(stellarType, stellarType, subtype, orbitType);
+    star = new Star({stellarClass: stellarClass, stellarType: stellarType, subtype: subtype}, orbitType);
   }
   return star;
 };

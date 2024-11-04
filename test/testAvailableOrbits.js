@@ -5,9 +5,10 @@ const {ORBIT_TYPES, STELLAR_TYPES} = require("../utils");
 const Random = require("random-js").Random;
 
 const r = new Random();
-const {d6} = require("../dice");
+const {d6, clearCache} = require("../dice");
 const SolarSystem = require("../solarSystems/solarSystem");
 const Star = require("../stars/star");
+const star = require("../stars/star");
 
 chai.should();
 
@@ -20,6 +21,7 @@ describe("Available Orbits", function () {
     star.companion = new Star({stellarClass: 'V', stellarType: 'M', subtype: 6}, ORBIT_TYPES.COMPANION);
     star.companion.eccentricity = 0.00237;
     solarSystem.addPrimary(star);
+    clearCache();
   });
 
   it("if companion then minimum is 0.5 + companion's eccentricity", function() {
@@ -35,7 +37,7 @@ describe("Available Orbits", function () {
     star.companion = new Star({stellarClass: 'V', stellarType: 'G', subtype: 0}, ORBIT_TYPES.COMPANION);
     star.companion.eccentricity = 0.3;
     const mao = star.minimumAllowableOrbit;
-    mao.should.equal(1.4);
+    mao.should.equal(2.17);
   });
 
   it("available orbits is not negative", function() {
@@ -69,6 +71,4 @@ describe("Available Orbits", function () {
     primary.availableOrbits.should.have.lengthOf(2);
     primary.availableOrbits[0][0].should.equal(3.9);
   });
-
-
 });

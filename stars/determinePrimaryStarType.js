@@ -20,6 +20,7 @@ const starTypeLookup = (dm, unusualChance) => {
         return {stellarClass: 'V', stellarType: 'K'};
       case 9:
       case 10:
+        console.log('starTypeLookup X');
         return {stellarClass: 'V', stellarType: 'G'};
       case 11:
         return {stellarClass: 'V', stellarType: 'F'};

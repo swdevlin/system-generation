@@ -216,9 +216,24 @@ const romanNumeral = (n) => {
   return roman;
 }
 
+const isAnomaly = (type) => {
+  return [
+    STELLAR_TYPES.Anomaly,
+    STELLAR_TYPES.BlackHole,
+    STELLAR_TYPES.BrownDwarf,
+    'L', 'T', 'Y',
+    STELLAR_TYPES.Nebula,
+    STELLAR_TYPES.NeutronStar,
+    STELLAR_TYPES.Protostar,
+    STELLAR_TYPES.Pulsar,
+    STELLAR_TYPES.StarCluster,
+    STELLAR_TYPES.WhiteDwarf,
+  ].includes(type);
+}
 
 module.exports = {
   isHotter: isHotter,
+  isAnomaly: isAnomaly,
   determineDataKey: determineDataKey,
   companionOrbit: companionOrbit,
   additionalStarDM: additionalStarDM,

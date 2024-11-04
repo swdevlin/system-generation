@@ -187,6 +187,7 @@ commander
 (async () => {
   const options = commander.opts()
   const sector = yaml.load(fs.readFileSync(options.sector, 'utf8'));
+  sector.unusualChance = Math.sqrt(Math.abs(sector.X) + Math.abs(sector.Y));
   sector.solarSystems = [];
 
   console.log(`Generating ${sector.name}`);

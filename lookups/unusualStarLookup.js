@@ -3,41 +3,73 @@ const giantsStellarClassLookup = require("./giantsStellarClassLookup");
 const StellarClassification = require("../stars/StellarClassification");
 const peculiarStarLookup = require("./peculiarStarLookup");
 const starTypeLookup = require("./starTypeLookup");
+const hotStarLookup = require("./hotStarLookup");
+const {STELLAR_TYPES, isAnomaly} = require("../utils");
 
-const unusualStarLookup = ({dm}) => {
-  const roll = twoD6() + dm;
-
+const unusualStarLookup = () => {
   let stellarClassification = new StellarClassification();
+  const roll = twoD6();
 
-  if (roll <= 2)
-    stellarClassification.stellarType = peculiarStarLookup(0);
-  if (roll >= 12) {
-      stellarClassification.stellarClass = giantsStellarClassLookup(0);
-  }
-  switch (roll) {
-    case 3:
-      stellarClassification.stellarClass = 'VI';
-    case 4:
-    case 5:
-      break;
-    case 6:
-    case 7:
-    case 8:
-      stellarClassification.stellarClass = 'IV';
-      break;
-    case 9:
-    case 10:
-      stellarClassification.stellarClass = 'III';
-      break;
-    default:
-      stellarClassification.stellarClass = giantsStellarClassLookup(0);
-      break;
+  if (roll <= 2) {
+    stellarClassification.stellarType = peculiarStarLookup();
+    if (stellarClassification.stellarType === STELLAR_TYPES.Protostar) {
+      stellarClassification.isProtostar = true;
+      stellarClassification.stellarType = starTypeLookup({dm: 1});
+      stellarClassification.stellarClass = 'V';
+    }
+  } else if (roll >= 12) {
+    stellarClassification.stellarClass = giantsStellarClassLookup();
+    stellarClassification.stellarType = starTypeLookup({
+      dm: 1,
+      stellarClass: stellarClassification.stellarClass,
+    });
+  } else {
+    switch (roll) {
+      case 3:
+        stellarClassification.stellarClass = 'VI';
+        stellarClassification.stellarType = starTypeLookup({
+          dm: 1,
+          stellarClass: stellarClassification.stellarClass,
+        });
+        break;
+      case 4:
+        stellarClassification.stellarClass = 'IV';
+        stellarClassification.stellarType = starTypeLookup({
+          dm: 1,
+          stellarClass: stellarClassification.stellarClass,
+        });
+        break;
+      case 5:
+      case 6:
+      case 7:
+        stellarClassification.stellarType = STELLAR_TYPES.BrownDwarf;
+        stellarClassification.stellarClass = '';
+        break;
+      case 8:
+      case 9:
+      case 10:
+        stellarClassification.stellarType = STELLAR_TYPES.WhiteDwarf;
+        stellarClassification.stellarClass = '';
+        break;
+      case 11:
+        stellarClassification.stellarClass = 'III';
+        stellarClassification.stellarType = starTypeLookup({
+          dm: 1,
+          stellarClass: stellarClassification.stellarClass,
+        });
+        break;
+      default:
+        stellarClassification.stellarClass = giantsStellarClassLookup();
+        stellarClassification.stellarType = starTypeLookup({
+          dm: 1,
+          stellarClass: stellarClassification.stellarClass,
+        });
+        break;
+    }
   }
 
-  stellarClassification.stellarType = starTypeLookup({
-    dm: 1,
-    stellarClass: stellarClassification.stellarClass
-  });
+  if (stellarClassification.stellarType === 'hot')
+    stellarClassification.stellarType = hotStarLookup({stellarClass: stellarClassification.stellarClass});
 
   return stellarClassification;
 }

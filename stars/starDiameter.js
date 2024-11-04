@@ -149,7 +149,13 @@ const starDiameter = (star) => {
   } else if (star.stellarType === 'NS') {
     return 19 + d6();
   } else {
-    return DIAMETER[star.dataKey][star.stellarClass]
+    try {
+      return DIAMETER[star.dataKey][star.stellarClass]
+    } catch (e) {
+      console.log('Star Diameter');
+      console.log(JSON.stringify(star, null, 2));
+      throw e;
+    }
   }
 }
 
