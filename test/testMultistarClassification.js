@@ -89,4 +89,36 @@ describe("Multi Star Classification", function () {
     classification.stellarType.should.equal(primary.stellarType);
     classification.subtype.should.equal(primary.subtype);
   });
+
+  it("Brown Dwarf is brown dwarf", function() {
+    ROLL_CACHE.push(0);
+    ROLL_CACHE.push(11);
+    primary.stellarType = 'Y';
+    primary.stellarClass = '';
+    primary.subtype = 5;
+    let classification = multiStarClassification({
+      primary: primary,
+      unusualChance: 0,
+      orbitType: ORBIT_TYPES.COMPANION,
+    });
+    classification.stellarClass.should.equal('');
+    classification.stellarType.should.equal('Y');
+    classification.subtype.should.equal(primary.subtype + 1);
+  });
+
+  it("Brown Dwarf can get smaller", function() {
+    ROLL_CACHE.push(2);
+    ROLL_CACHE.push(1);
+    primary.stellarType = 'T';
+    primary.stellarClass = '';
+    primary.subtype = 9;
+    let classification = multiStarClassification({
+      primary: primary,
+      unusualChance: 0,
+      orbitType: ORBIT_TYPES.COMPANION,
+    });
+    classification.stellarClass.should.equal('');
+    classification.stellarType.should.equal('Y');
+    classification.subtype.should.equal(1);
+  });
 });

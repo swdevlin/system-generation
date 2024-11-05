@@ -79,7 +79,6 @@ const multiStellarBase = (primary, orbitType) => {
         subtype -= 10;
         stellarType = TYPES_BY_TEMP[TYPES_BY_TEMP.indexOf(stellarType) + 1];
         if (stellarClass === 'VI' && ['A', 'F'].includes(stellarType)) {
-          console.log('multiStellarBase 1');
           stellarType = 'G';
         } else if (stellarClass === 'IV' && ((stellarType === 'K' && subtype >=5) || stellarType === 'M') )
           stellarClass = 'V';

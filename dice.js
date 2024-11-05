@@ -4,11 +4,23 @@ const rng = new Random();
 
 const ROLL_CACHE = [];
 
+const DICE_LOG = [];
+
+const logIt = (r) => {
+  DICE_LOG.push(r);
+  while (DICE_LOG.length > 10) {
+    DICE_LOG.shift();
+  }
+}
+
 const d6 = () => {
+  let r;
   if (ROLL_CACHE.length)
-    return ROLL_CACHE.shift();
+    r = ROLL_CACHE.shift();
   else
-    return rng.die(6);
+    r = rng.die(6);
+  logIt(r);
+  return r;
 }
 
 const d3 = () => {
@@ -84,4 +96,5 @@ module.exports = {
   randomInt: randomInt,
   ROLL_CACHE: ROLL_CACHE,
   clearCache: clearCache,
+  DICE_LOG: DICE_LOG,
 }

@@ -6,15 +6,14 @@ const companionStarLookup = ({primary, unusualChance}) => {
   const roll = twoD6() + dm;
   if (roll <= 3)
     return otherStarLookup({primary: primary, unusualChance: unusualChance});
-  else if (roll <= 5) {
+  else if (roll <= 5)
     return 'Random';
-  } else if (roll <= 7) {
+  else if (roll <= 7)
     return 'Lesser';
-  } else if (roll <= 9) {
+  else if (roll <= 9)
     return 'Sibling';
-  } else {
+  else
     return 'Twin';
-  }
 }
 
 module.exports = companionStarLookup;

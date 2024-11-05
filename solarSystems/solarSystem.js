@@ -4,7 +4,7 @@ const {
   SOL_DIAMETER,
   eccentricity,
   determineHydrographics,
-  meanTemperature, axialTilt, orbitPosition, calculateDistance, travelTime, STELLAR_TYPES, AU,
+  meanTemperature, axialTilt, orbitPosition, calculateDistance, travelTime, STELLAR_TYPES, AU, isBrownDwarf,
 } = require("../utils");
 const {threeD6, twoD6, d4, d6, d10} = require("../dice");
 const {GasGiant} = require("../gasGiants");
@@ -49,22 +49,14 @@ class SolarSystem {
     this.surveyIndex = 0;
   }
 
+  onlyBrownDwarfs() {
+    return isBrownDwarf(this.primaryStar.stellarType);
+  }
+
   calculateScanPoints() {
-    if (this.scanPoints === 0) {
-      this.scanPoints = d4() + d4();
-      switch (this.stars.length) {
-        case 1: break;
-        case 2:
-        case 3:
-          this.scanPoints += 1;
-          break;
-        case 4:
-        case 5:
-          this.scanPoints += 2;
-          break;
-        default: this.scanPoints += 3;
-      }
-    }
+    if (this.scanPoints === 0)
+      this.scanPoints = d6() + d6();
+
     return this.scanPoints;
   }
 
@@ -174,23 +166,7 @@ class SolarSystem {
   }
 
   pickStar() {
-    let roll;
-    try {
-      roll = r.integer(1, this.totalOrbits);
-    } catch (e) {
-      console.log(e);
-        for (const star of this.stars) {
-          console.log('class: ', star.stellarClass);
-          console.log('type: ', star.stellarType);
-          console.log('subtype: ', star.subtype);
-          console.log('orbitType: ', star.orbitType);
-          console.log('orbitIndex: ', star.orbitIndex);
-
-          star.debugOrbits();
-        }
-
-      throw e;
-    }
+    let roll = r.integer(1, this.totalOrbits);
     for (const star of this.stars) {
       roll -= star.totalOrbits;
       if (roll <= 0)

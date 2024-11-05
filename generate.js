@@ -6,7 +6,7 @@ const fs= require('fs');
 const {twoD6, d6} = require("./dice");
 const {gasGiantQuantity} = require("./gasGiants");
 const {planetoidBeltQuantity} = require("./planetoidBelts");
-const {calculatePeriod, additionalStarDM, ORBIT_TYPES, companionOrbit} = require("./utils");
+const {calculatePeriod, additionalStarDM, ORBIT_TYPES, companionOrbit, STELLAR_TYPES} = require("./utils");
 const Star = require("./stars/star");
 const {determineStarClassification} = require("./stars/determineStarClassification");
 const SolarSystem = require("./solarSystems/solarSystem");
@@ -137,7 +137,10 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap) =>
       } else {
         assignStars({solarSystem: solarSystem, unusualChance: unusualChance});
       }
-      solarSystem.surveyIndex = si;
+      if (solarSystem.onlyBrownDwarfs() || solarSystem.primaryStar.stellarType === STELLAR_TYPES.Anomaly)
+        solarSystem.surveyIndex = 0;
+      else
+        solarSystem.surveyIndex = si;
 
       const primary = solarSystem.primaryStar;
 

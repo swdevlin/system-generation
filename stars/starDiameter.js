@@ -1,4 +1,5 @@
 const {d6} = require("../dice");
+const {STELLAR_TYPES, isAnomaly} = require("../utils");
 const DIAMETER = {
   'O0': {
     'Ia': 25,
@@ -144,18 +145,16 @@ const DIAMETER = {
 }
 
 const starDiameter = (star) => {
-  if (star.stellarType === 'D') {
+  if (star.stellarType === STELLAR_TYPES.WhiteDwarf) {
     return 1 / star.mass * 0.01;
-  } else if (star.stellarType === 'NS') {
+  } else if (star.stellarType === STELLAR_TYPES.BlackHole) {
+    return 2.95 * star.mass;
+  } else if (star.stellarType === STELLAR_TYPES.NeutronStar) {
     return 19 + d6();
+  } else if (isAnomaly(star.stellarType)) {
+    return null;
   } else {
-    try {
-      return DIAMETER[star.dataKey][star.stellarClass]
-    } catch (e) {
-      console.log('Star Diameter');
-      console.log(JSON.stringify(star, null, 2));
-      throw e;
-    }
+    return DIAMETER[star.dataKey][star.stellarClass]
   }
 }
 

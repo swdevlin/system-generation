@@ -231,9 +231,17 @@ const isAnomaly = (type) => {
   ].includes(type);
 }
 
+const isBrownDwarf = (type) => {
+  return [
+    STELLAR_TYPES.BrownDwarf,
+    'L', 'T', 'Y',
+  ].includes(type);
+}
+
 module.exports = {
   isHotter: isHotter,
   isAnomaly: isAnomaly,
+  isBrownDwarf: isBrownDwarf,
   determineDataKey: determineDataKey,
   companionOrbit: companionOrbit,
   additionalStarDM: additionalStarDM,

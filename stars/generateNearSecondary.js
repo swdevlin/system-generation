@@ -1,6 +1,5 @@
 const {d6} = require("../dice");
 const {ORBIT_TYPES, calculatePeriod} = require("../utils");
-const generateStar = require("./generateStar");
 const {Random} = require("random-js");
 const {multiStarClassification} = require("./determineStarClassification");
 const Star = require("./star");

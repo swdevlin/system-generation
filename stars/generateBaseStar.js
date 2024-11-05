@@ -4,7 +4,6 @@ const hotStarLookup = require("../lookups/hotStarLookup");
 const specialStarTypeLookup = require("../lookups/specialStarTypeLookup");
 
 const generateBaseStar = ({dm, classification}) => {
-  console.log('$$$$ generateBaseStar $$$$');
   if (!stellarClass)
     stellarClass = '';
 
