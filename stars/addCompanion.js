@@ -9,6 +9,7 @@ const addCompanion = ({star, unusualChance}) => {
     orbitType: ORBIT_TYPES.COMPANION
   });
   if (!classification.stellarType) {
+    console.log('NO CLASSIFICATION');
     console.log(JSON.stringify(star, null, 2));
     console.log(star.stellarType);
     console.log(JSON.stringify(classification, null, 2));

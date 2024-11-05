@@ -72,17 +72,16 @@ const multiStarClassification = ({primary, unusualChance, orbitType}) => {
       classification.subtype = Math.min(9, primary.subtype + d6());
       if (classification.stellarClass === 'IV')
         classification.stellarClass = 'III'
-    } else {
-      if (primary.subtype !== null) {
-        classification.subtype = primary.subtype + d6();
-        if (classification.subtype > 9) {
-          classification.subtype -= 10;
-          classification.stellarType = TYPES_BY_TEMP[TYPES_BY_TEMP.indexOf(classification.stellarType) + 1];
-          if (classification.stellarClass === 'VI' && ['A', 'F'].includes(classification.stellarType)) {
-            classification.stellarType = 'G';
-          } else if (classification.stellarClass === 'IV' && ((classification.stellarType === 'K' && classification.subtype >= 5) || classification.stellarType === 'M'))
-            classification.stellarClass = 'V';
-        }
+    }
+    if (primary.subtype !== null) {
+      classification.subtype = primary.subtype + d6();
+      if (classification.subtype > 9) {
+        classification.subtype -= 10;
+        classification.stellarType = TYPES_BY_TEMP[TYPES_BY_TEMP.indexOf(classification.stellarType) + 1];
+        if (classification.stellarClass === 'VI' && ['A', 'F'].includes(classification.stellarType)) {
+          classification.stellarType = 'G';
+        } else if (classification.stellarClass === 'IV' && ((classification.stellarType === 'K' && classification.subtype >= 5) || classification.stellarType === 'M'))
+          classification.stellarClass = 'V';
       }
     }
   } else if (type === STELLAR_TYPES.BrownDwarf) {

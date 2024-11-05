@@ -4,8 +4,6 @@ const {STELLAR_TYPES} = require("../utils");
 const peculiarStarLookup = () => {
   const roll = twoD6();
 
-  console.log(`*** peculiarStarLookup  ${roll} ***`);
-
   if (roll <= 2)
     return STELLAR_TYPES.BlackHole;
   else
