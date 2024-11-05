@@ -282,7 +282,6 @@ class SolarSystem {
     for (let i=0; i < this.gasGiants; i++) {
       const p = allOrbits.pop();
       if (p === undefined) {
-        console.log('not enough orbits');
         break;
       } else
         this.addGasGiant({star: p[0], orbitIndex: p[1]});
@@ -291,7 +290,6 @@ class SolarSystem {
     for (let i=0; i < this.planetoidBelts; i++) {
       const p = allOrbits.pop();
       if (p === undefined) {
-        console.log('not enough orbits');
         break;
       } else
         this.addPlanetoidBelt(p[0], p[1]);
@@ -300,7 +298,6 @@ class SolarSystem {
     for (let i=0; i < this.terrestrialPlanets; i++) {
       const p = allOrbits.pop();
       if (p === undefined) {
-        console.log('not enough orbits');
         break;
       } else
         this.addTerrestrialPlanet({star: p[0], orbitIndex: p[1]});
@@ -383,6 +380,13 @@ class SolarSystem {
     let count = 0;
     do {
       star = this.randomStar();
+      if (!star)
+        return [null, null];
+      if (star.minimumOrbit === null)
+        if (this.stars.length === 1)
+          return [null, null];
+        else
+          continue;
       orbit = twoD6() - 2 + d10()/10;
       if (star.minimumOrbit > 10) {
         const newO = r.integer(star.availableOrbits[0][0]*10, star.availableOrbits[0][1]*10)/10;
@@ -416,6 +420,10 @@ class SolarSystem {
     let original;
     while (planets > 0) {
       [star, orbit] = this.randomStarAndOrbit();
+      if (star === null) {
+        planets = 0;
+        continue;
+      }
       const roll = twoD6();
       if (roll < 12) {
         const p = this.addTerrestrialPlanet({star: star, orbit: orbit});
@@ -615,7 +623,7 @@ class SolarSystem {
   }
 
   get mainWorld() {
-    if (this._mainWorld)
+    if (this._mainWorld !== null)
       return this._mainWorld;
     const possibleMainWorlds = [];
     for (const star of this.stars)
@@ -633,7 +641,6 @@ class SolarSystem {
         return b[1].population.code - a[1].population.code;
     });
     if (possibleMainWorlds.length === 0) {
-      console.log('Only gas giants. Checking for moons.')
       for (const star of this.stars)
         this.getPossibleGGMainWorlds(star, possibleMainWorlds);
       possibleMainWorlds.sort((a,b) => {
@@ -648,8 +655,10 @@ class SolarSystem {
     try {
       this._mainWorld = possibleMainWorlds[0][1];
     } catch(err) {
-      if (err instanceof TypeError)
-        return null;
+      if (err instanceof TypeError) {
+        this._mainWorld = null;
+        console.log('no main world');
+      }
     }
     return this._mainWorld;
   }

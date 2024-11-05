@@ -5,6 +5,7 @@ const {ORBIT_TYPES, STELLAR_TYPES} = require("../utils");
 const {ROLL_CACHE, clearCache} = require("../dice");
 const makeCooler = require("../stars/makeCooler");
 const Star = require("../stars/star");
+const StellarClassification = require("../stars/StellarClassification");
 
 chai.should();
 
@@ -50,6 +51,27 @@ describe("tests for makeCooler function", function () {
     coolerStar.stellarClass.should.equal('V');
     coolerStar.stellarType.should.equal('M');
     coolerStar.subtype.should.equal(3);
+  });
+
+  it("Y type brown dwarf", function() {
+    const s = new StellarClassification();
+    s.stellarClass = '';
+    s.stellarType = 'BD';
+    s.subtype = null;
+
+    const star = new Star(s, ORBIT_TYPES.PRIMARY);
+    star.stellarType = 'Y';
+    star.subtype = 5;
+    let coolerClassification = makeCooler(star);
+    coolerClassification.stellarClass.should.equal('');
+    coolerClassification.stellarType.should.equal('Y');
+    coolerClassification.subtype.should.equal(star.subtype + 1);
+
+    star.subtype = 9;
+    coolerClassification = makeCooler(star);
+    coolerClassification.stellarClass.should.equal('');
+    coolerClassification.stellarType.should.equal('Y');
+    coolerClassification.subtype.should.equal(9);
   });
 
 });

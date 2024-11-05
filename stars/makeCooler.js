@@ -22,16 +22,22 @@ const makeCooler = (star) => {
     }
   } else {
     let tempIndex = TYPES_BY_TEMP.indexOf(star.stellarType);
-    if (tempIndex === TYPES_BY_TEMP.length - 1)
+    if (tempIndex === TYPES_BY_TEMP.length - 1) {
       classification.stellarType = star.stellarType;
-    else
+    } else
       classification.stellarType = TYPES_BY_TEMP[TYPES_BY_TEMP.indexOf(star.stellarType) + 1];
     classification.stellarClass = star.stellarClass;
-    classification.subtype = subtypeLookup({
-      isPrimary: false,
-      stellarType: star.stellarType,
-      stellarClass: star.stellarClass
-    });
+    if (classification.stellarType === star.stellarType && classification.stellarClass === star.stellarClass) {
+      if (star.subtype === 9)
+        classification.subtype = star.subtype;
+      else
+        classification.subtype = star.subtype + 1;
+    } else
+      classification.subtype = subtypeLookup({
+        isPrimary: false,
+        stellarType: star.stellarType,
+        stellarClass: star.stellarClass
+      });
   }
 
   if (classification.stellarType === 'O' && classification.stellarClass === 'IV')

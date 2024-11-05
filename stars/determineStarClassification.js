@@ -48,8 +48,10 @@ const multiStarClassification = ({primary, unusualChance, orbitType}) => {
 
   if (type === 'Random') {
     classification = primaryStarClassification({unusualChance});
-    if (isHotter(classification, primary))
+    if (isHotter(classification, primary)) {
       type = 'Lesser';
+      classification = new StellarClassification();
+    }
   }
 
   if (type === 'Lesser') {
@@ -71,15 +73,16 @@ const multiStarClassification = ({primary, unusualChance, orbitType}) => {
       if (classification.stellarClass === 'IV')
         classification.stellarClass = 'III'
     } else {
-      classification.subtype = primary.subtype + d6();
-      if (classification.subtype > 9) {
-        classification.subtype -= 10;
-        classification.stellarType = TYPES_BY_TEMP[TYPES_BY_TEMP.indexOf(classification.stellarType) + 1];
-        if (classification.stellarClass === 'VI' && ['A', 'F'].includes(classification.stellarType)) {
-          console.log('multiStarClassification');
-          classification.stellarType = 'G';
-        } else if (classification.stellarClass === 'IV' && ((classification.stellarType === 'K' && classification.subtype >= 5) || classification.stellarType === 'M') )
-          classification.stellarClass = 'V';
+      if (primary.subtype !== null) {
+        classification.subtype = primary.subtype + d6();
+        if (classification.subtype > 9) {
+          classification.subtype -= 10;
+          classification.stellarType = TYPES_BY_TEMP[TYPES_BY_TEMP.indexOf(classification.stellarType) + 1];
+          if (classification.stellarClass === 'VI' && ['A', 'F'].includes(classification.stellarType)) {
+            classification.stellarType = 'G';
+          } else if (classification.stellarClass === 'IV' && ((classification.stellarType === 'K' && classification.subtype >= 5) || classification.stellarType === 'M'))
+            classification.stellarClass = 'V';
+        }
       }
     }
   } else if (type === STELLAR_TYPES.BrownDwarf) {
@@ -92,10 +95,6 @@ const multiStarClassification = ({primary, unusualChance, orbitType}) => {
     classification.stellarType = primary.stellarType;
     classification.stellarClass = primary.stellarClass;
     classification.subtype = primary.subtype;
-  } else if (type !== 'Random') {
-    console.log('multiStarClassification')
-    console.log({type});
-    console.log({orbitType});
   }
 
   return classification;
