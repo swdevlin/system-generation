@@ -3,12 +3,8 @@ const Random = require("random-js").Random;
 const commander= require('commander');
 const yaml= require('js-yaml');
 const fs= require('fs');
-const {twoD6, d6} = require("./dice");
 const {gasGiantQuantity} = require("./gasGiants");
 const {planetoidBeltQuantity} = require("./planetoidBelts");
-const {calculatePeriod, additionalStarDM, ORBIT_TYPES, companionOrbit, STELLAR_TYPES} = require("./utils");
-const Star = require("./stars/star");
-const {determineStarClassification} = require("./stars/determineStarClassification");
 const SolarSystem = require("./solarSystems/solarSystem");
 const createMap = require("./travellerMap/createMap");
 const TravellerMap = require("./travellerMap/travellerMap");
@@ -19,6 +15,7 @@ const toJSON = require("./utils/toJSON");
 const loadStarsFromDefinition = require("./solarSystems/loadStarsFromDefinition");
 const assignStars = require("./solarSystems/assignStars");
 const loadPlanetsFromDefinition = require("./solarSystems/loadPlanetsFromDefinition");
+const {STELLAR_TYPES} = require("./utils");
 
 
 const SUBSECTOR_TYPES = {
@@ -110,7 +107,6 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap) =>
       if (!r.bool(chance))
         continue;
 
-      let star;
       const systemName = (defined && defined.name) ? defined.name : null;
       const solarSystem = new SolarSystem(systemName);
       solarSystem.sector = sector.name;

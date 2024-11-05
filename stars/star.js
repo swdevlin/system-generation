@@ -1,5 +1,5 @@
 const {determineDataKey, ORBIT_TYPES, computeBaseline, orbitText, AU, SOL_DIAMETER, orbitToAU, auToOrbit, StarColour,
-  starIdentifier, STELLAR_TYPES, travelTime, isAnomaly
+  starIdentifier, STELLAR_TYPES, travelTime, isAnomaly, isBrownDwarf
 } = require("../utils");
 const {MINIMUM_ALLOWABLE_ORBIT} = require("./index");
 const {twoD6, d6, d3, d10, d100} = require("../dice");
@@ -127,7 +127,7 @@ class Star extends StellarObject {
       return 0;
     else if (this.stellarType === STELLAR_TYPES.NeutronStar)
       return 0.001;
-    else if (isAnomaly(this.stellarType))
+    else if (isAnomaly(this.stellarType) && !isBrownDwarf(this.stellarType))
       return 0.0;
     else {
       const mao = MINIMUM_ALLOWABLE_ORBIT[this.dataKey][this.stellarClass];
