@@ -1,4 +1,4 @@
-const {SOL_DIAMETER, AU} = require("../utils");
+const {SOL_DIAMETER, AU, orbitToAU} = require("../utils");
 const travelTime = require("../utils/travelTime");
 
 class StellarObject {
@@ -7,6 +7,7 @@ class StellarObject {
     this.inclination = 0;
     this.eccentricity = 0;
     this.effectiveHZCODeviation = 0;
+    this.orbit = 0;
   }
 
   setOrbit(star, orbitNumber) {
@@ -23,6 +24,10 @@ class StellarObject {
 
   safeJumpTime(mDrive) {
     return travelTime(this.diameter, mDrive, true);
+  }
+
+  get au() {
+    return orbitToAU(this.orbit);
   }
 }
 

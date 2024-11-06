@@ -2,7 +2,9 @@ const {twoD6} = require("../dice");
 
 // page 131
 const resourceRating = (planet) => {
-  let rr = twoD6() - 7 + planet.size;
+  let rr = twoD6() - 7;
+  if (planet.size !== 'S' && planet.size !== 'R')
+    rr += planet.size;
   if (planet.density > 1.12)
     rr += 2;
   if (planet.density < 0.5)
@@ -17,7 +19,6 @@ const resourceRating = (planet) => {
     rr -= 1;
   if (planet.compatibilityRating >= 8)
     rr += 2;
-  return rr;
 
   return Math.max(2, Math.min(12, rr));
 }
