@@ -1,4 +1,4 @@
-const {STELLAR_TYPES} = require("../utils");
+const {STELLAR_TYPES, isNonBrownDwarfAnomaly} = require("../utils");
 const TEMPERATURE = {
   'O0': 50000,
   'O5': 40000,
@@ -43,10 +43,10 @@ const starTemperature = (star) => {
       return 4000;
     else
       return 3800;
-  } else if (!star.isAnomaly) {
-    return TEMPERATURE[star.dataKey];
-  } else
+  } else if (isNonBrownDwarfAnomaly(star)) {
     return null;
+  } else
+    return TEMPERATURE[star.dataKey];
 }
 
 module.exports = starTemperature;

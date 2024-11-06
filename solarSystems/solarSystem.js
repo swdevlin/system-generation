@@ -302,7 +302,7 @@ class SolarSystem {
   assignBiomass() {
     for (const star of this.stars)
       for (const stellarObject of star.stellarObjects)
-        if (stellarObject.orbitType === ORBIT_TYPES.TERRESTRIAL) {
+        if ([ORBIT_TYPES.TERRESTRIAL, ORBIT_TYPES.PLANETOID_BELT_OBJECT].includes(stellarObject.orbitType)) {
           biomass(star, stellarObject);
           if (stellarObject.nativeSophont) {
             // todo: determine sophont
@@ -315,7 +315,7 @@ class SolarSystem {
   assignResourceRatings() {
     for (const star of this.stars)
       for (const stellarObject of star.stellarObjects)
-        if (stellarObject.orbitType === ORBIT_TYPES.TERRESTRIAL)
+        if ([ORBIT_TYPES.TERRESTRIAL, ORBIT_TYPES.PLANETOID_BELT_OBJECT].includes(stellarObject.orbitType))
           stellarObject.resourceRating = resourceRating(stellarObject);
           // TODO: Moons
   }
@@ -323,7 +323,7 @@ class SolarSystem {
   assignHabitabilityRatings() {
     for (const star of this.stars)
       for (const stellarObject of star.stellarObjects)
-        if (stellarObject.orbitType === ORBIT_TYPES.TERRESTRIAL)
+        if ([ORBIT_TYPES.TERRESTRIAL, ORBIT_TYPES.PLANETOID_BELT_OBJECT].includes(stellarObject.orbitType))
           stellarObject.habitabilityRating = habitabilityRating(stellarObject);
           // TODO: Moons
   }

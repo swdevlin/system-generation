@@ -1,5 +1,5 @@
 const {d6} = require("../dice");
-const {STELLAR_TYPES, isAnomaly} = require("../utils");
+const {STELLAR_TYPES, isAnomaly, isBrownDwarf} = require("../utils");
 const DIAMETER = {
   'O0': {
     'Ia': 25,
@@ -151,7 +151,7 @@ const starDiameter = (star) => {
     return 2.95 * star.mass;
   } else if (star.stellarType === STELLAR_TYPES.NeutronStar) {
     return 19 + d6();
-  } else if (isAnomaly(star.stellarType)) {
+  } else if (isAnomaly(star.stellarType) && !isBrownDwarf(star.stellarType)) {
     return null;
   } else {
     return DIAMETER[star.dataKey][star.stellarClass]

@@ -231,6 +231,19 @@ const isAnomaly = (type) => {
   ].includes(type);
 }
 
+const isNonBrownDwarfAnomaly = (type) => {
+  return [
+    STELLAR_TYPES.Anomaly,
+    STELLAR_TYPES.BlackHole,
+    STELLAR_TYPES.Nebula,
+    STELLAR_TYPES.NeutronStar,
+    STELLAR_TYPES.Protostar,
+    STELLAR_TYPES.Pulsar,
+    STELLAR_TYPES.StarCluster,
+    STELLAR_TYPES.WhiteDwarf,
+  ].includes(type);
+}
+
 const isBrownDwarf = (type) => {
   return [
     STELLAR_TYPES.BrownDwarf,
@@ -241,6 +254,7 @@ const isBrownDwarf = (type) => {
 module.exports = {
   isHotter: isHotter,
   isAnomaly: isAnomaly,
+  isNonBrownDwarfAnomaly: isNonBrownDwarfAnomaly,
   isBrownDwarf: isBrownDwarf,
   determineDataKey: determineDataKey,
   companionOrbit: companionOrbit,

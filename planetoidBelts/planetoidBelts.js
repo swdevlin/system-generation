@@ -140,7 +140,7 @@ const calculateOrbitOffset = (star, belt) => {
 const addSignificantBodies = (star, belt) => {
   let bodies = twoD6() - 12 + belt.bulk;
   if (belt.span < 0.1)
-    bodies -=4;
+    bodies -= 4;
   if (belt.effectiveHZCODeviation > 3)
     bodies += 2;
   for (let i=0; i < bodies; i++) {

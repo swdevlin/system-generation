@@ -27,8 +27,6 @@ class TerrestrialPlanet extends StellarObject {
     this.biodiversityRating = 0;
     this.compatibilityRating = 0;
     this.resourceRating = 2;
-    this.currentNativeSophont = false;
-    this.extinctNativeSophont = false;
     this.hasRing = false;
     this.orbitType = ORBIT_TYPES.TERRESTRIAL;
     this.atmosphere = new Atmosphere();
