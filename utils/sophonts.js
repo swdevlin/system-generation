@@ -12,7 +12,7 @@ const nativeSophont = (star, planet) => {
 const extinctSophont = (star, planet) => {
   if (planet.biocomplexityCode < 7)
     return false;
-  let r= twoD6() + Math.min(planet.biocomplexityCode, 9) - 7 + parseInt(process.env.extinctSophontDM);
+  let r= twoD6() + Math.min(planet.biocomplexityCode, 9) - 7;
   if (star.age > 5)
     r++;
   const found = r >= 13;
