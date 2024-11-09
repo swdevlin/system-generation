@@ -1,3 +1,4 @@
+require('dotenv').config();
 const {d6, twoD6} = require("../dice");
 const orbitToAU = require("./orbitToAU");
 const Random = require("random-js").Random;
@@ -251,29 +252,34 @@ const isBrownDwarf = (type) => {
   ].includes(type);
 }
 
+const getBoolFromEnv = (key) => {
+  return process.env[key] === 'true';
+}
+
 module.exports = {
-  isHotter: isHotter,
-  isAnomaly: isAnomaly,
-  isNonBrownDwarfAnomaly: isNonBrownDwarfAnomaly,
-  isBrownDwarf: isBrownDwarf,
-  determineDataKey: determineDataKey,
-  companionOrbit: companionOrbit,
   additionalStarDM: additionalStarDM,
-  shuffleArray: shuffleArray,
-  toHex: toHex,
-  hexToInt: hexToInt,
-  orbitText: orbitText,
+  companionOrbit: companionOrbit,
   computeBaseline: computeBaseline,
+  deconstructUWP: deconstructUWP,
+  determineDataKey: determineDataKey,
+  getBoolFromEnv: getBoolFromEnv,
+  hexToInt: hexToInt,
+  isAnomaly: isAnomaly,
+  isBrownDwarf: isBrownDwarf,
+  isHotter: isHotter,
+  isNonBrownDwarfAnomaly: isNonBrownDwarfAnomaly,
+  orbitText: orbitText,
+  romanNumeral: romanNumeral,
+  sequenceIdentifier: sequenceIdentifier,
+  shuffleArray: shuffleArray,
+  starIdentifier: starIdentifier,
+  toHex: toHex,
   TYPES_BY_TEMP: TYPES_BY_TEMP,
   ORBIT_TYPES: ORBIT_TYPES,
   STELLAR_TYPES: STELLAR_TYPES,
   AU: AU,
   StarColour: StarColour,
   SOL_DIAMETER: SOL_DIAMETER,
-  romanNumeral: romanNumeral,
-  sequenceIdentifier: sequenceIdentifier,
-  starIdentifier: starIdentifier,
-  deconstructUWP: deconstructUWP,
 };
 
 
