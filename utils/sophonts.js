@@ -1,19 +1,23 @@
-const {twoD6} = require("../dice");
+const {twoD6, percentageChance} = require("../dice");
 
 const nativeSophont = (star, planet) => {
   if (planet.biocomplexityCode < 7)
     return false;
-  let r= twoD6() + Math.min(planet.biocomplexityCode, 9) - 7 + parseInt(process.env.sophontDM);
-  return r >= 13;
+  let r= twoD6() + Math.min(planet.biocomplexityCode, 9) - 7;
+  const found = r >= 13;
+  const chance = parseFloat(process.env.nativeSophontChance);
+  return found && percentageChance(chance);
 }
 
 const extinctSophont = (star, planet) => {
   if (planet.biocomplexityCode < 7)
     return false;
-  let r= twoD6() + Math.min(planet.biocomplexityCode, 9) - 7 + parseInt(process.env.sophontDM);
+  let r= twoD6() + Math.min(planet.biocomplexityCode, 9) - 7 + parseInt(process.env.extinctSophontDM);
   if (star.age > 5)
     r++;
-  return r >= 13;
+  const found = r >= 13;
+  const chance = parseFloat(process.env.extinctSophontChance);
+  return found && percentageChance(chance);
 }
 
 module.exports = {
