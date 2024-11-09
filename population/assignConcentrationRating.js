@@ -1,4 +1,5 @@
 const {d3, d6} = require("../dice");
+const {isIndustrial, isRich, isAgricultural, isNonAgricultural} = require("../economics/assignTradeCodes");
 
 // page 151
 const concentrationRatingDMs = (planet) => {
@@ -35,16 +36,16 @@ const concentrationRatingDMs = (planet) => {
   else if (planet.techLevel >= 4 && planet.techLevel <= 9)
     dm += 1;
 
-  if (planet.isAgricultural)
+  if (isAgricultural(planet))
     dm -= 2;
 
-  if (planet.isIndustrial)
+  if (isIndustrial(planet))
     dm += 1;
 
-  if (planet.isNonagricultural)
+  if (isNonAgricultural(planet))
     dm -= 1;
 
-  if (planet.isRich)
+  if (isRich(planet))
     dm += 1;
 
   return dm;
@@ -52,10 +53,18 @@ const concentrationRatingDMs = (planet) => {
 
 const assignConcentrationRating = (star, planet) => {
   let roll = d6();
-  if (roll > planet.population.code) {
+
+  if (roll > planet.population.code)
     planet.population.concentrationRating = 9;
-    return;
-  }
+  else
+    roll += concentrationRatingDMs(planet);
+
+  if (roll <= 0)
+    planet.population.concentrationRating = 0;
+  else if (roll >= 9)
+    planet.population.concentrationRating =  9;
+  else
+    planet.population.concentrationRating =  roll;
 };
 
 module.exports = {
