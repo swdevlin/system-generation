@@ -21,6 +21,18 @@ class Moon extends StellarObject {
     this.axialTilt = null;
   }
 
+  get diameter() {
+    const sizeStep = 1600;
+    if (this.size === 0)
+      return 0;
+    else if (this.size === 'R')
+      return 0;
+    else if (this.size === 'S')
+      return 600 + this.sizeVariance / 4;
+    else
+      return this.size * sizeStep + this.sizeVariance;
+  }
+
 }
 
 module.exports = Moon;
