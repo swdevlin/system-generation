@@ -23,7 +23,10 @@ class StellarObject {
   }
 
   safeJumpTime(mDrive) {
-    return travelTime(this.diameter, mDrive, true);
+    if (this.diameter)
+      return travelTime(this.diameter, mDrive, true);
+    else
+      return '0m';
   }
 
   get au() {
