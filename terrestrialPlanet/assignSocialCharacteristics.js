@@ -1,6 +1,6 @@
 const {twoD6} = require("../dice");
 const {assignStarport} = require("./assignStarport");
-const {assignTechLevel, assignNativeSophontTechLevel} = require("./assignTechLevel");
+const {assignNativeSophontTechLevel} = require("./assignTechLevel");
 const assignPopulation = require("../population/assignPopulation");
 const {assignTradeCodes} = require("../economics/assignTradeCodes");
 

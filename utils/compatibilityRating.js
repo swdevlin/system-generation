@@ -2,7 +2,7 @@ const {twoD6} = require("../dice");
 
 // page 130
 const compatibilityRating = (star, planet) => {
-  if (planet.biomassRating === 0)
+  if (planet.biomassRating < 1)
     return 0;
 
   let cr = twoD6() - planet.biocomplexityCode/2;
@@ -17,6 +17,9 @@ const compatibilityRating = (star, planet) => {
     case 3:
     case 5:
     case 8:
+      cr += 1;
+      break;
+    case 6:
       cr += 2;
       break;
     case 10:
@@ -31,6 +34,7 @@ const compatibilityRating = (star, planet) => {
       cr -= 1;
       break;
   }
+
   if (planet.atmosphere.taint)
     cr -= 2;
 
