@@ -32,7 +32,7 @@ function getters(obj) {
 }
 
 
-DONT_EXPORT = ['stars', '_mainWorld', 'currentNativeSophont', 'extinctNativeSophont', 'dataKey'];
+DONT_EXPORT = ['stars', '_mainWorld', 'dataKey'];
 
 const toJSON = (obj) => {
   if (typeof obj !== 'object' || obj === null)

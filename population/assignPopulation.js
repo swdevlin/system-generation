@@ -3,7 +3,7 @@ const {assignConcentrationRating} = require("./assignConcentrationRating");
 
 // page 147
 const assignPopulation = (star, planet) => {
-  if (planet.currentNativeSophont)
+  if (planet.nativeSophont)
     planet.population.code = d3() + d3() + 4;
   else
     planet.population.code = twoD6() - 2;
