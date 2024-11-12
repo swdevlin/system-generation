@@ -7,7 +7,7 @@ const assignPopulation = (star, planet) => {
     planet.population.code = d3() + d3() + 4;
   else
     planet.population.code = twoD6() - 2;
-  // assignConcentrationRating(star, planet);
+  assignConcentrationRating(star, planet);
 };
 
 module.exports = assignPopulation;
