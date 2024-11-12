@@ -7,7 +7,7 @@ const biocomplexity = (star, planet) => {
 
   let b = twoD6() - 7 + planet.biomassRating;
   if (planet.atmosphere.code < 3 || planet.atmosphere.code > 9)
-    b -=2;
+    b -= 2;
   if (star.age > 3 && star.age <= 4)
     b -= 2;
   if (star.age > 2 && star.age <= 3)
