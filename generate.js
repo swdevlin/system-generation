@@ -16,7 +16,7 @@ const loadStarsFromDefinition = require("./solarSystems/loadStarsFromDefinition"
 const assignStars = require("./solarSystems/assignStars");
 const loadPlanetsFromDefinition = require("./solarSystems/loadPlanetsFromDefinition");
 const {STELLAR_TYPES} = require("./utils");
-
+const knex = require("./db/connection");
 
 const SUBSECTOR_TYPES = {
   DENSE: { chance: 0.60},
@@ -192,6 +192,26 @@ commander
 
   console.log(`Generating ${sector.name}`);
 
+  await knex('solar_system')
+    .whereIn('sector_id', function() {
+      this.select('id')
+        .from('sector')
+        .where({
+          x: sector.X,
+          y: sector.Y
+        });
+    })
+    .del();
+  const inserted = await knex('sector').insert({
+    x: sector.X,
+    y: sector.Y,
+    name: sector.name,
+    abbreviation: sector.abbreviation,
+  }).onConflict(['x', 'y'])
+    .merge()
+    .returning("*");
+  const db_sector = inserted[0];
+
   const mapDir = `${options.output}/maps`;
   if (!fs.existsSync(mapDir))
     fs.mkdirSync(mapDir, { recursive: true });
@@ -216,6 +236,30 @@ commander
     travellerMap.subSectors[subsector.index] = subsector.name;
     generateSubsector(outputDir, sector, subsector, index, travellerMap);
   }
+  for (const solar_system of sector.solarSystems) {
+    const {stellarObjects, ...primary} = solar_system.primaryStar;
+    await knex('solar_system').insert({
+      sector_id: db_sector.id,
+      x: solar_system.x,
+      y: solar_system.y,
+      name: solar_system.name,
+      scan_points: solar_system.scanPoints,
+      survey_index: solar_system.surveyIndex,
+      star_count: solar_system.starCount,
+      gas_giant_count: solar_system.gasGiants,
+      planetoid_belt_count: solar_system.planetoidBelts,
+      terrestrial_planet_count: solar_system.terrestrialPlanets,
+      bases: solar_system.bases,
+      remarks: solar_system.remarks,
+      native_sophont: solar_system.hasNativeSophont,
+      extinct_sophont: solar_system.hasExtinctSophont,
+      stellar_objects: JSON.stringify(stellarObjects),
+      primary_star: primary,
+      main_world: solar_system.mainWorld,
+    });
+
+  }
+
   await dumpStats(sector, outputDir);
   await dumpRefereeReference(sector, outputDir);
   fs.writeFileSync(`${outputDir}/systems.csv`, travellerMap.systemDump());

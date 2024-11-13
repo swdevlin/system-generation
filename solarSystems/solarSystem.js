@@ -49,6 +49,14 @@ class SolarSystem {
     this.surveyIndex = 0;
   }
 
+  get x() {
+    return parseInt(this.coordinates.substring(2, 4), 10)
+  }
+
+  get y() {
+    return parseInt(this.coordinates.substring(0, 2), 10)
+  }
+
   onlyBrownDwarfs() {
     return isBrownDwarf(this.primaryStar.stellarType);
   }

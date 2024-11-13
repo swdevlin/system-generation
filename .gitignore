@@ -3,3 +3,5 @@ node_modules
 output
 /maps-to-foundry.bat
 /generate.bat
+/db/knexfile.js
+.env
