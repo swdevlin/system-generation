@@ -50,11 +50,12 @@ const dumpStats = async (sector, outputDir) => {
 }
 
 const dumpSurveyIndex = async (sector, outputDir) => {
-  const surveyIndex = {x: sector.X, y: sector.Y, hexes: {}};
+  const surveyIndex = {};
   for (const solarSystem of sector.solarSystems) {
-    surveyIndex.hexes[solarSystem.coordinates] = solarSystem.surveyIndex;
+    const key = sector.X + '.' + sector.Y + '.' + solarSystem.coordinates;
+    surveyIndex[key] = solarSystem.surveyIndex;
   }
-  fs.writeFileSync(`${outputDir}/surveyIndex.yaml`, yaml.dump(surveyIndex));
+  fs.writeFileSync(`${outputDir}/surveyIndex.json`, JSON.stringify(surveyIndex));
 }
 
 const dumpRefereeReference = async (sector, outputDir) => {
