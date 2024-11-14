@@ -28,6 +28,7 @@ const TerrestrialPlanet = require("../terrestrialPlanet/terrestrialPlanet");
 const superEarthWorldSize = require("../terrestrialPlanet/superEarthWorldSize");
 const assignPhysicalCharacteristics = require("../terrestrialPlanet/assignPhysicalCharacteristics");
 const assignSocialCharacteristics = require("../terrestrialPlanet/assignSocialCharacteristics");
+const summaryBlock = require("../stars/summaryBlock");
 
 const Random = require("random-js").Random;
 const r = new Random();
@@ -50,11 +51,11 @@ class SolarSystem {
   }
 
   get x() {
-    return parseInt(this.coordinates.substring(2, 4), 10)
+    return parseInt(this.coordinates.substring(0, 2), 10)
   }
 
   get y() {
-    return parseInt(this.coordinates.substring(0, 2), 10)
+    return parseInt(this.coordinates.substring(2, 4), 10)
   }
 
   onlyBrownDwarfs() {
@@ -334,6 +335,13 @@ class SolarSystem {
         if ([ORBIT_TYPES.TERRESTRIAL, ORBIT_TYPES.PLANETOID_BELT_OBJECT].includes(stellarObject.orbitType))
           stellarObject.habitabilityRating = habitabilityRating(stellarObject);
           // TODO: Moons
+  }
+
+  starsSummary() {
+    const summary = [];
+    for (const star of this.stars)
+      summary.push(summaryBlock(star));
+    return summary;
   }
 
   randomStar() {

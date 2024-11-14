@@ -237,7 +237,6 @@ commander
     generateSubsector(outputDir, sector, subsector, index, travellerMap);
   }
   for (const solar_system of sector.solarSystems) {
-    const {stellarObjects, ...primary} = solar_system.primaryStar;
     await knex('solar_system').insert({
       sector_id: db_sector.id,
       x: solar_system.x,
@@ -253,9 +252,9 @@ commander
       remarks: solar_system.remarks,
       native_sophont: solar_system.hasNativeSophont,
       extinct_sophont: solar_system.hasExtinctSophont,
-      stellar_objects: JSON.stringify(stellarObjects),
-      primary_star: primary,
+      primary_star: solar_system.primaryStar,
       main_world: solar_system.mainWorld,
+      stars: JSON.stringify(solar_system.starsSummary()),
     });
 
   }
