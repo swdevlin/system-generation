@@ -164,13 +164,13 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap) =>
       solarSystem.assignBiomass();
       solarSystem.assignResourceRatings();
       solarSystem.assignHabitabilityRatings();
-      fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-${subsector.name}-map.svg`, solarSystem.systemMap());
+      fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-map.svg`, solarSystem.systemMap());
       const text = `${sector.name} ${solarSystem.coordinates} ${solarSystem.primaryStar.textDump(0, '', '', 0, [1])}`;
-      fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-${subsector.name}.txt`, text);
+      fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}.txt`, text);
       let asJson = toJSON(solarSystem.primaryStar);
       asJson = JSON.stringify(asJson, null, 2);
-      fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-${subsector.name}.json`, asJson);
-      fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-${subsector.name}-travel.html`, solarSystem.travelGrid());
+      fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}.json`, asJson);
+      fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-travel.html`, solarSystem.travelGrid());
       travellerMap.addSystem(solarSystem);
       sector.solarSystems.push(solarSystem);
     }
