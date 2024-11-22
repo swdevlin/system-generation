@@ -45,6 +45,91 @@ subsectors:
     type: SPARSE
     index: M
     required:
+      - x: 1
+        y: 6
+        name: NSY-X TMMm
+        primary:
+          type: M4
+          close:
+            type: M4
+          far:
+            type: M7
+      - x: 2
+        y: 1
+        name: NSY-X Sigma
+        primary:
+          type: D
+        counts:
+          gasGiants: 0
+          planetoidBelts: 0
+          terrestrialPlanets: 0
+      - x: 2
+        y: 6
+        name: NSY-X TGkk
+        primary:
+          type: G1
+          far:
+            type: K3
+            companion:
+              type: k3
+        counts:
+          gasGiants: 1
+          planetoidBelts: 0
+          terrestrialPlanets: 0
+      - x: 2
+        y: 9
+        name: NSY-X Phi
+        primary:
+          type: A3
+          class: Giant
+          companion:
+            type: A3
+            class: Giant
+          close:
+            type: A3
+            class: Giant
+          near:
+            type: F6
+            companion:
+              type: F6
+          far:
+            type: BD
+            companion:
+              type: BD
+        counts:
+          gasGiants: 3
+          planetoidBelts: 0
+          terrestrialPlanets: 0
+      - x: 4
+        y: 4
+        name: NSY-X SL1
+        primary:
+          type: BD
+        counts:
+          gasGiants: 0
+          planetoidBelts: 0
+          terrestrialPlanets: 0
+      - x: 5
+        y: 3
+        name: NSY-X BKK
+        densityIndex: 23
+        primary:
+          type: K3
+          near:
+            type: K3
+      - x: 5
+        y: 6
+        name: NSY-X
+        primary:
+          type: G7
+          near:
+            type: K8
+            bodies:
+              - uwp: Large Gas Giant
+              - uwp: X69A000-0
+                habitable: inner
+              - uwp: X721000-0
+                habitable: inner
       - x: 5
         y: 7
         name: NSY-X AL-Alpha
@@ -65,6 +150,58 @@ subsectors:
           - uwp: Small Gas Giant
           - uwp: Large Gas Giant
           - uwp: X000000-0
+      - x: 6
+        y: 1
+        name: NSY-X SL2
+        primary:
+          type: BD
+        counts:
+          gasGiants: 0
+          planetoidBelts: 1
+          terrestrialPlanets: 7
+      - x: 6
+        y: 3
+        name: NSY-X SM2
+        primary:
+          type: M6
+        densityIndex: 23
+      - x: 6
+        y: 8
+        name: NSY-X BLL1
+        primary:
+          type: BD
+          close:
+            type: BD
+        counts:
+          gasGiants: 2
+          planetoidBelts: 1
+          terrestrialPlanets: 0
+      - x: 7
+        y: 3
+        name: NSY-X SGM1
+        primary:
+          type: M1
+          class: Giant
+        counts:
+          gasGiants: 0
+          planetoidBelts: 0
+          terrestrialPlanets: 0
+      - x: 7
+        y: 5
+        name: NSY-X BMm1
+        primary:
+          type: M5
+          far:
+            type: M5
+        counts:
+          gasGiants: 1
+          planetoidBelts: 0
+          terrestrialPlanets: 8
+      - x: 8
+        y: 7
+        name: NSY-X Zeta
+        primary:
+          type: D
   - name: NSoY N
     type: MINIMAL
     index: N
