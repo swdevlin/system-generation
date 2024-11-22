@@ -1,4 +1,4 @@
-const {determineStarClassification, primaryStarClassification} = require("../stars/determineStarClassification");
+const {determineStarClassification} = require("../stars/determineStarClassification");
 const Star = require("../stars/star");
 const {ORBIT_TYPES, companionOrbit, calculatePeriod, additionalStarDM} = require("../utils");
 const predefinedClassification = require("../stars/predefinedClassification");
@@ -25,7 +25,7 @@ const loadStarsFromDefinition = ({sector, subsector, definition, solarSystem}) =
     if (definition.primary.close) {
       const classification = (definition.primary.close.type) ? predefinedClassification(definition.primary.close) : null;
       close = generateCloseSecondary({
-        star: solarSystem.primary,
+        star: solarSystem.primaryStar,
         unusualChance: unusualChance,
         classification: classification
       });
@@ -35,7 +35,7 @@ const loadStarsFromDefinition = ({sector, subsector, definition, solarSystem}) =
     if (definition.primary.near) {
       const classification = (definition.primary.near.type) ? predefinedClassification(definition.primary.near) : null;
       near = generateNearSecondary({
-        star: solarSystem.primary,
+        star: solarSystem.primaryStar,
         unusualChance: unusualChance,
         classification: classification
       });
@@ -45,7 +45,7 @@ const loadStarsFromDefinition = ({sector, subsector, definition, solarSystem}) =
     if (definition.primary.far) {
       const classification = (definition.primary.far.type) ? predefinedClassification(definition.primary.far) : null;
       far = generateFarSecondary({
-        star: primary,
+        star: solarSystem.primaryStar,
         unusualChance: unusualChance,
         classification: classification
       });

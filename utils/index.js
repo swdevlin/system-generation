@@ -197,12 +197,15 @@ const sequenceIdentifier = (index, starIndex) => {
 }
 
 const orbitText = (orbit, index, starIndex) => {
-  if (!orbit)
-    index = index;
-  if (index)
-    return `${orbitToAU(orbit).toFixed(2)} (${orbit.toFixed(2)}) ${sequenceIdentifier(index, starIndex)}`;
-  else
-    return `${orbitToAU(orbit).toFixed(2)} (${orbit.toFixed(2)})`;
+  try {
+    if (index)
+      return `${orbitToAU(orbit).toFixed(2)} (${orbit.toFixed(2)}) ${sequenceIdentifier(index, starIndex)}`;
+    else
+      return `${orbitToAU(orbit).toFixed(2)} (${orbit.toFixed(2)})`;
+  } catch (e) {
+    console.log(e);
+    return `bad orbit`;
+  }
 }
 
 const romanNumeral = (n) => {

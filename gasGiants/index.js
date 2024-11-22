@@ -1,6 +1,7 @@
 const {twoD6, d6} = require("../dice");
+const densityIndexDM = require("../utils/densityIndexDM");
 
-const gasGiantQuantity = (solarSystem) => {
+const gasGiantQuantity = (solarSystem, densityIndex) => {
   let gasGiants = 0;
   let dm;
   if (d6() > 1) {
@@ -10,6 +11,8 @@ const gasGiantQuantity = (solarSystem) => {
       dm = -1;
     else
       dm = 0;
+
+    dm += densityIndexDM(densityIndex);
 
     const roll = twoD6() + dm;
     if (roll <= 4 )

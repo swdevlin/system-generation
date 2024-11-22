@@ -1,5 +1,17 @@
-const {determineDataKey, ORBIT_TYPES, computeBaseline, orbitText, AU, SOL_DIAMETER, orbitToAU, auToOrbit, StarColour,
-  starIdentifier, STELLAR_TYPES, travelTime, isAnomaly, isBrownDwarf
+const {
+  determineDataKey,
+  ORBIT_TYPES,
+  computeBaseline,
+  orbitText,
+  AU,
+  SOL_DIAMETER,
+  orbitToAU,
+  auToOrbit,
+  StarColour,
+  starIdentifier,
+  STELLAR_TYPES,
+  isAnomaly,
+  isBrownDwarf
 } = require("../utils");
 const {MINIMUM_ALLOWABLE_ORBIT} = require("./index");
 const {twoD6, d6, d3, d10, d100} = require("../dice");
@@ -203,6 +215,10 @@ class Star extends StellarObject {
       if (range[0] <= orbit && range[1] >= orbit)
         return true;
     return (orbit > this.availableOrbits.at(-1)[1])
+  }
+
+  calculateSpread(primary) {
+
   }
 
   assignOrbits(primary) {

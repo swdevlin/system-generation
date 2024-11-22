@@ -1,18 +1,13 @@
 const {twoD6, d6, d3, d2, d100} = require("../dice");
-const {ORBIT_TYPES, eccentricity, axialTilt, determineHydrographics} = require("../utils");
+const {ORBIT_TYPES} = require("../utils");
 const TerrestrialPlanet = require("../terrestrialPlanet/terrestrialPlanet");
-const terrestrialDensity = require("../terrestrialPlanet/terrestrialDensity");
-const terrestrialComposition = require("../terrestrialPlanet/terrestrialComposition");
-const inclination = require("../utils/inclination");
-const assignAtmosphere = require("../atmosphere/assignAtmosphere");
-const calculateAlbedo = require("../atmosphere/albedo");
-const calculateGreenhouse = require("../atmosphere/calculateGreenhouse");
 const assignPhysicalCharacteristics = require("../terrestrialPlanet/assignPhysicalCharacteristics");
+const densityIndexDM = require("../utils/densityIndexDM");
 const Random = require("random-js").Random;
 
 const r = new Random();
 
-const planetoidBeltQuantity = (solarSystem) => {
+const planetoidBeltQuantity = (solarSystem, densityIndex) => {
   let planetoidBelts = 0;
   if (twoD6() >= 8) {
     let dm = 0;
@@ -20,6 +15,7 @@ const planetoidBeltQuantity = (solarSystem) => {
       dm += 1;
     if (solarSystem.starCount > 2)
       dm += 1;
+    dm += densityIndexDM(densityIndex);
 
     const roll = twoD6() + dm;
     if (roll <= 6 )

@@ -1,7 +1,4 @@
-const {determineStarClassification, primaryStarClassification} = require("../stars/determineStarClassification");
-const Star = require("../stars/star");
-const {ORBIT_TYPES, companionOrbit, calculatePeriod, additionalStarDM} = require("../utils");
-const {twoD6, d6} = require("../dice");
+const {ORBIT_TYPES} = require("../utils");
 const {gasGiantQuantity} = require("../gasGiants");
 const {planetoidBeltQuantity} = require("../planetoidBelts");
 const terrestrialPlanetQuantity = require("../terrestrialPlanet/terrestrialPlanetQuantity");
@@ -23,28 +20,40 @@ const hasBodies = (definition) => {
 const assignBodies = (star, definition, solarSystem) => {
   if (!definition.bodies)
     return;
-  star.totalObjects = 20;
-  star.assignOrbits();
-  star.totalObjects = definition.bodies.length;
-  let orbitIndex = 0;
-  for (const body of definition.bodies) {
-    if (body !== 'empty') {
-      if (body.habitable) {
-        if (body.habitable === 'outer')
-          while (star.occupiedOrbits[orbitIndex] <= star.hzco)
-            orbitIndex++;
-        else if (body.habitable === 'inner')
-          while (star.occupiedOrbits[orbitIndex + 1] < star.hzco)
-            orbitIndex++;
-        else
-          while (star.occupiedOrbits[orbitIndex] < star.hzco)
-            orbitIndex++;
-      }
-      solarSystem.preassignedBody({star: star, body: body, orbitIndex: orbitIndex});
-    } else
-      star.totalObjects--;
-    orbitIndex++;
-  }
+  let loops = 1;
+  let orbitIndex;
+  do {
+    // star.totalObjects = 20;
+    star.totalObjects = definition.bodies.length+loops;
+    for (let i = star.stellarObjects.length - 1; i >= 0; i--)
+      if (star.stellarObjects[i].orbitType >= 10)
+        star.stellarObjects.splice(i, 1);
+    star.occupiedOrbits = [];
+    star.assignOrbits();
+
+    orbitIndex = 0;
+    for (const body of definition.bodies) {
+      if (body !== 'empty') {
+        if (body.habitable) {
+          if (body.habitable === 'outer')
+            while (star.occupiedOrbits[orbitIndex] <= star.hzco)
+              orbitIndex++;
+          else if (body.habitable === 'inner')
+            while (star.occupiedOrbits[orbitIndex + 1] < star.hzco)
+              orbitIndex++;
+          else
+            while (star.occupiedOrbits[orbitIndex] < star.hzco)
+              orbitIndex++;
+        }
+        if (orbitIndex > star.occupiedOrbits.length-1)
+          break;
+        solarSystem.preassignedBody({star: star, body: body, orbitIndex: orbitIndex});
+      } else
+        star.totalObjects--;
+      orbitIndex++;
+    }
+    loops++;
+  } while (orbitIndex > star.occupiedOrbits.length-1);
 
 };
 
@@ -73,9 +82,9 @@ const loadPlanetsFromDefinition = ({sector, subsector, definition, solarSystem})
     solarSystem.distributeObjects();
     solarSystem.assignOrbits();
   } else {
-    solarSystem.gasGiants = gasGiantQuantity(solarSystem);
-    solarSystem.planetoidBelts = planetoidBeltQuantity(solarSystem);
-    solarSystem.terrestrialPlanets = terrestrialPlanetQuantity(solarSystem);
+    solarSystem.gasGiants = gasGiantQuantity(solarSystem, definition.densityIndex);
+    solarSystem.planetoidBelts = planetoidBeltQuantity(solarSystem, definition.densityIndex);
+    solarSystem.terrestrialPlanets = terrestrialPlanetQuantity(solarSystem, definition.densityIndex);
 
     solarSystem.distributeObjects();
     solarSystem.assignOrbits();
