@@ -886,7 +886,7 @@ subsectors:
             - uwp: Small Gas Giant
             - uwp: D555343-A
               name: Ctskath
-              inhabitable: true
+              habitable: outer
             - uwp: Small Gas Giant
             - uwp: X6210000-0
       - x: 8
@@ -929,6 +929,217 @@ subsectors:
   - name: Last O
     type: RIFT_FADE
     index: O
+    systems:
+      - x: 1
+        y: 6
+        primary:
+          type: M5
+      - x: 2
+        y: 1
+        primary:
+          type: G4
+          near:
+            type: G5
+      - x: 2
+        y: 2
+        primary:
+          type: K5
+          bodies:
+            - uwp: C659845-A
+              name: Zrenh
+            - uwp: E9A1345-A
+      - x: 2
+        y: 3
+        primary:
+          type: K2
+          far:
+            type: M8
+      - x: 2
+        y: 5
+        primary:
+          type: M1
+          near:
+            type: M3
+            bodies:
+              - uwp: E000445-A
+              - uwp: Small Gas Giant
+              - uwp: D000545-A
+              - uwp: X3A1000-0
+              - uwp: C554645-A
+                name: Czath
+                habitable: outer
+              - uwp: Small Gas Giant
+              - uwp: Small Gas Giant
+              - uwp: Small Gas Giant
+              - uwp: E000245-A
+              - uwp: E000245-A
+      - x: 2
+        y: 6
+        primary:
+          type: K7
+          near:
+            type: K2
+          far:
+            type: K3
+      - x: 2
+        y: 9
+        primary:
+          type: K7
+          near:
+            type: M5
+      - x: 2
+        y: 10
+        primary:
+          type: K4
+      - x: 3
+        y: 2
+        primary:
+          type: F9
+      - x: 3
+        y: 6
+        primary:
+          type: K2
+          far:
+            type: M6
+      - x: 3
+        y: 8
+        primary:
+          type: G1
+          near:
+            type: M6
+          far:
+            type: BD
+      - x: 3
+        y: 10
+        primary:
+          type: K5
+          close:
+            type: BD
+      - x: 4
+        y: 7
+        primary:
+          type: M0
+          bodies:
+            - uwp: Small Gas Giant
+            - uwp: C666835-A
+              name: Zahline
+              habitable: true
+            - uwp: E000335-A
+            - uwp: Large Gas Giant
+            - uwp: X000000-0
+            - uwp: Large Gas Giant
+            - uwp: X110000-0
+      - x: 5
+        y: 2
+        primary:
+          type: G1
+          near:
+            type: M6
+          far:
+            type: BD
+      - x: 5
+        y: 6
+        primary:
+          type: K1
+          near:
+            type: M7
+            bodies:
+              - uwp: X8B8000-0
+              - uwp: X000000-0
+              - uwp: Large Gas Giant
+              - uwp: Small Gas Giant
+              - uwp: X310000-0
+      - x: 6
+        y: 2
+        primary:
+          type: K0
+          near:
+            type: M1
+      - x: 6
+        y: 3
+        primary:
+          type: M5
+          bodies:
+            - uwp: X440000-0
+            - uwp: X864873-1
+            - uwp: Large Gas Giant
+            - uwp: X521000-0
+      - x: 6
+        y: 4
+        primary:
+          type: M5
+      - x: 7
+        y: 4
+        primary:
+          type: M5
+      - x: 7
+        y: 7
+        primary:
+          type: K9
+          close:
+            type: M4
+            companion:
+              type: M4
+          near:
+            type: M4
+          far:
+            type: M5
+      - x: 7
+        y: 8
+        primary:
+          type: F6
+      - x: 7
+        y: 9
+        primary:
+          type: K4
+          near:
+            type: M4
+          far:
+            type: K3
+      - x: 7
+        y: 10
+        primary:
+          type: K8
+          bodies:
+            - uwp: E746775-5
+              name: Kskatk
+              habitable: true
+            - uwp: Small Gas Giant
+            - uwp: X521000-0
+      - x: 8
+        y: 1
+        primary:
+          type: M3
+          companion:
+            type: M3
+      - x: 8
+        y: 2
+        primary:
+          type: K5
+      - x: 8
+        y: 3
+        primary:
+          type: M1
+          near:
+            type: M4
+      - x: 8
+        y: 4
+        primary:
+          type: K2
+          far:
+            type: K8
+      - x: 8
+        y: 7
+        primary:
+          type: M6
+      - x: 8
+        y: 10
+        primary:
+          type: M2
+          far:
+            type: M7
+            companion:
+              type: M7
   - name: Last P
     type: RIFT_FADE
     index: P
