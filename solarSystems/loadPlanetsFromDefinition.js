@@ -23,34 +23,14 @@ const assignBodies = (star, definition, solarSystem) => {
   let loops = 1;
   let orbitIndex;
   do {
-    // star.totalObjects = 20;
-    star.totalObjects = definition.bodies.length+loops;
-    for (let i = star.stellarObjects.length - 1; i >= 0; i--)
-      if (star.stellarObjects[i].orbitType >= 10)
-        star.stellarObjects.splice(i, 1);
-    star.occupiedOrbits = [];
-    star.assignOrbits();
+    star.resetNonStarBodies(definition.bodies.length+loops);
 
     orbitIndex = 0;
     for (const body of definition.bodies) {
-      if (body !== 'empty') {
-        if (body.habitable) {
-          if (body.habitable === 'outer')
-            while (star.occupiedOrbits[orbitIndex] <= star.hzco)
-              orbitIndex++;
-          else if (body.habitable === 'inner')
-            while (star.occupiedOrbits[orbitIndex + 1] < star.hzco)
-              orbitIndex++;
-          else
-            while (star.occupiedOrbits[orbitIndex] < star.hzco)
-              orbitIndex++;
-        }
-        if (orbitIndex > star.occupiedOrbits.length-1)
-          break;
-        solarSystem.preassignedBody({star: star, body: body, orbitIndex: orbitIndex});
-      } else
-        star.totalObjects--;
-      orbitIndex++;
+      orbitIndex = star.nextOrbit(body, orbitIndex);
+      if (orbitIndex > star.occupiedOrbits.length-1)
+        break;
+      solarSystem.preassignedBody({star: star, body: body, orbitIndex: orbitIndex});
     }
     loops++;
   } while (orbitIndex > star.occupiedOrbits.length-1);

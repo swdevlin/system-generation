@@ -54,7 +54,7 @@ subsectors:
           type: F3
           bodies:
             - uwp: C6658A7-9
-              habitable: inner
+              orbit: warm
             - uwp: X000000-0
             - uwp: C8535A7-9
             - uwp: E510367-8
@@ -83,7 +83,7 @@ subsectors:
             - uwp: Small Gas Giant
             - uwp: Small Gas Giant
             - uwp: C4225A7-9
-              habitable: true
+              orbit: habitable
             - uwp: Small Gas Giant
           far:
             type: M9
@@ -132,7 +132,7 @@ subsectors:
             - uwp: D000368-9
             - uwp: D221368-9
             - uwp: B6747A8-9
-              habitable: true
+              orbit: habitable
             - uwp: D62A468-9
             - uwp: D3A0268-9
       - x: 4
@@ -233,7 +233,7 @@ subsectors:
           bodies:
             - uwp: X422000-0
             - uwp: EA67496-9
-              habitable: true
+              orbit: habitable
             - uwp: X721000-0
             - uwp: XAA3000-0
             - uwp: Large Gas Giant
@@ -394,7 +394,7 @@ subsectors:
           type: K5
           bodies:
             - uwp: C677A96-9
-              habitable: true
+              orbit: habitable
               name: Home-of-Tenipal
             - uwp: D114596-9
               name: Ice-Pond
@@ -886,7 +886,7 @@ subsectors:
             - uwp: Small Gas Giant
             - uwp: D555343-A
               name: Ctskath
-              habitable: outer
+              orbit: cold
             - uwp: Small Gas Giant
             - uwp: X6210000-0
       - x: 8
@@ -1023,7 +1023,7 @@ subsectors:
             - uwp: Small Gas Giant
             - uwp: C666835-A
               name: Zahline
-              habitable: true
+              orbit: habitable
             - uwp: E000335-A
             - uwp: Large Gas Giant
             - uwp: X000000-0

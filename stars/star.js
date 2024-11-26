@@ -330,6 +330,40 @@ class Star extends StellarObject {
     return s;
   }
 
+  resetNonStarBodies(totalObjects) {
+    this.totalObjects = totalObjects;
+    for (let i = this.stellarObjects.length - 1; i >= 0; i--)
+      if (this.stellarObjects[i].orbitType >= 10)
+        this.stellarObjects.splice(i, 1);
+    this.occupiedOrbits = [];
+    this.assignOrbits();
+  }
+
+  nextOrbit(body, orbitIndex) {
+    if (body.orbit) {
+      if (body.orbit === 'outer') {
+        while (this.occupiedOrbits[orbitIndex] <= star.hzco+1)
+          orbitIndex++;
+      } else if (body.orbit === 'inner') {
+        while (this.occupiedOrbits[orbitIndex + 1] < star.hzco-1)
+          orbitIndex++;
+      } else if (body.orbit === 'warm') {
+        while (this.occupiedOrbits[orbitIndex] < star.hzco - 1)
+          orbitIndex++;
+      } else if (body.orbit === 'cold') {
+        while (this.occupiedOrbits[orbitIndex+1] < star.hzco + 1)
+          orbitIndex++;
+      } else if (body.orbit === 'habitable') {
+        while (this.occupiedOrbits[orbitIndex+1] < star.hzco + 1)
+          orbitIndex++;
+      } else {
+        throw(`Invalid orbit specified: ${body.orbit}`)
+      }
+    } else
+      orbitIndex++;
+
+    return orbitIndex;
+  }
 }
 
 module.exports = Star;

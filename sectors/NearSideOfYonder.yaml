@@ -127,9 +127,8 @@ subsectors:
             bodies:
               - uwp: Large Gas Giant
               - uwp: X69A000-0
-                habitable: inner
+                orbit: warm
               - uwp: X721000-0
-                habitable: inner
       - x: 5
         y: 7
         name: NSY-X AL-Alpha

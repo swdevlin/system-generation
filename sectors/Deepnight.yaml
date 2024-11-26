@@ -46,7 +46,7 @@ subsectors:
             - empty
             - uwp: X000000-0
             - uwp: X521000-0
-              habitable: outer
+              orbit: cold
             - uwp: Small Gas Giant
   - name: Deepn I
     type: SPARSE
@@ -81,7 +81,7 @@ subsectors:
           bodies:
             - uwp: terrestrial
             - uwp: X674000-0
-              habitable: true
+              orbit: habitable
             - uwp: Small Gas Giant
             - uwp: terrestrial
             - uwp: X000000-0
