@@ -176,24 +176,45 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap) =>
     }
 }
 
-// noinspection HtmlDeprecatedTag,XmlDeprecatedElement
-commander
-  .version('0.4', '-v, --version')
-  .usage('[OPTIONS]...')
-  .option('-s, --sector <filname>', 'File with sector definition', '')
-  .option('-o, --output <dir>', 'Directory for the output', 'output')
-  .parse(process.argv);
+const generateSector = async (sector, outputDir) => {
+  let index = 0;
+  const travellerMap = new TravellerMap(sector.name);
+  travellerMap.X = sector.X;
+  travellerMap.Y = sector.Y;
+  travellerMap.regions = sector.regions ? sector.regions : [];
+  for (const subsector of sector.subsectors) {
+    index++;
+    travellerMap.subSectors[subsector.index] = subsector.name;
+    generateSubsector(outputDir, sector, subsector, index, travellerMap);
+  }
+  return travellerMap;
+}
 
-(async () => {
-  const options = commander.opts()
-  const sector = yaml.load(fs.readFileSync(options.sector, 'utf8'));
-  sector.unusualChance = Math.sqrt(Math.abs(sector.X) + Math.abs(sector.Y));
-  sector.solarSystems = [];
+const createAndEmptySectorDirectories = (outputFolder, sectorName) => {
+  const mapDir = `${outputFolder}/maps`;
+  if (!fs.existsSync(mapDir))
+    fs.mkdirSync(mapDir, { recursive: true });
 
-  console.log(`Generating ${sector.name}`);
+  const refereeMapDir = `${outputFolder}/referee-maps`;
+  if (!fs.existsSync(refereeMapDir))
+    fs.mkdirSync(refereeMapDir, { recursive: true });
 
+  const outputDir = `${outputFolder}/${sectorName}`;
+  if (!fs.existsSync(outputDir))
+    fs.mkdirSync(outputDir, { recursive: true });
+  else
+    fs.readdirSync(outputDir).forEach(f => fs.rmSync(`${outputDir}/${f}`));
+
+  return {
+    mapDir,
+    outputDir,
+    refereeMapDir
+  }
+}
+
+async function setUpSectorInDatabase(sector) {
   await knex('solar_system')
-    .whereIn('sector_id', function() {
+    .whereIn('sector_id', function () {
       this.select('id')
         .from('sector')
         .where({
@@ -211,31 +232,32 @@ commander
     .merge()
     .returning("*");
   const db_sector = inserted[0];
+  return db_sector;
+}
 
-  const mapDir = `${options.output}/maps`;
-  if (!fs.existsSync(mapDir))
-    fs.mkdirSync(mapDir, { recursive: true });
 
-  const refereeMapDir = `${options.output}/referee-maps`;
-  if (!fs.existsSync(refereeMapDir))
-    fs.mkdirSync(refereeMapDir, { recursive: true });
+// noinspection HtmlDeprecatedTag,XmlDeprecatedElement
+commander
+  .version('0.4', '-v, --version')
+  .usage('[OPTIONS]...')
+  .option('-s, --sector <filname>', 'File with sector definition', '')
+  .option('-o, --output <dir>', 'Directory for the output', 'output')
+  .parse(process.argv);
 
-  const outputDir = `${options.output}/${sector.name}`;
-  if (!fs.existsSync(outputDir))
-    fs.mkdirSync(outputDir, { recursive: true });
-  else
-    fs.readdirSync(outputDir).forEach(f => fs.rmSync(`${outputDir}/${f}`));
+(async () => {
+  const options = commander.opts()
+  const sector = yaml.load(fs.readFileSync(options.sector, 'utf8'));
+  sector.unusualChance = Math.sqrt(Math.abs(sector.X) + Math.abs(sector.Y));
+  sector.solarSystems = [];
 
-  let index = 0;
-  const travellerMap = new TravellerMap(sector.name);
-  travellerMap.X = sector.X;
-  travellerMap.Y = sector.Y;
-  travellerMap.regions = sector.regions ? sector.regions : [];
-  for (const subsector of sector.subsectors) {
-    index++;
-    travellerMap.subSectors[subsector.index] = subsector.name;
-    generateSubsector(outputDir, sector, subsector, index, travellerMap);
-  }
+  console.log(`Generating ${sector.name}`);
+
+  const db_sector = await setUpSectorInDatabase(sector);
+
+  const {mapDir, refereeMapDir, outputDir} = createAndEmptySectorDirectories(options.output, sector.name)
+
+  const travellerMap = await generateSector(sector, outputDir);
+
   for (const solar_system of sector.solarSystems) {
     await knex('solar_system').insert({
       sector_id: db_sector.id,
@@ -252,20 +274,26 @@ commander
       remarks: solar_system.remarks,
       native_sophont: solar_system.hasNativeSophont,
       extinct_sophont: solar_system.hasExtinctSophont,
-      primary_star: solar_system.primaryStar,
+      primary_star: toJSON(solar_system.primaryStar),
       main_world: solar_system.mainWorld,
       stars: JSON.stringify(solar_system.starsSummary()),
     });
-
   }
 
   await dumpStats(sector, outputDir);
+
   await dumpRefereeReference(sector, outputDir);
+
   fs.writeFileSync(`${outputDir}/systems.csv`, travellerMap.systemDump());
+
   fs.writeFileSync(`${outputDir}/referee-systems.csv`, travellerMap.systemDump(true));
+
   fs.writeFileSync(`${outputDir}/meta.xml`, travellerMap.metaDataDump());
+
   fs.writeFileSync(`${outputDir}/referee-meta.xml`, travellerMap.metaDataDump(true));
+
   await dumpSurveyIndex(sector, outputDir);
+
   await createMap({
     systems: travellerMap.systemDump(true),
     meta: travellerMap.metaDataDump(true),
@@ -274,6 +302,7 @@ commander
     sectorName: sector.name,
     forReferee: true
   });
+
   await createMap({
     systems: travellerMap.systemDump(),
     meta: travellerMap.metaDataDump(),
