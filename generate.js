@@ -231,8 +231,7 @@ async function setUpSectorInDatabase(sector) {
   }).onConflict(['x', 'y'])
     .merge()
     .returning("*");
-  const db_sector = inserted[0];
-  return db_sector;
+  return inserted[0];
 }
 
 
