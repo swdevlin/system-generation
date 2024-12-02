@@ -55,6 +55,11 @@ const threeD6 = () => {
   return d6() + d6() + d6();
 }
 
+
+const d66 = () => {
+  return d6()* 10 + d6();
+}
+
 const twoD6 = () => {
   return d6() + d6();
 }
@@ -88,6 +93,7 @@ module.exports = {
   d6: d6,
   d8: d8,
   d10: d10,
+  d66: d66,
   d100: d100,
   twoD6: twoD6,
   threeD6: threeD6,
