@@ -139,8 +139,6 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap) =>
       else
         solarSystem.surveyIndex = si;
 
-      const primary = solarSystem.primaryStar;
-
       solarSystem.determineAvailableOrbits();
 
       if (defined) {
