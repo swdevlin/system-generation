@@ -49,15 +49,6 @@ const dumpStats = async (sector, outputDir) => {
   fs.writeFileSync(`${outputDir}/stats.yaml`, yaml.dump(stats));
 }
 
-const dumpSurveyIndex = async (sector, outputDir) => {
-  const surveyIndex = {};
-  for (const solarSystem of sector.solarSystems) {
-    const key = sector.X + '.' + sector.Y + '.' + solarSystem.coordinates;
-    surveyIndex[key] = solarSystem.surveyIndex;
-  }
-  fs.writeFileSync(`${outputDir}/surveyIndex.json`, JSON.stringify(surveyIndex));
-}
-
 const dumpRefereeReference = async (sector, outputDir) => {
   const reference = refereeReference(sector);
   fs.writeFileSync(`${outputDir}/referee.csv`, reference.join('\n'));
@@ -288,8 +279,6 @@ commander
   fs.writeFileSync(`${outputDir}/meta.xml`, travellerMap.metaDataDump());
 
   fs.writeFileSync(`${outputDir}/referee-meta.xml`, travellerMap.metaDataDump(true));
-
-  await dumpSurveyIndex(sector, outputDir);
 
   await createMap({
     systems: travellerMap.systemDump(true),

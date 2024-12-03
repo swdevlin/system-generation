@@ -6,7 +6,7 @@ const {assignTradeCodes} = require("../economics/assignTradeCodes");
 const {getBoolFromEnv} = require("../utils");
 
 const assignSocialCharacteristics = (star, planet) => {
-  console.log('assigning social characteristics');
+  console.log('  assigning social characteristics');
   assignPopulation(star, planet);
 
   do {

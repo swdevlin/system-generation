@@ -649,7 +649,7 @@ class SolarSystem {
     } catch(err) {
       if (err instanceof TypeError) {
         this._mainWorld = null;
-        console.log('no main world');
+        console.log(`  ${this.sector.name} ${this.coordinates} has no main world`);
       }
     }
     return this._mainWorld;

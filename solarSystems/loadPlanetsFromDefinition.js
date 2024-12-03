@@ -24,6 +24,10 @@ const assignBodies = (star, definition, solarSystem) => {
   let orbitIndex;
   do {
     star.resetNonStarBodies(definition.bodies.length+loops);
+    if (star.occupiedOrbits.length === 0) {
+      console.log(`${solarSystem.sector} ${solarSystem.coordinates} ${definition.type} has no possible orbits`);
+      return;
+    }
 
     orbitIndex = 0;
     for (const body of definition.bodies) {
