@@ -1,5 +1,5 @@
 const {twoD6} = require("../dice");
-const {assignStarport} = require("./assignStarport");
+const {assignNativeSophontStarport} = require("./assignStarport");
 const {assignNativeSophontTechLevel} = require("./assignTechLevel");
 const assignPopulation = require("../population/assignPopulation");
 const {assignTradeCodes} = require("../economics/assignTradeCodes");
@@ -22,7 +22,7 @@ const assignSocialCharacteristics = (star, planet) => {
   assignNativeSophontTechLevel(star, planet);
 
   // todo: switch for native vs RAW
-  assignStarport(planet);
+  assignNativeSophontStarport(planet);
 
   assignTradeCodes(planet);
 }

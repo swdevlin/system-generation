@@ -8,15 +8,27 @@ subsectors:
   - name: Nif A
     type: MODERATE
     index: A
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
   - name: Nif B
     type: MODERATE
     index: B
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
   - name: Nif C
     type: MODERATE
     index: C
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
   - name: Nif D
     type: MODERATE
     index: D
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
   - name: Nif E
     type: STANDARD
     index: E

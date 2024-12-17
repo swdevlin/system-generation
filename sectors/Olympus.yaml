@@ -4,6 +4,7 @@ X: -20
 Y: -8
 unusualChance: 1
 defaultSI: 3
+populated: true
 subsectors:
   - name: Oly A
     type: STANDARD

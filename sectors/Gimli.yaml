@@ -8,27 +8,51 @@ subsectors:
   - name: Gimli A
     type: MODERATE
     index: A
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
   - name: Gimli B
     type: MODERATE
     index: B
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
   - name: Gimli C
     type: MODERATE
     index: C
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
   - name: Gimli D
     type: MODERATE
     index: D
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
   - name: Gimli E
     type: STANDARD
     index: E
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
   - name: Gimli F
     type: MODERATE
     index: F
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
   - name: Gimli G
     type: MODERATE
     index: G
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
   - name: Gimli H
     type: STANDARD
     index: H
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
   - name: Gimli I
     type: MODERATE
     index: I
@@ -38,6 +62,9 @@ subsectors:
   - name: Gimli K
     type: MODERATE
     index: K
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
   - name: Gimli L
     type: MODERATE
     index: L

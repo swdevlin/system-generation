@@ -51,5 +51,8 @@ subsectors:
     type: MODERATE
     index: O
   - name: Cath P
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
     type: STANDARD
     index: P

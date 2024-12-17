@@ -14,7 +14,7 @@ function starportDMs(planet) {
   return dm;
 }
 
-function assignStarport(planet) {
+function assignNativeSophontStarport(planet) {
   if (planet.techLevel < 9)
     planet.starPort = 'X';
   else {
@@ -34,7 +34,32 @@ function assignStarport(planet) {
   }
 }
 
+function determineStarport(planet) {
+  let roll = twoD6() + starportDMs(planet);
+  if (planet.population.code <= 2)
+    roll -= 2;
+  else if (planet.population.code === 3 || planet.population.code === 4)
+    roll -= 1;
+  else if (planet.population.code === 8 || planet.population.code === 9)
+    roll += 1;
+  else if (planet.population.code >= 10)
+    roll += 2;
+  if (roll <= 2)
+    return 'X';
+  else if (roll <= 4)
+    return 'E';
+  else if (roll <= 6)
+    return 'D';
+  else if (roll <= 8)
+    return 'C';
+  else if (roll <= 10)
+    return 'B';
+  else
+    return 'A';
+}
+
 module.exports = {
-  assignStarport: assignStarport,
+  assignNativeSophontStarport: assignNativeSophontStarport,
+  determineStarport: determineStarport,
   starportDMs: starportDMs,
 };

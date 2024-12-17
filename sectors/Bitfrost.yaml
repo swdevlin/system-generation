@@ -20,6 +20,9 @@ subsectors:
   - name: Bit E
     type: STANDARD
     index: E
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
   - name: Bit F
     type: STANDARD
     index: F
@@ -32,24 +35,48 @@ subsectors:
   - name: Bit I
     type: MODERATE
     index: I
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
   - name: Bit J
     type: STANDARD
     index: J
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
   - name: Bit K
     type: MODERATE
     index: K
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
   - name: Bit L
     type: STANDARD
     index: L
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
   - name: Bit M
     type: STANDARD
     index: M
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
   - name: Bit N
     type: MODERATE
     index: N
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
   - name: Bit O
     type: MODERATE
     index: O
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
   - name: Bit P
     type: STANDARD
     index: P
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12

@@ -32,24 +32,48 @@ subsectors:
   - name: Valhol I
     type: MODERATE
     index: I
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
   - name: Valhol J
     type: STANDARD
     index: J
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
   - name: Valhol K
     type: STANDARD
     index: K
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
   - name: Valhol L
     type: MODERATE
     index: L
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
   - name: Valhol M
     type: STANDARD
     index: M
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
   - name: Valhol N
     type: LOW
     index: N
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
   - name: Valhol O
     type: MODERATE
     index: O
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
   - name: Valhol P
     type: STANDARD
     index: P
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12

@@ -29,6 +29,8 @@ const superEarthWorldSize = require("../terrestrialPlanet/superEarthWorldSize");
 const assignPhysicalCharacteristics = require("../terrestrialPlanet/assignPhysicalCharacteristics");
 const assignSocialCharacteristics = require("../terrestrialPlanet/assignSocialCharacteristics");
 const summaryBlock = require("../stars/summaryBlock");
+const {determineStarport} = require("../terrestrialPlanet/assignStarport");
+const {techLevelDMs} = require("../terrestrialPlanet/assignTechLevel");
 
 const Random = require("random-js").Random;
 const r = new Random();
@@ -306,6 +308,17 @@ class SolarSystem {
           for (const moon of stellarObject.moons)
             assignMoonAtmosphere(star, stellarObject, moon);
         }
+  }
+
+  assignMainWorldSocialCharacteristics(limits) {
+    const mainWorld = this.mainWorld;
+    if (!mainWorld)
+      return;
+    mainWorld.population.code = Math.min(limits.maxPopulationCode, Math.max(limits.minPopulationCode, twoD6()));
+    mainWorld.governmentCode = Math.max(twoD6() - 7 + mainWorld.population.code, 0);
+    mainWorld.lawLevelCode = Math.max(twoD6() - 7 + mainWorld.governmentCode, 0);
+    mainWorld.starport = determineStarport(mainWorld);
+    mainWorld.techLevel = Math.min(limits.maxTechLevel, Math.max(limits.minTechLevel, d6() + techLevelDMs(mainWorld)));
   }
 
   assignBiomass() {

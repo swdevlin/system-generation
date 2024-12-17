@@ -39,6 +39,15 @@ function techLevelDMs(planet) {
   else if (planet.governmentCode === 14)
     dm -= 2;
 
+  if (planet.starport === 'A')
+    dm += 6;
+  else if (planet.starport === 'B')
+    dm += 4;
+  else if (planet.starport === 'C')
+    dm += 2;
+  else if (planet.starport === 'X')
+    dm -= 4;
+
   return dm;
 }
 

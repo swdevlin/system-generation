@@ -44,12 +44,24 @@ subsectors:
   - name: Hver M
     type: STANDARD
     index: M
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
   - name: Hver N
     type: STANDARD
     index: N
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
   - name: Hver O
     type: MODERATE
     index: O
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
   - name: Hver P
     type: STANDARD
     index: P
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12

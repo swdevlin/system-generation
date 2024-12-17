@@ -4,7 +4,7 @@ const chai = require('chai');
 
 const TerrestrialPlanet = require("../terrestrialPlanet/terrestrialPlanet");
 const {clearCache, ROLL_CACHE} = require("../dice");
-const {assignStarport, starportDMs} = require("../terrestrialPlanet/assignStarport");
+const {starportDMs, assignNativeSophontStarport} = require("../terrestrialPlanet/assignStarport");
 
 chai.should();
 
@@ -19,7 +19,7 @@ describe("Starport tests", function () {
   it("tech level less than 9 has no starport", function() {
     planet.population.code = 9;
     planet.techLevel = 8;
-    assignStarport(planet);
+    assignNativeSophontStarport(planet);
     planet.starPort.should.equal('X')
   });
 
@@ -28,7 +28,7 @@ describe("Starport tests", function () {
     ROLL_CACHE.push(2);
     planet.population.code = 7;
     planet.techLevel = 9;
-    assignStarport(planet);
+    assignNativeSophontStarport(planet);
     planet.starPort.should.equal('X')
   });
 
@@ -37,7 +37,7 @@ describe("Starport tests", function () {
     ROLL_CACHE.push(4);
     planet.population.code = 7;
     planet.techLevel = 9;
-    assignStarport(planet);
+    assignNativeSophontStarport(planet);
     planet.starPort.should.equal('E')
   });
 
@@ -46,7 +46,7 @@ describe("Starport tests", function () {
     ROLL_CACHE.push(6);
     planet.population.code = 7;
     planet.techLevel = 9;
-    assignStarport(planet);
+    assignNativeSophontStarport(planet);
     planet.starPort.should.equal('D')
   });
 
@@ -55,7 +55,7 @@ describe("Starport tests", function () {
     ROLL_CACHE.push(8);
     planet.population.code = 7;
     planet.techLevel = 9;
-    assignStarport(planet);
+    assignNativeSophontStarport(planet);
     planet.starPort.should.equal('C')
   });
 
@@ -64,7 +64,7 @@ describe("Starport tests", function () {
     ROLL_CACHE.push(10);
     planet.population.code = 7;
     planet.techLevel = 9;
-    assignStarport(planet);
+    assignNativeSophontStarport(planet);
     planet.starPort.should.equal('B')
   });
 
@@ -73,7 +73,7 @@ describe("Starport tests", function () {
     ROLL_CACHE.push(11);
     planet.population.code = 7;
     planet.techLevel = 9;
-    assignStarport(planet);
+    assignNativeSophontStarport(planet);
     planet.starPort.should.equal('A')
   });
 

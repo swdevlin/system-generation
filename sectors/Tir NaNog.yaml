@@ -4,6 +4,9 @@ X: -21
 Y: -8
 unusualChance: 1
 defaultSI: 3
+populated: true
+minTechLevel: 5
+maxTechLevel: 12
 subsectors:
   - name: Tir A
     type: SPARSE
