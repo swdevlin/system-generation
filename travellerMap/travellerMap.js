@@ -54,6 +54,8 @@ class TravellerMap {
       </Subsectors>
       <Allegiances>
         <Allegiance Code="NaHu" Base="Na">Non-Aligned, Human-dominated</Allegiance>
+        <Allegiance Code="GR" Base="Gr">Grand Republic</Allegiance>
+        <Allegiance Code="C" Base="C">Commonwealth</Allegiance>
         <Allegiance Code="NS" Base="Ns">New Sophont</Allegiance>
      </Allegiances>
     <Borders></Borders>
@@ -83,7 +85,7 @@ class TravellerMap {
     return xml;
   }
 
-  addSystem(solarSystem) {
+  playerMapLine(solarSystem) {
     const mw = solarSystem.mainWorld;
 
     // hex
@@ -137,19 +139,78 @@ class TravellerMap {
 
     // worlds
     line += solarSystem.terrestrialPlanets;
+    return line;
+  }
+
+  refereeMapLine(solarSystem) {
+    const mw = solarSystem.mainWorld;
+
+    // hex
+    let line = solarSystem.coordinates + this.sep;
+
+    // name
+    if (solarSystem.name)
+      line += solarSystem.name;
+    else
+      line += mw ? mw.uwp : '???????-?';
+    line += this.sep;
+
+    // uwp
+    line += mw ? mw.uwp + this.sep : '???????-?';
+
+    // bases
+    line += solarSystem.bases + this.sep;
+
+    // remarks
+    line += solarSystem.remarks + this.sep;
+
+    // zone
+    line += '' + this.sep;
+
+    // PBG
+    line += '0' + solarSystem.planetoidBelts + solarSystem.gasGiants + this.sep;
+
+    // allegiance
+    line += solarSystem.allegiance ? solarSystem.allegiance : '';
+    line += this.sep;
+
+    // Stars
+    let stars = ''
+    for (const star of solarSystem.stars) {
+      stars += `${star.stellarType}${star.subtype? star.subtype : ''} ${star.stellarClass} `
+    }
+    line += stars + this.sep;
+
+    // importance
+    line += '{}' + this.sep;
+
+    // Economic
+    line += '()' + this.sep;
+
+    // Cultural
+    line += '[]' + this.sep;
+
+    // nobility
+    line += this.sep;
+
+    // worlds
+    line += solarSystem.terrestrialPlanets;
+
+    return line;
+  }
+
+  addSystem(solarSystem) {
+    let line = this.playerMapLine(solarSystem);
     this.systems.push(line);
 
-    if (mw)
-      line = line.replace('???????-?', mw.uwp);
+    line = this.refereeMapLine(solarSystem);
+    this.refereeSystems.push(line);
+
     if (solarSystem.hasNativeSophont)
       this.nativeSophonts.push(solarSystem);
+
     else if (solarSystem.hasExtinctSophont)
       this.extinctSophonts.push(solarSystem);
-
-    if (mw)
-      line = line.replace(solarSystem.starsString(), mw.uwp);
-
-    this.refereeSystems.push(line);
   }
 
 }

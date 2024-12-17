@@ -11,18 +11,21 @@ subsectors:
     populated: true
     minTechLevel: 5
     maxTechLevel: 12
+    allegiance: GR
   - name: Gimli B
     type: MODERATE
     index: B
     populated: true
     minTechLevel: 5
     maxTechLevel: 12
+    allegiance: GR
   - name: Gimli C
     type: MODERATE
     index: C
     populated: true
     minTechLevel: 5
     maxTechLevel: 12
+    allegiance: GR
   - name: Gimli D
     type: MODERATE
     index: D

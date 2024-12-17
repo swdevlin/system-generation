@@ -47,21 +47,25 @@ subsectors:
     populated: true
     minTechLevel: 5
     maxTechLevel: 12
+    allegiance: GR
   - name: Hver N
     type: STANDARD
     index: N
     populated: true
     minTechLevel: 5
     maxTechLevel: 12
+    allegiance: GR
   - name: Hver O
     type: MODERATE
     index: O
     populated: true
     minTechLevel: 5
     maxTechLevel: 12
+    allegiance: GR
   - name: Hver P
     type: STANDARD
     index: P
     populated: true
     minTechLevel: 5
     maxTechLevel: 12
+    allegiance: GR

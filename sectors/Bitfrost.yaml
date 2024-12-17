@@ -23,6 +23,7 @@ subsectors:
     populated: true
     minTechLevel: 5
     maxTechLevel: 12
+    allegiance: C
   - name: Bit F
     type: STANDARD
     index: F
@@ -38,6 +39,7 @@ subsectors:
     populated: true
     minTechLevel: 5
     maxTechLevel: 12
+    allegiance: C
   - name: Bit J
     type: STANDARD
     index: J
@@ -50,33 +52,39 @@ subsectors:
     populated: true
     minTechLevel: 5
     maxTechLevel: 12
+    allegiance: GR
   - name: Bit L
     type: STANDARD
     index: L
     populated: true
     minTechLevel: 5
     maxTechLevel: 12
+    allegiance: GR
   - name: Bit M
     type: STANDARD
     index: M
     populated: true
     minTechLevel: 5
     maxTechLevel: 12
+    allegiance: GR
   - name: Bit N
     type: MODERATE
     index: N
     populated: true
     minTechLevel: 5
     maxTechLevel: 12
+    allegiance: GR
   - name: Bit O
     type: MODERATE
     index: O
     populated: true
     minTechLevel: 5
     maxTechLevel: 12
+    allegiance: GR
   - name: Bit P
     type: STANDARD
     index: P
     populated: true
     minTechLevel: 5
     maxTechLevel: 12
+    allegiance: GR

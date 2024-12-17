@@ -47,33 +47,39 @@ subsectors:
     populated: true
     minTechLevel: 5
     maxTechLevel: 12
+    allegiance: GR
   - name: Valhol L
     type: MODERATE
     index: L
     populated: true
     minTechLevel: 5
     maxTechLevel: 12
+    allegiance: GR
   - name: Valhol M
     type: STANDARD
     index: M
     populated: true
     minTechLevel: 5
     maxTechLevel: 12
+    allegiance: GR
   - name: Valhol N
     type: LOW
     index: N
     populated: true
     minTechLevel: 5
     maxTechLevel: 12
+    allegiance: GR
   - name: Valhol O
     type: MODERATE
     index: O
     populated: true
     minTechLevel: 5
     maxTechLevel: 12
+    allegiance: GR
   - name: Valhol P
     type: STANDARD
     index: P
     populated: true
     minTechLevel: 5
     maxTechLevel: 12
+    allegiance: GR

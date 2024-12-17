@@ -76,6 +76,13 @@ const isPopulated = (sector, subsector) => {
     return sector.populated === undefined ? false: sector.populated;
 }
 
+const determineAllegiance = (sector, subsector) => {
+  if (subsector.allegiance !== undefined)
+    return subsector.allegiance;
+  else
+    return sector.allegiance === undefined ? null: sector.allegiance;
+}
+
 const determineSocialLimits = (sector, subsector) => {
   const limits = {
     minTechLevel: 0,
@@ -113,6 +120,8 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap) =>
   let si = defaultSI(sector);
   const systemsArePopulated = isPopulated(sector, subsector);
   const limits = determineSocialLimits(sector, subsector);
+  const allegiance = determineAllegiance(sector, subsector);
+
   for (let col=1; col <= 8; col++)
     for (let row=1; row <= 10; row++) {
       let hasSystem = false;
@@ -181,6 +190,8 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap) =>
       solarSystem.assignHabitabilityRatings();
       if (systemsArePopulated)
         solarSystem.assignMainWorldSocialCharacteristics(limits);
+      if (solarSystem.mainWorld && solarSystem.mainWorld.population.code > 0)
+        solarSystem.allegiance = allegiance;
       fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-map.svg`, solarSystem.systemMap());
       const text = `${sector.name} ${solarSystem.coordinates} ${solarSystem.primaryStar.textDump(0, '', '', 0, [1])}`;
       fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}.txt`, text);

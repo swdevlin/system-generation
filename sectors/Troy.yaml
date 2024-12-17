@@ -8,15 +8,31 @@ subsectors:
   - name: Troy A
     type: MODERATE
     index: A
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
+    allegiance: GR
   - name: Troy B
     type: MODERATE
     index: B
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
+    allegiance: GR
   - name: Troy C
     type: MODERATE
     index: C
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
+    allegiance: GR
   - name: Troy D
     type: MODERATE
     index: D
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
+    allegiance: GR
   - name: Troy E
     type: MODERATE
     index: E
@@ -26,12 +42,24 @@ subsectors:
   - name: Troy G
     type: MODERATE
     index: G
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
+    allegiance: GR
   - name: Troy H
     type: MODERATE
     index: H
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
+    allegiance: GR
   - name: Troy I
     type: MODERATE
     index: I
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
+    allegiance: C
   - name: Troy J
     type: MODERATE
     index: J
@@ -44,6 +72,10 @@ subsectors:
   - name: Troy M
     type: MODERATE
     index: M
+    populated: true
+    minTechLevel: 5
+    maxTechLevel: 12
+    allegiance: C
   - name: Troy N
     type: STANDARD
     index: N

@@ -50,6 +50,7 @@ class SolarSystem {
     this.bases = '';
     this.remarks = '';
     this.surveyIndex = 0;
+    this.allegiance = null;
   }
 
   get x() {
@@ -317,7 +318,7 @@ class SolarSystem {
     mainWorld.population.code = Math.min(limits.maxPopulationCode, Math.max(limits.minPopulationCode, twoD6()));
     mainWorld.governmentCode = Math.max(twoD6() - 7 + mainWorld.population.code, 0);
     mainWorld.lawLevelCode = Math.max(twoD6() - 7 + mainWorld.governmentCode, 0);
-    mainWorld.starport = determineStarport(mainWorld);
+    mainWorld.starPort = determineStarport(mainWorld);
     mainWorld.techLevel = Math.min(limits.maxTechLevel, Math.max(limits.minTechLevel, d6() + techLevelDMs(mainWorld)));
   }
 

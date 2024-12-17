@@ -54,5 +54,6 @@ subsectors:
     populated: true
     minTechLevel: 5
     maxTechLevel: 12
+    allegiance: C
     type: STANDARD
     index: P
