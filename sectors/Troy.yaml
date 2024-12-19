@@ -8,74 +8,147 @@ subsectors:
   - name: Troy A
     type: MODERATE
     index: A
-    populated: true
-    minTechLevel: 5
-    maxTechLevel: 12
-    allegiance: GR
+    populated:
+      type: split-horizontal
+      demarcation: 6
+      before:
+        minTechLevel: 5
+        maxTechLevel: 12
+        allegiance: GR
+      after:
+        minTechLevel: 5
+        maxTechLevel: 12
+        allegiance: C
   - name: Troy B
     type: MODERATE
     index: B
-    populated: true
-    minTechLevel: 5
-    maxTechLevel: 12
-    allegiance: GR
+    populated:
+      type: split-horizontal
+      demarcation: 8
+      before:
+        minTechLevel: 5
+        maxTechLevel: 12
+        allegiance: GR
+      after:
+        minTechLevel: 5
+        maxTechLevel: 12
+        allegiance: C
   - name: Troy C
     type: MODERATE
     index: C
-    populated: true
-    minTechLevel: 5
-    maxTechLevel: 12
-    allegiance: GR
+    populated:
+      type: full
+      minTechLevel: 5
+      maxTechLevel: 12
+      allegiance: GR
   - name: Troy D
     type: MODERATE
     index: D
-    populated: true
-    minTechLevel: 5
-    maxTechLevel: 12
-    allegiance: GR
+    populated:
+      type: full
+      minTechLevel: 5
+      maxTechLevel: 12
+      allegiance: GR
   - name: Troy E
     type: MODERATE
     index: E
+    populated:
+      type: split-horizontal
+      demarcation: 3
+      before:
+        minTechLevel: 5
+        maxTechLevel: 12
+        allegiance: GR
+      after:
+        minTechLevel: 5
+        maxTechLevel: 12
+        allegiance: C
   - name: Troy F
     type: MODERATE
     index: F
+    populated:
+      type: split-horizontal
+      demarcation: 7
+      before:
+        minTechLevel: 5
+        maxTechLevel: 12
+        allegiance: GR
+      after:
+        minTechLevel: 5
+        maxTechLevel: 12
+        allegiance: C
   - name: Troy G
     type: MODERATE
     index: G
-    populated: true
-    minTechLevel: 5
-    maxTechLevel: 12
-    allegiance: GR
+    populated:
+      type: full
+      minTechLevel: 5
+      maxTechLevel: 12
+      allegiance: GR
   - name: Troy H
     type: MODERATE
     index: H
-    populated: true
-    minTechLevel: 5
-    maxTechLevel: 12
-    allegiance: GR
+    populated:
+      type: full
+      minTechLevel: 5
+      maxTechLevel: 12
+      allegiance: GR
   - name: Troy I
     type: MODERATE
     index: I
-    populated: true
-    minTechLevel: 5
-    maxTechLevel: 12
-    allegiance: C
+    populated:
+      type: full
+      minTechLevel: 5
+      maxTechLevel: 12
+      allegiance: C
   - name: Troy J
     type: MODERATE
     index: J
+    populated:
+      type: split-vertical
+      demarcation: 7
+      before:
+        minTechLevel: 5
+        maxTechLevel: 12
+        allegiance: C
+      after:
+        allegiance: null
   - name: Troy K
     type: MODERATE
     index: K
+    populated:
+      type: split-vertical
+      demarcation: 7
+      before:
+        allegiance: null
+      after:
+        minTechLevel: 5
+        maxTechLevel: 12
+        allegiance: GR
   - name: Troy L
     type: MODERATE
     index: L
+    populated:
+      type: split-horizontal
+      demarcation: 4
+      before:
+        minTechLevel: 5
+        maxTechLevel: 12
+        allegiance: GR
+      after:
+        allegiance: null
   - name: Troy M
     type: MODERATE
     index: M
-    populated: true
-    minTechLevel: 5
-    maxTechLevel: 12
-    allegiance: C
+    populated:
+      type: split-vertical
+      demarcation: 5
+      before:
+        allegiance: C
+        minTechLevel: 5
+        maxTechLevel: 12
+      after:
+        allegiance: null
   - name: Troy N
     type: STANDARD
     index: N

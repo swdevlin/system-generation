@@ -10,6 +10,7 @@ const terrestrialPlanetQuantity = require("../terrestrialPlanet/terrestrialPlane
 const fs = require("fs");
 const toJSON = require("../utils/toJSON");
 const {Random} = require("random-js");
+const Populated = require("../solarSystems/populated");
 
 const r = new Random();
 
@@ -69,58 +70,20 @@ const getPredefined = (subsector, col, row) => {
   return null;
 }
 
-const isPopulated = (sector, subsector) => {
-  if (subsector.populated !== undefined)
-    return subsector.populated;
+const getPopulated = (sector, subsector) => {
+  if (subsector.populated)
+    return new Populated(subsector.populated);
+  else if (sector.populated)
+    return new Populated(subsector.populated);
   else
-    return sector.populated === undefined ? false: sector.populated;
-}
-
-const determineAllegiance = (sector, subsector) => {
-  if (subsector.allegiance !== undefined)
-    return subsector.allegiance;
-  else
-    return sector.allegiance === undefined ? null: sector.allegiance;
-}
-
-const determineSocialLimits = (sector, subsector) => {
-  const limits = {
-    minTechLevel: 0,
-    maxTechLevel: 15,
-    minPopulationCode: 0,
-    maxPopulationCode: 15
-  };
-
-  if (subsector.minTechLevel !== undefined)
-    limits.minTechLevel = subsector.minTechLevel;
-  else if (sector.minTechLevel !== undefined)
-    limits.minTechLevel = sector.minTechLevel;
-
-  if (subsector.maxTechLevel !== undefined)
-    limits.maxTechLevel = subsector.maxTechLevel;
-  else if (sector.maxTechLevel !== undefined)
-    limits.maxTechLevel = sector.maxTechLevel;
-
-  if (subsector.minPopulationCode !== undefined)
-    limits.minPopulationCode = subsector.minPopulationCode;
-  else if (sector.minPopulationCode !== undefined)
-    limits.minPopulationCode = sector.minPopulationCode;
-
-  if (subsector.maxPopulationCode !== undefined)
-    limits.maxPopulationCode = subsector.maxPopulationCode;
-  else if (sector.maxPopulationCode !== undefined)
-    limits.maxPopulationCode = sector.maxPopulationCode;
-
-  return limits;
-}
+    return null;
+};
 
 const generateSubsector = (outputDir, sector, subsector, index, travellerMap) => {
   const rowOffset = ROW_OFFSETS[Math.ceil(index/4)];
   const colOffset = COL_OFFSETS[index % 4];
   let si = defaultSI(sector);
-  const systemsArePopulated = isPopulated(sector, subsector);
-  const limits = determineSocialLimits(sector, subsector);
-  const allegiance = determineAllegiance(sector, subsector);
+  const populated = getPopulated(sector, subsector);
 
   for (let col=1; col <= 8; col++)
     for (let row=1; row <= 10; row++) {
@@ -188,10 +151,9 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap) =>
       solarSystem.assignBiomass();
       solarSystem.assignResourceRatings();
       solarSystem.assignHabitabilityRatings();
-      if (systemsArePopulated)
-        solarSystem.assignMainWorldSocialCharacteristics(limits);
-      if (solarSystem.mainWorld && solarSystem.mainWorld.population.code > 0)
-        solarSystem.allegiance = allegiance;
+      const p = populated?.getAllegiance(row, col);
+      if (p && p.allegiance)
+        solarSystem.assignMainWorldSocialCharacteristics(p);
       fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-map.svg`, solarSystem.systemMap());
       const text = `${sector.name} ${solarSystem.coordinates} ${solarSystem.primaryStar.textDump(0, '', '', 0, [1])}`;
       fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}.txt`, text);

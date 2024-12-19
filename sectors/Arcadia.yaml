@@ -4,13 +4,24 @@ X: -20
 Y: -9
 unusualChance: 1
 defaultSI: 3
-populated: true
-minTechLevel: 5
-maxTechLevel: 12
+populated:
+  type: full
+  minTechLevel: 5
+  maxTechLevel: 12
+  allegiance: C
 subsectors:
   - name: Arc A
     type: MODERATE
     index: A
+    populated:
+      type: split-vertical
+      demarcation: 1
+      before:
+        allegiance: null
+      after:
+        minTechLevel: 5
+        maxTechLevel: 12
+        allegiance: C
   - name: Arc B
     type: MODERATE
     index: B
@@ -23,6 +34,15 @@ subsectors:
   - name: Arc E
     type: MODERATE
     index: E
+    populated:
+      type: split-vertical
+      demarcation: 1
+      before:
+        allegiance: null
+      after:
+        minTechLevel: 5
+        maxTechLevel: 12
+        allegiance: C
   - name: Arc F
     type: MODERATE
     index: F
@@ -56,3 +76,12 @@ subsectors:
   - name: Arc P
     type: MODERATE
     index: P
+    populated:
+      type: split-horizontal
+      demarcation: 8
+      before:
+        minTechLevel: 5
+        maxTechLevel: 12
+        allegiance: C
+      after:
+        allegiance: null

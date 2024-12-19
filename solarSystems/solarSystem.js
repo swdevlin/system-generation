@@ -35,6 +35,44 @@ const {techLevelDMs} = require("../terrestrialPlanet/assignTechLevel");
 const Random = require("random-js").Random;
 const r = new Random();
 
+const determineAllegiance = (sector, subsector) => {
+  if (subsector.allegiance !== undefined)
+    return subsector.allegiance;
+  else
+    return sector.allegiance === undefined ? null: sector.allegiance;
+}
+
+const determineSocialLimits = (sector, subsector) => {
+  const limits = {
+    minTechLevel: 0,
+    maxTechLevel: 15,
+    minPopulationCode: 0,
+    maxPopulationCode: 15
+  };
+
+  if (subsector.minTechLevel !== undefined)
+    limits.minTechLevel = subsector.minTechLevel;
+  else if (sector.minTechLevel !== undefined)
+    limits.minTechLevel = sector.minTechLevel;
+
+  if (subsector.maxTechLevel !== undefined)
+    limits.maxTechLevel = subsector.maxTechLevel;
+  else if (sector.maxTechLevel !== undefined)
+    limits.maxTechLevel = sector.maxTechLevel;
+
+  if (subsector.minPopulationCode !== undefined)
+    limits.minPopulationCode = subsector.minPopulationCode;
+  else if (sector.minPopulationCode !== undefined)
+    limits.minPopulationCode = sector.minPopulationCode;
+
+  if (subsector.maxPopulationCode !== undefined)
+    limits.maxPopulationCode = subsector.maxPopulationCode;
+  else if (sector.maxPopulationCode !== undefined)
+    limits.maxPopulationCode = sector.maxPopulationCode;
+
+  return limits;
+}
+
 class SolarSystem {
   constructor(name) {
     this.stars = [];
@@ -311,15 +349,16 @@ class SolarSystem {
         }
   }
 
-  assignMainWorldSocialCharacteristics(limits) {
+  assignMainWorldSocialCharacteristics(populated) {
     const mainWorld = this.mainWorld;
     if (!mainWorld)
       return;
-    mainWorld.population.code = Math.min(limits.maxPopulationCode, Math.max(limits.minPopulationCode, twoD6()));
+    mainWorld.population.code = Math.min(populated.maxPopulationCode, Math.max(populated.minPopulationCode, twoD6()));
     mainWorld.governmentCode = Math.max(twoD6() - 7 + mainWorld.population.code, 0);
     mainWorld.lawLevelCode = Math.max(twoD6() - 7 + mainWorld.governmentCode, 0);
     mainWorld.starPort = determineStarport(mainWorld);
-    mainWorld.techLevel = Math.min(limits.maxTechLevel, Math.max(limits.minTechLevel, d6() + techLevelDMs(mainWorld)));
+    mainWorld.techLevel = Math.min(populated.maxTechLevel, Math.max(populated.minTechLevel, d6() + techLevelDMs(mainWorld)));
+    this.allegiance = populated.allegiance;
   }
 
   assignBiomass() {

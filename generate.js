@@ -3,19 +3,10 @@ const Random = require("random-js").Random;
 const commander= require('commander');
 const yaml= require('js-yaml');
 const fs= require('fs');
-const {gasGiantQuantity} = require("./gasGiants");
-const {planetoidBeltQuantity} = require("./planetoidBelts");
-const SolarSystem = require("./solarSystems/solarSystem");
 const createMap = require("./travellerMap/createMap");
-const TravellerMap = require("./travellerMap/travellerMap");
 const computeStats = require("./solarSystems/computeStats");
 const refereeReference = require("./solarSystems/refereeReference");
-const terrestrialPlanetQuantity = require("./terrestrialPlanet/terrestrialPlanetQuantity");
 const toJSON = require("./utils/toJSON");
-const loadStarsFromDefinition = require("./solarSystems/loadStarsFromDefinition");
-const assignStars = require("./solarSystems/assignStars");
-const loadPlanetsFromDefinition = require("./solarSystems/loadPlanetsFromDefinition");
-const {STELLAR_TYPES} = require("./utils");
 const knex = require("./db/connection");
 const generateSector = require("./sector/generateSector");
 
@@ -124,6 +115,7 @@ commander
       primary_star: toJSON(solar_system.primaryStar),
       main_world: solar_system.mainWorld,
       stars: JSON.stringify(solar_system.starsSummary()),
+      allegiance: solar_system.allegiance,
     });
   }
 

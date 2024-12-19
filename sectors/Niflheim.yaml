@@ -8,30 +8,63 @@ subsectors:
   - name: Nif A
     type: MODERATE
     index: A
-    populated: true
-    minTechLevel: 5
-    maxTechLevel: 12
+    populated:
+      type: split-horizontal
+      demarcation: 4
+      before:
+        minTechLevel: 5
+        maxTechLevel: 12
+        allegiance: GR
+      after:
+        allegiance: null
   - name: Nif B
     type: MODERATE
     index: B
-    populated: true
-    minTechLevel: 5
-    maxTechLevel: 12
+    populated:
+      type: split-horizontal
+      demarcation: 4
+      before:
+        minTechLevel: 5
+        maxTechLevel: 12
+        allegiance: GR
+      after:
+        allegiance: null
   - name: Nif C
     type: MODERATE
     index: C
-    populated: true
-    minTechLevel: 5
-    maxTechLevel: 12
+    populated:
+      type: split-horizontal
+      demarcation: 4
+      before:
+        minTechLevel: 5
+        maxTechLevel: 12
+        allegiance: GR
+      after:
+        allegiance: null
   - name: Nif D
     type: MODERATE
     index: D
-    populated: true
-    minTechLevel: 5
-    maxTechLevel: 12
+    populated:
+      type: split-horizontal
+      demarcation: 3
+      before:
+        minTechLevel: 5
+        maxTechLevel: 12
+        allegiance: GR
+      after:
+        allegiance: null
   - name: Nif E
     type: STANDARD
     index: E
+    populated:
+      type: split-vertical
+      demarcation: 1
+      before:
+        minTechLevel: 5
+        maxTechLevel: 12
+        allegiance: GR
+      after:
+        allegiance: null
   - name: Nif F
     type: MODERATE
     index: F
@@ -44,6 +77,15 @@ subsectors:
   - name: Nif I
     type: MODERATE
     index: I
+    populated:
+      type: split-vertical
+      demarcation: 1
+      before:
+        minTechLevel: 5
+        maxTechLevel: 12
+        allegiance: GR
+      after:
+        allegiance: null
   - name: Nif J
     type: STANDARD
     index: J

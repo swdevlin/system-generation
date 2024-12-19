@@ -32,40 +32,80 @@ subsectors:
   - name: Hver I
     type: MODERATE
     index: I
+    populated:
+      type: split-horizontal
+      demarcation: 7
+      before:
+        allegiance: null
+      after:
+        minTechLevel: 5
+        maxTechLevel: 12
+        allegiance: GR
   - name: Hver J
     type: STANDARD
     index: J
+    populated:
+      type: split-horizontal
+      demarcation: 8
+      before:
+        allegiance: null
+      after:
+        minTechLevel: 5
+        maxTechLevel: 12
+        allegiance: GR
   - name: Hver K
     type: STANDARD
     index: K
+    populated:
+      type: split-horizontal
+      demarcation: 8
+      before:
+        allegiance: null
+      after:
+        minTechLevel: 5
+        maxTechLevel: 12
+        allegiance: GR
   - name: Hver L
     type: MODERATE
     index: L
+    populated:
+      type: split-horizontal
+      demarcation: 8
+      before:
+        allegiance: null
+      after:
+        minTechLevel: 5
+        maxTechLevel: 12
+        allegiance: GR
   - name: Hver M
     type: STANDARD
     index: M
-    populated: true
-    minTechLevel: 5
-    maxTechLevel: 12
-    allegiance: GR
+    populated:
+      type: full
+      minTechLevel: 5
+      maxTechLevel: 12
+      allegiance: GR
   - name: Hver N
     type: STANDARD
     index: N
-    populated: true
-    minTechLevel: 5
-    maxTechLevel: 12
-    allegiance: GR
+    populated:
+      type: full
+      minTechLevel: 5
+      maxTechLevel: 12
+      allegiance: GR
   - name: Hver O
     type: MODERATE
     index: O
-    populated: true
-    minTechLevel: 5
-    maxTechLevel: 12
-    allegiance: GR
+    populated:
+      type: full
+      minTechLevel: 5
+      maxTechLevel: 12
+      allegiance: GR
   - name: Hver P
     type: STANDARD
     index: P
-    populated: true
-    minTechLevel: 5
-    maxTechLevel: 12
-    allegiance: GR
+    populated:
+      type: full
+      minTechLevel: 5
+      maxTechLevel: 12
+      allegiance: GR

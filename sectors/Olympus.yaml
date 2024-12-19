@@ -4,10 +4,11 @@ X: -20
 Y: -8
 unusualChance: 1
 defaultSI: 3
-populated: true
-minTechLevel: 5
-maxTechLevel: 12
-allegiance: C
+populated:
+  type: full
+  minTechLevel: 5
+  maxTechLevel: 12
+  allegiance: C
 subsectors:
   - name: Oly A
     type: STANDARD
@@ -21,6 +22,15 @@ subsectors:
   - name: Oly D
     type: MODERATE
     index: D
+    populated:
+      type: split-horizontal
+      demarcation: 4
+      before:
+        allegiance: null
+      after:
+        minTechLevel: 5
+        maxTechLevel: 12
+        allegiance: C
   - name: Oly E
     type: MODERATE
     index: E
@@ -57,3 +67,14 @@ subsectors:
   - name: Oly P
     type: STANDARD
     index: P
+    populated:
+      type: split-vertical
+      demarcation: 8
+      before:
+        minTechLevel: 5
+        maxTechLevel: 12
+        allegiance: C
+      after:
+        minTechLevel: 5
+        maxTechLevel: 12
+        allegiance: GR

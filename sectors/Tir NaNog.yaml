@@ -4,14 +4,24 @@ X: -21
 Y: -8
 unusualChance: 1
 defaultSI: 3
-populated: true
-minTechLevel: 5
-maxTechLevel: 12
-allegiance: C
+populated:
+  type: full
+  minTechLevel: 5
+  maxTechLevel: 12
+  allegiance: C
 subsectors:
   - name: Tir A
     type: SPARSE
     index: A
+    populated:
+      type: split-horizontal
+      demarcation: 2
+      before:
+        allegiance: null
+      after:
+        minTechLevel: 5
+        maxTechLevel: 12
+        allegiance: C
   - name: Tir B
     type: LOW
     index: B
@@ -21,6 +31,15 @@ subsectors:
   - name: Tir D
     type: MODERATE
     index: D
+    populated:
+      type: split-horizontal
+      demarcation: 1
+      before:
+        allegiance: null
+      after:
+        minTechLevel: 5
+        maxTechLevel: 12
+        allegiance: C
   - name: Tir E
     type: LOW
     index: E
