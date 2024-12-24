@@ -29,7 +29,7 @@ class TravellerMap {
     <Sector xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Tags="MTU" Abbreviation="${this.abbreviation}">
       <Name>${this.sectorName}</Name>
       <Credits><![CDATA[
-        <b>${this.sectorName}</b> sector was designed by RadioFreeWABA for a Deepnight Endeavour campaign.
+        <b>${this.sectorName}</b> sector was designed by RadioFreeWABA for a Deepnight Revelation campaign.
       ]]></Credits>
       <X>${this.X}</X>
       <Y>${this.Y}</Y>
