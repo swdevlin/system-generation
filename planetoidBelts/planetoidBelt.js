@@ -39,7 +39,7 @@ class PlanetoidBelt extends StellarObject {
   }
 
   get uwp() {
-    return `${this.starPort}${toHex(this.size)}${toHex(this.atmosphere.code)}${toHex(this.hydrographics.code)}${toHex(this.population.code)}${toHex(this.governmentCode)}${toHex(this.lawLevelCode)}-${this.techLevel}`;
+    return `${this.starPort}${toHex(this.size)}${toHex(this.atmosphere.code)}${toHex(this.hydrographics.code)}${toHex(this.population.code)}${toHex(this.governmentCode)}${toHex(this.lawLevelCode)}-${toHex(this.techLevel)}`;
   }
 
 }
