@@ -1,7 +1,7 @@
 name: Central Bay Spinward
 abbreviation: CBayS
 X: -20
-Y: 2
+Y: -2
 unusualChance: 1
 defaultSI: 3
 subsectors:

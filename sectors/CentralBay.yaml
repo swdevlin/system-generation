@@ -1,7 +1,7 @@
 name: Central Bay
 abbreviation: CBay
 X: -19
-Y: 2
+Y: -2
 unusualChance: 1
 defaultSI: 3
 subsectors:
