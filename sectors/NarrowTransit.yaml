@@ -1,7 +1,7 @@
 name: Narrow Transit
 abbreviation: NT
 X: -17
-Y: 1
+Y: -2
 unusualChance: 1
 defaultSI: 3
 subsectors:
