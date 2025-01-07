@@ -1,0 +1,55 @@
+name: Far Shore 4
+abbreviation: Far4
+X: -15
+Y: -5
+unusualChance: 1
+defaultSI: 3
+subsectors:
+  - name: Far4 A
+    type: RIFT_FADE
+    index: A
+  - name: Far4 B
+    type: RIFT_FADE
+    index: B
+  - name: Far4 C
+    type: RIFT
+    index: C
+  - name: Far4 D
+    type: RIFT
+    index: D
+  - name: Far4 E
+    type: MINIMAL
+    index: E
+  - name: Far4 F
+    type: MINIMAL
+    index: F
+  - name: Far4 G
+    type: MINIMAL
+    index: G
+  - name: Far4 H
+    type: MINIMAL
+    index: H
+  - name: Far4 I
+    type: MINIMAL
+    index: I
+  - name: Far4 J
+    type: MINIMAL
+    index: J
+  - name: Far4 K
+    type: MINIMAL
+    index: K
+  - name: Far4 L
+    type: SPARSE
+    index: L
+  - name: Far4 M
+    type: SPARSE
+    index: M
+  - name: Far4 N
+    type: SPARSE
+    index: N
+  - name: Far4 O
+    type: LOW
+    index: O
+  - name: Far4 P
+    type: LOW
+    index: P
