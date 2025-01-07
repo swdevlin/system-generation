@@ -27,29 +27,29 @@ subsectors:
     type: MODERATE
     index: G
   - name: Naraka H
-    type: STANDARD
+    type: SPARSE
     index: H
   - name: Naraka I
-    type: STANDARD
+    type: MINIMAL
     index: I
   - name: Naraka J
-    type: STANDARD
+    type: MINIMAL
     index: J
   - name: Naraka K
     type: MODERATE
     index: K
   - name: Naraka L
-    type: STANDARD
+    type: MINIMAL
     index: L
   - name: Naraka M
-    type: MODERATE
+    type: RIFT
     index: M
   - name: Naraka N
-    type: STANDARD
+    type: RIFT
     index: N
   - name: Naraka O
-    type: MODERATE
+    type: RIFT
     index: O
   - name: Naraka P
-    type: STANDARD
+    type: RIFT
     index: P

@@ -33,23 +33,23 @@ subsectors:
     type: STANDARD
     index: I
   - name: Malvam J
-    type: STANDARD
+    type: MINIMAL
     index: J
   - name: Malvam K
     type: MODERATE
     index: K
   - name: Malvam L
-    type: STANDARD
+    type: MINIMAL
     index: L
   - name: Malvam M
-    type: MODERATE
+    type: RIFT
     index: M
   - name: Malvam N
-    type: STANDARD
+    type: RIFT
     index: N
   - name: Malvam O
-    type: MODERATE
+    type: RIFT
     index: O
   - name: Malvam P
-    type: STANDARD
+    type: RIFT
     index: P
