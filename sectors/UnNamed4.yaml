@@ -27,29 +27,29 @@ subsectors:
     type: DEEP_RIFT
     index: G
   - name: Un4 H
-    type: RIFT_FADE
+    type: RIFT
     index: H
   - name: Un4 I
-    type: DEEP_RIFT
+    type: RIFT
     index: I
   - name: Un4 J
-    type: DEEP_RIFT
+    type: RIFT_FADE
     index: J
   - name: Un4 K
     type: DEEP_RIFT
     index: K
   - name: Un4 L
-    type: DEEP_RIFT
+    type: MINIMAL
     index: L
   - name: Un4 M
-    type: DEEP_RIFT
+    type: RIFT
     index: M
   - name: Un4 N
-    type: DEEP_RIFT
+    type: RIFT
     index: N
   - name: Un4 O
-    type: RIFT_FADE
+    type: MINIMAL
     index: O
   - name: Un4 P
-    type: RIFT_FADE
+    type: SPARSE
     index: P

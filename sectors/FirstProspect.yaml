@@ -48,7 +48,7 @@ subsectors:
     type: DEEP_RIFT
     index: N
   - name: First O
-    type: EMPTY
+    type: DEEP_RIFT
     index: O
   - name: First P
     type: EMPTY

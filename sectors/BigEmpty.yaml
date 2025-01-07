@@ -30,13 +30,13 @@ subsectors:
     type: DEEP_RIFT
     index: H
   - name: BigE I
-    type: DEEP_RIFT
+    type: EMPTY
     index: I
   - name: BigE J
     type: DEEP_RIFT
     index: J
   - name: BigE K
-    type: DEEP_RIFT
+    type: EMPTY
     index: K
   - name: BigE L
     type: DEEP_RIFT
