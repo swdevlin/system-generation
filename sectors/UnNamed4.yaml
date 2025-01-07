@@ -6,7 +6,7 @@ unusualChance: 1
 defaultSI: 3
 subsectors:
   - name: Un4 A
-    type: RIFT
+    type: RIFT_FADE
     index: A
   - name: Un4 B
     type: RIFT_FADE
