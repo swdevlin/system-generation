@@ -1,5 +1,4 @@
 require('dotenv').config();
-const Random = require("random-js").Random;
 const commander= require('commander');
 const yaml= require('js-yaml');
 const fs= require('fs');
@@ -9,8 +8,6 @@ const refereeReference = require("./solarSystems/refereeReference");
 const toJSON = require("./utils/toJSON");
 const knex = require("./db/connection");
 const generateSector = require("./sector/generateSector");
-
-const r = new Random();
 
 const dumpStats = async (sector, outputDir) => {
   const stats = computeStats(sector);
@@ -101,6 +98,8 @@ commander
       sector_id: db_sector.id,
       x: solar_system.x,
       y: solar_system.y,
+      origin_x: sector.X * 32 + solar_system.x - 1,
+      origin_y: sector.Y * 40 - solar_system.y - 1,
       name: solar_system.name,
       scan_points: solar_system.scanPoints,
       survey_index: solar_system.surveyIndex,
