@@ -33,7 +33,7 @@ subsectors:
     type: RIFT
     index: I
   - name: Best J
-    type: RIFT_FADE
+    type: FADE
     index: J
   - name: Best K
     type: RIFT_FADE
