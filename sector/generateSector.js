@@ -88,7 +88,7 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap) =>
   for (let col=1; col <= 8; col++)
     for (let row=1; row <= 10; row++) {
       let hasSystem = false;
-      let defined = getPredefined(sector, col, row);
+      let defined = getPredefined(subsector, col, row);
       if (defined)
         hasSystem = true;
       else
@@ -123,7 +123,7 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap) =>
       } else {
         assignStars({solarSystem: solarSystem, unusualChance: unusualChance});
       }
-      if (solarSystem.onlyBrownDwarfs() || solarSystem.primaryStar.stellarType === STELLAR_TYPES.Anomaly)
+      if (solarSystem.onlyBrownDwarfs())
         solarSystem.surveyIndex = 0;
       else
         solarSystem.surveyIndex = si;
