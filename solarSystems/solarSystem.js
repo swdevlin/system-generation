@@ -216,6 +216,9 @@ class SolarSystem {
   }
 
   pickStar() {
+    if (this.totalOrbits === isNaN(this.totalOrbits))
+      return null;
+
     let roll = r.integer(1, this.totalOrbits);
     for (const star of this.stars) {
       roll -= star.totalOrbits;
