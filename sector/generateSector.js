@@ -158,6 +158,8 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap) =>
       const text = `${sector.name} ${solarSystem.coordinates} ${solarSystem.primaryStar.textDump(0, '', '', 0, [1])}`;
       fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}.txt`, text);
       let asJson = toJSON(solarSystem.primaryStar);
+      asJson.surveyIndex = solarSystem.surveyIndex;
+      asJson.scanPoints = solarSystem.scanPoints;
       asJson = JSON.stringify(asJson, null, 2);
       fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}.json`, asJson);
       fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-travel.html`, solarSystem.travelGrid());
