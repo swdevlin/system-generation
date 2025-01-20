@@ -216,16 +216,22 @@ class SolarSystem {
   }
 
   pickStar() {
-    if (this.totalOrbits === isNaN(this.totalOrbits))
+    if (isNaN(this.totalOrbits))
       return null;
 
-    let roll = r.integer(1, this.totalOrbits);
-    for (const star of this.stars) {
-      roll -= star.totalOrbits;
-      if (roll <= 0)
-        return star;
+    try {
+      let roll = r.integer(1, this.totalOrbits);
+      for (const star of this.stars) {
+        roll -= star.totalOrbits;
+        if (roll <= 0)
+          return star;
+      }
+      return null;
+    } catch (e) {
+      console.log(e);
+      console.log(this.totalOrbits);
+      console.log(this.coordinates);
     }
-    return null;
   }
 
   distributeObjects() {
