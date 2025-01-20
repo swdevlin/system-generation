@@ -158,7 +158,8 @@ class TravellerMap {
     line += this.sep;
 
     // uwp
-    line += mw ? mw.uwp + this.sep : '???????-?';
+    line += mw ? mw.uwp : '???????-?';
+    line += this.sep;
 
     // bases
     line += solarSystem.bases + this.sep;
