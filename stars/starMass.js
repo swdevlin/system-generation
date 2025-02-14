@@ -155,6 +155,8 @@ const starMass = (star) => {
     return m;
   } else if (star.stellarType === STELLAR_TYPES.WhiteDwarf) {
     return (twoD6()-1)/10 + die(10)/100;
+  } else if (star.stellarType === STELLAR_TYPES.Protostar) {
+    return (twoD6()-1)/10 + die(10)/100;
   } else if (star.stellarType === STELLAR_TYPES.BlackHole) {
     let m = 2.1 + d10()/10;
     let d;
