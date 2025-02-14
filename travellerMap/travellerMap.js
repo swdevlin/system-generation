@@ -100,9 +100,11 @@ class TravellerMap {
 
     // uwp
     if (solarSystem.known)
-      line += mw ? mw.uwp + this.sep : '???????-?';
+      line += mw ? mw.uwp : '???????-?';
     else
-      line += '???????-?' + this.sep;
+      line += '???????-?';
+
+    line += this.sep;
 
     // bases
     line += solarSystem.bases + this.sep;
