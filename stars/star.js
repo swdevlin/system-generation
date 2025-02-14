@@ -84,6 +84,8 @@ class Star extends StellarObject {
     this.age = Math.round(this.age * 100) / 100;
 
     this.colour = StarColour[this.stellarType];
+    if (this.colour === undefined)
+      this.colour = null;
 
     if (orbitType !== ORBIT_TYPES.PRIMARY)
       this.eccentricity = starEccentricity(this);
