@@ -1141,5 +1141,5 @@ subsectors:
             companion:
               type: M7
   - name: Last P
-    type: RIFT_FADE
+    type: DEEP_RIFT
     index: P

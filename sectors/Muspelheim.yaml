@@ -21,28 +21,28 @@ subsectors:
     type: STANDARD
     index: E
   - name: Musp F
-    type: STANDARD
+    type: MODERATE
     index: F
   - name: Musp G
     type: STANDARD
     index: G
   - name: Musp H
-    type: STANDARD
+    type: MODERATE
     index: H
   - name: Musp I
     type: STANDARD
     index: I
   - name: Musp J
-    type: STANDARD
+    type: LOW
     index: J
   - name: Musp K
-    type: STANDARD
+    type: MODERATE
     index: K
   - name: Musp L
     type: SPARSE
     index: L
   - name: Musp M
-    type: STANDARD
+    type: MODERATE
     index: M
   - name: Musp N
     type: STANDARD
