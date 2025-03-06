@@ -83,11 +83,38 @@ subsectors:
     type: LOW
     index: G
   - name: Deepn H
-    type: SPARSE
+    type: MINIMAL
     index: H
     required:
+      - x: 3
+        y: 6
+        name: HNI-A
+        surveyIndex: 0
+        known: false
+        primary:
+          type: G7
+          bodies:
+            - empty
+            - uwp: X200000-0
+            - uwp: Small Gas Giant
+              orbit: cold
+      - x: 4
+        y: 8
+        name: HNI-B
+        surveyIndex: 0
+        known: false
+        primary:
+          type: M3
+          companion:
+            type: M3
+          bodies:
+            - uwp: XEAA000-0
+              orbit: habitable
+            - uwp: X210000-0
+            - uwp: X000000-0
+            - uwp: Small Gas Giant
       - x: 6
-        y: 4
+        y: 3
         name: HNP-A
         known: false
         primary:
@@ -104,6 +131,33 @@ subsectors:
             - uwp: X521000-0
               orbit: cold
             - uwp: Small Gas Giant
+      - x: 6
+        y: 5
+        name: HNI-C
+        surveyIndex: 0
+        known: false
+        primary:
+          type: M2
+          bodies:
+            - uwp: X000000-0
+            - uwp: Large Gas Giant
+            - uwp: Large Gas Giant
+            - uwp: X200000-0
+            - uwp: X224000-0
+            - uwp: X8A1000-0
+      - x: 7
+        y: 9
+        name: HNP-B
+        known: false
+        primary:
+          type: K5
+        near:
+          type: K5
+          bodies:
+            - uwp: X56A000-0
+            - uwp: Large Gas Giant
+            - uwp: X000000-0
+            - uwp: X000000-0
   - name: Deepn I
     type: SPARSE
     index: I
@@ -130,7 +184,8 @@ subsectors:
     index: P
 regions:
   - Color: DarkBlue
-    LabelPosition: 3014
+    HexColor: FFAA5F
+    LabelPosition: 2916
     Label: Hennlix Nebula
     parsecs:
       - 2614
@@ -150,3 +205,24 @@ regions:
       - 2616
       - 2615
       - 2614
+    hexes:
+      - 2614
+      - 2615
+      - 2616
+      - 2715
+      - 2716
+      - 2717
+      - 2718
+      - 2814
+      - 2815
+      - 2816
+      - 2817
+      - 2915
+      - 2916
+      - 2917
+      - 3014
+      - 3015
+      - 3016
+      - 3114
+      - 3115
+      - 3116
