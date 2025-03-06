@@ -82,11 +82,12 @@ const getPopulated = (sector, subsector) => {
 const generateSubsector = (outputDir, sector, subsector, index, travellerMap) => {
   const rowOffset = ROW_OFFSETS[Math.ceil(index/4)];
   const colOffset = COL_OFFSETS[index % 4];
-  let si = defaultSI(sector);
   const populated = getPopulated(sector, subsector);
+  const subsectorSI = defaultSI(sector);
 
   for (let col=1; col <= 8; col++)
     for (let row=1; row <= 10; row++) {
+      let si = subsectorSI;
       let hasSystem = false;
       let defined = getPredefined(subsector, col, row);
       if (defined)
@@ -104,7 +105,7 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap) =>
 
       let unusualChance = sector.unusualChance / 100;
       if (defined) {
-        if (defined.surveyIndex)
+        if (defined.surveyIndex !== undefined)
           si = defined.surveyIndex;
         if (defined.name)
           solarSystem.name = defined.name;
