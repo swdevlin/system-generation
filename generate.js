@@ -8,6 +8,7 @@ const refereeReference = require("./solarSystems/refereeReference");
 const toJSON = require("./utils/toJSON");
 const knex = require("./db/connection");
 const generateSector = require("./sector/generateSector");
+const {sectorHexToUniversal} = require("./utils/hexAddress");
 
 const dumpStats = async (sector, outputDir) => {
   const stats = computeStats(sector);
@@ -68,6 +69,42 @@ async function setUpSectorInDatabase(sector) {
 }
 
 
+const saveRegions = async (sector) => {
+  for (const region of sector.regions) {
+    const universalAddress = sectorHexToUniversal(sector, region.LabelPosition);
+    let r = await knex('region')
+      .where('name', region.Label)
+      .first();
+
+    if (!r) {
+      const [n] = await knex('region')
+        .insert({
+          name: region.Label,
+            colour: region.HexColour,
+            label_x: universalAddress.x,
+            label_y: universalAddress.y,
+            hexes: '[]'
+          }).returning('id');
+
+        r = await knex('region').select()
+          .where('id', n.id)
+          .first();
+    }
+
+    const hexes = [];
+    for (const h of region.hexes)
+      hexes.push(sectorHexToUniversal(sector, h));
+
+    await knex('region').where('id', r.id).update({
+      label_x: universalAddress.x,
+      label_y: universalAddress.y,
+      colour: region.HexColour,
+      hexes: JSON.stringify(hexes)
+    });
+  }
+};
+
+
 // noinspection HtmlDeprecatedTag,XmlDeprecatedElement
 commander
   .version('0.4', '-v, --version')
@@ -99,7 +136,7 @@ commander
       x: solar_system.x,
       y: solar_system.y,
       origin_x: sector.X * 32 + solar_system.x - 1,
-      origin_y: sector.Y * 40 - solar_system.y - 1,
+      origin_y: sector.Y * 40 - solar_system.y + 1,
       name: solar_system.name,
       scan_points: solar_system.scanPoints,
       survey_index: solar_system.surveyIndex,
@@ -117,6 +154,8 @@ commander
       allegiance: solar_system.allegiance,
     });
   }
+
+  await saveRegions(sector);
 
   await dumpStats(sector, outputDir);
 
