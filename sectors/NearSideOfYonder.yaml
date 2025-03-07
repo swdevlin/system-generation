@@ -307,7 +307,7 @@ subsectors:
   - name: NSoY M
     type: SPARSE
     index: M
-    required:
+    systems:
       - x: 1
         y: 6
         name: NSY-X TMMm
@@ -341,7 +341,7 @@ subsectors:
           terrestrialPlanets: 0
       - x: 2
         y: 9
-        name: NSY-X Phi
+        name: NSY-X  Phi
         primary:
           type: A3
           class: Giant
@@ -381,7 +381,7 @@ subsectors:
           near:
             type: K3
       - x: 5
-        y: 6
+        y: 5
         name: NSY-X
         primary:
           type: G7
