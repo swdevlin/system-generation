@@ -20,6 +20,53 @@ subsectors:
   - name: Deepn E
     type: SPARSE
     index: E
+    exclude:
+      - x: 3
+        y: 4
+      - x: 3
+        y: 8
+      - x: 4
+        y: 4
+      - x: 4
+        y: 5
+      - x: 4
+        y: 8
+      - x: 5
+        y: 4
+      - x: 5
+        y: 6
+      - x: 5
+        y: 7
+      - x: 5
+        y: 8
+      - x: 6
+        y: 3
+      - x: 6
+        y: 4
+      - x: 6
+        y: 5
+      - x: 6
+        y: 7
+      - x: 6
+        y: 8
+      - x: 7
+        y: 4
+      - x: 7
+        y: 5
+      - x: 7
+        y: 7
+      - x: 7
+        y: 8
+      - x: 8
+        y: 4
+      - x: 8
+        y: 5
+      - x: 8
+        y: 6
+      - x: 8
+        y: 7
+      - x: 8
+        y: 8
     required:
       - x: 3
         y: 5
@@ -184,7 +231,7 @@ subsectors:
     index: P
 regions:
   - Color: DarkBlue
-    HexColor: FFAA5F
+    HexColour: FFAA5F
     LabelPosition: 2916
     Label: Hennlix Nebula
     parsecs:
@@ -226,3 +273,39 @@ regions:
       - 3114
       - 3115
       - 3116
+  - Color: DarkGreen
+    HexColour: E0FFFF
+    LabelPosition: 0516
+    Label: Point Grainger
+    parsecs:
+      - 0315
+      - 0414
+      - 0515
+      - 0615
+      - 0716
+      - 0616
+      - 0517
+      - 0417
+      - 0317
+      - 0316
+      - 0315
+    hexes:
+      - 0315
+      - 0316
+      - 0317
+      - 0318
+      - 0414
+      - 0415
+      - 0416
+      - 0417
+      - 0515
+      - 0516
+      - 0517
+      - 0518
+      - 0614
+      - 0615
+      - 0616
+      - 0617
+      - 0715
+      - 0716
+      - 0717

@@ -50,6 +50,8 @@ fs.readdirSync(sectorsDir).forEach((yamlFile) => {
     if (needToGenerate && excludeList.length > 0) {
       const sectorName = path.basename(yamlFile, '.yaml');
       needToGenerate = !excludeList.includes(sectorName);
+      if (!needToGenerate)
+        console.log(`Skipping ${sectorName}`);
     }
 
     if (needToGenerate) {
