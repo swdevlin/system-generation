@@ -59,7 +59,8 @@ const hasSolarSystem = (subsector) => {
 const getPredefined = (subsector, col, row) => {
   if (subsector.systems)
     for (const s of subsector.systems)
-         return s;
+      if (s.x === col && s.y === row)
+        return s;
 
   if (subsector.required)
     for (const s of subsector.required)
@@ -92,7 +93,9 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap) =>
       if (defined)
         hasSystem = true;
       else {
-        if (subsector.exclude && subsector.exclude.some(e => e.x === col && e.y === row))
+        if (subsector.systems)
+          hasSystem = false;
+        else if (subsector.exclude && subsector.exclude.some(e => e.x === col && e.y === row))
           hasSystem = false;
         else
           hasSystem = hasSolarSystem(subsector);
