@@ -70,6 +70,8 @@ async function setUpSectorInDatabase(sector) {
 
 
 const saveRegions = async (sector) => {
+  if (!sector.regions)
+    return;
   for (const region of sector.regions) {
     const universalAddress = sectorHexToUniversal(sector, region.LabelPosition);
     let r = await knex('region')
