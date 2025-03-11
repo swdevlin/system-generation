@@ -29,7 +29,7 @@ const primaryStarClassification = ({unusualChance}) => {
   else
     classification.stellarType = type;
 
-  if (!classification.isAnomaly && !classification.stellarClass)
+  if (!classification.isAnomaly && !classification.stellarClass && !classification.isBrownDwarf)
     classification.stellarClass = 'V';
 
   classification.subtype = subtypeLookup({

@@ -1,4 +1,4 @@
-const {isAnomaly} = require("../utils");
+const {isAnomaly, isBrownDwarf} = require("../utils");
 
 class StellarClassification {
   constructor() {
@@ -10,6 +10,10 @@ class StellarClassification {
 
   get isAnomaly() {
     return this.isProtostar || isAnomaly(this.stellarType);
+  }
+
+  get isBrownDwarf() {
+    return isBrownDwarf(this.stellarType);
   }
 
 }

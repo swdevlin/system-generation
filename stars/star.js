@@ -248,12 +248,25 @@ class Star extends StellarObject {
       else
         this.spread = possibleOrbits / (this.totalObjects + this.emptyOrbits + 1);
 
+    this.markOccupiedOrbits();
+  }
+
+  nextAvailableOrbit(orbit) {
+    let orbitOffet = this.spread + ((twoD6() - 7) * this.spread) / 10;
+    for (const range of this.availableOrbits)
+      if (range[0] >= orbit) {
+        return Math.max(range[0], range[0] + orbitOffet);
+      } else if (range[0] <= orbit && range[1] >= orbit) {
+        return orbit + orbitOffet;
+      }
+    return orbit + orbitOffet;
+
+  }
+  markOccupiedOrbits() {
     let orbit = this.minimumAllowableOrbit + this.spread + ((twoD6() - 7) * this.spread) / 10;
     this.occupiedOrbits.push(orbit);
     for (let i = 1; i < this.totalObjects + this.emptyOrbits; i++) {
-      orbit += this.spread + ((twoD6() - 7) * this.spread) / 10;
-      while (!this.orbitValid(orbit))
-        orbit += this.spread + ((twoD6() - 7) * this.spread) / 10;
+      orbit = this.nextAvailableOrbit(orbit);
       this.occupiedOrbits.push(orbit);
     }
   }

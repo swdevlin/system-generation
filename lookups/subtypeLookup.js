@@ -1,10 +1,10 @@
 const {twoD6} = require("../dice");
-const {isAnomaly} = require("../utils");
+const {isAnomaly, isBrownDwarf} = require("../utils");
 
 const subtypeLookup = ({isPrimary, stellarType, stellarClass}) => {
   const roll = twoD6();
 
-  if (isAnomaly(stellarType))
+  if (isAnomaly(stellarType) || isBrownDwarf(stellarType))
     return null;
 
   let subtype;

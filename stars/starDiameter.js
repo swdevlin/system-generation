@@ -151,10 +151,12 @@ const starDiameter = (star) => {
     return 2.95 * star.mass;
   } else if (star.stellarType === STELLAR_TYPES.NeutronStar) {
     return 19 + d6();
-  } else if (isAnomaly(star.stellarType) && !isBrownDwarf(star.stellarType)) {
+  } else if (isBrownDwarf(star.stellarType)) {
+    return DIAMETER[star.dataKey][''];
+  } else if (isAnomaly(star.stellarType)) {
     return null;
   } else {
-    return DIAMETER[star.dataKey][star.stellarClass]
+    return DIAMETER[star.dataKey][star.stellarClass];
   }
 }
 

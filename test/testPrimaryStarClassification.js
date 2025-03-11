@@ -151,8 +151,8 @@ describe("Primary Star Classification", function () {
     ROLL_CACHE.push(6);
 
     const classification = primaryStarClassification({unusualChance: 1});
-    classification.stellarClass.should.equal('');
     classification.stellarType.should.equal('BD');
+    classification.stellarClass.should.equal('');
     assert.isNull(classification.subtype);
   });
 
