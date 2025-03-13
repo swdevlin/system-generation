@@ -38,6 +38,7 @@ subsectors:
         y: 2
         name: Gehalka
         known: false
+        allegiance: AL
         primary:
           type: M4
           bodies:
@@ -52,6 +53,7 @@ subsectors:
         y: 4
         name: Irn-Alaz
         known: false
+        allegiance: AL
         primary:
           type: M5
           companion:
@@ -68,6 +70,7 @@ subsectors:
         y: 6
         name: Hirnz
         known: false
+        allegiance: AL
         star:
           type: M2
           bodies:
@@ -78,6 +81,7 @@ subsectors:
         y: 7
         name: Ohral
         known: false
+        allegiance: AL
         primary:
           type: M4
           companion:
@@ -95,6 +99,7 @@ subsectors:
         y: 2
         name: Onkonani
         known: false
+        allegiance: AL
         primary:
           type: G5
           bodies:
@@ -106,6 +111,7 @@ subsectors:
         name: Kahhe
         known: false
         bases: R
+        allegiance: AL
         primary:
           type: G6
           bodies:
@@ -122,6 +128,7 @@ subsectors:
         y: 6
         name: Okh-Kahl
         known: false
+        allegiance: AL
         primary:
           type: B3
           bodies:
@@ -142,6 +149,7 @@ subsectors:
         y: 2
         name: Ikadni
         known: false
+        allegiance: AL
         primary:
           type: M3
           bodies:
@@ -154,6 +162,7 @@ subsectors:
         y: 4
         name: Ghoudek
         known: false
+        allegiance: AL
         primary:
           type: K5
           companion:
@@ -171,6 +180,7 @@ subsectors:
         y: 5
         name: Alikherrnz
         known: false
+        allegiance: AL
         primary:
           type: K6
           bodies:
@@ -195,6 +205,7 @@ subsectors:
         y: 7
         name: Abonek
         known: false
+        allegiance: AL
         primary:
           type: M6
           bodies:
@@ -212,6 +223,7 @@ subsectors:
         y: 8
         name: Insk
         known: false
+        allegiance: AL
         primary:
           type: M5
           companion:
@@ -226,6 +238,7 @@ subsectors:
         y: 2
         name: Airgi
         known: false
+        allegiance: AL
         primary:
           type: M5
           bodies:
@@ -238,6 +251,7 @@ subsectors:
         y: 3
         name: Tinzal
         known: false
+        allegiance: AL
         primary:
           type: G2
           bodies:
@@ -260,6 +274,7 @@ subsectors:
         y: 5
         name: Kgni
         known: false
+        allegiance: AL
         primary:
           type: K5
           bodies:
@@ -274,6 +289,7 @@ subsectors:
         y: 7
         name: Danh-In
         known: false
+        allegiance: AL
         primary:
           type: K6
           orbits:
@@ -473,3 +489,13 @@ subsectors:
   - name: NSoY P
     type: MINIMAL
     index: P
+regions:
+  - Color: DarkGreen
+    HexColour: E0FFFF
+    LabelPosition: 0535
+    Label: NSY-X
+    parsecs:
+      - 0505
+      - 0505
+    hexes:
+      - 0535
