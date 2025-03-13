@@ -117,6 +117,8 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap) =>
           solarSystem.name = defined.name;
         if (defined.remarks)
           solarSystem.remarks = defined.remarks;
+        if (defined.allegiance)
+          solarSystem.allegiance = defined.allegiance;
         solarSystem.known = defined.known ? defined.known : false;
         if (defined.bases) {
           solarSystem.bases = defined.bases;
