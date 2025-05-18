@@ -10,7 +10,6 @@ class Atmosphere {
     this.bar = 0;
     this.gasType = null;
 
-    this.taint = new Taint();
     this.density = AtmosphereDensities.STANDARD;
     this.gasType = null;
     this.hazardCode = null;

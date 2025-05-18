@@ -39,8 +39,8 @@ meanTemperature = (star, planet) => {
   else
     temp = TEMPERATURE_LOOKUP[roll];
 
-  let r = (star.totalLuminosity * (1-planet.albedo) * (1+planet.greenhouse))/Math.pow(orbitToAU(planet.orbit), 2);
-  let k = 279 * Math.pow(r, 0.25);
+  // let r = (star.totalLuminosity * (1-planet.albedo) * (1+planet.greenhouse))/Math.pow(orbitToAU(planet.orbit), 2);
+  // let k = 279 * Math.pow(r, 0.25);
 
   // if (Math.abs(star.hzco - planet.orbit) <= 1) {
   //
@@ -56,10 +56,10 @@ meanTemperature = (star, planet) => {
   //   fs.appendFileSync(filePath, columns.join(',') + '\n');
   //
   // }
-  return k;
+  // return k;
   // console.log(k-272.15, temp, 100*(k-272.15-temp)/temp);
 
-  // return temp;
+  return temp + 273;
 }
 
 module.exports = meanTemperature;
