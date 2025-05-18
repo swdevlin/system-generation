@@ -71,7 +71,7 @@ subsectors:
       - x: 3
         y: 6
         name: Vilaakasii
-        known: false
+        known: true
         primary:
           type: BH
           bodies: []

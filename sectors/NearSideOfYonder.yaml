@@ -185,6 +185,7 @@ subsectors:
           type: K6
           bodies:
             - uwp: D000546-9
+              orbit: warm
             - uwp: Super-Earth
             - uwp: D767946-9
             - uwp: D000546-9
