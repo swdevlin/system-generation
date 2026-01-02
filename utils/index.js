@@ -224,8 +224,8 @@ const isAnomaly = (type) => {
   return [
     STELLAR_TYPES.Anomaly,
     STELLAR_TYPES.BlackHole,
-    STELLAR_TYPES.BrownDwarf,
-    'L', 'T', 'Y',
+    // STELLAR_TYPES.BrownDwarf,
+    // 'L', 'T', 'Y',
     STELLAR_TYPES.Nebula,
     STELLAR_TYPES.NeutronStar,
     STELLAR_TYPES.Protostar,

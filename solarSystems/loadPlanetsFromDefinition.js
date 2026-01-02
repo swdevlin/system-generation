@@ -6,12 +6,12 @@ const terrestrialPlanetQuantity = require("../terrestrialPlanet/terrestrialPlane
 const hasBodies = (definition) => {
   if (!definition.primary)
     return false;
-  if (definition.primary.bodies && definition.primary.bodies.length > 0)
+  if (definition.primary.bodies)
     return true;
 
   for (const d of ['close', 'near', 'far']) {
     const star = definition.primary[d];
-    if (star && star.bodies && star.bodies.length > 0)
+    if (star && star.bodies)
       return true;
   }
   return false;

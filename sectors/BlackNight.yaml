@@ -18,13 +18,13 @@ subsectors:
     type: RIFT_FADE
     index: D
   - name: BN E
-    type: RIFT_FADE
+    type: DEEP_RIFT
     index: E
   - name: BN F
-    type: RIFT_FADE
+    type: DEEP_RIFT
     index: F
   - name: BN G
-    type: RIFT_FADE
+    type: DEEP_RIFT
     index: G
   - name: BN H
     type: EMPTY
@@ -33,19 +33,19 @@ subsectors:
     type: EMPTY
     index: I
   - name: BN J
-    type: RIFT_FADE
+    type: DEEP_RIFT
     index: J
   - name: BN K
-    type: DEEP_RIFT
+    type: RIFT
     index: K
   - name: BN L
     type: DEEP_RIFT
     index: L
   - name: BN M
-    type: DEEP_RIFT
+    type: RIFT_FADE
     index: M
   - name: BN N
-    type: DEEP_RIFT
+    type: RIFT_FADE
     index: N
   - name: BN O
     type: EMPTY

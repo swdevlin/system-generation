@@ -19,9 +19,22 @@ commander
   .usage('[OPTIONS]...')
   .option('-o, --output <dir>', 'Directory for the output', 'output')
   .option('-f, --force', 'Generate even if not new', false)
+  .option('-e, --exclude <file>', 'path to file of sectors to exclude')
   .parse(process.argv);
 
 const options = commander.opts();
+let excludeList = [];
+
+if (options.exclude) {
+  try {
+    excludeList = fs
+      .readFileSync(options.exclude, 'utf8')
+      .split('\n')
+      .map(line => line.trim());
+  } catch (err) {
+    console.error("Error reading exclude file:", err.message);
+  }
+}
 
 fs.readdirSync(sectorsDir).forEach((yamlFile) => {
   if (yamlFile.endsWith('.yaml')) {
@@ -32,6 +45,13 @@ fs.readdirSync(sectorsDir).forEach((yamlFile) => {
       const yamlFileStats = fs.statSync(path.join(sectorsDir, yamlFile));
       const svgFileStats = fs.statSync(svgFile);
       needToGenerate = yamlFileStats.mtime > svgFileStats.mtime;
+    }
+
+    if (needToGenerate && excludeList.length > 0) {
+      const sectorName = path.basename(yamlFile, '.yaml');
+      needToGenerate = !excludeList.includes(sectorName);
+      if (!needToGenerate)
+        console.log(`Skipping ${sectorName}`);
     }
 
     if (needToGenerate) {

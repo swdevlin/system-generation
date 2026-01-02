@@ -67,11 +67,11 @@ class TerrestrialPlanet extends StellarObject {
   }
 
   get gravity() {
-    return this.density * this.size / 8;
+    return this.density * this.diameter / 12756;
   }
 
   get mass() {
-    return this.density * (this.size / 8)**3;
+    return this.density * (this.diameter / 12756)**3;
   }
 
   get escapeVelocity() {

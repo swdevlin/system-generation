@@ -1,3 +1,4 @@
+const {isBrownDwarf} = require("../utils");
 
 class TravellerMap {
   constructor(sectorName) {
@@ -99,9 +100,11 @@ class TravellerMap {
 
     // uwp
     if (solarSystem.known)
-      line += mw ? mw.uwp + this.sep : '???????-?';
+      line += mw ? mw.uwp : '???????-?';
     else
-      line += '???????-?' + this.sep;
+      line += '???????-?';
+
+    line += this.sep;
 
     // bases
     line += solarSystem.bases + this.sep;
@@ -121,7 +124,8 @@ class TravellerMap {
     // Stars
     let stars = ''
     for (const star of solarSystem.stars) {
-      stars += `${star.stellarType}${star.subtype? star.subtype : ''} ${star.stellarClass} `
+      if (solarSystem.surveyIndex > 3 || solarSystem.known || !isBrownDwarf(star.stellarType))
+        stars += `${star.stellarType}${star.subtype? star.subtype : ''} ${star.stellarClass} `
     }
     line += stars + this.sep;
 
@@ -156,7 +160,8 @@ class TravellerMap {
     line += this.sep;
 
     // uwp
-    line += mw ? mw.uwp + this.sep : '???????-?';
+    line += mw ? mw.uwp : '???????-?';
+    line += this.sep;
 
     // bases
     line += solarSystem.bases + this.sep;
@@ -200,8 +205,11 @@ class TravellerMap {
   }
 
   addSystem(solarSystem) {
-    let line = this.playerMapLine(solarSystem);
-    this.systems.push(line);
+    let line;
+    if (solarSystem.surveyIndex >= 1) {
+      line = this.playerMapLine(solarSystem);
+      this.systems.push(line);
+    }
 
     line = this.refereeMapLine(solarSystem);
     this.refereeSystems.push(line);

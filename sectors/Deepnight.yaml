@@ -18,8 +18,111 @@ subsectors:
     type: LOW
     index: D
   - name: Deepn E
-    type: LOW
+    type: SPARSE
     index: E
+    exclude:
+      - x: 3
+        y: 4
+      - x: 3
+        y: 8
+      - x: 4
+        y: 4
+      - x: 4
+        y: 5
+      - x: 4
+        y: 8
+      - x: 5
+        y: 4
+      - x: 5
+        y: 6
+      - x: 5
+        y: 7
+      - x: 5
+        y: 8
+      - x: 6
+        y: 3
+      - x: 6
+        y: 4
+      - x: 6
+        y: 5
+      - x: 6
+        y: 7
+      - x: 6
+        y: 8
+      - x: 7
+        y: 4
+      - x: 7
+        y: 5
+      - x: 7
+        y: 7
+      - x: 7
+        y: 8
+      - x: 8
+        y: 4
+      - x: 8
+        y: 5
+      - x: 8
+        y: 6
+      - x: 8
+        y: 7
+      - x: 8
+        y: 8
+    required:
+      - x: 3
+        y: 5
+        name: DNS-AQ-305
+        known: false
+      - x: 3
+        y: 6
+        name: DNS-AQ-306
+        known: false
+      - x: 3
+        y: 7
+        name: DNS-AQ-307
+        known: false
+      - x: 4
+        y: 6
+        name: DNS-AQ-406
+        known: false
+        primary:
+          type: K7
+          bodies:
+            - uwp: Large Gas Giant
+            - uwp: X113000-0
+            - uwp: X530000-0
+            - uwp: Large Gas Giant
+            - uwp: Small Gas Giant
+          near:
+            type: M3
+            bodies:
+              - uwp: X665000-0
+              - uwp: Small Gas Giant
+              - uwp: X9A9000-0
+              - uwp: X000000-0
+              - uwp: Small Gas Giant
+          far:
+            type: M6
+            bodies:
+              - uwp: X000000-0
+              - uwp: X520000-0
+              - uwp: X9A1000-0
+              - uwp: X710000-0
+      - x: 4
+        y: 7
+        name: DNS-AQ-407
+        known: false
+      - x: 5
+        y: 5
+        name: DNS-AQ-505
+        known: false
+      - x: 6
+        y: 6
+        name: DNS-AQ-606
+        known: false
+      - x: 7
+        y: 6
+        name: DNS-AQ-706
+        known: false
   - name: Deepn F
     type: LOW
     index: F
@@ -27,11 +130,38 @@ subsectors:
     type: LOW
     index: G
   - name: Deepn H
-    type: SPARSE
+    type: MINIMAL
     index: H
     required:
+      - x: 3
+        y: 6
+        name: HNI-A
+        surveyIndex: 0
+        known: false
+        primary:
+          type: G7
+          bodies:
+            - empty
+            - uwp: X200000-0
+            - uwp: Small Gas Giant
+              orbit: cold
+      - x: 4
+        y: 8
+        name: HNI-B
+        surveyIndex: 0
+        known: false
+        primary:
+          type: M3
+          companion:
+            type: M3
+          bodies:
+            - uwp: XEAA000-0
+              orbit: habitable
+            - uwp: X210000-0
+            - uwp: X000000-0
+            - uwp: Small Gas Giant
       - x: 6
-        y: 4
+        y: 3
         name: HNP-A
         known: false
         primary:
@@ -48,272 +178,36 @@ subsectors:
             - uwp: X521000-0
               orbit: cold
             - uwp: Small Gas Giant
+      - x: 6
+        y: 5
+        name: HNI-C
+        surveyIndex: 0
+        known: false
+        primary:
+          type: M2
+          bodies:
+            - uwp: X000000-0
+            - uwp: Large Gas Giant
+            - uwp: Large Gas Giant
+            - uwp: X200000-0
+            - uwp: X224000-0
+            - uwp: X8A1000-0
+      - x: 7
+        y: 9
+        name: HNP-B
+        known: false
+        primary:
+          type: K5
+        near:
+          type: K5
+          bodies:
+            - uwp: X56A000-0
+            - uwp: Large Gas Giant
+            - uwp: X000000-0
+            - uwp: X000000-0
   - name: Deepn I
     type: SPARSE
     index: I
-    systems:
-      - x: 1
-        y: 6
-      - x: 1
-        y: 7
-      - x: 2
-        y: 2
-        name: Gehalka
-        known: false
-        primary:
-          type: M4
-          bodies:
-            - empty
-            - empty
-            - empty
-            - uwp: Small Gas Giant
-            - uwp: Small Gas Giant
-      - x: 2
-        y: 8
-      - x: 3
-        y: 4
-        name: Irn-Alaz
-        known: false
-        primary:
-          type: M5
-          companion:
-            type: K5
-          bodies:
-            - uwp: terrestrial
-            - uwp: X674000-0
-              orbit: habitable
-            - uwp: Small Gas Giant
-            - uwp: terrestrial
-            - uwp: X000000-0
-            - uwp: Large Gas Giant
-      - x: 3
-        y: 6
-        name: Hirnz
-        known: false
-        star:
-          type: M2
-          bodies:
-            - uwp: X221000-0
-            - uwp: Small Gas Giant
-            - uwp: Small Gas Giant
-      - x: 3
-        y: 7
-        name: Ohral
-        known: false
-        primary:
-          type: M4
-          companion:
-            type: A9
-          bodies:
-            - uwp: Large Gas Giant
-            - uwp: Super-Earth
-            - uwp: X9B9000-0
-            - uwp: X6A5000-0
-            - uwp: X5A3000-0
-            - uwp: X000000-0
-            - uwp: Small Gas Giant
-            - uwp: Small Gas Giant
-      - x: 4
-        y: 2
-        name: Onkonani
-        known: false
-        primary:
-          type: G5
-          bodies:
-            - empty
-            - uwp: X000000-0
-            - uwp: Small Gas Giant
-      - x: 4
-        y: 4
-        name: Kahhe
-        known: false
-        bases: R
-        primary:
-          type: G6
-          bodies:
-            - uwp: Large Gas Giant
-            - uwp: Small Gas Giant
-            - uwp: X000000-0
-          far:
-            type: BD
-            bodies:
-              - uwp: Large Gas Giant
-              - uwp: Small Gas Giant
-              - uwp: X000000-0
-      - x: 4
-        y: 6
-        name: Okh-Kahl
-        known: false
-        primary:
-          type: B3
-          bodies:
-            - uwp: Large Gas Giant
-            - uwp: X530000-0
-            - uwp: X8A0000-0
-            - uwp: X320000-0
-            - uwp: Small Gas Giant
-            - uwp: Small Gas Giant
-            - uwp: X430000-0
-            - uwp: Large Gas Giant
-          far:
-            type: M9
-            bodies:
-              - uwp: X000000-0
-
-      - x: 5
-        y: 2
-        name: Ikadni
-        known: false
-        primary:
-          type: M3
-          bodies:
-            - uwp: Large Gas Giant
-            - uwp: Small Gas Giant
-            - uwp: XAB7000-0
-            - uwp: X520000-0
-            - uwp: Small Gas Giant
-      - x: 5
-        y: 4
-        name: Ghoudek
-        known: false
-        primary:
-          type: K5
-          companion:
-            type: K5
-          bodies:
-            - uwp: X200000-0
-            - uwp: Small Gas Giant
-            - uwp: Small Gas Giant
-            - uwp: D6A2346-9
-            - uwp: Small Gas Giant
-            - uwp: Small Gas Giant
-          far:
-            type: M6
-      - x: 5
-        y: 5
-        name: Alikherrnz
-        known: false
-        primary:
-          type: K6
-          bodies:
-            - uwp: D000546-9
-            - uwp: Super-Earth
-            - uwp: D767946-9
-            - uwp: D000546-9
-            - uwp: Small Gas Giant
-          far:
-            type: M8
-      - x: 5
-        y: 6
-        name: E-Ehkri
-        known: false
-        counts:
-          terrestrialPlanets: 4
-          planetoidBelts: 0
-          gasGiants: 0
-        primary:
-          type: BD
-      - x: 5
-        y: 7
-        name: Abonek
-        known: false
-        primary:
-          type: M6
-          bodies:
-            - uwp: X667000-0
-            - uwp: X78A000-0
-            - uwp: Large Gas Giant
-            - uwp: Small Gas Giant
-            - uwp: Small Gas Giant
-            - uwp: X4A1000-0
-            - uwp: X720000-0
-            - uwp: X221000-0
-            - uwp: Small Gas Giant
-            - uwp: X210000-0
-      - x: 5
-        y: 8
-        name: Insk
-        known: false
-        primary:
-          type: M5
-          companion:
-            type: M5
-          bodies:
-            - uwp: X610000-0
-            - uwp: X000000-0
-            - uwp: X100000-0
-            - uwp: Small Gas Giant
-            - uwp: X9A1000-0
-      - x: 6
-        y: 2
-        name: Airgi
-        known: false
-        primary:
-          type: M5
-          bodies:
-            - uwp: X210000-0
-            - uwp: X843000-0
-            - uwp: Small Gas Giant
-            - uwp: X000000-0
-            - uwp: Large Gas Giant
-      - x: 6
-        y: 3
-        name: Tinzal
-        known: false
-        primary:
-          type: G2
-          bodies:
-            - uwp: X000000-0
-            - uwp: X341000-0
-            - uwp: D756546-9
-            - uwp: Small Gas Giant
-            - uwp: X000000-0
-            - uwp: Small Gas Giant
-            - uwp: Large Gas Giant
-            - uwp: Small Gas Giant
-            - uwp: X311000-0
-          far:
-            type: M8
-            bodies:
-              - uwp: X422000-0
-              - uwp: X688246-9
-              - uwp: Small Gas Giant
-      - x: 6
-        y: 5
-        name: Kgni
-        known: false
-        primary:
-          type: K5
-          bodies:
-            - uwp: X320000-0
-            - uwp: X000000-0
-            - uwp: Large Gas Giant
-            - uwp: Small Gas Giant
-            - uwp: X200000-0
-          far:
-            type: K7
-      - x: 6
-        y: 7
-        name: Danh-In
-        known: false
-        primary:
-          type: K6
-          orbits:
-            - uwp: Small Gas Giant
-            - uwp: Small Gas Giant
-            - uwp: Small Gas Giant
-            - uwp: Small Gas Giant
-            - uwp: Large Gas Giant
-            - uwp: Large Gas Giant
-            - uwp: X000000-0
-      - x: 7
-        y: 9
-      - x: 8
-        y: 3
-      - x: 8
-        y: 4
-      - x: 8
-        y: 7
   - name: Deepn J
     type: MINIMAL
     index: J
@@ -337,7 +231,8 @@ subsectors:
     index: P
 regions:
   - Color: DarkBlue
-    LabelPosition: 3014
+    HexColour: FFAA5F
+    LabelPosition: 2916
     Label: Hennlix Nebula
     parsecs:
       - 2614
@@ -357,3 +252,60 @@ regions:
       - 2616
       - 2615
       - 2614
+    hexes:
+      - 2614
+      - 2615
+      - 2616
+      - 2715
+      - 2716
+      - 2717
+      - 2718
+      - 2814
+      - 2815
+      - 2816
+      - 2817
+      - 2915
+      - 2916
+      - 2917
+      - 3014
+      - 3015
+      - 3016
+      - 3114
+      - 3115
+      - 3116
+  - Color: DarkGreen
+    HexColour: E0FFFF
+    LabelPosition: 0516
+    Label: Point Grainger
+    parsecs:
+      - 0315
+      - 0414
+      - 0515
+      - 0615
+      - 0716
+      - 0616
+      - 0517
+      - 0417
+      - 0317
+      - 0316
+      - 0315
+    hexes:
+      - 0315
+      - 0316
+      - 0317
+      - 0318
+      - 0414
+      - 0415
+      - 0416
+      - 0417
+      - 0515
+      - 0516
+      - 0517
+      - 0518
+      - 0614
+      - 0615
+      - 0616
+      - 0617
+      - 0715
+      - 0716
+      - 0717

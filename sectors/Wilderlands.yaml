@@ -42,7 +42,7 @@ subsectors:
     type: SPARSE
     index: L
   - name: Wldr M
-    type: STANDARD
+    type: MODERATE
     index: M
   - name: Wldr N
     type: STANDARD

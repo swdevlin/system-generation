@@ -124,7 +124,7 @@ class SolarSystem {
   addStar(star) {
     this.stars.push(star);
     this.primaryStar.addStellarObject(star);
-    if (star.isAnomaly && star.stellarType !== STELLAR_TYPES.BrownDwarf && star.stellarType !== STELLAR_TYPES.WhiteDwarf)
+    if (star.isAnomaly && !isBrownDwarf(star.stellarType) && star.stellarType !== STELLAR_TYPES.WhiteDwarf)
       this.remarks = '{Anomaly}';
   }
 
@@ -144,10 +144,10 @@ class SolarSystem {
     for (const star of this.stars) {
       let t = this.starString(star);
       if (star.companion)
-        t += `,${this.starString(star.companion)}`;
+        t += ` (${this.starString(star.companion)})`;
       s.push(t);
     }
-    return s.join('/');
+    return s.join(', ');
   }
 
   get starCount() {
@@ -216,13 +216,22 @@ class SolarSystem {
   }
 
   pickStar() {
-    let roll = r.integer(1, this.totalOrbits);
-    for (const star of this.stars) {
-      roll -= star.totalOrbits;
-      if (roll <= 0)
-        return star;
+    if (isNaN(this.totalOrbits))
+      return null;
+
+    try {
+      let roll = r.integer(1, this.totalOrbits);
+      for (const star of this.stars) {
+        roll -= star.totalOrbits;
+        if (roll <= 0)
+          return star;
+      }
+      return null;
+    } catch (e) {
+      console.log(e);
+      console.log(this.totalOrbits);
+      console.log(this.coordinates);
     }
-    return null;
   }
 
   distributeObjects() {

@@ -82,17 +82,24 @@ const getPopulated = (sector, subsector) => {
 const generateSubsector = (outputDir, sector, subsector, index, travellerMap) => {
   const rowOffset = ROW_OFFSETS[Math.ceil(index/4)];
   const colOffset = COL_OFFSETS[index % 4];
-  let si = defaultSI(sector);
   const populated = getPopulated(sector, subsector);
+  const subsectorSI = defaultSI(sector);
 
   for (let col=1; col <= 8; col++)
     for (let row=1; row <= 10; row++) {
+      let si = subsectorSI;
       let hasSystem = false;
-      let defined = getPredefined(sector, col, row);
+      let defined = getPredefined(subsector, col, row);
       if (defined)
         hasSystem = true;
-      else
-        hasSystem = hasSolarSystem(subsector);
+      else {
+        if (subsector.systems)
+          hasSystem = false;
+        else if (subsector.exclude && subsector.exclude.some(e => e.x === col && e.y === row))
+          hasSystem = false;
+        else
+          hasSystem = hasSolarSystem(subsector);
+      }
 
       if (!hasSystem)
         continue;
@@ -104,12 +111,14 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap) =>
 
       let unusualChance = sector.unusualChance / 100;
       if (defined) {
-        if (defined.surveyIndex)
+        if (defined.surveyIndex !== undefined)
           si = defined.surveyIndex;
         if (defined.name)
           solarSystem.name = defined.name;
         if (defined.remarks)
           solarSystem.remarks = defined.remarks;
+        if (defined.allegiance)
+          solarSystem.allegiance = defined.allegiance;
         solarSystem.known = defined.known ? defined.known : false;
         if (defined.bases) {
           solarSystem.bases = defined.bases;
@@ -123,7 +132,7 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap) =>
       } else {
         assignStars({solarSystem: solarSystem, unusualChance: unusualChance});
       }
-      if (solarSystem.onlyBrownDwarfs() || solarSystem.primaryStar.stellarType === STELLAR_TYPES.Anomaly)
+      if (solarSystem.onlyBrownDwarfs())
         solarSystem.surveyIndex = 0;
       else
         solarSystem.surveyIndex = si;
@@ -158,6 +167,8 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap) =>
       const text = `${sector.name} ${solarSystem.coordinates} ${solarSystem.primaryStar.textDump(0, '', '', 0, [1])}`;
       fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}.txt`, text);
       let asJson = toJSON(solarSystem.primaryStar);
+      asJson.surveyIndex = solarSystem.surveyIndex;
+      asJson.scanPoints = solarSystem.scanPoints;
       asJson = JSON.stringify(asJson, null, 2);
       fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}.json`, asJson);
       fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-travel.html`, solarSystem.travelGrid());

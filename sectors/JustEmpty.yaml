@@ -39,17 +39,17 @@ subsectors:
     type: RIFT
     index: K
   - name: JE L
-    type: RIFT_FADE
+    type: DEEP_RIFT
     index: L
   - name: JE M
-    type: RIFT_FADE
+    type: DEEP_RIFT
     index: M
   - name: JE N
-    type: RIFT_FADE
+    type: DEEP_RIFT
     index: N
   - name: JE O
-    type: RIFT_FADE
+    type: DEEP_RIFT
     index: O
   - name: JE P
-    type: RIFT_FADE
+    type: DEEP_RIFT
     index: P
