@@ -7,10 +7,8 @@ const {
   determineBeltResourceRating, 
 } = require('../planetoidBelts');
 const { twoD6 } = require('../dice');
-const Star = require("../stars/star");
 
 router.get('/', (req, res) => {
-  const tenant = req.tenantId;
   let star = {age: 0};
   const belt = new PlanetoidBelt();
 
