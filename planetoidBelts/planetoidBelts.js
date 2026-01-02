@@ -30,10 +30,14 @@ const planetoidBeltQuantity = (solarSystem, densityIndex) => {
 
 const determineBeltComposition = (star, belt) => {
   let roll = twoD6();
-  if (belt.effectiveHZCODeviation < 0)
+  belt.buildLog.push(`composition roll ${roll}`);
+  if (belt.effectiveHZCODeviation < 0) {
     roll -= 4;
-  if (belt.effectiveHZCODeviation > 2)
+    belt.buildLog.push(`effectiveHZCODeviation DM -4`);
+  } else if (belt.effectiveHZCODeviation > 2) {
     roll += 4;
+    belt.buildLog.push(`effectiveHZCODeviation DM +4`);
+  }
 
   if (roll < 1) {
     belt.mType = 60 + d6() * 5;
@@ -102,13 +106,16 @@ const determineBeltComposition = (star, belt) => {
 
 const determineBeltBulk = (star, belt) => {
   let bulk = d2() + d2();
+  belt.buildLog.push(`bulk roll ${bulk}`);
   bulk -= Math.floor(star.age/2);
   bulk += Math.floor(belt.cType/10);
   belt.bulk = Math.max(1, bulk);
 };
 
 const determineBeltResourceRating = (star, belt) => {
-  let rating = twoD6() - 7 + belt.bulk;
+  let r = twoD6();
+  belt.buildLog.push(`resource rating roll ${r}`);
+  let rating = r - 7 + belt.bulk;
   rating += Math.floor(belt.mType/10);
   rating -= Math.floor(belt.cType/10);
   belt.resourceRating = Math.min(12, Math.max(2, rating));

@@ -8,6 +8,7 @@ class StellarObject {
     this.eccentricity = 0;
     this.effectiveHZCODeviation = 0;
     this.orbit = 0;
+    this.buildLog = [];
   }
 
   setOrbit(star, orbitNumber) {

@@ -1,0 +1,38 @@
+# Environment files
+.env
+.env.*
+!.env.template
+
+# Version control
+.git
+.gitignore
+
+# Dependencies
+node_modules
+
+# IDE
+.idea
+
+# Tests
+test
+
+# Documentation
+README.md
+LICENSE
+notes.txt
+
+# Database configuration templates
+db/knexfile.js.template
+
+# Logs
+*.log
+logs
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp

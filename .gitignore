@@ -5,3 +5,4 @@ output
 /generate.bat
 /db/knexfile.js
 .env
+logs
