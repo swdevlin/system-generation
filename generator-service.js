@@ -5,7 +5,7 @@ const gasGiantRouter = require('./service/gasGiant');
 const planetoidBeltRouter = require('./service/planetoidBelt');
 
 const app = express();
-const port = 3025;
+const port = 3007;
 
 // Logger Configuration
 const logger = winston.createLogger({

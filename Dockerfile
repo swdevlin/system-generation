@@ -8,6 +8,6 @@ RUN npm ci --omit=dev
 
 COPY . .
 
-EXPOSE 3025
+EXPOSE 3007
 
 CMD ["node", "generator-service.js"]
