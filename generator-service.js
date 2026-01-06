@@ -3,6 +3,7 @@ const winston = require('winston');
 const morgan = require('morgan');
 const gasGiantRouter = require('./service/gasGiant');
 const planetoidBeltRouter = require('./service/planetoidBelt');
+const starSystemRouter = require('./service/starSystem');
 
 const app = express();
 const port = 3007;
@@ -37,8 +38,10 @@ app.use(morgan(':method :url :status - :response-time ms - tenant: :tenant', {
 app.get('/favicon.ico', (req, res) => res.status(204).end());
 
 // Routes
+app.use(express.json());
 app.use('/gas_giant', gasGiantRouter);
 app.use('/planetoid_belt', planetoidBeltRouter);
+app.use('/star_system', starSystemRouter);
 
 app.listen(port, '0.0.0.0', () => {
   logger.info(`Generator Service listening on all interfaces at port ${port}`);
