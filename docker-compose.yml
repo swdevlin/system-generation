@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  generator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: system-generation:latest
+    container_name: generator
+    restart: unless-stopped
+    ports:
+      - "3007:3007"
+    networks:
+      - kamal
+
+networks:
+  kamal:
+    external: true
