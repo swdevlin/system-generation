@@ -21,6 +21,8 @@ const logger = winston.createLogger({
   ],
 });
 
+app.use(express.json());
+
 // Middleware
 app.use((req, res, next) => {
   req.tenantId = req.headers['x-tenant-id'] || 'unknown-tenant';
@@ -38,7 +40,6 @@ app.use(morgan(':method :url :status - :response-time ms - tenant: :tenant', {
 app.get('/favicon.ico', (req, res) => res.status(204).end());
 
 // Routes
-app.use(express.json());
 app.use('/gas_giant', gasGiantRouter);
 app.use('/planetoid_belt', planetoidBeltRouter);
 app.use('/star_system', starSystemRouter);
