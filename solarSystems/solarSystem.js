@@ -5,6 +5,9 @@ const {
   eccentricity,
   determineHydrographics,
   meanTemperature, axialTilt, orbitPosition, calculateDistance, travelTime, STELLAR_TYPES, AU, isBrownDwarf,
+  auToOrbit,
+  orbitText,
+  starIdentifier,
 } = require("../utils");
 const {threeD6, twoD6, d4, d6, d10} = require("../dice");
 const {GasGiant} = require("../gasGiants");
@@ -92,10 +95,12 @@ class SolarSystem {
   }
 
   get x() {
+    if (!this.coordinates) return null;
     return parseInt(this.coordinates.substring(0, 2), 10)
   }
 
   get y() {
+    if (!this.coordinates) return null;
     return parseInt(this.coordinates.substring(2, 4), 10)
   }
 
@@ -716,6 +721,11 @@ class SolarSystem {
     }
     return this._mainWorld;
   }
+
+  assignOrbitSequences() {
+    this.primaryStar.assignOrbitSequences([1]);
+  }
+
 }
 
 module.exports = SolarSystem;

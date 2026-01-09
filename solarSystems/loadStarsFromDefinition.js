@@ -71,7 +71,7 @@ const loadStarsFromDefinition = ({sector, subsector, definition, solarSystem}) =
 
     if (twoD6() + dm >= 10) {
       close = generateCloseSecondary({star: primary, unusualChance: 0});
-      if (twoD6() + companionDM(star) >= 10)
+      if (twoD6() + companionDM(close) >= 10)
         addCompanion({star: close, unusualChance: unusualChance});
       solarSystem.addStar(close);
     }
