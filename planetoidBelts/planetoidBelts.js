@@ -105,7 +105,7 @@ const determineBeltComposition = (star, belt) => {
 };
 
 const determineBeltBulk = (star, belt) => {
-  let bulk = d2() + d2();
+  let bulk = twoD6() + 2;
   belt.buildLog.push(`bulk roll ${bulk}`);
   bulk -= Math.floor(star.age/2);
   bulk += Math.floor(belt.cType/10);
