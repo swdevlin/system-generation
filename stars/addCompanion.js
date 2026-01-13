@@ -1,7 +1,6 @@
 const {ORBIT_TYPES, companionOrbit, calculatePeriod} = require("../utils");
-const {multiStarClassification, LAST_TYPE} = require("./determineStarClassification");
+const {multiStarClassification} = require("./determineStarClassification");
 const Star = require("./star");
-const {DICE_LOG} = require("../dice");
 const starFromDefinition = require("./starFromDefinition");
 
 const addCompanion = ({star, unusualChance, definition}) => {

@@ -1,6 +1,6 @@
 const {determineStarClassification} = require("../stars/determineStarClassification");
 const Star = require("../stars/star");
-const {ORBIT_TYPES, companionOrbit, calculatePeriod, additionalStarDM} = require("../utils");
+const {ORBIT_TYPES, calculatePeriod, additionalStarDM} = require("../utils");
 const predefinedClassification = require("../stars/predefinedClassification");
 const starFromDefinition = require("../stars/starFromDefinition");
 const generateCloseSecondary = require("../stars/generateCloseSecondary");
