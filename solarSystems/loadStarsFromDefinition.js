@@ -29,6 +29,13 @@ const loadStarsFromDefinition = ({sector, subsector, definition, solarSystem}) =
         unusualChance: unusualChance,
         classification: classification
       });
+      if (definition.primary.close.companion)
+        addCompanion({
+          star: close,
+          unusualChance: unusualChance,
+          definition:definition.primary.close.companion
+        });
+
       solarSystem.addStar(close);
     }
 
@@ -39,6 +46,12 @@ const loadStarsFromDefinition = ({sector, subsector, definition, solarSystem}) =
         unusualChance: unusualChance,
         classification: classification
       });
+      if (definition.primary.near.companion)
+        addCompanion({
+          star: near,
+          unusualChance: unusualChance,
+          definition:definition.primary.near.companion
+        });
       solarSystem.addStar(near);
     }
 
@@ -49,6 +62,12 @@ const loadStarsFromDefinition = ({sector, subsector, definition, solarSystem}) =
         unusualChance: unusualChance,
         classification: classification
       });
+      if (definition.primary.far.companion)
+        addCompanion({
+          star: far,
+          unusualChance: unusualChance,
+          definition:definition.primary.far.companion
+        });
       solarSystem.addStar(far);
     }
   } else {
