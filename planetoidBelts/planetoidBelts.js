@@ -140,6 +140,7 @@ const calculateOrbitOffset = (star, belt) => {
   } while (Math.abs(orbitOffset) > star.spread);
   return orbitOffset;
 }
+
 const addSignificantBodies = (star, belt) => {
   let bodies = twoD6() - 12 + belt.bulk;
   if (belt.span < 0.1)
