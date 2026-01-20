@@ -351,7 +351,7 @@ subsectors:
           far:
             type: K3
             companion:
-              type: k3
+              type: K3
         counts:
           gasGiants: 1
           planetoidBelts: 0
