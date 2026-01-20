@@ -11,6 +11,7 @@ const {planetoidBeltQuantity} = require("../planetoidBelts");
 const terrestrialPlanetQuantity = require("../terrestrialPlanet/terrestrialPlanetQuantity");
 const fs = require("fs");
 const Populated = require("../solarSystems/populated");
+const {assignTradeCodes} = require("../economics/assignTradeCodes");
 
 const r = new Random();
 
@@ -59,7 +60,7 @@ router.post('/', (req, res) => {
     const sector = {unusualChance: subsector.unusualChance || 0};
     const systems = [];
     let unusualChance = (subsector.unusualChance || 0) / 100.0;
-    const populated = subsector.populated ? new Populated(subsector.populated) : null;
+    const defaultPopulated = subsector.populated ? new Populated(subsector.populated) : null;
     const subsectorSI = subsector.defaultSI || 0;
 
     for (let col = 1; col <= 8; col++)
@@ -136,9 +137,12 @@ router.post('/', (req, res) => {
             solarSystem.assignResourceRatings();
             solarSystem.assignHabitabilityRatings();
             solarSystem.assignOrbitSequences();
-            const p = populated?.getAllegiance(row, col);
-            if (p && p.allegiance)
+            const p = defaultPopulated?.getAllegiance(row, col);
+            if (p && p.allegiance) {
                 solarSystem.assignMainWorldSocialCharacteristics(p);
+                solarSystem.allegiance = p.allegiance;
+                assignTradeCodes(solarSystem.mainWorld);
+            }
             solarSystem.mainWorldOrbitSequence = solarSystem.mainWorld.orbitSequence;
             // fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-map.svg`, solarSystem.systemMap());
             // const text = `${sector.name} ${solarSystem.coordinates} ${solarSystem.primaryStar.textDump(0, '', '', 0, [1])}`;
@@ -151,7 +155,6 @@ router.post('/', (req, res) => {
             // fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-travel.html`, solarSystem.travelGrid());
             // travellerMap.addSystem(solarSystem);
             systems.push(solarSystem);
-            // sector.solarSystems.push(solarSystem);
         }
 
     const tenant = req.tenantId;
