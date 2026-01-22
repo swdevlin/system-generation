@@ -43,7 +43,7 @@ const getPredefined = (subsector, col, row) => {
 }
 
 const hasSolarSystem = (subsector) => {
-    let chance = parseChance(subsector.chance);
+    let chance = parseChance(subsector.type);
     return r.bool(chance);
 }
 

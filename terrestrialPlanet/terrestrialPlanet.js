@@ -13,10 +13,11 @@ class TerrestrialPlanet extends StellarObject {
 
     this.sizeVariance = randomInt(SIZE_STEP/2 - SIZE_STEP, SIZE_STEP + SIZE_STEP/2);
     const components = uwp ? deconstructUWP(uwp) : null;
+    this.fromUWP = components !== null;
     this.size = components ? components.size : size;
     this.orbit = orbit;
     if (orbit)
-    this.period = 0;
+      this.period = 0;
     this.composition = '';
     this.retrograde = false;
     this.trojanOffset = null;

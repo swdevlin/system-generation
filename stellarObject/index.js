@@ -9,6 +9,7 @@ class StellarObject {
     this.effectiveHZCODeviation = 0;
     this.orbit = 0;
     this.buildLog = [];
+    this.fromUWP = false;
   }
 
   setOrbit(star, orbitNumber) {

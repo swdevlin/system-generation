@@ -12,7 +12,7 @@ const predefinedClassification = (star) => {
     const tokens = star.type.split('');
 
     if (star.class) {
-      if (star.class === 'Giant')
+      if (star.class.toLowerCase() === 'giant')
         classification.stellarClass = giantsStellarClassLookup();
       else
         classification.stellarClass = star.class;

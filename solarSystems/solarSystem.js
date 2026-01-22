@@ -256,6 +256,7 @@ class SolarSystem {
     determineBeltResourceRating(star, pb);
     addSignificantBodies(star, pb);
     star.addStellarObject(pb);
+    return pb;
   };
 
   addTerrestrialPlanet({star, orbitIndex, orbit, size, uwp}) {
@@ -303,6 +304,7 @@ class SolarSystem {
     gg.eccentricity = eccentricity(0);
     gg.axialTilt = axialTilt();
     star.addStellarObject(gg);
+    return gg;
   };
 
   assignOrbits() {
@@ -365,7 +367,7 @@ class SolarSystem {
 
   assignMainWorldSocialCharacteristics(populated) {
     const mainWorld = this.mainWorld;
-    if (!mainWorld)
+    if (!mainWorld || mainWorld.fromUWP)
       return;
     mainWorld.population.code = Math.min(populated.maxPopulationCode, Math.max(populated.minPopulationCode, twoD6()));
     mainWorld.governmentCode = Math.max(twoD6() - 7 + mainWorld.population.code, 0);
@@ -636,32 +638,35 @@ class SolarSystem {
 
   preassignedBody({star, body, orbitIndex}) {
     const planetoidBelt = /^.000.../;
+    let newBody;
     if (planetoidBelt.test(body)) {
-      this.addPlanetoidBelt(star, orbitIndex);
+      newBody = this.addPlanetoidBelt(star, orbitIndex);
       this.planetoidBelts++;
     } else if (body.uwp === 'Small Gas Giant') {
       this.gasGiants++;
-      this.addGasGiant({star: star, orbitIndex: orbitIndex, size: 'GS'});
+      newBody = this.addGasGiant({star: star, orbitIndex: orbitIndex, size: 'GS'});
     } else if (body.uwp === 'Gas Giant') {
       this.gasGiants++;
-      this.addGasGiant({star: star, orbitIndex: orbitIndex, size: 'GM'});
+      newBody = this.addGasGiant({star: star, orbitIndex: orbitIndex, size: 'GM'});
     } else if (body.uwp === 'Large Gas Giant') {
       this.gasGiants++;
-      this.addGasGiant({star: star, orbitIndex: orbitIndex, size: 'GL'});
+      newBody = this.addGasGiant({star: star, orbitIndex: orbitIndex, size: 'GL'});
     } else if (body.uwp === 'Super-Earth') {
-      this.addTerrestrialPlanet({
+      newBody = this.addTerrestrialPlanet({
         star: star,
         orbitIndex: orbitIndex,
         size: superEarthWorldSize()
       });
       this.terrestrialPlanets++;
     } else if (body.uwp === 'terrestrial') {
-      this.addTerrestrialPlanet({star: star, orbitIndex: orbitIndex,});
+      newBody = this.addTerrestrialPlanet({star: star, orbitIndex: orbitIndex,});
       this.terrestrialPlanets++;
     } else {
-      this.addTerrestrialPlanet({star: star, orbitIndex: orbitIndex, uwp: body.uwp});
+      newBody = this.addTerrestrialPlanet({star: star, orbitIndex: orbitIndex, uwp: body.uwp});
       this.terrestrialPlanets++;
     }
+
+    return newBody;
   }
 
   getPossibleMainWorlds(star, possibleMainWorlds) {
