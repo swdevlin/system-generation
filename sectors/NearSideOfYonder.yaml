@@ -71,7 +71,7 @@ subsectors:
         name: Hirnz
         known: false
         allegiance: AL
-        star:
+        primary:
           type: M2
           bodies:
             - uwp: X221000-0
