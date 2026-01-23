@@ -192,8 +192,8 @@ const starIdentifier = (starIndex) => {
   return identifier;
 }
 
-const sequenceIdentifier = (index, starIndex) => {
-  return `${starIdentifier(starIndex)} ${romanNumeral(index)}`;
+const sequenceIdentifier = (starIndex, index) => {
+  return `${starIndex} ${romanNumeral(index)}`;
 }
 
 const orbitText = (orbit, index, starIndex) => {

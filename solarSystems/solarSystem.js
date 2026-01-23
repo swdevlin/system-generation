@@ -728,7 +728,7 @@ class SolarSystem {
   }
 
   assignOrbitSequences() {
-    this.primaryStar.assignOrbitSequences([1]);
+    this.primaryStar.assignOrbitSequences('');
   }
 
 }

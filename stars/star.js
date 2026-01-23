@@ -380,24 +380,37 @@ class Star extends StellarObject {
     return orbitIndex;
   }
 
-  assignOrbitSequences(starIndex) {
-    this.jump = auToOrbit(this.jumpShadow);
-    if (this.orbitType !== ORBIT_TYPES.PRIMARY) {
-      this.orbitSequence = starIdentifier(starIndex);
-    } else
-      this.orbitSequence = 'A';
+  assignOrbitSequences(orbiting) {
     if (this.stellarType === 'D')
       return;
+    this.jump = auToOrbit(this.jumpShadow);
+    switch (this.orbitType) {
+      case ORBIT_TYPES.PRIMARY:
+        this.orbitSequence = 'A';
+        break;
+      case ORBIT_TYPES.CLOSE:
+        this.orbitSequence = 'B';
+        break;
+      case ORBIT_TYPES.NEAR:
+        this.orbitSequence = 'C';
+        break;
+      case ORBIT_TYPES.FAR:
+        this.orbitSequence = 'D';
+        break;
+    }
+    if (this.companion)
+      this.companion.orbitSequence = this.orbitSequence + 'b';
+    orbiting += this.orbitSequence;
     let index = 0;
-    let starCount = 0;
     for (const stellar of this.stellarObjects) {
-      index++;
       if (stellar instanceof Star) {
-        starCount++;
-        starIndex.push(starCount);
-        stellar.assignOrbitSequences(starIndex)
-      } else
-        stellar.orbitSequence = sequenceIdentifier(index, starIndex);
+        stellar.assignOrbitSequences('');
+        orbiting += stellar.orbitSequence;
+      } else {
+        index++;
+        let od = this.companion && orbiting.length === 1 ? orbiting + 'ab' : orbiting;
+        stellar.orbitSequence = sequenceIdentifier(od, index);
+      }
     }
   }
 
