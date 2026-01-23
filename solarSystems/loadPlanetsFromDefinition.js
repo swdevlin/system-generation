@@ -35,6 +35,9 @@ const assignBodies = (star, definition, solarSystem) => {
       if (orbitIndex > star.occupiedOrbits.length-1)
         break;
       const newSO = solarSystem.preassignedBody({star: star, body: body, orbitIndex: orbitIndex});
+      if (!newSO)
+        continue;
+      newSO.name = body.name ? body.name : null;
       if (body.mainWorld)
         solarSystem._mainWorld = newSO;
     }
