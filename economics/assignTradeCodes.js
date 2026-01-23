@@ -146,7 +146,10 @@ const isWaterworld = (planet) => {
 }
 
 const assignTradeCodes = (planet) => {
-  planet.tradeCodes.length = 0;
+  if (!planet.tradeCodes)
+    planet.tradeCodes = [];
+  else
+    planet.tradeCodes.length = 0;
   if (isAgricultural(planet))
     planet.tradeCodes.push('Ag');
   if (isAsteroid(planet))
