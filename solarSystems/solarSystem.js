@@ -5,11 +5,8 @@ const {
   eccentricity,
   determineHydrographics,
   meanTemperature, axialTilt, orbitPosition, calculateDistance, travelTime, STELLAR_TYPES, AU, isBrownDwarf,
-  auToOrbit,
-  orbitText,
-  starIdentifier,
 } = require("../utils");
-const {threeD6, twoD6, d4, d6, d10} = require("../dice");
+const {threeD6, twoD6, d6, d10} = require("../dice");
 const {GasGiant} = require("../gasGiants");
 const {
   PlanetoidBelt,
@@ -37,44 +34,6 @@ const {techLevelDMs} = require("../terrestrialPlanet/assignTechLevel");
 
 const Random = require("random-js").Random;
 const r = new Random();
-
-const determineAllegiance = (sector, subsector) => {
-  if (subsector.allegiance !== undefined)
-    return subsector.allegiance;
-  else
-    return sector.allegiance === undefined ? null: sector.allegiance;
-}
-
-const determineSocialLimits = (sector, subsector) => {
-  const limits = {
-    minTechLevel: 0,
-    maxTechLevel: 15,
-    minPopulationCode: 0,
-    maxPopulationCode: 15
-  };
-
-  if (subsector.minTechLevel !== undefined)
-    limits.minTechLevel = subsector.minTechLevel;
-  else if (sector.minTechLevel !== undefined)
-    limits.minTechLevel = sector.minTechLevel;
-
-  if (subsector.maxTechLevel !== undefined)
-    limits.maxTechLevel = subsector.maxTechLevel;
-  else if (sector.maxTechLevel !== undefined)
-    limits.maxTechLevel = sector.maxTechLevel;
-
-  if (subsector.minPopulationCode !== undefined)
-    limits.minPopulationCode = subsector.minPopulationCode;
-  else if (sector.minPopulationCode !== undefined)
-    limits.minPopulationCode = sector.minPopulationCode;
-
-  if (subsector.maxPopulationCode !== undefined)
-    limits.maxPopulationCode = subsector.maxPopulationCode;
-  else if (sector.maxPopulationCode !== undefined)
-    limits.maxPopulationCode = sector.maxPopulationCode;
-
-  return limits;
-}
 
 class SolarSystem {
   constructor(name) {

@@ -53,17 +53,11 @@ const isGarden = (planet) => {
 }
 
 const isHighPopulation = (planet) => {
-  if (planet.population.code >= 9)
-    return true;
-
-  return false;
+  return planet.population.code >= 9;
 }
 
 const isHighTech = (planet) => {
-  if (planet.techLevel >= 12)
-    return true;
-
-  return false;
+  return planet.techLevel >= 12;
 }
 
 const isIceCapped = (planet) => {
@@ -83,10 +77,7 @@ const isIndustrial = (planet) => {
 }
 
 const isLowPopulation = (planet) => {
-  if (planet.population.code >= 1 && planet.population.code <= 3)
-    return true;
-
-  return false;
+  return planet.population.code >= 1 && planet.population.code <= 3;
 }
 
 const isLowTech = (planet) => {
@@ -107,10 +98,7 @@ const isNonAgricultural = (planet) => {
 }
 
 const isNonIndustrial = (planet) => {
-  if (planet.population.code >= 4 && planet.population.code <= 6)
-    return true;
-
-  return false;
+  return planet.population.code >= 4 && planet.population.code <= 6;
 }
 
 const isPoor = (planet) => {
@@ -131,10 +119,7 @@ const isRich = (planet) => {
 }
 
 const isVacuumWorld = (planet) => {
-  if (planet.atmosphere.code === 0)
-    return true;
-
-  return false;
+  return planet.atmosphere.code === 0;
 }
 
 const isWaterworld = (planet) => {

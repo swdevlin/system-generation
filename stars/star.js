@@ -167,8 +167,7 @@ class Star extends StellarObject {
   }
 
   get luminosity() {
-    let luminosity = (this.diameter ** 2) * ((this.temperature / 5772) ** 4);
-    return luminosity;
+    return (this.diameter ** 2) * ((this.temperature / 5772) ** 4);
   }
 
   get totalLuminosity() {
