@@ -132,6 +132,7 @@ router.post('/', (req, res) => {
                 solarSystem.addAnomalousPlanets();
             }
             solarSystem.addMoons();
+            solarSystem.setRotationPeriod();
             solarSystem.assignAtmospheres();
             solarSystem.assignBiomass();
             solarSystem.assignResourceRatings();

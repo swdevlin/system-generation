@@ -6,7 +6,7 @@ const {
   meanTemperature, axialTilt, orbitPosition, calculateDistance, travelTime, STELLAR_TYPES, AU, isBrownDwarf,
   EARTH_DIAMETER,
 } = require("../utils");
-const {threeD6, twoD6, d6, d10} = require("../dice");
+const {threeD6, twoD6, d6, d10, randomInt} = require("../dice");
 const {GasGiant} = require("../gasGiants");
 const {
   PlanetoidBelt,
@@ -310,6 +310,25 @@ class SolarSystem {
   addMoons() {
     for (const star of this.stars)
       assignMoons(star);
+  }
+
+  setRotationPeriod() {
+    for (const star of this.stars)
+      for (const stellarObject of star.stellarObjects)
+        if ([ORBIT_TYPES.TERRESTRIAL, ORBIT_TYPES.PLANETOID, ORBIT_TYPES.GAS_GIANT].includes(stellarObject.orbitType)) {
+          let rotation = 0;
+          let r = 0;
+          let multiplier = 4;
+          if (stellarObject.orbitType === ORBIT_TYPES.GAS_GIANT || stellarObject.size === 'S' || stellarObject.size === 'R' || stellarObject.size === 0 )
+            multiplier = 2;
+          do {
+            r = (twoD6() - 2) * multiplier + 2 + d6();
+            rotation += r;
+          } while (r > 40 && d6() > 4);
+          rotation += Math.floor(this.stars[0].age / 2);
+          const hm = randomInt(0,59) + randomInt(0,59)/60;
+          stellarObject.rotation = rotation + hm/60;
+        }
   }
 
   assignAtmospheres() {

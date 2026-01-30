@@ -29,6 +29,7 @@ router.post('/', (req, res) => {
     });
 
     starSystem.addMoons();
+    starSystem.setRotationPeriod();
     starSystem.assignAtmospheres();
     starSystem.assignBiomass();
     starSystem.assignResourceRatings();

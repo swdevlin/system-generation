@@ -163,7 +163,7 @@ class Star extends StellarObject {
       i++;
     }
     this.stellarObjects.splice(i, 0, item);
-    item.period = Math.sqrt(orbitToAU(item.orbit) ** 3 / mass);
+    item.period = Math.sqrt(orbitToAU(item.orbit) ** 3 / mass) * 365.25;
   }
 
   get luminosity() {

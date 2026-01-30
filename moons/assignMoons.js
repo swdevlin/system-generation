@@ -130,6 +130,7 @@ const assignMoons = (star) => {
             dm += 2;
           if (twoD6()+dm > 9)
             period *= -1;
+          period *= 365.25;
 
           const moon = new Moon();
           moon.orbit = orbit;
