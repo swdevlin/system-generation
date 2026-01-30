@@ -1,10 +1,10 @@
 const {
   ORBIT_TYPES,
   shuffleArray,
-  SOL_DIAMETER,
   eccentricity,
   determineHydrographics,
   meanTemperature, axialTilt, orbitPosition, calculateDistance, travelTime, STELLAR_TYPES, AU, isBrownDwarf,
+  EARTH_DIAMETER,
 } = require("../utils");
 const {threeD6, twoD6, d6, d10} = require("../dice");
 const {GasGiant} = require("../gasGiants");
@@ -252,11 +252,11 @@ class SolarSystem {
     }
     let gg;
     if (size === 'GS')
-      gg = new GasGiant(size, SOL_DIAMETER * (r.die(3) + r.die(3)), r.integer(2,7) * 5);
+      gg = new GasGiant(size, EARTH_DIAMETER * (r.die(3) + r.die(3)), r.integer(2,7) * 5);
     else if (size === 'GM')
-      gg = new GasGiant(size, SOL_DIAMETER * (d6() + 6), 20*(threeD6()-1));
+      gg = new GasGiant(size, EARTH_DIAMETER * (d6() + 6), 20*(threeD6()-1));
     else
-      gg = new GasGiant(size, SOL_DIAMETER * (twoD6()+6), r.die(3)*50*(threeD6()+4));
+      gg = new GasGiant(size, EARTH_DIAMETER * (twoD6()+6), r.die(3)*50*(threeD6()+4));
     if (gg.mass >= 3000)
       gg.mass = 4000-200*(twoD6()-2);
     gg.setOrbit(star, star.occupiedOrbits[orbitIndex]);
