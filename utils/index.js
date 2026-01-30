@@ -10,6 +10,7 @@ const TYPES_BY_TEMP = ['O', 'B', 'A', 'F', 'G', 'K', 'M', 'D', 'L', 'T', 'Y'];
 const AU = 149597870.9;
 
 const SOL_DIAMETER = 1392000;
+const EARTH_DIAMETER = 12756;
 
 const StarColour = {
   'O': 'Blue',
@@ -283,6 +284,7 @@ module.exports = {
   AU: AU,
   StarColour: StarColour,
   SOL_DIAMETER: SOL_DIAMETER,
+  EARTH_DIAMETER: EARTH_DIAMETER,
 };
 
 
