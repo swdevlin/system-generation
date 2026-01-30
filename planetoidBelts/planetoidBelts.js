@@ -153,7 +153,8 @@ const addSignificantBodies = (star, belt) => {
     p.setOrbit(star, orbit);
     assignPhysicalCharacteristics(star, p);
     p.orbitType = ORBIT_TYPES.PLANETOID_BELT_OBJECT;
-    star.addStellarObject(p);
+    belt.addSignificantBody(p);
+    // star.addStellarObject(p);
   }
 
   bodies = twoD6() - 10;
@@ -175,7 +176,8 @@ const addSignificantBodies = (star, belt) => {
     p.setOrbit(star, orbit);
     assignPhysicalCharacteristics(star, p);
     p.orbitType = ORBIT_TYPES.PLANETOID_BELT_OBJECT;
-    star.addStellarObject(p);
+    belt.addSignificantBody(p);
+    // star.addStellarObject(p);
   }
 
 };

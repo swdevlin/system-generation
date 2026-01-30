@@ -42,6 +42,9 @@ class PlanetoidBelt extends StellarObject {
     return `${this.starPort}${toHex(this.size)}${toHex(this.atmosphere.code)}${toHex(this.hydrographics.code)}${toHex(this.population.code)}${toHex(this.governmentCode)}${toHex(this.lawLevelCode)}-${toHex(this.techLevel)}`;
   }
 
+  addSignificantBody(body) {
+    this.significantBodies.push(body);
+  }
 }
 
 module.exports = PlanetoidBelt;
