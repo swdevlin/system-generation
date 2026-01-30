@@ -186,7 +186,7 @@ class Star extends StellarObject {
   }
 
   get jumpShadow() {
-    return 100 * this.diameter * SOL_DIAMETER / AU;
+    return 100 * this.diameter * SOL_DIAMETER;
   }
 
   get totalOrbits() {
