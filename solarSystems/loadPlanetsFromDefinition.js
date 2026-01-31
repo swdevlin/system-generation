@@ -46,7 +46,7 @@ const assignBodies = (star, definition, solarSystem) => {
 
 };
 
-const loadPlanetsFromDefinition = ({sector, subsector, definition, solarSystem}) => {
+const loadPlanetsFromDefinition = ({definition, solarSystem}) => {
   if (hasBodies(definition)) {
     for (const star of solarSystem.stars) {
       switch (star.orbitType) {
@@ -68,6 +68,7 @@ const loadPlanetsFromDefinition = ({sector, subsector, definition, solarSystem})
     solarSystem.gasGiants = definition.counts.gasGiants;
     solarSystem.planetoidBelts = definition.counts.planetoidBelts;
     solarSystem.terrestrialPlanets = definition.counts.terrestrialPlanets;
+    solarSystem.mainFromDefinition = definition.counts.mainWorld || null;
     solarSystem.distributeObjects();
     solarSystem.assignOrbits();
   } else {

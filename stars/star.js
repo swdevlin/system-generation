@@ -251,7 +251,8 @@ class Star extends StellarObject {
   }
 
   nextAvailableOrbit(orbit) {
-    let orbitOffet = this.spread + ((twoD6() - 7) * this.spread) / 10;
+    const dr = twoD6();
+    let orbitOffet = this.spread + ((dr - 7) * this.spread) / 10;
     for (const range of this.availableOrbits)
       if (range[0] >= orbit) {
         return Math.max(range[0], range[0] + orbitOffet);

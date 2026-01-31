@@ -51,6 +51,8 @@ class SolarSystem {
     this.remarks = '';
     this.surveyIndex = 0;
     this.allegiance = null;
+    this.buildLog = [];
+    this.mainFromDefinition = null;
   }
 
   get x() {
@@ -135,10 +137,10 @@ class SolarSystem {
 
       primary.availableOrbits = [];
       if (this.stars.length > 1)
-        for (let i=1; i < this.stars.length; i++) {
+        for (let i = 1; i < this.stars.length; i++) {
           const star = this.stars[i];
           let eccMod = star.eccentricity > 0.2 ? 1 : 0;
-          if ((star.orbitType === ORBIT_TYPES.NEAR || star.orbitType === ORBIT_TYPES.CLOSE ) && star.eccentricity > 0.5)
+          if ((star.orbitType === ORBIT_TYPES.NEAR || star.orbitType === ORBIT_TYPES.CLOSE) && star.eccentricity > 0.5)
             eccMod++;
           maxOrbit = star.orbit - 1.0 - eccMod;
           if (maxOrbit < minOrbit)
@@ -152,18 +154,18 @@ class SolarSystem {
       primary.availableOrbits.push([minOrbit, 20]);
     }
 
-    for (let i=1; i < this.stars.length; i++) {
+    for (let i = 1; i < this.stars.length; i++) {
       const star = this.stars[i];
       if (star.stellarType === 'D')
         continue;
       let minOrbit = star.minimumAllowableOrbit;
       if (star.companion)
-        minOrbit = Math.max(minOrbit, 0.5+star.companion.eccentricity)
+        minOrbit = Math.max(minOrbit, 0.5 + star.companion.eccentricity)
 
       maxOrbit = star.orbit - 3.0;
-      if (i < this.stars.length-1 && this.stars[i+1].orbitType - star.orbitType === 1)
+      if (i < this.stars.length - 1 && this.stars[i + 1].orbitType - star.orbitType === 1)
         maxOrbit -= 1;
-      else if (i > 0 && star.orbitType - this.stars[i-1].orbitType === 1)
+      else if (i > 0 && star.orbitType - this.stars[i - 1].orbitType === 1)
         maxOrbit -= 1;
 
       if (maxOrbit > minOrbit)
@@ -266,7 +268,112 @@ class SolarSystem {
     return gg;
   };
 
-  assignOrbits() {
+  assignMainWorld(orbits) {
+    const mainworld = this.mainFromDefinition;
+    if (!mainworld)
+      return null;
+
+    let i = null;
+    let lastDiff;
+    switch (typeof mainworld.orbit) {
+      case 'number':
+        i = orbits.findIndex(item => item[1] === mainworld.orbit-1);
+        break
+      case 'string':
+        switch (mainworld.orbit.toLowerCase()) {
+          case 'hzco':
+            lastDiff = 99999;
+            for (const orbit of orbits) {
+              const star = orbit[0];
+              const orbitIndex = orbit[1];
+              const orbitNumber = star.occupiedOrbits[orbitIndex];
+              const diff = Math.abs(orbitNumber -  star.hzco);
+              if (diff < lastDiff) {
+                lastDiff = diff;
+                i = orbits.indexOf(orbit);
+              }
+            }
+            break;
+          case 'habitable':
+            for (const orbit of orbits) {
+              const star = orbit[0];
+              const orbitIndex = orbit[1];
+              const orbitNumber = star.occupiedOrbits[orbitIndex];
+              const diff = Math.abs(orbitNumber -  star.hzco);
+              if (diff < 1) {
+                i = orbits.indexOf(orbit);
+                break
+              }
+            }
+            break;
+          case 'outer':
+            for (const orbit of orbits) {
+              const star = orbit[0];
+              const orbitIndex = orbit[1];
+              const orbitNumber = star.occupiedOrbits[orbitIndex];
+              const diff = orbitNumber -  star.hzco;
+              if (diff > 1) {
+                i = orbits.indexOf(orbit);
+                break
+              }
+            }
+            break;
+          case 'inner':
+            for (const orbit of orbits) {
+              const star = orbit[0];
+              const orbitIndex = orbit[1];
+              const orbitNumber = star.occupiedOrbits[orbitIndex];
+              const diff = orbitNumber -  star.hzco;
+              if (diff < -1) {
+                i = orbits.indexOf(orbit);
+                break
+              }
+            }
+            break;
+          case 'cold':
+            lastDiff = 0;
+            for (const orbit of orbits) {
+              const star = orbit[0];
+              const orbitIndex = orbit[1];
+              const orbitNumber = star.occupiedOrbits[orbitIndex];
+              const diff = orbitNumber -  star.hzco;
+              if (diff > 0 && diff < 1 && diff > lastDiff) {
+                lastDiff = diff;
+                i = orbits.indexOf(orbit);
+              }
+            }
+            break;
+          case 'warm':
+            lastDiff = 9999;
+            for (const orbit of orbits) {
+              const star = orbit[0];
+              const orbitIndex = orbit[1];
+              const orbitNumber = star.occupiedOrbits[orbitIndex];
+              const diff = orbitNumber -  star.hzco;
+              if (diff < 0 && diff > -1 && diff < lastDiff) {
+                lastDiff = diff;
+                i = orbits.indexOf(orbit);
+              }
+            }
+            break;
+        }
+        if (i === null)
+          i = randomInt(0, orbits.length-1);
+        break
+      case 'undefined':
+        i = randomInt(0, orbits.length-1);
+        break
+    }
+
+    const star = orbits[i][0];
+    const orbitIndex = orbits[i][1];
+    const orbit = star.occupiedOrbits[orbitIndex];
+    this.addTerrestrialPlanet({star, orbitIndex, uwp: mainworld.uwp});
+    orbits.splice(i, 1);
+    return orbit;
+  }
+
+  buildListOfAvailableOrbits() {
     for (const star of this.stars)
       star.assignOrbits(this.primaryStar);
 
@@ -279,6 +386,11 @@ class SolarSystem {
       allOrbits = allOrbits.concat(starOrbits);
     }
     shuffleArray(allOrbits);
+    return allOrbits;
+  }
+
+  assignOrbits() {
+    let allOrbits = this.buildListOfAvailableOrbits();
 
     for (let i=0; i < this.gasGiants; i++) {
       const p = allOrbits.pop();
@@ -296,12 +408,25 @@ class SolarSystem {
         this.addPlanetoidBelt(p[0], p[1]);
     }
 
+    const start = this.mainFromDefinition === undefined ? 0 : 1;
     for (let i=0; i < this.terrestrialPlanets; i++) {
       const p = allOrbits.pop();
       if (p === undefined) {
         break;
-      } else
-        this.addTerrestrialPlanet({star: p[0], orbitIndex: p[1]});
+      } else {
+        let uwp = null;
+        const star = p[0];
+        const orbitIndex = p[1];
+        if (this.mainFromDefinition) {
+          const orbitNumber = star.occupiedOrbits[orbitIndex];
+          if (Math.abs(orbitNumber - star.hzco) < 1 || i === this.terrestrialPlanets - 1) {
+            uwp = this.mainFromDefinition.uwp;
+            this.mainFromDefinition = null;
+          }
+        }
+        this.addTerrestrialPlanet({star, orbitIndex, uwp});
+
+      }
     }
 
     this.remainingOrbits = allOrbits;

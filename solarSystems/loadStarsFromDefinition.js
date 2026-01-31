@@ -10,11 +10,7 @@ const {twoD6, d6} = require("../dice");
 const addCompanion = require("../stars/addCompanion");
 const companionDM = require("../stars/companionDM");
 
-const loadStarsFromDefinition = ({sector, subsector, definition, solarSystem}) => {
-  let unusualChance = sector.unusualChance / 100;
-  if (definition.unusualChance)
-    unusualChance = definition.unusualChance / 100;
-
+const loadStarsFromDefinition = ({definition, solarSystem, unusualChance}) => {
   let primary;
   let close;
   let near;
