@@ -228,8 +228,7 @@ class SolarSystem {
     const p = new TerrestrialPlanet(size, orbit, uwp);
     p.setOrbit(star, orbit);
 
-    if (!uwp)
-      assignPhysicalCharacteristics(star, p);
+    assignPhysicalCharacteristics(star, p, uwp);
     star.addStellarObject(p);
     return p;
   };
