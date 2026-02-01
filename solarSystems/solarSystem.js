@@ -369,6 +369,7 @@ class SolarSystem {
     const orbitIndex = orbits[i][1];
     const orbit = star.occupiedOrbits[orbitIndex];
     this.addTerrestrialPlanet({star, orbitIndex, uwp: mainworld.uwp});
+    this._mainWorld = star.stellarObjects[star.stellarObjects.length-1];
     orbits.splice(i, 1);
     return orbit;
   }
@@ -827,7 +828,7 @@ class SolarSystem {
     } catch(err) {
       if (err instanceof TypeError) {
         this._mainWorld = null;
-        console.log(`  ${this.sector.name} ${this.coordinates} has no main world`);
+        console.log(`  ${this.coordinates} has no main world`);
       }
     }
     return this._mainWorld;
