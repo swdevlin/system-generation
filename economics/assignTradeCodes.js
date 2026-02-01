@@ -131,6 +131,8 @@ const isWaterworld = (planet) => {
 }
 
 const assignTradeCodes = (planet) => {
+  if (!planet)
+    return;
   if (!planet.tradeCodes)
     planet.tradeCodes = [];
   else
