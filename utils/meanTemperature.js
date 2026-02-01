@@ -8,28 +8,34 @@ const TEMPERATURE_LOOKUP = [
 
 // page 108
 meanTemperature = (star, planet) => {
-  let roll = twoD6();
-
-  if (planet.effectiveHZCODeviation < -1) {
-    roll = 7;
-    roll += 4 + Math.round((-1* planet.effectiveHZCODeviation - 1) / 0.5);
-  } else if (planet.effectiveHZCODeviation > 1) {
-    roll = 7;
-    roll -= 4;
-    roll -= Math.round((planet.effectiveHZCODeviation - 1) / 0.5);
-  }
+  let roll = 7;
 
   // page 47
-  if ([2, 3].includes(planet.atmosphere.code) )
-    roll -= 2;
-  if ([4, 5, 14].includes(planet.atmosphere.code) )
-    roll -= 1;
-  if ([8, 9].includes(planet.atmosphere.code) )
-    roll += 1;
-  if ([10, 13, 15].includes(planet.atmosphere.code) )
-    roll += 2;
-  if ([11, 12].includes(planet.atmosphere.code) )
-    roll += 6;
+  let mod = 0;
+
+  switch (planet.atmosphere.code) {
+    case 2:
+    case 3:  mod = -2; break;
+    case 4:
+    case 5:
+    case 14: mod = -1; break;
+    case 8:
+    case 9:  mod =  1; break;
+    case 10:
+    case 13:
+    case 15: mod =  2; break;
+    case 11:
+    case 12: mod =  6; break;
+  }
+
+  roll += mod;
+
+  if (planet.orbit < star.hzco - 1) {
+    roll += 4 + Math.round(((star.hzco - 1) - planet.orbit) / 0.5);
+  } else if (planet.orbit > star.hzco + 1) {
+    roll -= 4;
+    roll -= Math.round((planet.orbit - (star.hzco+1)) / 0.5);
+  }
 
   let temp;
   if (roll < 0)
@@ -39,27 +45,14 @@ meanTemperature = (star, planet) => {
   else
     temp = TEMPERATURE_LOOKUP[roll];
 
-  // let r = (star.totalLuminosity * (1-planet.albedo) * (1+planet.greenhouse))/Math.pow(orbitToAU(planet.orbit), 2);
-  // let k = 279 * Math.pow(r, 0.25);
+  if (Math.abs(planet.effectiveHZCODeviation) < 1)
+    temp -= planet.effectiveHZCODeviation * 10;
 
-  // if (Math.abs(star.hzco - planet.orbit) <= 1) {
-  //
-  //   const lineToAdd = 'This is the line to add at the end of the file.';
-  //
-  //   const filePath = 'C:\\Users\\swdev\\projects\\system-generation\\output\\hzco.csv';
-  //   const columns = [
-  //     star.stellarType, star.stellarClass, star.subtype,  star.totalLuminosity, star.hzco,
-  //     planet.orbit, planet.albedo, planet.greenhouse, planet.size, planet.atmosphere.bar, 0.5 * Math.sqrt(planet.atmosphere.bar),
-  //     k-272.15, temp
-  //   ];
-  //
-  //   fs.appendFileSync(filePath, columns.join(',') + '\n');
-  //
-  // }
-  // return k;
-  // console.log(k-272.15, temp, 100*(k-272.15-temp)/temp);
+  let k = 273 + temp;
+  if (k < 10)
+    k = d6() + 5;
 
-  return temp + 273;
+  return k;
 }
 
 module.exports = meanTemperature;

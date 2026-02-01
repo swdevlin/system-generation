@@ -780,7 +780,7 @@ class SolarSystem {
       if (stellarObject instanceof Star)
         this.getPossibleMainWorlds(stellarObject, possibleMainWorlds);
       else if (!(stellarObject instanceof GasGiant))
-        possibleMainWorlds.push([Math.abs(stellarObject.effectiveHZCODeviation), stellarObject])
+        possibleMainWorlds.push([Math.abs(stellarObject.hzcoDeviation), stellarObject])
   }
 
   getPossibleGGMainWorlds(star, possibleMainWorlds) {
@@ -789,7 +789,7 @@ class SolarSystem {
         this.getPossibleGGMainWorlds(stellarObject, possibleMainWorlds);
       else if (stellarObject instanceof GasGiant)
         for (const moon of stellarObject.moons)
-          possibleMainWorlds.push([Math.abs(stellarObject.effectiveHZCODeviation), moon])
+          possibleMainWorlds.push([Math.abs(stellarObject.hzcoDeviation), moon])
   }
 
   get mainWorld() {

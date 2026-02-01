@@ -7,11 +7,11 @@ const terrestrialCompositionDM = (star, planet) => {
   else if (planet.size >= 10)
     dm += 3;
 
-  if (planet.effectiveHZCODeviation <= 0)
+  if (planet.hzcoDeviation <= 0)
     dm += 1;
 
-  if (planet.effectiveHZCODeviation > 0)
-    dm -= 1 + Math.floor(planet.effectiveHZCODeviation);
+  if (planet.hzcoDeviation > 0)
+    dm -= 1 + Math.floor(planet.hzcoDeviation);
 
   if (star.age > 10)
     dm -= 1;

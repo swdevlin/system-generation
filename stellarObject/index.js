@@ -10,14 +10,16 @@ class StellarObject {
     this.orbit = 0;
     this.buildLog = [];
     this.fromUWP = false;
+    this.hzcoDeviation = 0;
   }
 
   setOrbit(star, orbitNumber) {
     this.orbit = orbitNumber;
     if (star.hzco < 1 || orbitNumber < 1)
-      this.effectiveHZCODeviation = (star.hzco - orbitNumber) / Math.min(star.hzco, orbitNumber);
+      this.effectiveHZCODeviation = (orbitNumber - star.hzco) / Math.min(star.hzco, orbitNumber);
     else
-      this.effectiveHZCODeviation = star.hzco - orbitNumber;
+      this.effectiveHZCODeviation = orbitNumber - star.hzco;
+    this.hzcoDeviation = orbitNumber - star.hzco;
   }
 
   get jumpShadow() {

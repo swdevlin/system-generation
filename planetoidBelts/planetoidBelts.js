@@ -31,12 +31,12 @@ const planetoidBeltQuantity = (solarSystem, densityIndex) => {
 const determineBeltComposition = (star, belt) => {
   let roll = twoD6();
   belt.buildLog.push(`composition roll ${roll}`);
-  if (belt.effectiveHZCODeviation < 0) {
+  if (belt.hzcoDeviation < 0) {
     roll -= 4;
-    belt.buildLog.push(`effectiveHZCODeviation DM -4`);
-  } else if (belt.effectiveHZCODeviation > 2) {
+    belt.buildLog.push(`hzcoDeviation DM -4`);
+  } else if (belt.hzcoDeviation > 2) {
     roll += 4;
-    belt.buildLog.push(`effectiveHZCODeviation DM +4`);
+    belt.buildLog.push(`hzcoDeviation DM +4`);
   }
 
   if (roll < 1) {
@@ -145,7 +145,7 @@ const addSignificantBodies = (star, belt) => {
   let bodies = twoD6() - 12 + belt.bulk;
   if (belt.span < 0.1)
     bodies -= 4;
-  if (belt.effectiveHZCODeviation > 3)
+  if (belt.hzcoDeviation > 3)
     bodies += 2;
   for (let i=0; i < bodies; i++) {
     let orbit = belt.orbit + calculateOrbitOffset(star, belt);
@@ -159,9 +159,9 @@ const addSignificantBodies = (star, belt) => {
 
   bodies = twoD6() - 10;
   let dm = 0;
-  if (belt.effectiveHZCODeviation >= 2 && belt.effectiveHZCODeviation <= 3)
+  if (belt.hzcoDeviation >= 2 && belt.hzcoDeviation <= 3)
     dm += 1;
-  if (belt.effectiveHZCODeviation > 3)
+  if (belt.hzcoDeviation > 3)
     dm += 3;
   if (belt.span > 1)
     dm += 1;

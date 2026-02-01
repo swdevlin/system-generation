@@ -27,7 +27,7 @@ const orbitPosition = (obj, star) => {
     orbit: obj.orbit,
     orbitSequence: obj.orbitSequence,
     stellarObject: obj,
-    habitableZone: Math.abs(obj.effectiveHZCODeviation) <= 1
+    habitableZone: Math.abs(obj.hzcoDeviation) <= 1
   }
 }
 
