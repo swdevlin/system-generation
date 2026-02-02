@@ -409,7 +409,7 @@ class SolarSystem {
     }
 
     const start = this.mainFromDefinition === undefined ? 0 : 1;
-    for (let i=0; i < this.terrestrialPlanets; i++) {
+    for (let i=start; i < this.terrestrialPlanets; i++) {
       const p = allOrbits.pop();
       if (p === undefined) {
         break;
