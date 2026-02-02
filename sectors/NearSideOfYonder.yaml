@@ -42,9 +42,9 @@ subsectors:
         primary:
           type: M4
           bodies:
-            - empty
-            - empty
-            - empty
+            - uwp: empty
+            - uwp: empty
+            - uwp: empty
             - uwp: Small Gas Giant
             - uwp: Small Gas Giant
       - x: 2
@@ -88,7 +88,7 @@ subsectors:
             type: A9
           bodies:
             - uwp: Large Gas Giant
-            - uwp: Super-Earth
+            - uwp: super earth
             - uwp: X9B9000-0
             - uwp: X6A5000-0
             - uwp: X5A3000-0
@@ -103,7 +103,7 @@ subsectors:
         primary:
           type: G5
           bodies:
-            - empty
+            - uwp: empty
             - uwp: X000000-0
             - uwp: Small Gas Giant
       - x: 4
@@ -186,7 +186,7 @@ subsectors:
           bodies:
             - uwp: D000546-9
               orbit: warm
-            - uwp: Super-Earth
+            - uwp: super earth
             - uwp: D767946-9
             - uwp: D000546-9
             - uwp: Small Gas Giant
@@ -418,7 +418,7 @@ subsectors:
           - uwp: Small Gas Giant
           - uwp: Large Gas Giant
           - uwp: X8B7000-0
-          - uwp: Super-Earth
+          - uwp: super earth
           - uwp: X111000-0
           - uwp: Large Gas Giant
           - uwp: X000000-0

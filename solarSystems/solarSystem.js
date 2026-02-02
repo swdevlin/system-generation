@@ -742,32 +742,35 @@ class SolarSystem {
   preassignedBody({star, body, orbitIndex}) {
     const planetoidBelt = /^.000...-./;
     let newBody;
+    if (!body.uwp)
+      return;
+    const typeName = body.uwp.toLowerCase();
     if (planetoidBelt.test(body.uwp)) {
       newBody = this.addPlanetoidBelt(star, orbitIndex);
       this.planetoidBelts++;
-    } else if (body.uwp === 'planetoid belt') {
+    } else if (typeName === 'planetoid belt') {
       newBody = this.addPlanetoidBelt(star, orbitIndex);
       this.planetoidBelts++;
-    } else if (body.uwp === 'small gas giant') {
+    } else if (typeName === 'small gas giant') {
       this.gasGiants++;
       newBody = this.addGasGiant({star: star, orbitIndex: orbitIndex, size: 'GS'});
-    } else if (body.uwp === 'gas giant') {
+    } else if (typeName === 'gas giant') {
       this.gasGiants++;
       newBody = this.addGasGiant({star: star, orbitIndex: orbitIndex, size: 'GM'});
-    } else if (body.uwp === 'large gas giant') {
+    } else if (typeName === 'large gas giant') {
       this.gasGiants++;
       newBody = this.addGasGiant({star: star, orbitIndex: orbitIndex, size: 'GL'});
-    } else if (body.uwp === 'super earth') {
+    } else if (typeName === 'super earth') {
       newBody = this.addTerrestrialPlanet({
         star: star,
         orbitIndex: orbitIndex,
         size: superEarthWorldSize()
       });
       this.terrestrialPlanets++;
-    } else if (body.uwp === 'terrestrial') {
+    } else if (typeName === 'terrestrial') {
       newBody = this.addTerrestrialPlanet({star: star, orbitIndex: orbitIndex,});
       this.terrestrialPlanets++;
-    } else if (body.uwp !== 'empty') {
+    } else if (typeName !== 'empty') {
       newBody = this.addTerrestrialPlanet({star: star, orbitIndex: orbitIndex, uwp: body.uwp});
       this.terrestrialPlanets++;
     }

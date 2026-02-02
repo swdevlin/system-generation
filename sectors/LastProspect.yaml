@@ -274,10 +274,10 @@ subsectors:
         primary:
           type: F2
           bodies:
-            - empty
-            - empty
-            - empty
-            - empty
+            - uwp: empty
+            - uwp: empty
+            - uwp: empty
+            - uwp: empty
             - uwp: Small Gas Giant
       - x: 8
         y: 10

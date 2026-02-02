@@ -141,7 +141,7 @@ subsectors:
         primary:
           type: G7
           bodies:
-            - empty
+            - uwp: empty
             - uwp: X200000-0
             - uwp: Small Gas Giant
               orbit: cold
@@ -168,12 +168,12 @@ subsectors:
           type: K5
           class: Giant
           bodies:
-            - empty
-            - empty
-            - empty
-            - empty
-            - empty
-            - empty
+            - uwp: empty
+            - uwp: empty
+            - uwp: empty
+            - uwp: empty
+            - uwp: empty
+            - uwp: empty
             - uwp: X000000-0
             - uwp: X521000-0
               orbit: cold
