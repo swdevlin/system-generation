@@ -3,6 +3,7 @@ const hot1 = require("./hot1");
 const cold3 = require("./cold3");
 const cold1 = require("./cold1");
 const hzAtmosphere = require("./hzAtmosphere");
+const assignAtmosphereFromCode = require("./assignAtmosphereFromCode");
 
 const AtmosphereDensities = require("./AtmosphereDensities");
 
@@ -11,7 +12,7 @@ const r = new Random();
 
 // Page 78
 assignAtmosphere = (star, planet) => {
-  if (planet.atmosphere.code === null)
+  if (planet.atmosphere.code === null) {
     if (planet.size === 'R' || planet.size === 'S' || planet.size < 2) {
       planet.atmosphere.code = 0;
     } else {
@@ -26,6 +27,9 @@ assignAtmosphere = (star, planet) => {
       else
         hzAtmosphere(star, planet);
     }
+  } else {
+    assignAtmosphereFromCode(star, planet);
+  }
 
   switch (planet.atmosphere.density) {
     case AtmosphereDensities.NONE:
