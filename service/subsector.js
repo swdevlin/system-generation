@@ -141,7 +141,7 @@ router.post('/', (req, res) => {
         solarSystem.assignMainWorldSocialCharacteristics(p);
         solarSystem.allegiance = defined?.allegiance || defaultPopulated?.getAllegiance(row, col)?.allegiance;
         assignTradeCodes(solarSystem.mainWorld);
-      } else
+      }
 
       solarSystem.mainWorldOrbitSequence = solarSystem.mainWorld?.orbitSequence;
       // fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-map.svg`, solarSystem.systemMap());
