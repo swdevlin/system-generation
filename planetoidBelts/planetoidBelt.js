@@ -1,11 +1,11 @@
-const {ORBIT_TYPES, orbitText, sequenceIdentifier, toHex} = require("../utils");
+const {ORBIT_TYPES, orbitText, sequenceIdentifier, toHex, deconstructUWP} = require("../utils");
 const StellarObject = require("../stellarObject");
 const Atmosphere = require("../atmosphere/Atmosphere");
 const AtmosphereDensities = require("../atmosphere/AtmosphereDensities");
 const Population = require("../population/Population");
 
 class PlanetoidBelt extends StellarObject {
-  constructor(orbit) {
+  constructor(orbit, uwp) {
     super();
     this.orbit = orbit;
     this.moons = [];
@@ -26,11 +26,24 @@ class PlanetoidBelt extends StellarObject {
       distribution: null
     };
     this.population = new Population();
-    this.governmentCode = 0;
-    this.lawLevelCode = 0;
-    this.starPort = 'X';
-    this.techLevel = 0;
     this.size = 0;
+
+    // Parse UWP if provided for social characteristics
+    if (uwp) {
+      const components = deconstructUWP(uwp);
+      this.fromUWP = true;
+      this.starPort = components.starPort;
+      this.population.code = components.population;
+      this.governmentCode = components.government;
+      this.lawLevelCode = components.lawLevel;
+      this.techLevel = components.techLevel;
+    } else {
+      this.fromUWP = false;
+      this.governmentCode = 0;
+      this.lawLevelCode = 0;
+      this.starPort = 'X';
+      this.techLevel = 0;
+    }
   }
 
   textDump(spacing, prefix, postfix, index, starIndex) {

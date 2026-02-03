@@ -208,8 +208,8 @@ class SolarSystem {
     }
   }
 
-  addPlanetoidBelt(star, orbit_index) {
-    const pb = new PlanetoidBelt();
+  addPlanetoidBelt(star, orbit_index, uwp = null) {
+    const pb = new PlanetoidBelt(null, uwp);
     pb.setOrbit(star, star.occupiedOrbits[orbit_index]);
     pb.span = star.spread * twoD6()/10;
     determineBeltComposition(star, pb);
@@ -367,7 +367,12 @@ class SolarSystem {
     const star = orbits[i][0];
     const orbitIndex = orbits[i][1];
     const orbit = star.occupiedOrbits[orbitIndex];
-    this.addTerrestrialPlanet({star, orbitIndex, uwp: mainworld.uwp});
+    const planetoidBeltPattern = /^.000...-./;
+    if (planetoidBeltPattern.test(mainworld.uwp)) {
+      this.addPlanetoidBelt(star, orbitIndex, mainworld.uwp);
+    } else {
+      this.addTerrestrialPlanet({star, orbitIndex, uwp: mainworld.uwp});
+    }
     this._mainWorld = star.stellarObjects[star.stellarObjects.length-1];
     orbits.splice(i, 1);
     return orbit;
@@ -392,6 +397,12 @@ class SolarSystem {
   assignOrbits() {
     let allOrbits = this.buildListOfAvailableOrbits();
 
+    // Determine if main world is a planetoid belt or terrestrial
+    const planetoidBeltPattern = /^.000...-./;
+    const mainWorldIsBelt = this.mainFromDefinition?.uwp &&
+                            planetoidBeltPattern.test(this.mainFromDefinition.uwp);
+    const mainWorldIsTerrestrial = this.mainFromDefinition?.uwp && !mainWorldIsBelt;
+
     for (let i=0; i < this.gasGiants; i++) {
       const p = allOrbits.pop();
       if (p === undefined) {
@@ -400,7 +411,9 @@ class SolarSystem {
         this.addGasGiant({star: p[0], orbitIndex: p[1]});
     }
 
-    for (let i=0; i < this.planetoidBelts; i++) {
+    // Skip one belt if main world is a belt (it will be created via assignMainWorld)
+    const beltStart = mainWorldIsBelt ? 1 : 0;
+    for (let i=beltStart; i < this.planetoidBelts; i++) {
       const p = allOrbits.pop();
       if (p === undefined) {
         break;
@@ -408,8 +421,9 @@ class SolarSystem {
         this.addPlanetoidBelt(p[0], p[1]);
     }
 
-    const start = this.mainFromDefinition === undefined ? 0 : 1;
-    for (let i=start; i < this.terrestrialPlanets; i++) {
+    // Skip one terrestrial if main world is terrestrial
+    const terrestrialStart = mainWorldIsTerrestrial ? 1 : 0;
+    for (let i=terrestrialStart; i < this.terrestrialPlanets; i++) {
       const p = allOrbits.pop();
       if (p === undefined) {
         break;
@@ -417,7 +431,7 @@ class SolarSystem {
         let uwp = null;
         const star = p[0];
         const orbitIndex = p[1];
-        if (this.mainFromDefinition) {
+        if (mainWorldIsTerrestrial && this.mainFromDefinition) {
           const orbitNumber = star.occupiedOrbits[orbitIndex];
           if (Math.abs(orbitNumber - star.hzco) < 1 || i === this.terrestrialPlanets - 1) {
             uwp = this.mainFromDefinition.uwp;
@@ -427,6 +441,11 @@ class SolarSystem {
         this.addTerrestrialPlanet({star, orbitIndex, uwp});
 
       }
+    }
+
+    // Create the main world belt if specified
+    if (mainWorldIsBelt) {
+      this.assignMainWorld(allOrbits);
     }
 
     this.remainingOrbits = allOrbits;
@@ -746,7 +765,7 @@ class SolarSystem {
       return;
     const typeName = body.uwp.toLowerCase();
     if (planetoidBelt.test(body.uwp)) {
-      newBody = this.addPlanetoidBelt(star, orbitIndex);
+      newBody = this.addPlanetoidBelt(star, orbitIndex, body.uwp);
       this.planetoidBelts++;
     } else if (typeName === 'planetoid belt') {
       newBody = this.addPlanetoidBelt(star, orbitIndex);
