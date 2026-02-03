@@ -859,6 +859,15 @@ class SolarSystem {
     this.primaryStar.assignOrbitSequences('');
   }
 
+  setOrbitPositions() {
+    this.primaryStar.stellarObjects.forEach((obj) => {
+      orbitPosition(obj, this.primaryStar);
+      if (obj instanceof Star)
+        obj.stellarObjects.forEach((obj) => {
+          orbitPosition(obj, this.primaryStar);
+        });
+    });
+  }
 }
 
 module.exports = SolarSystem;

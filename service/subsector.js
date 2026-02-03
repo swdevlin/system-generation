@@ -9,7 +9,6 @@ const assignStars = require("../solarSystems/assignStars");
 const {gasGiantQuantity} = require("../gasGiants");
 const {planetoidBeltQuantity} = require("../planetoidBelts");
 const terrestrialPlanetQuantity = require("../terrestrialPlanet/terrestrialPlanetQuantity");
-const fs = require("fs");
 const Populated = require("../solarSystems/populated");
 const {assignTradeCodes} = require("../economics/assignTradeCodes");
 
@@ -154,6 +153,7 @@ router.post('/', (req, res) => {
       // fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}.json`, asJson);
       // fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-travel.html`, solarSystem.travelGrid());
       // travellerMap.addSystem(solarSystem);
+      solarSystem.setOrbitPositions();
       systems.push(solarSystem);
     }
 
