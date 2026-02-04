@@ -65,9 +65,12 @@ const loadPlanetsFromDefinition = ({definition, solarSystem}) => {
       }
     }
   } else if (definition.counts) {
-    solarSystem.gasGiants = definition.counts.gasGiants;
-    solarSystem.planetoidBelts = definition.counts.planetoidBelts;
-    solarSystem.terrestrialPlanets = definition.counts.terrestrialPlanets;
+    solarSystem.gasGiants = definition.counts.gasGiants || 0;
+    solarSystem.planetoidBelts = definition.counts.planetoidBelts || 0;
+    solarSystem.terrestrialPlanets = definition.counts.terrestrialPlanets || 0;
+    if (definition.counts.density) {
+      solarSystem.assignFromDensity(definition.counts.density);
+    }
     solarSystem.mainFromDefinition = definition.counts.mainWorld || null;
     solarSystem.distributeObjects();
     solarSystem.assignOrbits();

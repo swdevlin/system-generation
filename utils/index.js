@@ -161,30 +161,50 @@ const shuffleArray = (array) => {
 
 const computeBaseline = (star) => {
   let baseline = twoD6();
-  if (star.companion)
+  let log = `roll: ${baseline}`;
+
+  if (star.companion) {
     baseline -= 2;
-  if (['Ia', 'Ib', 'II'].includes(star.stellarClass))
+    log += `, companion -2`;
+  }
+
+  if (['Ia', 'Ib', 'II'].includes(star.stellarClass)) {
     baseline += 3;
-  else if (star.stellarClass === 'III')
+    log += `, stellarClass ${star.stellarClass} +3`;
+  } else if (star.stellarClass === 'III') {
     baseline += 2;
-  else if (star.stellarClass === 'IV')
+    log += `, stellarClass III +2`;
+  } else if (star.stellarClass === 'IV') {
     baseline += 1;
-  else if (star.stellarClass === 'VI')
+    log += `, stellarClass IV +1`;
+  } else if (star.stellarClass === 'VI') {
     baseline -= 1;
-  if (star.totalObjects < 6)
+    log += `, stellarClass VI -1`;
+  }
+
+  if (star.totalObjects < 6) {
     baseline -= 4;
-  else if (star.totalObjects <= 9)
+    log += `, totalObjects ${star.totalObjects} -4`;
+  } else if (star.totalObjects <= 9) {
     baseline -= 3;
-  else if (star.totalObjects <= 12)
+    log += `, totalObjects ${star.totalObjects} -3`;
+  } else if (star.totalObjects <= 12) {
     baseline -= 2;
-  else if (star.totalObjects <= 15)
+    log += `, totalObjects ${star.totalObjects} -2`;
+  } else if (star.totalObjects <= 15) {
     baseline -= 1;
-  else if (star.totalObjects >= 18 && star.totalObjects <= 20)
+    log += `, totalObjects ${star.totalObjects} -1`;
+  } else if (star.totalObjects >= 18 && star.totalObjects <= 20) {
     baseline += 1;
-  else if (star.totalObjects > 20)
+    log += `, totalObjects ${star.totalObjects} +1`;
+  } else if (star.totalObjects > 20) {
     baseline += 2;
+    log += `, totalObjects ${star.totalObjects} +2`;
+  }
+
+  star.buildLog.push({ baseline: log });
   return baseline;
-}
+};
 
 const starIdentifier = (starIndex) => {
   let identifier = String.fromCharCode(64 + starIndex[0])

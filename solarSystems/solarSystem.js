@@ -31,6 +31,7 @@ const assignSocialCharacteristics = require("../terrestrialPlanet/assignSocialCh
 const summaryBlock = require("../stars/summaryBlock");
 const {determineStarport} = require("../terrestrialPlanet/assignStarport");
 const {techLevelDMs} = require("../terrestrialPlanet/assignTechLevel");
+const systemDensity = require("../utils/systemDensity");
 
 const Random = require("random-js").Random;
 const r = new Random();
@@ -392,6 +393,53 @@ class SolarSystem {
     }
     shuffleArray(allOrbits);
     return allOrbits;
+  }
+
+  assignFromDensity(density) {
+    let bodies = systemDensity(density);
+    let log = `bodiesFromDensity: ${bodies} ${density}`;
+
+    bodies -= this.gasGiants + this.planetoidBelts + this.terrestrialPlanets;
+    log += `, after counts ${bodies}`;
+
+    const events = [];
+
+    while (bodies > 0) {
+      const r = randomInt(1, 100);
+
+      let added = 'terrestrialPlanet';
+
+      if (r < 15) {
+        if (this.planetoidBelts < 3) {
+          this.planetoidBelts++;
+          added = 'planetoidBelt';
+        } else {
+          this.terrestrialPlanets++;
+          added = 'terrestrialPlanet';
+        }
+      } else if (r < 45) {
+        if (this.gasGiants < 3) {
+          this.gasGiants++;
+          added = 'gasGiant';
+        } else {
+          this.terrestrialPlanets++;
+          added = 'terrestrialPlanet';
+        }
+      } else {
+        this.terrestrialPlanets++;
+        added = 'terrestrialPlanet';
+      }
+
+      events.push({ roll: r, added });
+      bodies--;
+    }
+
+    this.buildLog.push({
+      assignFromDensity: {
+        summary: log,
+        events
+      }
+    });
   }
 
   assignOrbits() {

@@ -218,10 +218,6 @@ class Star extends StellarObject {
     return (orbit > this.availableOrbits.at(-1)[1])
   }
 
-  calculateSpread(primary) {
-
-  }
-
   assignOrbits(primary) {
     this.baseline = computeBaseline(this);
     if (this.availableOrbits.length === 0)
