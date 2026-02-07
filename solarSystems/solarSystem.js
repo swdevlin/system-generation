@@ -54,6 +54,8 @@ class SolarSystem {
     this.allegiance = null;
     this.buildLog = [];
     this.mainFromDefinition = null;
+    this.mainWorldType = null;
+    this.uwp = null;
   }
 
   get x() {
@@ -367,16 +369,28 @@ class SolarSystem {
 
     const star = orbits[i][0];
     const orbitIndex = orbits[i][1];
-    const orbit = star.occupiedOrbits[orbitIndex];
+
+    let mainType;
     const planetoidBeltPattern = /^.000...-./;
     if (planetoidBeltPattern.test(mainworld.uwp)) {
-      this.addPlanetoidBelt(star, orbitIndex, mainworld.uwp);
+      if (this.planetoidBelts > 0) {
+        mainType = 'planetoidBelt';
+        this.addPlanetoidBelt(star, orbitIndex, mainworld.uwp);
+      } else {
+        const size = null;
+        const gg = this.addGasGiant({star, orbitIndex, size});
+        gg.uwp = mainworld.uwp;
+        mainType = 'gasGiant';
+      }
     } else {
       this.addTerrestrialPlanet({star, orbitIndex, uwp: mainworld.uwp});
+      mainType = 'terrestrialPlanet';
     }
-    this._mainWorld = star.stellarObjects[star.stellarObjects.length-1];
-    orbits.splice(i, 1);
-    return orbit;
+    if (mainType !== 'moon') {
+      this._mainWorld = star.stellarObjects[star.stellarObjects.length - 1];
+      orbits.splice(i, 1);
+    }
+    return mainType;
   }
 
   buildListOfAvailableOrbits() {
@@ -445,13 +459,10 @@ class SolarSystem {
   assignOrbits() {
     let allOrbits = this.buildListOfAvailableOrbits();
 
-    // Determine if main world is a planetoid belt or terrestrial
-    const planetoidBeltPattern = /^.000...-./;
-    const mainWorldIsBelt = this.mainFromDefinition?.uwp &&
-                            planetoidBeltPattern.test(this.mainFromDefinition.uwp);
-    const mainWorldIsTerrestrial = this.mainFromDefinition?.uwp && !mainWorldIsBelt;
+    this.mainWorldType = this.assignMainWorld(allOrbits);
 
-    for (let i=0; i < this.gasGiants; i++) {
+    let start = this.mainWorldType === 'gasGiant' ? 1 : 0;
+    for (let i=start; i < this.gasGiants; i++) {
       const p = allOrbits.pop();
       if (p === undefined) {
         break;
@@ -460,8 +471,8 @@ class SolarSystem {
     }
 
     // Skip one belt if main world is a belt (it will be created via assignMainWorld)
-    const beltStart = mainWorldIsBelt ? 1 : 0;
-    for (let i=beltStart; i < this.planetoidBelts; i++) {
+    start = this.mainWorldType === 'planetoidBelt' ? 1 : 0;
+    for (let i= start; i < this.planetoidBelts; i++) {
       const p = allOrbits.pop();
       if (p === undefined) {
         break;
@@ -470,8 +481,8 @@ class SolarSystem {
     }
 
     // Skip one terrestrial if main world is terrestrial
-    const terrestrialStart = mainWorldIsTerrestrial ? 1 : 0;
-    for (let i=terrestrialStart; i < this.terrestrialPlanets; i++) {
+    start = this.mainWorldType === 'terrestrialPlanet' ? 1 : 0;
+    for (let i= start; i < this.terrestrialPlanets; i++) {
       const p = allOrbits.pop();
       if (p === undefined) {
         break;
@@ -479,21 +490,8 @@ class SolarSystem {
         let uwp = null;
         const star = p[0];
         const orbitIndex = p[1];
-        if (mainWorldIsTerrestrial && this.mainFromDefinition) {
-          const orbitNumber = star.occupiedOrbits[orbitIndex];
-          if (Math.abs(orbitNumber - star.hzco) < 1 || i === this.terrestrialPlanets - 1) {
-            uwp = this.mainFromDefinition.uwp;
-            this.mainFromDefinition = null;
-          }
-        }
         this.addTerrestrialPlanet({star, orbitIndex, uwp});
-
       }
-    }
-
-    // Create the main world belt if specified
-    if (mainWorldIsBelt) {
-      this.assignMainWorld(allOrbits);
     }
 
     this.remainingOrbits = allOrbits;
@@ -880,6 +878,7 @@ class SolarSystem {
       } else
         return b[1].population.code - a[1].population.code;
     });
+
     if (possibleMainWorlds.length === 0) {
       for (const star of this.stars)
         this.getPossibleGGMainWorlds(star, possibleMainWorlds);
@@ -892,6 +891,7 @@ class SolarSystem {
         return bSize - aSize;
       });
     }
+
     try {
       this._mainWorld = possibleMainWorlds[0][1];
     } catch(err) {

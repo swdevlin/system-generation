@@ -72,17 +72,18 @@ const loadPlanetsFromDefinition = ({definition, solarSystem}) => {
       solarSystem.assignFromDensity(definition.counts.density);
     }
     solarSystem.mainFromDefinition = definition.counts.mainWorld || null;
-    solarSystem.distributeObjects();
-    solarSystem.assignOrbits();
   } else {
     solarSystem.gasGiants = gasGiantQuantity(solarSystem, definition.densityIndex);
     solarSystem.planetoidBelts = planetoidBeltQuantity(solarSystem, definition.densityIndex);
     solarSystem.terrestrialPlanets = terrestrialPlanetQuantity(solarSystem, definition.densityIndex);
-
-    solarSystem.distributeObjects();
-    solarSystem.assignOrbits();
-    solarSystem.addAnomalousPlanets();
   }
+  solarSystem.distributeObjects();
+  solarSystem.assignOrbits();
+  if (definition.counts) {
+    if (solarSystem.mainWorldType === 'moon')
+      solarSystem.uwp = definition.counts.mainWorld.uwp;
+  } else
+    solarSystem.addAnomalousPlanets();
 }
 
 module.exports = loadPlanetsFromDefinition;
