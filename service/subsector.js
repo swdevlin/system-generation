@@ -135,6 +135,9 @@ router.post('/', (req, res) => {
       solarSystem.assignResourceRatings();
       solarSystem.assignHabitabilityRatings();
       solarSystem.assignOrbitSequences();
+      if (defined?.allegiance)
+        solarSystem.allegiance = defined.allegiance;
+
       const p = defaultPopulated?.getAllegiance(row, col);
       if (p && p.allegiance) {
         solarSystem.assignMainWorldSocialCharacteristics(p);
