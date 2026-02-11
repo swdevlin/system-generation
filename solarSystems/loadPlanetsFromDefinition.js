@@ -3,6 +3,29 @@ const {gasGiantQuantity} = require("../gasGiants");
 const {planetoidBeltQuantity} = require("../planetoidBelts");
 const terrestrialPlanetQuantity = require("../terrestrialPlanet/terrestrialPlanetQuantity");
 
+const LABEL_TARGETS = {
+  warm: (hzco) => hzco,
+  cold: (hzco) => hzco + 1,
+  habitable: (hzco) => hzco + 1,
+  inner: (hzco) => hzco - 1,
+};
+
+const computeMaxSpread = (star, bodies) => {
+  let maxSpread = null;
+  for (let i = 1; i < bodies.length; i++) {
+    const label = bodies[i].orbit;
+    if (!label || !(label in LABEL_TARGETS))
+      continue;
+    const target = LABEL_TARGETS[label](star.hzco);
+    if (target <= star.minimumAllowableOrbit)
+      continue;
+    const candidate = (target - star.minimumAllowableOrbit) / ((i + 1) * 1.3);
+    if (maxSpread === null || candidate < maxSpread)
+      maxSpread = candidate;
+  }
+  return maxSpread;
+};
+
 const hasBodies = (definition) => {
   if (!definition.primary)
     return false;
@@ -22,8 +45,9 @@ const assignBodies = (star, definition, solarSystem) => {
     return;
   let loops = 1;
   let orbitIndex;
+  const maxSpread = computeMaxSpread(star, definition.bodies);
   do {
-    star.resetNonStarBodies(definition.bodies.length+loops);
+    star.resetNonStarBodies(definition.bodies.length+loops, maxSpread);
     if (star.occupiedOrbits.length === 0) {
       console.log(`${solarSystem.sector} ${solarSystem.coordinates} ${definition.type} has no possible orbits`);
       return;
@@ -77,13 +101,16 @@ const loadPlanetsFromDefinition = ({definition, solarSystem}) => {
     solarSystem.planetoidBelts = planetoidBeltQuantity(solarSystem, definition.densityIndex);
     solarSystem.terrestrialPlanets = terrestrialPlanetQuantity(solarSystem, definition.densityIndex);
   }
-  solarSystem.distributeObjects();
-  solarSystem.assignOrbits();
-  if (definition.counts) {
-    if (solarSystem.mainWorldType === 'moon')
-      solarSystem.uwp = definition.counts.mainWorld.uwp;
-  } else
-    solarSystem.addAnomalousPlanets();
+  if (!hasBodies(definition)) {
+    solarSystem.distributeObjects();
+    solarSystem.assignOrbits();
+    if (definition.counts) {
+      if (solarSystem.mainWorldType === 'moon')
+        solarSystem.uwp = definition.counts.mainWorld.uwp;
+    } else
+      solarSystem.addAnomalousPlanets();
+  }
 }
 
 module.exports = loadPlanetsFromDefinition;
+module.exports.computeMaxSpread = computeMaxSpread;

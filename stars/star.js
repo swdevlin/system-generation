@@ -218,7 +218,7 @@ class Star extends StellarObject {
     return (orbit > this.availableOrbits.at(-1)[1])
   }
 
-  assignOrbits(primary) {
+  assignOrbits(primary, maxSpread = null) {
     this.baseline = computeBaseline(this);
     if (this.availableOrbits.length === 0)
       return;
@@ -242,6 +242,9 @@ class Star extends StellarObject {
         this.spread = possibleOrbits / (this.totalObjects + this.emptyOrbits);
       else
         this.spread = possibleOrbits / (this.totalObjects + this.emptyOrbits + 1);
+
+    if (maxSpread !== null && this.spread > maxSpread)
+      this.spread = maxSpread;
 
     this.markOccupiedOrbits();
   }
@@ -341,13 +344,13 @@ class Star extends StellarObject {
     return s;
   }
 
-  resetNonStarBodies(totalObjects) {
+  resetNonStarBodies(totalObjects, maxSpread = null) {
     this.totalObjects = totalObjects;
     for (let i = this.stellarObjects.length - 1; i >= 0; i--)
       if (this.stellarObjects[i].orbitType >= 10)
         this.stellarObjects.splice(i, 1);
     this.occupiedOrbits = [];
-    this.assignOrbits();
+    this.assignOrbits(null, maxSpread);
   }
 
   nextOrbit(body, orbitIndex) {

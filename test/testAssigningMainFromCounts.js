@@ -55,52 +55,52 @@ describe("Assign main world from counts section", function () {
   it("If orbit is not specified, then orbit is random", function() {
     solarSystem.mainFromDefinition = {uwp: 'B874409-X'};
     const before = orbits.length;
-    const orbitUsed = solarSystem.assignMainWorld(orbits);
+    solarSystem.assignMainWorld(orbits);
     const after = orbits.length;
     before.should.equal(after+1);
-    orbitUsed.should.equal(solarSystem.primaryStar.stellarObjects[0].orbit);
+    solarSystem._mainWorld.orbit.should.equal(solarSystem.primaryStar.stellarObjects[0].orbit);
   });
 
   it("is assigned to orbit index if specified", function() {
     solarSystem.mainFromDefinition = {uwp: 'B874409-X', orbit: 1};
-    const orbitUsed = solarSystem.assignMainWorld(orbits);
-    orbitUsed.should.equal(solarSystem.primaryStar.occupiedOrbits[0]);
+    solarSystem.assignMainWorld(orbits);
+    solarSystem._mainWorld.orbit.should.equal(solarSystem.primaryStar.occupiedOrbits[0]);
   });
 
   it("is in habitable zone", function() {
     // hzco is 1.21
     solarSystem.mainFromDefinition = {uwp: 'B874409-X', orbit: 'habitable'};
-    const orbitUsed = solarSystem.assignMainWorld(orbits);
-    orbitUsed.should.equal(solarSystem.primaryStar.occupiedOrbits[4]);
+    solarSystem.assignMainWorld(orbits);
+    solarSystem._mainWorld.orbit.should.equal(solarSystem.primaryStar.occupiedOrbits[4]);
   });
 
   it("is nearest to hzco", function() {
     solarSystem.mainFromDefinition = {uwp: 'B874409-X', orbit: 'hzco'};
-    const orbitUsed = solarSystem.assignMainWorld(orbits);
-    orbitUsed.should.equal(solarSystem.primaryStar.occupiedOrbits[3]);
+    solarSystem.assignMainWorld(orbits);
+    solarSystem._mainWorld.orbit.should.equal(solarSystem.primaryStar.occupiedOrbits[3]);
   });
 
   it("is on the far size of the hzco", function() {
     solarSystem.mainFromDefinition = {uwp: 'B874409-X', orbit: 'cold'};
-    const orbitUsed = solarSystem.assignMainWorld(orbits);
-    orbitUsed.should.equal(solarSystem.primaryStar.occupiedOrbits[5]);
+    solarSystem.assignMainWorld(orbits);
+    solarSystem._mainWorld.orbit.should.equal(solarSystem.primaryStar.occupiedOrbits[5]);
   });
 
   it("is on the near size of the hzco", function() {
     solarSystem.mainFromDefinition = {uwp: 'B874409-X', orbit: 'warm'};
-    const orbitUsed = solarSystem.assignMainWorld(orbits);
-    orbitUsed.should.equal(solarSystem.primaryStar.occupiedOrbits[1]);
+    solarSystem.assignMainWorld(orbits);
+    solarSystem._mainWorld.orbit.should.equal(solarSystem.primaryStar.occupiedOrbits[1]);
   });
 
   it("outer is any on the far side of the hzco", function() {
     solarSystem.mainFromDefinition = {uwp: 'B874409-X', orbit: 'outer'};
-    const orbitUsed = solarSystem.assignMainWorld(orbits);
-    orbitUsed.should.equal(solarSystem.primaryStar.occupiedOrbits[9]);
+    solarSystem.assignMainWorld(orbits);
+    solarSystem._mainWorld.orbit.should.equal(solarSystem.primaryStar.occupiedOrbits[9]);
   });
 
   it("inner is any on the near side of the hzco", function() {
     solarSystem.mainFromDefinition = {uwp: 'B874409-X', orbit: 'inner'};
-    const orbitUsed = solarSystem.assignMainWorld(orbits);
-    orbitUsed.should.equal(solarSystem.primaryStar.occupiedOrbits[0]);
+    solarSystem.assignMainWorld(orbits);
+    solarSystem._mainWorld.orbit.should.equal(solarSystem.primaryStar.occupiedOrbits[0]);
   });
 });

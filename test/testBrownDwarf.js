@@ -50,7 +50,8 @@ describe("Brown Dwarf Tests", function () {
     solarSystem.primaryStar.availableOrbits[0][0].should.equal(0.5 + companion.eccentricity);
     solarSystem.primaryStar.availableOrbits[0][1].should.equal(20);
     const orbits = solarSystem.primaryStar.totalOrbits;
-    orbits.should.equal(19);
+    const expectedRange = 20 - (0.5 + companion.eccentricity);
+    orbits.should.equal(Math.trunc(expectedRange));
   });
 
 

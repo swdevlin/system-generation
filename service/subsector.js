@@ -11,6 +11,7 @@ const {planetoidBeltQuantity} = require("../planetoidBelts");
 const terrestrialPlanetQuantity = require("../terrestrialPlanet/terrestrialPlanetQuantity");
 const Populated = require("../solarSystems/populated");
 const {assignTradeCodes} = require("../economics/assignTradeCodes");
+const generateStarSystem = require("./generateStarSystem");
 
 const r = new Random();
 
@@ -56,10 +57,7 @@ const coordinate = (col, row) => {
 
 router.post('/', (req, res) => {
   const subsector = req.body;
-  const sector = {unusualChance: subsector.unusualChance || 0};
   const systems = [];
-  let unusualChance = (subsector.unusualChance || 0) / 100.0;
-  const defaultPopulated = subsector.populated ? new Populated(subsector.populated) : null;
   const subsectorSI = subsector.defaultSI || 0;
 
   for (let col = 1; col <= 8; col++)
@@ -81,71 +79,8 @@ router.post('/', (req, res) => {
       if (!hasSystem)
         continue;
 
-      const systemName = defined?.name;
-      const solarSystem = new SolarSystem(systemName);
-      solarSystem.coordinates = coordinate(col, row);
-
-      if (defined) {
-        if (defined.surveyIndex !== undefined)
-          si = defined.surveyIndex;
-        if (defined.name)
-          solarSystem.name = defined.name;
-        if (defined.remarks)
-          solarSystem.remarks = defined.remarks;
-        solarSystem.known = defined.known ? defined.known : false;
-        if (defined.bases) {
-          solarSystem.bases = defined.bases;
-        }
-        loadStarsFromDefinition({
-          sector: sector,
-          subsector: subsector,
-          definition: defined,
-          solarSystem: solarSystem,
-        })
-      } else {
-        assignStars({solarSystem: solarSystem, unusualChance: unusualChance});
-      }
-      if (solarSystem.onlyBrownDwarfs())
-        solarSystem.surveyIndex = 0;
-      else
-        solarSystem.surveyIndex = si;
-
-      solarSystem.determineAvailableOrbits();
-
-      if (defined) {
-        loadPlanetsFromDefinition({
-          sector: sector,
-          subsector: subsector,
-          definition: defined,
-          solarSystem: solarSystem
-        });
-      } else {
-        solarSystem.gasGiants = gasGiantQuantity(solarSystem);
-        solarSystem.planetoidBelts = planetoidBeltQuantity(solarSystem);
-        solarSystem.terrestrialPlanets = terrestrialPlanetQuantity(solarSystem);
-
-        solarSystem.distributeObjects();
-        solarSystem.assignOrbits();
-        solarSystem.addAnomalousPlanets();
-      }
-      solarSystem.addMoons();
-      solarSystem.setRotationPeriod();
-      solarSystem.assignAtmospheres();
-      solarSystem.assignBiomass();
-      solarSystem.assignResourceRatings();
-      solarSystem.assignHabitabilityRatings();
-      solarSystem.assignOrbitSequences();
-      if (defined?.allegiance)
-        solarSystem.allegiance = defined.allegiance;
-
-      const p = defaultPopulated?.getAllegiance(row, col);
-      if (p && p.allegiance) {
-        solarSystem.assignMainWorldSocialCharacteristics(p);
-        solarSystem.allegiance = defined?.allegiance || defaultPopulated?.getAllegiance(row, col)?.allegiance;
-        assignTradeCodes(solarSystem.mainWorld);
-      }
-
-      solarSystem.mainWorldOrbitSequence = solarSystem.mainWorld?.orbitSequence;
+      const starSystem = generateStarSystem(defined, subsector);
+      starSystem.coordinates = coordinate(col, row);
       // fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-map.svg`, solarSystem.systemMap());
       // const text = `${sector.name} ${solarSystem.coordinates} ${solarSystem.primaryStar.textDump(0, '', '', 0, [1])}`;
       // fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}.txt`, text);
@@ -156,8 +91,7 @@ router.post('/', (req, res) => {
       // fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}.json`, asJson);
       // fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-travel.html`, solarSystem.travelGrid());
       // travellerMap.addSystem(solarSystem);
-      solarSystem.setOrbitPositions();
-      systems.push(solarSystem);
+      systems.push(starSystem);
     }
 
   const tenant = req.tenantId;
