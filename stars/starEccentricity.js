@@ -1,9 +1,7 @@
-const {eccentricity} = require("../utils");
+const { eccentricity } = require('../utils');
 
-const starEccentricity = (star) => {
-  let ecc = eccentricity(0);
-
-  return ecc;
-}
+const starEccentricity = () => {
+  return eccentricity(0);
+};
 
 module.exports.starEccentricity = starEccentricity;

@@ -1,9 +1,8 @@
-const {percentageChance, twoD6} = require("../dice");
-const giantsStellarClassLookup = require("./giantsStellarClassLookup");
-const starTypeLookup = require("./starTypeLookup");
-const unusualStarLookup = require("./unusualStarLookup");
-const StellarClassification = require("../stars/StellarClassification");
-const hotStarLookup = require("./hotStarLookup");
+const { twoD6 } = require('../dice');
+const giantsStellarClassLookup = require('./giantsStellarClassLookup');
+const starTypeLookup = require('./starTypeLookup');
+const StellarClassification = require('../stars/StellarClassification');
+const hotStarLookup = require('./hotStarLookup');
 
 const specialStarTypeLookup = () => {
   const stellarClassification = new StellarClassification();
@@ -32,12 +31,14 @@ const specialStarTypeLookup = () => {
 
   stellarClassification.stellarType = starTypeLookup({
     dm: 1,
-    stellarClass: stellarClassification.stellarClass
+    stellarClass: stellarClassification.stellarClass,
   });
   if (stellarClassification.stellarType === 'hot')
-    stellarClassification.stellarType = hotStarLookup({stellarClass: stellarClassification.stellarClass});
+    stellarClassification.stellarType = hotStarLookup({
+      stellarClass: stellarClassification.stellarClass,
+    });
 
   return stellarClassification;
-}
+};
 
 module.exports = specialStarTypeLookup;

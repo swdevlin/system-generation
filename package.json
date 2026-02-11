@@ -5,7 +5,11 @@
   "main": "generate.js",
   "scripts": {
     "test": "node node_modules/mocha/bin/mocha",
-    "coverage": "nyc node_modules/mocha/bin/mocha --recursive"
+    "coverage": "nyc node_modules/mocha/bin/mocha --recursive",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check"
   },
   "author": "",
   "license": "ISC",
@@ -24,7 +28,12 @@
   "devDependencies": {
     "chai": "^4.3.7",
     "chai-http": "^4.4.0",
-    "eslint": "^8.45.0",
-    "mocha": "^10.2.0"
+    "eslint": "^9.26.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-n": "^17.23.2",
+    "eslint-plugin-promise": "^7.2.1",
+    "globals": "^13.24.0",
+    "mocha": "^10.2.0",
+    "prettier": "^3.8.1"
   }
 }

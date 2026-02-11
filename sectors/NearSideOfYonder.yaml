@@ -39,6 +39,7 @@ subsectors:
         name: Gehalka
         known: false
         allegiance: AL
+        surveyIndex: 10
         primary:
           type: M4
           bodies:
@@ -53,6 +54,7 @@ subsectors:
         y: 4
         name: Irn-Alaz
         known: false
+        surveyIndex: 10
         allegiance: AL
         primary:
           type: M5
@@ -70,6 +72,7 @@ subsectors:
         y: 6
         name: Hirnz
         known: false
+        surveyIndex: 10
         allegiance: AL
         primary:
           type: M2
@@ -82,6 +85,7 @@ subsectors:
         name: Ohral
         known: false
         allegiance: AL
+        surveyIndex: 10
         primary:
           type: M4
           companion:
@@ -100,6 +104,7 @@ subsectors:
         name: Onkonani
         known: false
         allegiance: AL
+        surveyIndex: 10
         primary:
           type: G5
           bodies:
@@ -112,6 +117,7 @@ subsectors:
         known: false
         bases: R
         allegiance: AL
+        surveyIndex: 10
         primary:
           type: G6
           bodies:
@@ -129,6 +135,7 @@ subsectors:
         name: Okh-Kahl
         known: false
         allegiance: AL
+        surveyIndex: 10
         primary:
           type: B3
           bodies:
@@ -150,6 +157,7 @@ subsectors:
         name: Ikadni
         known: false
         allegiance: AL
+        surveyIndex: 10
         primary:
           type: M3
           bodies:
@@ -163,6 +171,7 @@ subsectors:
         name: Ghoudek
         known: false
         allegiance: AL
+        surveyIndex: 10
         primary:
           type: K5
           companion:
@@ -181,6 +190,7 @@ subsectors:
         name: Alikherrnz
         known: false
         allegiance: AL
+        surveyIndex: 10
         primary:
           type: K6
           bodies:
@@ -196,6 +206,7 @@ subsectors:
         y: 6
         name: E-Ehkri
         known: false
+        surveyIndex: 10
         counts:
           terrestrialPlanets: 4
           planetoidBelts: 0
@@ -225,6 +236,7 @@ subsectors:
         name: Insk
         known: false
         allegiance: AL
+        surveyIndex: 10
         primary:
           type: M5
           companion:
@@ -240,6 +252,7 @@ subsectors:
         name: Airgi
         known: false
         allegiance: AL
+        surveyIndex: 10
         primary:
           type: M5
           bodies:
@@ -253,6 +266,7 @@ subsectors:
         name: Tinzal
         known: false
         allegiance: AL
+        surveyIndex: 10
         primary:
           type: G2
           bodies:
@@ -276,6 +290,7 @@ subsectors:
         name: Kgni
         known: false
         allegiance: AL
+        surveyIndex: 10
         primary:
           type: K5
           bodies:
@@ -291,6 +306,7 @@ subsectors:
         name: Danh-In
         known: false
         allegiance: AL
+        surveyIndex: 10
         primary:
           type: K6
           orbits:

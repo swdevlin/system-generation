@@ -1,4 +1,4 @@
-const {orbitToAU} = require("../utils");
+const { orbitToAU } = require('../utils');
 
 const computeStats = (sector) => {
   const stats = {
@@ -27,35 +27,28 @@ const computeStats = (sector) => {
     stats.totalStars += solarSystem.stars.length;
     if (solarSystem.terrestrialPlanets > stats.maxTerrestrial)
       stats.maxTerrestrial = solarSystem.terrestrialPlanets;
-    if (solarSystem.gasGiants > stats.maxGasGiants)
-      stats.maxGasGiants = solarSystem.gasGiants;
+    if (solarSystem.gasGiants > stats.maxGasGiants) stats.maxGasGiants = solarSystem.gasGiants;
     if (solarSystem.planetoidBelts > stats.maxPlanetoidBelts)
       stats.maxPlanetoidBelts = solarSystem.planetoidBelts;
-    if (solarSystem.stars.length > stats.maxStars)
-      stats.maxStars = solarSystem.stars.length;
+    if (solarSystem.stars.length > stats.maxStars) stats.maxStars = solarSystem.stars.length;
 
-    let size = 0;
     solarSystem.stars.reduce((stats, star) => {
-      if (star.companion)
-        stats.totalCompanions++;
+      if (star.companion) stats.totalCompanions++;
       const stellarClass = star.stellarClass;
       stats.stellarClass[stellarClass] = (stats.stellarClass[stellarClass] || 0) + 1;
 
       const stellarType = star.stellarType;
       stats.stellarType[stellarType] = (stats.stellarType[stellarType] || 0) + 1;
 
-      if (star.isAnomaly)
-        stats.anomalies[stellarType] = (stats.anomalies[stellarType] || 0) + 1;
+      if (star.isAnomaly) stats.anomalies[stellarType] = (stats.anomalies[stellarType] || 0) + 1;
 
-      const systemSize = orbitToAU(star.orbit) + orbitToAU(star.occupiedOrbits[star.occupiedOrbits.length-1]);
-      if (systemSize < stats.smallestSolarSystem)
-        stats.smallestSolarSystem = systemSize;
-      if (systemSize > stats.largestSolarSystem)
-        stats.largestSolarSystem = systemSize;
+      const systemSize =
+        orbitToAU(star.orbit) + orbitToAU(star.occupiedOrbits[star.occupiedOrbits.length - 1]);
+      if (systemSize < stats.smallestSolarSystem) stats.smallestSolarSystem = systemSize;
+      if (systemSize > stats.largestSolarSystem) stats.largestSolarSystem = systemSize;
 
       stats.maxSignificantMoons = star.stellarObjects.reduce((moons, obj) => {
-        if (!obj.moons)
-          return moons;
+        if (!obj.moons) return moons;
         const l = obj.moons.length;
         return l > moons ? l : moons;
       }, stats.maxSignificantMoons);
@@ -67,6 +60,6 @@ const computeStats = (sector) => {
   }, stats);
 
   return stats;
-}
+};
 
 module.exports = computeStats;

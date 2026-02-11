@@ -1,18 +1,16 @@
-const loadStarsFromDefinition = require("../solarSystems/loadStarsFromDefinition");
-const assignStars = require("../solarSystems/assignStars");
-const loadPlanetsFromDefinition = require("../solarSystems/loadPlanetsFromDefinition");
-const {gasGiantQuantity} = require("../gasGiants");
-const {planetoidBeltQuantity} = require("../planetoidBelts");
-const terrestrialPlanetQuantity = require("../terrestrialPlanet/terrestrialPlanetQuantity");
-const {assignTradeCodes} = require("../economics/assignTradeCodes");
-const SolarSystem = require("../solarSystems/solarSystem");
-const Populated = require("../solarSystems/populated");
+const loadStarsFromDefinition = require('../solarSystems/loadStarsFromDefinition');
+const assignStars = require('../solarSystems/assignStars');
+const loadPlanetsFromDefinition = require('../solarSystems/loadPlanetsFromDefinition');
+const { gasGiantQuantity } = require('../gasGiants');
+const { planetoidBeltQuantity } = require('../planetoidBelts');
+const terrestrialPlanetQuantity = require('../terrestrialPlanet/terrestrialPlanetQuantity');
+const { assignTradeCodes } = require('../economics/assignTradeCodes');
+const SolarSystem = require('../solarSystems/solarSystem');
 
 const generateStarSystem = (definition, subsector) => {
-  const sector = {unusualChance: subsector?.unusualChance || 0};
+  const sector = { unusualChance: subsector?.unusualChance || 0 };
   const systemName = definition?.name;
   let unusualChance = (subsector?.unusualChance || 0) / 100.0;
-  const defaultPopulated = subsector?.populated ? new Populated(subsector.populated) : null;
   const solarSystem = new SolarSystem(systemName);
   const si = definition?.surveyIndex || subsector?.defaultSI || 0;
 
@@ -26,15 +24,13 @@ const generateStarSystem = (definition, subsector) => {
       subsector: subsector,
       definition: definition,
       solarSystem: solarSystem,
-    })
+    });
   } else {
-    assignStars({solarSystem: solarSystem, unusualChance: unusualChance});
+    assignStars({ solarSystem: solarSystem, unusualChance: unusualChance });
   }
 
-  if (solarSystem.onlyBrownDwarfs())
-    solarSystem.surveyIndex = 0;
-  else
-    solarSystem.surveyIndex = si;
+  if (solarSystem.onlyBrownDwarfs()) solarSystem.surveyIndex = 0;
+  else solarSystem.surveyIndex = si;
 
   solarSystem.determineAvailableOrbits();
 
@@ -43,7 +39,7 @@ const generateStarSystem = (definition, subsector) => {
       sector: sector,
       subsector: subsector,
       definition: definition,
-      solarSystem: solarSystem
+      solarSystem: solarSystem,
     });
   } else {
     solarSystem.gasGiants = gasGiantQuantity(solarSystem);
@@ -61,19 +57,20 @@ const generateStarSystem = (definition, subsector) => {
   solarSystem.assignResourceRatings();
   solarSystem.assignHabitabilityRatings();
   solarSystem.assignOrbitSequences();
-  if (definition?.allegiance)
-    solarSystem.allegiance = definition.allegiance;
 
-  const p = defaultPopulated?.getAllegiance(row, col);
-  if (p && p.allegiance) {
-    solarSystem.assignMainWorldSocialCharacteristics(p);
-    solarSystem.allegiance = definition?.allegiance || defaultPopulated?.getAllegiance(row, col)?.allegiance;
+  if (definition?.allegiance) solarSystem.allegiance = definition.allegiance;
+
+  if (definition?.populated && !solarSystem.allegiance)
+    solarSystem.allegiance = definition.populated.allegiance;
+
+  if (definition?.populated) {
+    solarSystem.assignMainWorldSocialCharacteristics(definition.populated);
     assignTradeCodes(solarSystem.mainWorld);
   }
 
   solarSystem.mainWorldOrbitSequence = solarSystem.mainWorld?.orbitSequence;
   solarSystem.setOrbitPositions();
   return solarSystem;
-}
+};
 
 module.exports = generateStarSystem;

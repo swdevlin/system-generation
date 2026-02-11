@@ -1,25 +1,22 @@
-"use strict";
+'use strict';
 
 const chai = require('chai');
-const {ORBIT_TYPES, STELLAR_TYPES} = require("../utils");
-const Random = require("random-js").Random;
+const { ORBIT_TYPES } = require('../utils');
 
-const r = new Random();
-const {d6, clearCache, twoD6, ROLL_CACHE} = require("../dice");
-const SolarSystem = require("../solarSystems/solarSystem");
-const Star = require("../stars/star");
-const star = require("../stars/star");
+const { clearCache, ROLL_CACHE } = require('../dice');
+const SolarSystem = require('../solarSystems/solarSystem');
+const Star = require('../stars/star');
 
 chai.should();
 
-describe("Assign main world from counts section", function () {
+describe('Assign main world from counts section', function () {
   let solarSystem;
   let orbits;
 
   beforeEach(function () {
     clearCache();
     solarSystem = new SolarSystem();
-    const star = new Star({stellarClass: 'V', stellarType: 'K', subtype: 5}, ORBIT_TYPES.PRIMARY);
+    const star = new Star({ stellarClass: 'V', stellarType: 'K', subtype: 5 }, ORBIT_TYPES.PRIMARY);
     solarSystem.addPrimary(star);
     solarSystem.gasGiants = 3;
     solarSystem.planetoidBelts = 3;
@@ -52,54 +49,54 @@ describe("Assign main world from counts section", function () {
     ];
   });
 
-  it("If orbit is not specified, then orbit is random", function() {
-    solarSystem.mainFromDefinition = {uwp: 'B874409-X'};
+  it('If orbit is not specified, then orbit is random', function () {
+    solarSystem.mainFromDefinition = { uwp: 'B874409-X' };
     const before = orbits.length;
     solarSystem.assignMainWorld(orbits);
     const after = orbits.length;
-    before.should.equal(after+1);
+    before.should.equal(after + 1);
     solarSystem._mainWorld.orbit.should.equal(solarSystem.primaryStar.stellarObjects[0].orbit);
   });
 
-  it("is assigned to orbit index if specified", function() {
-    solarSystem.mainFromDefinition = {uwp: 'B874409-X', orbit: 1};
+  it('is assigned to orbit index if specified', function () {
+    solarSystem.mainFromDefinition = { uwp: 'B874409-X', orbit: 1 };
     solarSystem.assignMainWorld(orbits);
     solarSystem._mainWorld.orbit.should.equal(solarSystem.primaryStar.occupiedOrbits[0]);
   });
 
-  it("is in habitable zone", function() {
+  it('is in habitable zone', function () {
     // hzco is 1.21
-    solarSystem.mainFromDefinition = {uwp: 'B874409-X', orbit: 'habitable'};
+    solarSystem.mainFromDefinition = { uwp: 'B874409-X', orbit: 'habitable' };
     solarSystem.assignMainWorld(orbits);
     solarSystem._mainWorld.orbit.should.equal(solarSystem.primaryStar.occupiedOrbits[4]);
   });
 
-  it("is nearest to hzco", function() {
-    solarSystem.mainFromDefinition = {uwp: 'B874409-X', orbit: 'hzco'};
+  it('is nearest to hzco', function () {
+    solarSystem.mainFromDefinition = { uwp: 'B874409-X', orbit: 'hzco' };
     solarSystem.assignMainWorld(orbits);
     solarSystem._mainWorld.orbit.should.equal(solarSystem.primaryStar.occupiedOrbits[3]);
   });
 
-  it("is on the far size of the hzco", function() {
-    solarSystem.mainFromDefinition = {uwp: 'B874409-X', orbit: 'cold'};
+  it('is on the far size of the hzco', function () {
+    solarSystem.mainFromDefinition = { uwp: 'B874409-X', orbit: 'cold' };
     solarSystem.assignMainWorld(orbits);
     solarSystem._mainWorld.orbit.should.equal(solarSystem.primaryStar.occupiedOrbits[5]);
   });
 
-  it("is on the near size of the hzco", function() {
-    solarSystem.mainFromDefinition = {uwp: 'B874409-X', orbit: 'warm'};
+  it('is on the near size of the hzco', function () {
+    solarSystem.mainFromDefinition = { uwp: 'B874409-X', orbit: 'warm' };
     solarSystem.assignMainWorld(orbits);
     solarSystem._mainWorld.orbit.should.equal(solarSystem.primaryStar.occupiedOrbits[1]);
   });
 
-  it("outer is any on the far side of the hzco", function() {
-    solarSystem.mainFromDefinition = {uwp: 'B874409-X', orbit: 'outer'};
+  it('outer is any on the far side of the hzco', function () {
+    solarSystem.mainFromDefinition = { uwp: 'B874409-X', orbit: 'outer' };
     solarSystem.assignMainWorld(orbits);
     solarSystem._mainWorld.orbit.should.equal(solarSystem.primaryStar.occupiedOrbits[9]);
   });
 
-  it("inner is any on the near side of the hzco", function() {
-    solarSystem.mainFromDefinition = {uwp: 'B874409-X', orbit: 'inner'};
+  it('inner is any on the near side of the hzco', function () {
+    solarSystem.mainFromDefinition = { uwp: 'B874409-X', orbit: 'inner' };
     solarSystem.assignMainWorld(orbits);
     solarSystem._mainWorld.orbit.should.equal(solarSystem.primaryStar.occupiedOrbits[0]);
   });

@@ -1,18 +1,19 @@
-"use strict";
+'use strict';
 
 const chai = require('chai');
 
-const Star = require("../stars/star");
-const StellarClassification = require("../stars/StellarClassification");
-const {ORBIT_TYPES} = require("../utils");
-const Random = require("random-js").Random;
+const Star = require('../stars/star');
+const StellarClassification = require('../stars/StellarClassification');
+const { ORBIT_TYPES } = require('../utils');
 
-const r = new Random();
-const {d6, clearCache, ROLL_CACHE} = require("../dice");
+const { clearCache, ROLL_CACHE } = require('../dice');
 
 chai.should();
 
-describe("Orbits", function () {
+describe('Orbits', function () {
+  beforeEach(() => {
+    clearCache();
+  });
   // const planetSize = 7;
   // it("assignedOrbits", function() {
   //   const classification = new StellarClassification();
@@ -32,7 +33,7 @@ describe("Orbits", function () {
   //   star.occupiedOrbits.should.equal([1,2]);
   // });
 
-  it("nextOrbit", function() {
+  it('nextOrbit', function () {
     ROLL_CACHE.push(3);
     ROLL_CACHE.push(4);
     const classification = new StellarClassification();
@@ -46,7 +47,7 @@ describe("Orbits", function () {
     star.availableOrbits = [
       [0.01, 0.10000000000000009],
       [4.1, 11.1],
-      [15.1, 20]
+      [15.1, 20],
     ];
     let nextOrbit = star.nextAvailableOrbit(0);
     nextOrbit.should.be.approximately(0.038, 0.01);
@@ -65,7 +66,5 @@ describe("Orbits", function () {
     ROLL_CACHE.push(4);
     nextOrbit = star.nextAvailableOrbit(22);
     nextOrbit.should.be.approximately(22 + star.spread, 0.01);
-
   });
-
 });

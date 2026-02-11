@@ -1,12 +1,11 @@
-const {twoD6, d6} = require("../dice");
-const typeChange = require("./hotTypeChange");
-const AtmosphereDensities = require("./AtmosphereDensities");
+const { twoD6, d6 } = require('../dice');
+const AtmosphereDensities = require('./AtmosphereDensities');
 
-const hotTypeChange = require("./hotTypeChange");
-const corrosiveAtmosphere = require("./corrosiveAtmosphere");
-const {insidiousAtmosphere} = require("./insidiousAtmosphere");
-const unusualAtmosphere = require("./unusualAtmosphere");
-const {determineTaint} = require("./taint");
+const hotTypeChange = require('./hotTypeChange');
+const corrosiveAtmosphere = require('./corrosiveAtmosphere');
+const { insidiousAtmosphere } = require('./insidiousAtmosphere');
+const unusualAtmosphere = require('./unusualAtmosphere');
+const { determineTaint } = require('./taint');
 
 // page 94
 const hot2 = (star, planet) => {
@@ -33,36 +32,31 @@ const hot2 = (star, planet) => {
     case 4:
       planet.atmosphere.code = 10;
       planet.atmosphere.density = AtmosphereDensities.VERY_THIN;
-      if (d6() >= 4)
-        planet.atmosphere.irritant = true;
+      if (d6() >= 4) planet.atmosphere.irritant = true;
       hotTypeChange(star, planet, 0);
       break;
     case 5:
       planet.atmosphere.code = 10;
       planet.atmosphere.density = AtmosphereDensities.THIN;
-      if (d6() >= 4)
-        planet.atmosphere.irritant = true;
+      if (d6() >= 4) planet.atmosphere.irritant = true;
       hotTypeChange(star, planet, 0);
       break;
     case 6:
       planet.atmosphere.code = 10;
       planet.atmosphere.density = AtmosphereDensities.STANDARD;
-      if (d6() >= 4)
-        planet.atmosphere.irritant = true;
+      if (d6() >= 4) planet.atmosphere.irritant = true;
       hotTypeChange(star, planet, 0);
       break;
     case 7:
       planet.atmosphere.code = 10;
       planet.atmosphere.density = AtmosphereDensities.DENSE;
-      if (d6() >= 4)
-        planet.atmosphere.irritant = true;
+      if (d6() >= 4) planet.atmosphere.irritant = true;
       hotTypeChange(star, planet, 1);
       break;
     case 8:
       planet.atmosphere.code = 10;
       planet.atmosphere.density = AtmosphereDensities.VERY_DENSE;
-      if (d6() >= 4)
-        planet.atmosphere.irritant = true;
+      if (d6() >= 4) planet.atmosphere.irritant = true;
       hotTypeChange(star, planet, 1);
       break;
     case 9:
@@ -90,8 +84,7 @@ const hot2 = (star, planet) => {
       break;
   }
 
-  if (planet.atmosphere.irritant)
-    planet.atmosphere.taint = determineTaint(planet.atmosphere);
-}
+  if (planet.atmosphere.irritant) planet.atmosphere.taint = determineTaint(planet.atmosphere);
+};
 
 module.exports = hot2;

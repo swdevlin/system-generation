@@ -1,10 +1,10 @@
-const {percentageChance, twoD6} = require("../dice");
-const giantsStellarClassLookup = require("./giantsStellarClassLookup");
-const StellarClassification = require("../stars/StellarClassification");
-const peculiarStarLookup = require("./peculiarStarLookup");
-const starTypeLookup = require("./starTypeLookup");
-const hotStarLookup = require("./hotStarLookup");
-const {STELLAR_TYPES, isAnomaly} = require("../utils");
+const giantsStellarClassLookup = require('./giantsStellarClassLookup');
+const StellarClassification = require('../stars/StellarClassification');
+const peculiarStarLookup = require('./peculiarStarLookup');
+const starTypeLookup = require('./starTypeLookup');
+const hotStarLookup = require('./hotStarLookup');
+const { STELLAR_TYPES } = require('../utils');
+const { twoD6 } = require('../dice');
 
 const unusualStarLookup = () => {
   let stellarClassification = new StellarClassification();
@@ -14,7 +14,7 @@ const unusualStarLookup = () => {
     stellarClassification.stellarType = peculiarStarLookup();
     if (stellarClassification.stellarType === STELLAR_TYPES.Protostar) {
       stellarClassification.isProtostar = true;
-      stellarClassification.stellarType = starTypeLookup({dm: 1});
+      stellarClassification.stellarType = starTypeLookup({ dm: 1 });
       stellarClassification.stellarClass = 'V';
     }
   } else if (roll >= 12) {
@@ -69,9 +69,11 @@ const unusualStarLookup = () => {
   }
 
   if (stellarClassification.stellarType === 'hot')
-    stellarClassification.stellarType = hotStarLookup({stellarClass: stellarClassification.stellarClass});
+    stellarClassification.stellarType = hotStarLookup({
+      stellarClass: stellarClassification.stellarClass,
+    });
 
   return stellarClassification;
-}
+};
 
 module.exports = unusualStarLookup;
