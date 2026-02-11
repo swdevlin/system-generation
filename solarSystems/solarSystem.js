@@ -3,37 +3,45 @@ const {
   shuffleArray,
   eccentricity,
   determineHydrographics,
-  meanTemperature, axialTilt, orbitPosition, calculateDistance, travelTime, STELLAR_TYPES, AU, isBrownDwarf,
+  meanTemperature,
+  axialTilt,
+  orbitPosition,
+  calculateDistance,
+  travelTime,
+  STELLAR_TYPES,
+  AU,
+  isBrownDwarf,
   EARTH_DIAMETER,
-} = require("../utils");
-const {threeD6, twoD6, d6, d10, randomInt} = require("../dice");
-const {GasGiant} = require("../gasGiants");
+} = require('../utils');
+const { threeD6, twoD6, d6, d10, randomInt } = require('../dice');
 const {
   PlanetoidBelt,
   determineBeltComposition,
   determineBeltBulk,
   determineBeltResourceRating,
-  addSignificantBodies
-} = require("../planetoidBelts");
-const Star = require("../stars/star");
-const biomass = require("../utils/assignBiomass");
-const resourceRating = require("../utils/resourceRating");
-const habitabilityRating = require("../utils/habitabilityRating");
-const {starColour} = require("../utils/starColours");
-const assignAtmosphere = require("../atmosphere/assignAtmosphere");
-const assignMoonAtmosphere = require("../atmosphere/assignMoonAtmosphere");
-const assignMoons = require("../moons/assignMoons");
-const terrestrialWorldSize = require("../terrestrialPlanet/terrestrialWorldSize");
-const TerrestrialPlanet = require("../terrestrialPlanet/terrestrialPlanet");
-const superEarthWorldSize = require("../terrestrialPlanet/superEarthWorldSize");
-const assignPhysicalCharacteristics = require("../terrestrialPlanet/assignPhysicalCharacteristics");
-const assignSocialCharacteristics = require("../terrestrialPlanet/assignSocialCharacteristics");
-const summaryBlock = require("../stars/summaryBlock");
-const {determineStarport} = require("../terrestrialPlanet/assignStarport");
-const {techLevelDMs} = require("../terrestrialPlanet/assignTechLevel");
-const systemDensity = require("../utils/systemDensity");
+  addSignificantBodies,
+} = require('../planetoidBelts');
+const Star = require('../stars/star');
+const biomass = require('../utils/assignBiomass');
+const resourceRating = require('../utils/resourceRating');
+const habitabilityRating = require('../utils/habitabilityRating');
+const { starColour } = require('../utils/starColours');
+const assignAtmosphere = require('../atmosphere/assignAtmosphere');
+const assignMoonAtmosphere = require('../atmosphere/assignMoonAtmosphere');
+const assignMoons = require('../moons/assignMoons');
+const terrestrialWorldSize = require('../terrestrialPlanet/terrestrialWorldSize');
+const TerrestrialPlanet = require('../terrestrialPlanet/terrestrialPlanet');
+const superEarthWorldSize = require('../terrestrialPlanet/superEarthWorldSize');
+const assignPhysicalCharacteristics = require('../terrestrialPlanet/assignPhysicalCharacteristics');
+const assignSocialCharacteristics = require('../terrestrialPlanet/assignSocialCharacteristics');
+const summaryBlock = require('../stars/summaryBlock');
+const { determineStarport } = require('../terrestrialPlanet/assignStarport');
+const { techLevelDMs } = require('../terrestrialPlanet/assignTechLevel');
+const systemDensity = require('../utils/systemDensity');
 
-const Random = require("random-js").Random;
+const { GasGiant } = require('../gasGiants/gasGiant');
+
+const Random = require('random-js').Random;
 const r = new Random();
 
 class SolarSystem {
@@ -60,12 +68,12 @@ class SolarSystem {
 
   get x() {
     if (!this.coordinates) return null;
-    return parseInt(this.coordinates.substring(0, 2), 10)
+    return parseInt(this.coordinates.substring(0, 2), 10);
   }
 
   get y() {
     if (!this.coordinates) return null;
-    return parseInt(this.coordinates.substring(2, 4), 10)
+    return parseInt(this.coordinates.substring(2, 4), 10);
   }
 
   onlyBrownDwarfs() {
@@ -73,8 +81,7 @@ class SolarSystem {
   }
 
   calculateScanPoints() {
-    if (this.scanPoints === 0)
-      this.scanPoints = d6() + d6();
+    if (this.scanPoints === 0) this.scanPoints = d6() + d6();
 
     return this.scanPoints;
   }
@@ -84,16 +91,18 @@ class SolarSystem {
   }
 
   addPrimary(star) {
-    if (this.stars.length === 0)
-      this.stars.push(star);
-    else
-      this.stars[0] = star;
+    if (this.stars.length === 0) this.stars.push(star);
+    else this.stars[0] = star;
   }
 
   addStar(star) {
     this.stars.push(star);
     this.primaryStar.addStellarObject(star);
-    if (star.isAnomaly && !isBrownDwarf(star.stellarType) && star.stellarType !== STELLAR_TYPES.WhiteDwarf)
+    if (
+      star.isAnomaly &&
+      !isBrownDwarf(star.stellarType) &&
+      star.stellarType !== STELLAR_TYPES.WhiteDwarf
+    )
       this.remarks = '{Anomaly}';
   }
 
@@ -102,18 +111,15 @@ class SolarSystem {
   }
 
   starString(star) {
-    if (star.isAnomaly)
-      return star.stellarType;
-    else
-      return `${star.stellarType}${star.subtype} ${star.stellarClass}`;
+    if (star.isAnomaly) return star.stellarType;
+    else return `${star.stellarType}${star.subtype} ${star.stellarClass}`;
   }
 
   starsString() {
     let s = [];
     for (const star of this.stars) {
       let t = this.starString(star);
-      if (star.companion)
-        t += ` (${this.starString(star.companion)})`;
+      if (star.companion) t += ` (${this.starString(star.companion)})`;
       s.push(t);
     }
     return s.join(', ');
@@ -123,8 +129,7 @@ class SolarSystem {
     let count = 0;
     for (const star in this.stars) {
       count++;
-      if (star.companion)
-        count++
+      if (star.companion) count++;
     }
     return count;
   }
@@ -135,19 +140,20 @@ class SolarSystem {
     const primary = this.primaryStar;
     if (primary.stellarType !== 'D') {
       minOrbit = primary.minimumAllowableOrbit;
-      if (primary.companion)
-        minOrbit = Math.max(minOrbit, 0.5 + primary.companion.eccentricity)
+      if (primary.companion) minOrbit = Math.max(minOrbit, 0.5 + primary.companion.eccentricity);
 
       primary.availableOrbits = [];
       if (this.stars.length > 1)
         for (let i = 1; i < this.stars.length; i++) {
           const star = this.stars[i];
           let eccMod = star.eccentricity > 0.2 ? 1 : 0;
-          if ((star.orbitType === ORBIT_TYPES.NEAR || star.orbitType === ORBIT_TYPES.CLOSE) && star.eccentricity > 0.5)
+          if (
+            (star.orbitType === ORBIT_TYPES.NEAR || star.orbitType === ORBIT_TYPES.CLOSE) &&
+            star.eccentricity > 0.5
+          )
             eccMod++;
           maxOrbit = star.orbit - 1.0 - eccMod;
-          if (maxOrbit < minOrbit)
-            minOrbit = star.orbit + 1.0 + eccMod;
+          if (maxOrbit < minOrbit) minOrbit = star.orbit + 1.0 + eccMod;
           else {
             primary.availableOrbits.push([minOrbit, maxOrbit]);
             minOrbit = star.orbit + 1.0 + eccMod;
@@ -159,41 +165,33 @@ class SolarSystem {
 
     for (let i = 1; i < this.stars.length; i++) {
       const star = this.stars[i];
-      if (star.stellarType === 'D')
-        continue;
+      if (star.stellarType === 'D') continue;
       let minOrbit = star.minimumAllowableOrbit;
-      if (star.companion)
-        minOrbit = Math.max(minOrbit, 0.5 + star.companion.eccentricity)
+      if (star.companion) minOrbit = Math.max(minOrbit, 0.5 + star.companion.eccentricity);
 
       maxOrbit = star.orbit - 3.0;
       if (i < this.stars.length - 1 && this.stars[i + 1].orbitType - star.orbitType === 1)
         maxOrbit -= 1;
-      else if (i > 0 && star.orbitType - this.stars[i - 1].orbitType === 1)
-        maxOrbit -= 1;
+      else if (i > 0 && star.orbitType - this.stars[i - 1].orbitType === 1) maxOrbit -= 1;
 
-      if (maxOrbit > minOrbit)
-        star.availableOrbits.push([minOrbit, maxOrbit]);
+      if (maxOrbit > minOrbit) star.availableOrbits.push([minOrbit, maxOrbit]);
     }
-
   }
 
   get totalOrbits() {
     let totalOrbits = 0;
-    for (const star of this.stars)
-      totalOrbits += star.totalOrbits;
+    for (const star of this.stars) totalOrbits += star.totalOrbits;
     return totalOrbits;
   }
 
   pickStar() {
-    if (isNaN(this.totalOrbits))
-      return null;
+    if (isNaN(this.totalOrbits)) return null;
 
     try {
       let roll = r.integer(1, this.totalOrbits);
       for (const star of this.stars) {
         roll -= star.totalOrbits;
-        if (roll <= 0)
-          return star;
+        if (roll <= 0) return star;
       }
       return null;
     } catch (e) {
@@ -204,83 +202,70 @@ class SolarSystem {
   }
 
   distributeObjects() {
-    for (let i=0; i < this.totalObjects; i++) {
+    for (let i = 0; i < this.totalObjects; i++) {
       const star = this.pickStar();
-      if (star)
-        star.totalObjects++;
+      if (star) star.totalObjects++;
     }
   }
 
   addPlanetoidBelt(star, orbit_index, uwp = null) {
     const pb = new PlanetoidBelt(null, uwp);
     pb.setOrbit(star, star.occupiedOrbits[orbit_index]);
-    pb.span = star.spread * twoD6()/10;
+    pb.span = (star.spread * twoD6()) / 10;
     determineBeltComposition(star, pb);
     determineBeltBulk(star, pb);
     determineBeltResourceRating(star, pb);
     addSignificantBodies(star, pb);
     star.addStellarObject(pb);
     return pb;
-  };
+  }
 
-  addTerrestrialPlanet({star, orbitIndex, orbit, size, uwp}) {
-    if (!size)
-      size = terrestrialWorldSize();
-    if (orbitIndex !== undefined)
-      orbit = star.occupiedOrbits[orbitIndex];
+  addTerrestrialPlanet({ star, orbitIndex, orbit, size, uwp }) {
+    if (!size) size = terrestrialWorldSize();
+    if (orbitIndex !== undefined) orbit = star.occupiedOrbits[orbitIndex];
     const p = new TerrestrialPlanet(size, orbit, uwp);
     p.setOrbit(star, orbit);
 
     assignPhysicalCharacteristics(star, p);
     star.addStellarObject(p);
     return p;
-  };
+  }
 
-  addGasGiant({star, orbitIndex, size}) {
+  addGasGiant({ star, orbitIndex, size }) {
     if (!size) {
-      let roll= r.integer(1,6);
-      if (star.spread < 0.1)
-        roll -= 1;
-      if (this.primaryStar.stellarType ==='M' && this.primaryStar.stellarClass === 'V')
-        roll -= 1;
-      else if (this.primaryStar.stellarClass === 'VI')
-        roll -= 1;
-      else if (['L', 'T', 'Y'].includes(this.primaryStar.stellarType))
-        roll -= 1;
-      if (roll <= 2)
-        size = 'GS';
-      else if (roll <= 5)
-        size = 'GM';
-      else
-        size = 'GL';
+      let roll = r.integer(1, 6);
+      if (star.spread < 0.1) roll -= 1;
+      if (this.primaryStar.stellarType === 'M' && this.primaryStar.stellarClass === 'V') roll -= 1;
+      else if (this.primaryStar.stellarClass === 'VI') roll -= 1;
+      else if (['L', 'T', 'Y'].includes(this.primaryStar.stellarType)) roll -= 1;
+      if (roll <= 2) size = 'GS';
+      else if (roll <= 5) size = 'GM';
+      else size = 'GL';
     }
     let gg;
     if (size === 'GS')
-      gg = new GasGiant(size, EARTH_DIAMETER * (r.die(3) + r.die(3)), r.integer(2,7) * 5);
+      gg = new GasGiant(size, EARTH_DIAMETER * (r.die(3) + r.die(3)), r.integer(2, 7) * 5);
     else if (size === 'GM')
-      gg = new GasGiant(size, EARTH_DIAMETER * (d6() + 6), 20*(threeD6()-1));
-    else
-      gg = new GasGiant(size, EARTH_DIAMETER * (twoD6()+6), r.die(3)*50*(threeD6()+4));
-    if (gg.mass >= 3000)
-      gg.mass = 4000-200*(twoD6()-2);
+      gg = new GasGiant(size, EARTH_DIAMETER * (d6() + 6), 20 * (threeD6() - 1));
+    else gg = new GasGiant(size, EARTH_DIAMETER * (twoD6() + 6), r.die(3) * 50 * (threeD6() + 4));
+    if (gg.mass >= 3000) gg.mass = 4000 - 200 * (twoD6() - 2);
     gg.setOrbit(star, star.occupiedOrbits[orbitIndex]);
     gg.eccentricity = eccentricity(0);
     gg.axialTilt = axialTilt();
     star.addStellarObject(gg);
     return gg;
-  };
+  }
 
   assignMainWorld(orbits) {
     const mainworld = this.mainFromDefinition;
-    if (!mainworld)
-      return null;
+    if (!mainworld) return null;
 
     let i = null;
     let lastDiff;
     switch (typeof mainworld.orbit) {
       case 'number':
-        i = orbits.findIndex(item => item[1] === mainworld.orbit-1);
-        break
+        i = orbits.findIndex((item) => item[1] === mainworld.orbit - 1);
+        break;
       case 'string':
         switch (mainworld.orbit.toLowerCase()) {
           case 'hzco':
@@ -289,7 +274,7 @@ class SolarSystem {
               const star = orbit[0];
               const orbitIndex = orbit[1];
               const orbitNumber = star.occupiedOrbits[orbitIndex];
-              const diff = Math.abs(orbitNumber -  star.hzco);
+              const diff = Math.abs(orbitNumber - star.hzco);
               if (diff < lastDiff) {
                 lastDiff = diff;
                 i = orbits.indexOf(orbit);
@@ -301,10 +286,10 @@ class SolarSystem {
               const star = orbit[0];
               const orbitIndex = orbit[1];
               const orbitNumber = star.occupiedOrbits[orbitIndex];
-              const diff = Math.abs(orbitNumber -  star.hzco);
+              const diff = Math.abs(orbitNumber - star.hzco);
               if (diff < 1) {
                 i = orbits.indexOf(orbit);
-                break
+                break;
               }
             }
             break;
@@ -313,10 +298,10 @@ class SolarSystem {
               const star = orbit[0];
               const orbitIndex = orbit[1];
               const orbitNumber = star.occupiedOrbits[orbitIndex];
-              const diff = orbitNumber -  star.hzco;
+              const diff = orbitNumber - star.hzco;
               if (diff > 1) {
                 i = orbits.indexOf(orbit);
-                break
+                break;
               }
             }
             break;
@@ -325,10 +310,10 @@ class SolarSystem {
               const star = orbit[0];
               const orbitIndex = orbit[1];
               const orbitNumber = star.occupiedOrbits[orbitIndex];
-              const diff = orbitNumber -  star.hzco;
+              const diff = orbitNumber - star.hzco;
               if (diff < -1) {
                 i = orbits.indexOf(orbit);
-                break
+                break;
               }
             }
             break;
@@ -338,7 +323,7 @@ class SolarSystem {
               const star = orbit[0];
               const orbitIndex = orbit[1];
               const orbitNumber = star.occupiedOrbits[orbitIndex];
-              const diff = orbitNumber -  star.hzco;
+              const diff = orbitNumber - star.hzco;
               if (diff > 0 && diff < 1 && diff > lastDiff) {
                 lastDiff = diff;
                 i = orbits.indexOf(orbit);
@@ -351,7 +336,7 @@ class SolarSystem {
               const star = orbit[0];
               const orbitIndex = orbit[1];
               const orbitNumber = star.occupiedOrbits[orbitIndex];
-              const diff = orbitNumber -  star.hzco;
+              const diff = orbitNumber - star.hzco;
               if (diff < 0 && diff > -1 && diff < lastDiff) {
                 lastDiff = diff;
                 i = orbits.indexOf(orbit);
@@ -359,12 +344,11 @@ class SolarSystem {
             }
             break;
         }
-        if (i === null)
-          i = randomInt(0, orbits.length-1);
-        break
+        if (i === null) i = randomInt(0, orbits.length - 1);
+        break;
       case 'undefined':
-        i = randomInt(0, orbits.length-1);
-        break
+        i = randomInt(0, orbits.length - 1);
+        break;
     }
 
     const star = orbits[i][0];
@@ -378,12 +362,12 @@ class SolarSystem {
         this.addPlanetoidBelt(star, orbitIndex, mainworld.uwp);
       } else {
         const size = null;
-        const gg = this.addGasGiant({star, orbitIndex, size});
+        const gg = this.addGasGiant({ star, orbitIndex, size });
         gg.uwp = mainworld.uwp;
         mainType = 'gasGiant';
       }
     } else {
-      this.addTerrestrialPlanet({star, orbitIndex, uwp: mainworld.uwp});
+      this.addTerrestrialPlanet({ star, orbitIndex, uwp: mainworld.uwp });
       mainType = 'terrestrialPlanet';
     }
     if (mainType !== 'moon') {
@@ -394,15 +378,13 @@ class SolarSystem {
   }
 
   buildListOfAvailableOrbits() {
-    for (const star of this.stars)
-      star.assignOrbits(this.primaryStar);
+    for (const star of this.stars) star.assignOrbits(this.primaryStar);
 
     let allOrbits = [];
     for (const star of this.stars) {
-      let starOrbits = [...Array(star.occupiedOrbits.length).keys()].map(x => [star, x]);
+      let starOrbits = [...Array(star.occupiedOrbits.length).keys()].map((x) => [star, x]);
       shuffleArray(starOrbits);
-      for (let i=0; i < star.emptyOrbits; i++)
-        starOrbits.pop();
+      for (let i = 0; i < star.emptyOrbits; i++) starOrbits.pop();
       allOrbits = allOrbits.concat(starOrbits);
     }
     shuffleArray(allOrbits);
@@ -451,8 +433,8 @@ class SolarSystem {
     this.buildLog.push({
       assignFromDensity: {
         summary: log,
-        events
-      }
+        events,
+      },
     });
   }
 
@@ -462,27 +444,25 @@ class SolarSystem {
     this.mainWorldType = this.assignMainWorld(allOrbits);
 
     let start = this.mainWorldType === 'gasGiant' ? 1 : 0;
-    for (let i=start; i < this.gasGiants; i++) {
+    for (let i = start; i < this.gasGiants; i++) {
       const p = allOrbits.pop();
       if (p === undefined) {
         break;
-      } else
-        this.addGasGiant({star: p[0], orbitIndex: p[1]});
+      } else this.addGasGiant({ star: p[0], orbitIndex: p[1] });
     }
 
     // Skip one belt if main world is a belt (it will be created via assignMainWorld)
     start = this.mainWorldType === 'planetoidBelt' ? 1 : 0;
-    for (let i= start; i < this.planetoidBelts; i++) {
+    for (let i = start; i < this.planetoidBelts; i++) {
       const p = allOrbits.pop();
       if (p === undefined) {
         break;
-      } else
-        this.addPlanetoidBelt(p[0], p[1]);
+      } else this.addPlanetoidBelt(p[0], p[1]);
     }
 
     // Skip one terrestrial if main world is terrestrial
     start = this.mainWorldType === 'terrestrialPlanet' ? 1 : 0;
-    for (let i= start; i < this.terrestrialPlanets; i++) {
+    for (let i = start; i < this.terrestrialPlanets; i++) {
       const p = allOrbits.pop();
       if (p === undefined) {
         break;
@@ -490,7 +470,7 @@ class SolarSystem {
         let uwp = null;
         const star = p[0];
         const orbitIndex = p[1];
-        this.addTerrestrialPlanet({star, orbitIndex, uwp});
+        this.addTerrestrialPlanet({ star, orbitIndex, uwp });
       }
     }
 
@@ -498,57 +478,77 @@ class SolarSystem {
   }
 
   addMoons() {
-    for (const star of this.stars)
-      assignMoons(star);
+    for (const star of this.stars) assignMoons(star);
   }
 
   setRotationPeriod() {
     for (const star of this.stars)
       for (const stellarObject of star.stellarObjects)
-        if ([ORBIT_TYPES.TERRESTRIAL, ORBIT_TYPES.PLANETOID, ORBIT_TYPES.GAS_GIANT].includes(stellarObject.orbitType)) {
+        if (
+          [ORBIT_TYPES.TERRESTRIAL, ORBIT_TYPES.PLANETOID, ORBIT_TYPES.GAS_GIANT].includes(
+            stellarObject.orbitType
+          )
+        ) {
           let rotation = 0;
           let r = 0;
           let multiplier = 4;
-          if (stellarObject.orbitType === ORBIT_TYPES.GAS_GIANT || stellarObject.size === 'S' || stellarObject.size === 'R' || stellarObject.size === 0 )
+          if (
+            stellarObject.orbitType === ORBIT_TYPES.GAS_GIANT ||
+            stellarObject.size === 'S' ||
+            stellarObject.size === 'R' ||
+            stellarObject.size === 0
+          )
             multiplier = 2;
           do {
             r = (twoD6() - 2) * multiplier + 2 + d6();
             rotation += r;
           } while (r > 40 && d6() > 4);
           rotation += Math.floor(this.stars[0].age / 2);
-          const hm = randomInt(0,59) + randomInt(0,59)/60;
-          stellarObject.rotation = rotation + hm/60;
+          const hm = randomInt(0, 59) + randomInt(0, 59) / 60;
+          stellarObject.rotation = rotation + hm / 60;
         }
   }
 
   assignAtmospheres() {
     for (const star of this.stars)
       for (const stellarObject of star.stellarObjects)
-        if ([ORBIT_TYPES.TERRESTRIAL, ORBIT_TYPES.PLANETOID_BELT_OBJECT].includes(stellarObject.orbitType)) {
+        if (
+          [ORBIT_TYPES.TERRESTRIAL, ORBIT_TYPES.PLANETOID_BELT_OBJECT].includes(
+            stellarObject.orbitType
+          )
+        ) {
           assignAtmosphere(star, stellarObject);
           stellarObject.meanTemperature = meanTemperature(star, stellarObject);
           stellarObject.hydrographics = determineHydrographics(star, stellarObject);
-          for (const moon of stellarObject.moons)
-            assignMoonAtmosphere(star, stellarObject, moon);
+          for (const moon of stellarObject.moons) assignMoonAtmosphere(star, stellarObject, moon);
         }
   }
 
   assignMainWorldSocialCharacteristics(populated) {
     const mainWorld = this.mainWorld;
-    if (!mainWorld || mainWorld.fromUWP)
-      return;
-    mainWorld.population.code = Math.min(populated.maxPopulationCode, Math.max(populated.minPopulationCode, twoD6()));
+    if (!mainWorld || mainWorld.fromUWP) return;
+    mainWorld.population.code = Math.min(
+      populated.maxPopulationCode,
+      Math.max(populated.minPopulationCode, twoD6())
+    );
     mainWorld.governmentCode = Math.max(twoD6() - 7 + mainWorld.population.code, 0);
     mainWorld.lawLevelCode = Math.max(twoD6() - 7 + mainWorld.governmentCode, 0);
     mainWorld.starPort = determineStarport(mainWorld);
-    mainWorld.techLevel = Math.min(populated.maxTechLevel, Math.max(populated.minTechLevel, d6() + techLevelDMs(mainWorld)));
+    mainWorld.techLevel = Math.min(
+      populated.maxTechLevel,
+      Math.max(populated.minTechLevel, d6() + techLevelDMs(mainWorld))
+    );
     this.allegiance = populated.allegiance;
   }
 
   assignBiomass() {
     for (const star of this.stars)
       for (const stellarObject of star.stellarObjects)
-        if ([ORBIT_TYPES.TERRESTRIAL, ORBIT_TYPES.PLANETOID_BELT_OBJECT].includes(stellarObject.orbitType)) {
+        if (
+          [ORBIT_TYPES.TERRESTRIAL, ORBIT_TYPES.PLANETOID_BELT_OBJECT].includes(
+            stellarObject.orbitType
+          )
+        ) {
           biomass(star, stellarObject);
           if (stellarObject.nativeSophont) {
             // todo: determine sophont
@@ -561,45 +561,49 @@ class SolarSystem {
   assignResourceRatings() {
     for (const star of this.stars)
       for (const stellarObject of star.stellarObjects)
-        if ([ORBIT_TYPES.TERRESTRIAL, ORBIT_TYPES.PLANETOID_BELT_OBJECT].includes(stellarObject.orbitType))
+        if (
+          [ORBIT_TYPES.TERRESTRIAL, ORBIT_TYPES.PLANETOID_BELT_OBJECT].includes(
+            stellarObject.orbitType
+          )
+        )
           stellarObject.resourceRating = resourceRating(stellarObject);
-          // TODO: Moons
+    // TODO: Moons
   }
 
   assignHabitabilityRatings() {
     for (const star of this.stars)
       for (const stellarObject of star.stellarObjects)
-        if ([ORBIT_TYPES.TERRESTRIAL, ORBIT_TYPES.PLANETOID_BELT_OBJECT].includes(stellarObject.orbitType))
+        if (
+          [ORBIT_TYPES.TERRESTRIAL, ORBIT_TYPES.PLANETOID_BELT_OBJECT].includes(
+            stellarObject.orbitType
+          )
+        )
           stellarObject.habitabilityRating = habitabilityRating(stellarObject);
-          // TODO: Moons
+    // TODO: Moons
   }
 
   starsSummary() {
     const summary = [];
-    for (const star of this.stars)
-      summary.push(summaryBlock(star));
+    for (const star of this.stars) summary.push(summaryBlock(star));
     return summary;
   }
 
   randomStar() {
-    const hasOrbits = this.stars.filter(star => star.availableOrbits.length > 0);
-    const i = r.integer(0, hasOrbits.length-1);
+    const hasOrbits = this.stars.filter((star) => star.availableOrbits.length > 0);
+    const i = r.integer(0, hasOrbits.length - 1);
     return hasOrbits[i];
   }
 
   get hasNativeSophont() {
     for (const star of this.stars)
-      for (const stellarObject of star.stellarObjects)
-        if (stellarObject.nativeSophont)
-          return true;
+      for (const stellarObject of star.stellarObjects) if (stellarObject.nativeSophont) return true;
     return false;
   }
 
   get hasExtinctSophont() {
     for (const star of this.stars)
       for (const stellarObject of star.stellarObjects)
-        if (stellarObject.extinctSophont)
-          return true;
+        if (stellarObject.extinctSophont) return true;
     return false;
   }
 
@@ -609,26 +613,24 @@ class SolarSystem {
     let count = 0;
     do {
       star = this.randomStar();
-      if (!star)
-        return [null, null];
+      if (!star) return [null, null];
       if (star.minimumOrbit === null)
-        if (this.stars.length === 1)
-          return [null, null];
-        else
-          continue;
-      orbit = twoD6() - 2 + d10()/10;
+        if (this.stars.length === 1) return [null, null];
+        else continue;
+      orbit = twoD6() - 2 + d10() / 10;
       if (star.minimumOrbit > 10) {
-        const newO = r.integer(star.availableOrbits[0][0]*10, star.availableOrbits[0][1]*10)/10;
-        console.log(`high minimum orbit: ${this.sector} ${this.coordinates} ${star.minimumOrbit} ${newO}`)
+        const newO =
+          r.integer(star.availableOrbits[0][0] * 10, star.availableOrbits[0][1] * 10) / 10;
+        console.log(
+          `high minimum orbit: ${this.sector} ${this.coordinates} ${star.minimumOrbit} ${newO}`
+        );
         orbit = newO;
-      } else
-        orbit = twoD6() - 2 + d10()/10;
+      } else orbit = twoD6() - 2 + d10() / 10;
       count++;
       if (count > 100) {
         console.log(JSON.stringify(this.stars, null, 2));
-        throw('bad');
+        throw 'bad';
       }
-
     } while (!star.orbitValid(orbit));
     return [star, orbit];
   }
@@ -637,8 +639,7 @@ class SolarSystem {
     const planets = [];
     for (const star of this.stars)
       for (const object of star.stellarObjects)
-        if (object.constructor.name !== 'PlanetoidBelt')
-          planets.push([star, object]);
+        if (object.constructor.name !== 'PlanetoidBelt') planets.push([star, object]);
     return r.pick(planets);
   }
 
@@ -655,20 +656,16 @@ class SolarSystem {
       }
       const roll = twoD6();
       if (roll < 12) {
-        const p = this.addTerrestrialPlanet({star: star, orbit: orbit});
-        if (roll === 8)
-          p.eccentricity = eccentricity(5);
-        else
-          p.eccentricity = eccentricity(2);
+        const p = this.addTerrestrialPlanet({ star: star, orbit: orbit });
+        if (roll === 8) p.eccentricity = eccentricity(5);
+        else p.eccentricity = eccentricity(2);
 
-        if (roll === 9)
-          p.inclination = d6()+2*10 + d10();
+        if (roll === 9) p.inclination = d6() + 2 * 10 + d10();
 
-        if ([10, 11].includes(roll))
-          p.retrograde = true;
+        if ([10, 11].includes(roll)) p.retrograde = true;
       } else {
         [star, original] = this.randomPlanet();
-        const p = this.addTerrestrialPlanet({star: star, orbit: original.orbit});
+        const p = this.addTerrestrialPlanet({ star: star, orbit: original.orbit });
         const trojan = p.diameter > original.diameter ? original : p;
         trojan.trojanOffset = r.pick([-1, 1]) * 60;
       }
@@ -678,11 +675,8 @@ class SolarSystem {
 
   countObjects(star) {
     let total = star.stellarObjects.length;
-    if (star.companion)
-      total += this.countObjects(star.companion);
-    for (const obj of star.stellarObjects)
-      if (obj instanceof Star)
-        total += this.countObjects(obj);
+    if (star.companion) total += this.countObjects(star.companion);
+    for (const obj of star.stellarObjects) if (obj instanceof Star) total += this.countObjects(obj);
     return total;
   }
 
@@ -692,8 +686,7 @@ class SolarSystem {
 
     for (const obj of star.stellarObjects) {
       locations.push(orbitPosition(obj, star));
-      if (obj instanceof Star)
-        this.addLocations(obj, locations);
+      if (obj instanceof Star) this.addLocations(obj, locations);
     }
   }
 
@@ -702,14 +695,16 @@ class SolarSystem {
     this.addLocations(this.primaryStar, locations);
 
     const svg = [];
-    const maxSize = Math.ceil(locations.reduce((m, l) => {
-      return Math.max(l.radius + l.parentRadius, m);
-    }, 0));
+    const maxSize = Math.ceil(
+      locations.reduce((m, l) => {
+        return Math.max(l.radius + l.parentRadius, m);
+      }, 0)
+    );
     const scale = 1000 / maxSize;
     const midPoint = 1025;
     const primary = `<circle cx="${midPoint}" cy="${midPoint}" r="25" fill="${starColour(this.primaryStar)}" />`;
     svg.push('<svg width="2050" height="2050" xmlns="http://www.w3.org/2000/svg">');
-    const jsize = this.primaryStar.jumpShadow*AU*scale;
+    const jsize = this.primaryStar.jumpShadow * AU * scale;
     const jumpShadow = `<circle cx="${midPoint}" cy="${midPoint}" r="${jsize}" fill="#DDDDDD" />`;
     svg.push(jumpShadow);
     svg.push(primary);
@@ -720,38 +715,31 @@ class SolarSystem {
         size = 20;
         colour = starColour(l.stellarObject);
       } else if (l.stellarObject.orbitType === ORBIT_TYPES.GAS_GIANT) {
-        if (l.stellarObject.code === 'GS')
-          size = 15;
-        else if (l.stellarObject.code === 'GM')
-          size = 17;
-        else
-          size = 19;
-        colour = "purple";
+        if (l.stellarObject.code === 'GS') size = 15;
+        else if (l.stellarObject.code === 'GM') size = 17;
+        else size = 19;
+        colour = 'purple';
       } else if (l.stellarObject.orbitType === ORBIT_TYPES.PLANETOID_BELT) {
         size = 0;
-        colour = "black";
+        colour = 'black';
       } else if (l.stellarObject.orbitType === ORBIT_TYPES.PLANETOID_BELT_OBJECT) {
-        if (l.stellarObject.size === 'S' || l.stellarObject.size === 'R')
-          size = 2;
-        else
-          size = 3 + l.stellarObject.size;
-        colour = "grey";
+        if (l.stellarObject.size === 'S' || l.stellarObject.size === 'R') size = 2;
+        else size = 3 + l.stellarObject.size;
+        colour = 'grey';
       } else {
         size = 3 + l.stellarObject.size;
-        if (l.stellarObject.hydrographics.code === 0)
-          colour = '#933A16';
-        else
-          colour = `hsl(210, ${parseInt(l.stellarObject.hydrographics.code)*10}%, 50%)`;
+        if (l.stellarObject.hydrographics.code === 0) colour = '#933A16';
+        else colour = `hsl(210, ${parseInt(l.stellarObject.hydrographics.code) * 10}%, 50%)`;
       }
 
       if (size !== 0) {
         const circle = `<circle cx="${midPoint + l.x * scale}" cy="${midPoint + l.y * scale}" r="${size}" fill="${colour}" />`;
-        svg.push(circle)
+        svg.push(circle);
       }
       const strokeWidth = size === 0 ? 3 : l.habitableZone ? 2 : 1;
       const strokeColour = l.habitableZone ? '#008800' : 'grey';
       const orbit = `<circle cx="${midPoint + l.orbitCentreX * scale}" cy="${midPoint + l.orbitCentreY * scale}" r="${l.radius * scale}" fill="none" stroke="${strokeColour}" stroke-width="${strokeWidth}" stroke-dasharray="9, 15"/>`;
-      svg.push(orbit)
+      svg.push(orbit);
     }
     svg.push('</svg>');
     return svg.join('\n');
@@ -760,40 +748,52 @@ class SolarSystem {
   travelGrid() {
     let totalObjects = this.countObjects(this.primaryStar);
     const distances = new Array(totalObjects);
-    for (let i=0; i < totalObjects; i++)
-      distances[i] = new Array(totalObjects);
+    for (let i = 0; i < totalObjects; i++) distances[i] = new Array(totalObjects);
 
     const locations = [];
     this.addLocations(this.primaryStar, locations);
 
-    for (let i= 0; i < totalObjects; i++)
-      for (let j= 0; j < totalObjects; j++) {
-        if (i===j)
+    for (let i = 0; i < totalObjects; i++)
+      for (let j = 0; j < totalObjects; j++) {
+        if (i === j)
           distances[i][j] = {
-            distance: 0
+            distance: 0,
           };
         else
           distances[i][j] = {
-            distance: calculateDistance(locations[i].x, locations[i].y, locations[j].x, locations[i].y)
+            distance: calculateDistance(
+              locations[i].x,
+              locations[i].y,
+              locations[j].x,
+              locations[i].y
+            ),
           };
       }
     let grid = '<table><thead><tr><th></th>';
     for (const i in locations) {
       const obj = locations[i].stellarObject;
-      if ((obj.constructor.name !== 'TerrestrialPlanet' || obj.size !== 'S') && !(obj instanceof Star))
+      if (
+        (obj.constructor.name !== 'TerrestrialPlanet' || obj.size !== 'S') &&
+        !(obj instanceof Star)
+      )
         grid += `<th>${obj.orbitSequence}</th>`;
     }
     grid += '</tr></thead><tbody>';
-    for (let i=0; i < totalObjects; i++) {
+    for (let i = 0; i < totalObjects; i++) {
       const obj = locations[i].stellarObject;
-      if ((obj.constructor.name !== 'TerrestrialPlanet' || obj.size !== 'S') && !(obj instanceof Star)) {
+      if (
+        (obj.constructor.name !== 'TerrestrialPlanet' || obj.size !== 'S') &&
+        !(obj instanceof Star)
+      ) {
         grid += `<tr><th>${obj.orbitSequence}</th>`;
-        for (let j=0; j < totalObjects; j++) {
+        for (let j = 0; j < totalObjects; j++) {
           const target = locations[j].stellarObject;
-          if ((target.constructor.name !== 'TerrestrialPlanet' || target.size !== 'S') && !(target instanceof Star)) {
+          if (
+            (target.constructor.name !== 'TerrestrialPlanet' || target.size !== 'S') &&
+            !(target instanceof Star)
+          ) {
             grid += '<td>';
-            if (distances[i][j].distance !== 0)
-              grid += travelTime(distances[i][j].distance, 4);
+            if (distances[i][j].distance !== 0) grid += travelTime(distances[i][j].distance, 4);
             grid += '</td>';
           }
         }
@@ -804,11 +804,10 @@ class SolarSystem {
     return grid;
   }
 
-  preassignedBody({star, body, orbitIndex}) {
+  preassignedBody({ star, body, orbitIndex }) {
     const planetoidBelt = /^.000...-./;
     let newBody;
-    if (!body.uwp)
-      return;
+    if (!body.uwp) return;
     const typeName = body.uwp.toLowerCase();
     if (planetoidBelt.test(body.uwp)) {
       newBody = this.addPlanetoidBelt(star, orbitIndex, body.uwp);
@@ -818,25 +817,25 @@ class SolarSystem {
       this.planetoidBelts++;
     } else if (typeName === 'small gas giant') {
       this.gasGiants++;
-      newBody = this.addGasGiant({star: star, orbitIndex: orbitIndex, size: 'GS'});
+      newBody = this.addGasGiant({ star: star, orbitIndex: orbitIndex, size: 'GS' });
     } else if (typeName === 'gas giant') {
       this.gasGiants++;
-      newBody = this.addGasGiant({star: star, orbitIndex: orbitIndex, size: 'GM'});
+      newBody = this.addGasGiant({ star: star, orbitIndex: orbitIndex, size: 'GM' });
     } else if (typeName === 'large gas giant') {
       this.gasGiants++;
-      newBody = this.addGasGiant({star: star, orbitIndex: orbitIndex, size: 'GL'});
+      newBody = this.addGasGiant({ star: star, orbitIndex: orbitIndex, size: 'GL' });
     } else if (typeName === 'super earth') {
       newBody = this.addTerrestrialPlanet({
         star: star,
         orbitIndex: orbitIndex,
-        size: superEarthWorldSize()
+        size: superEarthWorldSize(),
       });
       this.terrestrialPlanets++;
     } else if (typeName === 'terrestrial') {
-      newBody = this.addTerrestrialPlanet({star: star, orbitIndex: orbitIndex,});
+      newBody = this.addTerrestrialPlanet({ star: star, orbitIndex: orbitIndex });
       this.terrestrialPlanets++;
     } else if (typeName !== 'empty') {
-      newBody = this.addTerrestrialPlanet({star: star, orbitIndex: orbitIndex, uwp: body.uwp});
+      newBody = this.addTerrestrialPlanet({ star: star, orbitIndex: orbitIndex, uwp: body.uwp });
       this.terrestrialPlanets++;
     }
 
@@ -848,7 +847,7 @@ class SolarSystem {
       if (stellarObject instanceof Star)
         this.getPossibleMainWorlds(stellarObject, possibleMainWorlds);
       else if (!(stellarObject instanceof GasGiant))
-        possibleMainWorlds.push([Math.abs(stellarObject.hzcoDeviation), stellarObject])
+        possibleMainWorlds.push([Math.abs(stellarObject.hzcoDeviation), stellarObject]);
   }
 
   getPossibleGGMainWorlds(star, possibleMainWorlds) {
@@ -857,34 +856,28 @@ class SolarSystem {
         this.getPossibleGGMainWorlds(stellarObject, possibleMainWorlds);
       else if (stellarObject instanceof GasGiant)
         for (const moon of stellarObject.moons)
-          possibleMainWorlds.push([Math.abs(stellarObject.hzcoDeviation), moon])
+          possibleMainWorlds.push([Math.abs(stellarObject.hzcoDeviation), moon]);
   }
 
   get mainWorld() {
-    if (this._mainWorld !== null)
-      return this._mainWorld;
+    if (this._mainWorld !== null) return this._mainWorld;
     const possibleMainWorlds = [];
-    for (const star of this.stars)
-      this.getPossibleMainWorlds(star, possibleMainWorlds)
-    possibleMainWorlds.sort((a,b) => {
+    for (const star of this.stars) this.getPossibleMainWorlds(star, possibleMainWorlds);
+    possibleMainWorlds.sort((a, b) => {
       if (b[1].population.code === a[1].population.code) {
-        if (Math.abs(a[0] - b[0]) > 0.1)
-          return a[0] - b[0];
+        if (Math.abs(a[0] - b[0]) > 0.1) return a[0] - b[0];
         else {
           const bSize = b[1].size === 'S' ? -1 : b[1].size;
           const aSize = a[1].size === 'S' ? -1 : a[1].size;
           return bSize - aSize;
         }
-      } else
-        return b[1].population.code - a[1].population.code;
+      } else return b[1].population.code - a[1].population.code;
     });
 
     if (possibleMainWorlds.length === 0) {
-      for (const star of this.stars)
-        this.getPossibleGGMainWorlds(star, possibleMainWorlds);
-      possibleMainWorlds.sort((a,b) => {
-        if (Math.abs(a[0] - b[0]) > 0.1)
-          return a[0] - b[0];
+      for (const star of this.stars) this.getPossibleGGMainWorlds(star, possibleMainWorlds);
+      possibleMainWorlds.sort((a, b) => {
+        if (Math.abs(a[0] - b[0]) > 0.1) return a[0] - b[0];
 
         const bSize = b[1].size === 'S' ? '-1' : b[1].size;
         const aSize = a[1].size === 'S' ? '-1' : a[1].size;
@@ -894,7 +887,7 @@ class SolarSystem {
 
     try {
       this._mainWorld = possibleMainWorlds[0][1];
-    } catch(err) {
+    } catch (err) {
       if (err instanceof TypeError) {
         this._mainWorld = null;
         console.log(`  ${this.coordinates} has no main world`);

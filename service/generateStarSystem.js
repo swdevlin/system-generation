@@ -1,7 +1,7 @@
 const loadStarsFromDefinition = require('../solarSystems/loadStarsFromDefinition');
 const assignStars = require('../solarSystems/assignStars');
 const loadPlanetsFromDefinition = require('../solarSystems/loadPlanetsFromDefinition');
-const { gasGiantQuantity } = require('../gasGiants');
+const { gasGiantQuantity } = require('../gasGiants/gasGiant');
 const { planetoidBeltQuantity } = require('../planetoidBelts');
 const terrestrialPlanetQuantity = require('../terrestrialPlanet/terrestrialPlanetQuantity');
 const { assignTradeCodes } = require('../economics/assignTradeCodes');

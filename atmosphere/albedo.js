@@ -1,8 +1,8 @@
 const { twoD6, d6 } = require('../dice');
-const { GasGiant } = require('../gasGiants');
+const { ORBIT_TYPES } = require('../utils/constants');
 
 const calculateAlbedo = (star, planet) => {
-  if (typeof planet === GasGiant) {
+  if (planet.orbitType === ORBIT_TYPES.GAS_GIANT) {
     return 0.05 + twoD6() * 0.05;
   }
 
