@@ -12,7 +12,7 @@ const generateStarSystem = (definition, subsector) => {
   const systemName = definition?.name;
   let unusualChance = (subsector?.unusualChance || 0) / 100.0;
   const solarSystem = new SolarSystem(systemName);
-  const si = definition?.surveyIndex || subsector?.defaultSI || 0;
+  const si = definition?.surveyIndex || subsector?.defaultSI;
 
   if (definition) {
     solarSystem.known = definition.known ? definition.known : false;
@@ -29,8 +29,7 @@ const generateStarSystem = (definition, subsector) => {
     assignStars({ solarSystem: solarSystem, unusualChance: unusualChance });
   }
 
-  if (solarSystem.onlyBrownDwarfs()) solarSystem.surveyIndex = 0;
-  else solarSystem.surveyIndex = si;
+  solarSystem.assignSurveyIndex(si);
 
   solarSystem.determineAvailableOrbits();
 

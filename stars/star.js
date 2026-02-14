@@ -341,7 +341,6 @@ class Star extends StellarObject {
   }
 
   assignOrbitSequences(orbiting) {
-    if (this.stellarType === 'D') return;
     this.jump = auToOrbit(this.jumpShadow);
     switch (this.orbitType) {
       case ORBIT_TYPES.PRIMARY:
