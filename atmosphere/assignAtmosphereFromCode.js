@@ -1,9 +1,9 @@
 const AtmosphereDensities = require("./AtmosphereDensities");
 const {determineTaint} = require('./taint');
-const exoticAtmosphere = require("./exoticAtmosphere");
-const corrosiveAtmosphere = require("./corrosiveAtmosphere");
-const {insidiousAtmosphere} = require("./insidiousAtmosphere");
 const unusualAtmosphere = require("./unusualAtmosphere");
+const { ExoticAtmosphereGenerator } = require('../utils/ExoticAtmosphereGenerator');
+const { CorrosiveAtmosphereGenerator } = require('../utils/CorrosiveAtmosphereGenerator');
+const { InsidiousAtmosphereGenerator } = require('../utils/InsidiousAtmosphereGenerator');
 
 // Sets density and other properties based on an existing atmosphere code
 const assignAtmosphereFromCode = (star, planet) => {
@@ -46,17 +46,17 @@ const assignAtmosphereFromCode = (star, planet) => {
       break;
     case 10:
       // Exotic - density varies, call existing function then restore code
-      exoticAtmosphere(star, planet);
+      new ExoticAtmosphereGenerator().assignAtmosphere(star, planet);
       planet.atmosphere.code = code;
       break;
     case 11:
       // Corrosive - density varies
-      corrosiveAtmosphere(star, planet);
+      new CorrosiveAtmosphereGenerator().assignAtmosphere(star, planet);
       planet.atmosphere.code = code;
       break;
     case 12:
       // Insidious - density varies
-      insidiousAtmosphere(star, planet);
+      new InsidiousAtmosphereGenerator().assignAtmosphere(star, planet);
       planet.atmosphere.code = code;
       break;
     case 13:

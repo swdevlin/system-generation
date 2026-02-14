@@ -1,12 +1,11 @@
 const { twoD6 } = require('../dice');
 
 const AtmosphereDensities = require('./AtmosphereDensities');
-const exoticAtmosphere = require('./exoticAtmosphere');
-const corrosiveAtmosphere = require('./corrosiveAtmosphere');
 const unusualAtmosphere = require('./unusualAtmosphere');
 const { determineTaint } = require('./taint');
-
-const { insidiousAtmosphere } = require('./insidiousAtmosphere');
+const { ExoticAtmosphereGenerator } = require('../utils/ExoticAtmosphereGenerator');
+const { CorrosiveAtmosphereGenerator } = require('../utils/CorrosiveAtmosphereGenerator');
+const { InsidiousAtmosphereGenerator } = require('../utils/InsidiousAtmosphereGenerator');
 
 // page 79
 const hzAtmosphere = (star, planet) => {
@@ -67,17 +66,17 @@ const hzAtmosphere = (star, planet) => {
         planet.atmosphere.taint = determineTaint(planet.atmosphere);
         break;
       case 10:
-        exoticAtmosphere(star, planet);
+        new ExoticAtmosphereGenerator().assignAtmosphere(star, planet);
         break;
       case 11:
-        corrosiveAtmosphere(star, planet);
+        new CorrosiveAtmosphereGenerator().assignAtmosphere(star, planet);
         break;
       case 12:
-        insidiousAtmosphere(star, planet);
+        new InsidiousAtmosphereGenerator().assignAtmosphere(star, planet);
         break;
       case 13:
         planet.atmosphere.code = 13;
-        planet.atmosphere.density = AtmosphereDensities.DENSE;
+        planet.atmosphere.density = AtmosphereDensities.VERY_DENSE;
         break;
       case 14:
         planet.atmosphere.code = 14;

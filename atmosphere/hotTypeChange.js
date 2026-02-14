@@ -1,12 +1,12 @@
 const {d6} = require("../dice");
 const AtmosphereDensities = require("./AtmosphereDensities");
-const {insidiousAtmosphere} = require("./insidiousAtmosphere");
-const corrosiveAtmosphere = require("./corrosiveAtmosphere");
+const { CorrosiveAtmosphereGenerator } = require('../utils/CorrosiveAtmosphereGenerator');
+const { InsidiousAtmosphereGenerator } = require('../utils/InsidiousAtmosphereGenerator');
 
 const hotTypeChange = (star, planet, dm) => {
   const roll = d6() + dm;
   if (roll >= 6)
-    insidiousAtmosphere(star, planet);
+    new InsidiousAtmosphereGenerator().assignAtmosphere(star, planet);
   else switch (roll) {
     case 1:
       planet.atmosphere.code = 1;
@@ -15,7 +15,7 @@ const hotTypeChange = (star, planet, dm) => {
     case 3:
     case 4:
     case 5:
-      corrosiveAtmosphere(star, planet);
+      new CorrosiveAtmosphereGenerator().assignAtmosphere(star, planet);
       break;
   }
 }

@@ -2,8 +2,8 @@ const { twoD6, d6 } = require('../dice');
 const AtmosphereDensities = require('./AtmosphereDensities');
 
 const hotTypeChange = require('./hotTypeChange');
-const corrosiveAtmosphere = require('./corrosiveAtmosphere');
-const { insidiousAtmosphere } = require('./insidiousAtmosphere');
+const { CorrosiveAtmosphereGenerator } = require('../utils/CorrosiveAtmosphereGenerator');
+const { InsidiousAtmosphereGenerator } = require('../utils/InsidiousAtmosphereGenerator');
 const unusualAtmosphere = require('./unusualAtmosphere');
 const { determineTaint } = require('./taint');
 
@@ -63,11 +63,11 @@ const hot2 = (star, planet) => {
     case 10:
     case 11:
     case 13:
-      corrosiveAtmosphere(star, planet);
+      new CorrosiveAtmosphereGenerator().assignAtmosphere(star, planet);
       break;
     case 12:
     case 14:
-      insidiousAtmosphere(star, planet);
+      new InsidiousAtmosphereGenerator().assignAtmosphere(star, planet);
       break;
     case 15:
       unusualAtmosphere(star, planet);

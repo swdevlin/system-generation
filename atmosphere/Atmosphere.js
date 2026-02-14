@@ -1,5 +1,5 @@
-const AtmosphereDensities = require("./AtmosphereDensities");
-const {Taint} = require("./taint");
+const AtmosphereDensities = require('./AtmosphereDensities');
+const { Taint } = require('./taint');
 
 class Atmosphere {
   constructor() {
@@ -9,11 +9,12 @@ class Atmosphere {
     this.characteristic = '';
     this.bar = 0;
     this.gasType = null;
+    this.subtype = null;
+    this.gases = [];
+    this.composition = null;
 
     this.density = AtmosphereDensities.STANDARD;
-    this.gasType = null;
     this.hazardCode = null;
-
   }
 }
 
