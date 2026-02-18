@@ -80,6 +80,31 @@ class SolarSystem {
     return isBrownDwarf(this.primaryStar.stellarType);
   }
 
+  hasNonDwarfStar() {
+    return this.stars.some(star => {
+      if (!isBrownDwarf(star.stellarType) && star.stellarType !== STELLAR_TYPES.WhiteDwarf) return true;
+      if (star.companion && !isBrownDwarf(star.companion.stellarType) && star.companion.stellarType !== STELLAR_TYPES.WhiteDwarf) return true;
+      return false;
+    });
+  }
+
+  systemLuminosity() {
+    return this.stars.reduce((total, star) => total + star.totalLuminosity, 0);
+  }
+
+  assignSurveyIndex(si) {
+    if (si)
+      this.surveyIndex = si;
+    else {
+      if (this.onlyBrownDwarfs())
+        this.surveyIndex = 0;
+      else if (this.hasNonDwarfStar())
+        this.surveyIndex = 3;
+      else
+        this.surveyIndex = this.systemLuminosity() >= 0.01 ? 2 : 1;
+    }
+  }
+
   calculateScanPoints() {
     if (this.scanPoints === 0) this.scanPoints = d6() + d6();
 
