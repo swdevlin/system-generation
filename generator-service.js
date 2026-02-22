@@ -3,6 +3,7 @@ const winston = require('winston');
 const morgan = require('morgan');
 const gasGiantRouter = require('./service/gasGiant');
 const planetoidBeltRouter = require('./service/planetoidBelt');
+const starRouter = require('./service/star');
 const starSystemRouter = require('./service/starSystem');
 const subsectorRouter = require('./service/subsector');
 
@@ -43,6 +44,7 @@ app.get('/favicon.ico', (req, res) => res.status(204).end());
 // Routes
 app.use('/gas_giant', gasGiantRouter);
 app.use('/planetoid_belt', planetoidBeltRouter);
+app.use('/star', starRouter);
 app.use('/star_system', starSystemRouter);
 app.use('/subsector', subsectorRouter);
 

@@ -56,7 +56,7 @@ class SolarSystem {
     this.name = name ? name : '';
     this.scanPoints = 0;
     this._mainWorld = null;
-    this.bases = '';
+    this.bases = [];
     this.remarks = '';
     this.surveyIndex = 0;
     this.allegiance = null;
@@ -81,9 +81,15 @@ class SolarSystem {
   }
 
   hasNonDwarfStar() {
-    return this.stars.some(star => {
-      if (!isBrownDwarf(star.stellarType) && star.stellarType !== STELLAR_TYPES.WhiteDwarf) return true;
-      if (star.companion && !isBrownDwarf(star.companion.stellarType) && star.companion.stellarType !== STELLAR_TYPES.WhiteDwarf) return true;
+    return this.stars.some((star) => {
+      if (!isBrownDwarf(star.stellarType) && star.stellarType !== STELLAR_TYPES.WhiteDwarf)
+        return true;
+      if (
+        star.companion &&
+        !isBrownDwarf(star.companion.stellarType) &&
+        star.companion.stellarType !== STELLAR_TYPES.WhiteDwarf
+      )
+        return true;
       return false;
     });
   }
@@ -93,15 +99,11 @@ class SolarSystem {
   }
 
   assignSurveyIndex(si) {
-    if (si)
-      this.surveyIndex = si;
+    if (si) this.surveyIndex = si;
     else {
-      if (this.onlyBrownDwarfs())
-        this.surveyIndex = 0;
-      else if (this.hasNonDwarfStar())
-        this.surveyIndex = 3;
-      else
-        this.surveyIndex = this.systemLuminosity() >= 0.01 ? 2 : 1;
+      if (this.onlyBrownDwarfs()) this.surveyIndex = 0;
+      else if (this.hasNonDwarfStar()) this.surveyIndex = 3;
+      else this.surveyIndex = this.systemLuminosity() >= 0.01 ? 2 : 1;
     }
   }
 
@@ -559,11 +561,37 @@ class SolarSystem {
     mainWorld.governmentCode = Math.max(twoD6() - 7 + mainWorld.population.code, 0);
     mainWorld.lawLevelCode = Math.max(twoD6() - 7 + mainWorld.governmentCode, 0);
     mainWorld.starPort = determineStarport(mainWorld);
+    assignBases();
     mainWorld.techLevel = Math.min(
       populated.maxTechLevel,
       Math.max(populated.minTechLevel, d6() + techLevelDMs(mainWorld))
     );
     this.allegiance = populated.allegiance;
+  }
+
+  assignBases() {
+    const bases = [];
+    if (this.mainWorld.starPort === 'A') {
+      if (twoD6() >= 8) bases.push('M');
+      if (twoD6() >= 8) bases.push('N');
+      if (twoD6() >= 10) bases.push('S');
+    } else if (this.mainWorld.starPort === 'B') {
+      if (twoD6() >= 8) bases.push('M');
+      if (twoD6() >= 8) bases.push('N');
+      if (twoD6() >= 9) bases.push('S');
+    } else if (this.mainWorld.starPort === 'C') {
+      if (twoD6() >= 10) bases.push('M');
+      if (twoD6() >= 9) bases.push('S');
+    } else if (this.mainWorld.starPort === 'D') {
+      if (twoD6() >= 12) bases.push('C');
+      if (twoD6() >= 8) bases.push('S');
+    } else if (this.mainWorld.starPort === 'E') {
+      if (twoD6() >= 10) bases.push('C');
+      if (twoD6() >= 8) bases.push('S');
+    } else if (this.mainWorld.starPort === 'X') {
+      if (twoD6() >= 10) bases.push('C');
+    }
+    this.bases = bases;
   }
 
   assignBiomass() {
