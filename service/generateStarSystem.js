@@ -4,7 +4,6 @@ const loadPlanetsFromDefinition = require('../solarSystems/loadPlanetsFromDefini
 const { gasGiantQuantity } = require('../gasGiants/gasGiant');
 const { planetoidBeltQuantity } = require('../planetoidBelts');
 const terrestrialPlanetQuantity = require('../terrestrialPlanet/terrestrialPlanetQuantity');
-const { assignTradeCodes } = require('../economics/assignTradeCodes');
 const SolarSystem = require('../solarSystems/solarSystem');
 
 const generateStarSystem = (definition, subsector) => {
@@ -64,8 +63,9 @@ const generateStarSystem = (definition, subsector) => {
 
   if (definition?.populated) {
     solarSystem.assignMainWorldSocialCharacteristics(definition.populated);
-    assignTradeCodes(solarSystem.mainWorld);
   }
+
+  solarSystem.assignTradeCodes();
 
   solarSystem.mainWorldOrbitSequence = solarSystem.mainWorld?.orbitSequence;
   solarSystem.setOrbitPositions();

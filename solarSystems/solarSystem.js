@@ -38,6 +38,7 @@ const summaryBlock = require('../stars/summaryBlock');
 const { determineStarport } = require('../terrestrialPlanet/assignStarport');
 const { techLevelDMs } = require('../terrestrialPlanet/assignTechLevel');
 const systemDensity = require('../utils/systemDensity');
+const { assignTradeCodes } = require('../economics/assignTradeCodes');
 
 const { GasGiant } = require('../gasGiants/gasGiant');
 
@@ -961,6 +962,17 @@ class SolarSystem {
           orbitPosition(obj, this.primaryStar);
         });
     });
+  }
+
+  assignTradeCodes() {
+    for (const star of this.stars)
+      for (const stellarObject of star.stellarObjects)
+        if (
+          [ORBIT_TYPES.TERRESTRIAL, ORBIT_TYPES.PLANETOID_BELT_OBJECT].includes(
+            stellarObject.orbitType
+          )
+        )
+          assignTradeCodes(stellarObject);
   }
 }
 
