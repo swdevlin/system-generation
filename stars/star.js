@@ -11,7 +11,6 @@ const {
   STELLAR_TYPES,
   isAnomaly,
   isBrownDwarf,
-  sequenceIdentifier,
 } = require('../utils');
 const { MINIMUM_ALLOWABLE_ORBIT } = require('./index');
 const { twoD6, d6, d3, d10, d100 } = require('../dice');
@@ -340,36 +339,7 @@ class Star extends StellarObject {
     return orbitIndex;
   }
 
-  assignOrbitSequences(orbiting) {
-    this.jump = auToOrbit(this.jumpShadow);
-    switch (this.orbitType) {
-      case ORBIT_TYPES.PRIMARY:
-        this.orbitSequence = 'A';
-        break;
-      case ORBIT_TYPES.CLOSE:
-        this.orbitSequence = 'B';
-        break;
-      case ORBIT_TYPES.NEAR:
-        this.orbitSequence = 'C';
-        break;
-      case ORBIT_TYPES.FAR:
-        this.orbitSequence = 'D';
-        break;
-    }
-    if (this.companion) this.companion.orbitSequence = this.orbitSequence + 'b';
-    orbiting += this.orbitSequence;
-    let index = 0;
-    for (const stellar of this.stellarObjects) {
-      if (stellar instanceof Star) {
-        stellar.assignOrbitSequences('');
-        orbiting += stellar.orbitSequence;
-      } else {
-        index++;
-        let od = this.companion && orbiting.length === 1 ? orbiting + 'ab' : orbiting;
-        stellar.orbitSequence = sequenceIdentifier(od, index);
-      }
-    }
-  }
+
 }
 
 module.exports = Star;

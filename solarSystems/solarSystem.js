@@ -22,6 +22,7 @@ const {
   addSignificantBodies,
 } = require('../planetoidBelts');
 const Star = require('../stars/star');
+const OrbitSequenceAssigner = require('../stars/OrbitSequenceAssigner');
 const biomass = require('../utils/assignBiomass');
 const resourceRating = require('../utils/resourceRating');
 const habitabilityRating = require('../utils/habitabilityRating');
@@ -562,7 +563,7 @@ class SolarSystem {
     mainWorld.governmentCode = Math.max(twoD6() - 7 + mainWorld.population.code, 0);
     mainWorld.lawLevelCode = Math.max(twoD6() - 7 + mainWorld.governmentCode, 0);
     mainWorld.starPort = determineStarport(mainWorld);
-    assignBases();
+    this.assignBases();
     mainWorld.techLevel = Math.min(
       populated.maxTechLevel,
       Math.max(populated.minTechLevel, d6() + techLevelDMs(mainWorld))
@@ -951,7 +952,7 @@ class SolarSystem {
   }
 
   assignOrbitSequences() {
-    this.primaryStar.assignOrbitSequences('');
+    new OrbitSequenceAssigner(this).assign();
   }
 
   setOrbitPositions() {
