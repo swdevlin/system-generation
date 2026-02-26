@@ -29,9 +29,13 @@ const habitabilityRating = require('../utils/habitabilityRating');
 const { starColour } = require('../utils/starColours');
 const assignAtmosphere = require('../atmosphere/assignAtmosphere');
 const assignMoonAtmosphere = require('../atmosphere/assignMoonAtmosphere');
+const assignMoonSocialCharacteristics = require('../moons/assignMoonSocialCharacteristics');
 const assignMoons = require('../moons/assignMoons');
 const terrestrialWorldSize = require('../terrestrialPlanet/terrestrialWorldSize');
 const TerrestrialPlanet = require('../terrestrialPlanet/terrestrialPlanet');
+const terrestrialComposition = require('../terrestrialPlanet/terrestrialComposition');
+const terrestrialDensity = require('../terrestrialPlanet/terrestrialDensity');
+
 const superEarthWorldSize = require('../terrestrialPlanet/superEarthWorldSize');
 const assignPhysicalCharacteristics = require('../terrestrialPlanet/assignPhysicalCharacteristics');
 const assignSocialCharacteristics = require('../terrestrialPlanet/assignSocialCharacteristics');
@@ -384,23 +388,25 @@ class SolarSystem {
     const orbitIndex = orbits[i][1];
 
     let mainType;
+    let mainBody;
     const planetoidBeltPattern = /^.000...-./;
     if (planetoidBeltPattern.test(mainworld.uwp)) {
       if (this.planetoidBelts > 0) {
         mainType = 'planetoidBelt';
-        this.addPlanetoidBelt(star, orbitIndex, mainworld.uwp);
+        mainBody = this.addPlanetoidBelt(star, orbitIndex, mainworld.uwp);
       } else {
         const size = null;
         const gg = this.addGasGiant({ star, orbitIndex, size });
         gg.uwp = mainworld.uwp;
         mainType = 'gasGiant';
+        mainBody = gg;
       }
     } else {
-      this.addTerrestrialPlanet({ star, orbitIndex, uwp: mainworld.uwp });
+      mainBody = this.addTerrestrialPlanet({ star, orbitIndex, uwp: mainworld.uwp });
       mainType = 'terrestrialPlanet';
     }
     if (mainType !== 'moon') {
-      this._mainWorld = star.stellarObjects[star.stellarObjects.length - 1];
+      this._mainWorld = mainBody;
       orbits.splice(i, 1);
     }
     return mainType;
@@ -540,7 +546,7 @@ class SolarSystem {
 
   assignAtmospheres() {
     for (const star of this.stars)
-      for (const stellarObject of star.stellarObjects)
+      for (const stellarObject of star.stellarObjects) {
         if (
           [ORBIT_TYPES.TERRESTRIAL, ORBIT_TYPES.PLANETOID_BELT_OBJECT].includes(
             stellarObject.orbitType
@@ -549,8 +555,19 @@ class SolarSystem {
           assignAtmosphere(star, stellarObject);
           stellarObject.meanTemperature = meanTemperature(star, stellarObject);
           stellarObject.hydrographics = determineHydrographics(star, stellarObject);
-          for (const moon of stellarObject.moons) assignMoonAtmosphere(star, stellarObject, moon);
         }
+        for (const moon of (stellarObject.moons ?? [])) {
+          assignAtmosphere(star, moon);
+          if (moon.size === 'S' || moon.size === 'R' || moon.size === 0) {
+            moon.hydrographics.code = 0;
+            continue;
+          }
+          moon.meanTemperature = meanTemperature(star, moon);
+          moon.hydrographics = determineHydrographics(star, moon);
+          moon.composition = terrestrialComposition(star, moon);
+          moon.density = terrestrialDensity(moon.composition);
+        }
+      }
   }
 
   assignMainWorldSocialCharacteristics(populated) {
@@ -609,7 +626,13 @@ class SolarSystem {
             // todo: determine sophont
             assignSocialCharacteristics(star, stellarObject);
           }
-          // TODO: Moons
+          for (const moon of stellarObject.moons) {
+            if (moon.size === 'S' || moon.size === 'R' || moon.size === 0) continue;
+            biomass(star, moon);
+            if (moon.nativeSophont) {
+              assignMoonSocialCharacteristics(star, moon);
+            }
+          }
         }
   }
 
@@ -622,7 +645,12 @@ class SolarSystem {
           )
         )
           stellarObject.resourceRating = resourceRating(stellarObject);
-    // TODO: Moons
+    for (const star of this.stars)
+      for (const stellarObject of star.stellarObjects)
+        for (const moon of (stellarObject.moons ?? [])) {
+          if (moon.size === 'S' || moon.size === 'R' || moon.size === 0) continue;
+          moon.resourceRating = resourceRating(moon);
+        }
   }
 
   assignHabitabilityRatings() {
@@ -634,7 +662,12 @@ class SolarSystem {
           )
         )
           stellarObject.habitabilityRating = habitabilityRating(stellarObject);
-    // TODO: Moons
+    for (const star of this.stars)
+      for (const stellarObject of star.stellarObjects)
+        for (const moon of (stellarObject.moons ?? [])) {
+          if (moon.size === 'S' || moon.size === 'R' || moon.size === 0) continue;
+          moon.habitabilityRating = habitabilityRating(moon);
+        }
   }
 
   starsSummary() {
@@ -720,7 +753,9 @@ class SolarSystem {
         if ([10, 11].includes(roll)) p.retrograde = true;
       } else {
         [star, original] = this.randomPlanet();
-        const p = this.addTerrestrialPlanet({ star: star, orbit: original.orbit });
+        // Trojans orbit at L4/L5 (±60°) at the same orbital distance.
+        // Add a tiny epsilon so both bodies have distinct orbit numbers.
+        const p = this.addTerrestrialPlanet({ star: star, orbit: original.orbit + 1e-9 });
         const trojan = p.diameter > original.diameter ? original : p;
         trojan.trojanOffset = r.pick([-1, 1]) * 60;
       }

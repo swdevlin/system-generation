@@ -121,17 +121,17 @@ const assignMoons = (star) => {
           if (twoD6() + dm > 9) period *= -1;
           period *= 365.25;
 
-          const moon = new Moon();
-          moon.orbit = orbit;
-          moon.size = size;
+          const moon = new Moon(size);
+          moon.satelliteOrbit = orbit;
+          moon.orbit = stellarObject.orbit;
+          moon.hzcoDeviation = stellarObject.hzcoDeviation;
           moon.eccentricity = ecc;
-          moon.hydrographics.code = 0;
           stellarObject.moons.push(moon);
           moon.axialTilt = axialTilt();
           moon.period = period;
         }
       }
-      stellarObject.moons.sort((a, b) => Math.abs(a.orbit.orbit) - Math.abs(b.orbit.orbit));
+      stellarObject.moons.sort((a, b) => Math.abs(a.satelliteOrbit.orbit) - Math.abs(b.satelliteOrbit.orbit));
     }
   }
 };
