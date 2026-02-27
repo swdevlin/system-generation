@@ -31,23 +31,33 @@ function getters(obj) {
   return Array.from(getters);
 }
 
-const DONT_EXPORT = ['stars', '_mainWorld', 'dataKey'];
+const DONT_EXPORT = ['stars', '_mainWorld', '_mainWorldHostGG', 'dataKey'];
 
-const toJSON = (obj) => {
+const toJSON = (obj, ancestors = new WeakSet()) => {
   if (typeof obj !== 'object' || obj === null) return obj;
 
-  if (Array.isArray(obj)) return obj.map((element) => toJSON(element));
+  if (ancestors.has(obj)) return null;
+  ancestors.add(obj);
 
-  const json = {};
+  let result;
 
-  for (const key in obj)
-    if (!DONT_EXPORT.includes(key)) if (obj.hasOwnProperty(key)) json[key] = toJSON(obj[key]);
+  if (Array.isArray(obj)) {
+    result = obj.map((element) => toJSON(element, ancestors));
+  } else {
+    const json = {};
 
-  for (const key of getters(obj)) if (!DONT_EXPORT.includes(key)) json[key] = toJSON(obj[key]);
+    for (const key in obj)
+      if (!DONT_EXPORT.includes(key)) if (Object.prototype.hasOwnProperty.call(obj, key)) json[key] = toJSON(obj[key], ancestors);
 
-  if (typeof obj.safeJumpTime === 'function') json['safeJumpTime'] = toJSON(obj.safeJumpTime(4));
+    for (const key of getters(obj)) if (!DONT_EXPORT.includes(key)) json[key] = toJSON(obj[key], ancestors);
 
-  return json;
+    if (typeof obj.safeJumpTime === 'function') json['safeJumpTime'] = toJSON(obj.safeJumpTime(4), ancestors);
+
+    result = json;
+  }
+
+  ancestors.delete(obj);
+  return result;
 };
 
 module.exports = toJSON;

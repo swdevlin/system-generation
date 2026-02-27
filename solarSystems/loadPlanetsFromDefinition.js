@@ -99,7 +99,7 @@ const loadPlanetsFromDefinition = ({ definition, solarSystem }) => {
     solarSystem.distributeObjects();
     solarSystem.assignOrbits();
     if (definition.counts) {
-      if (solarSystem.mainWorldType === 'moon') solarSystem.uwp = definition.counts.mainWorld.uwp;
+      if (solarSystem.mainWorldType === 'moon') solarSystem.uwp = definition.counts.mainWorld?.uwp;
     } else solarSystem.addAnomalousPlanets();
   }
 };

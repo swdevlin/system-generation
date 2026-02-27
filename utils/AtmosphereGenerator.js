@@ -53,32 +53,42 @@ const TEMP_BANDS = {
   hot: {
     dm: sizeOnlyDM,
     logKey: 'Assign Hot Atmosphere Gas Mix',
-    logInputs: (p) => ({ meanTemperatureK: p.meanTemperature, size: p.size, hydrographics: p.hydrographics }),
-    notes: ['Carbon Monoxide results are for Hydrographics 0 (or non-H2O hydrographics) only; otherwise use Carbon Dioxide.'],
+    logInputs: (p) => ({ meanTemperatureK: p.meanTemperature, size: p.size }),
+    notes: [
+      'Carbon Monoxide results are for Hydrographics 0 (or non-H2O hydrographics) only; otherwise use Carbon Dioxide.',
+    ],
   },
   temperate: {
     dm: sizeOnlyDM,
     logKey: 'Assign Temperate Atmosphere Gas Mix',
-    logInputs: (p) => ({ meanTemperatureK: p.meanTemperature, size: p.size, hydrographics: p.hydrographics }),
-    notes: ['Carbon Monoxide results are for Hydrographics 0 (or non-H2O hydrographics) only; otherwise use Carbon Dioxide.'],
+    logInputs: (p) => ({ meanTemperatureK: p.meanTemperature, size: p.size }),
+    notes: [
+      'Carbon Monoxide results are for Hydrographics 0 (or non-H2O hydrographics) only; otherwise use Carbon Dioxide.',
+    ],
   },
   cold: {
     dm: sizeOnlyDM,
     logKey: 'Assign Cold Atmosphere Gas Mix',
-    logInputs: (p) => ({ meanTemperatureK: p.meanTemperature, size: p.size, hydrographics: p.hydrographics }),
-    notes: ['Carbon Monoxide results are for Hydrographics 0 (or non-H2O hydrographics) only; otherwise use Carbon Dioxide.'],
+    logInputs: (p) => ({ meanTemperatureK: p.meanTemperature, size: p.size }),
+    notes: [
+      'Carbon Monoxide results are for Hydrographics 0 (or non-H2O hydrographics) only; otherwise use Carbon Dioxide.',
+    ],
   },
   frozen: {
     dm: frozenAtmosphereDM,
     logKey: 'Assign Frozen Atmosphere Gas Mix',
-    logInputs: (p) => ({ meanTemperatureK: p.meanTemperature, size: p.size, hydrographics: p.hydrographics }),
-    notes: ['Carbon Monoxide results are for Hydrographics 0 (or non-H2O hydrographics) only; otherwise use Nitrogen.'],
+    logInputs: (p) => ({ meanTemperatureK: p.meanTemperature, size: p.size }),
+    notes: [
+      'Carbon Monoxide results are for Hydrographics 0 (or non-H2O hydrographics) only; otherwise use Nitrogen.',
+    ],
   },
   deepFrozen: {
     dm: deepFrozenAtmosphereDM,
     logKey: 'Assign Frozen Atmosphere Gas Mix',
-    logInputs: (p) => ({ meanTemperatureK: p.meanTemperature, size: p.size, hydrographics: p.hydrographics }),
-    notes: ['Carbon Monoxide results are for Hydrographics 0 (or non-H2O hydrographics) only; otherwise use Nitrogen.'],
+    logInputs: (p) => ({ meanTemperatureK: p.meanTemperature, size: p.size }),
+    notes: [
+      'Carbon Monoxide results are for Hydrographics 0 (or non-H2O hydrographics) only; otherwise use Nitrogen.',
+    ],
   },
 };
 

@@ -28,7 +28,6 @@ const resourceRating = require('../utils/resourceRating');
 const habitabilityRating = require('../utils/habitabilityRating');
 const { starColour } = require('../utils/starColours');
 const assignAtmosphere = require('../atmosphere/assignAtmosphere');
-const assignMoonAtmosphere = require('../atmosphere/assignMoonAtmosphere');
 const assignMoonSocialCharacteristics = require('../moons/assignMoonSocialCharacteristics');
 const assignMoons = require('../moons/assignMoons');
 const terrestrialWorldSize = require('../terrestrialPlanet/terrestrialWorldSize');
@@ -70,6 +69,7 @@ class SolarSystem {
     this.mainFromDefinition = null;
     this.mainWorldType = null;
     this.uwp = null;
+    this._mainWorldHostGG = null;
   }
 
   get x() {
@@ -387,6 +387,14 @@ class SolarSystem {
     const star = orbits[i][0];
     const orbitIndex = orbits[i][1];
 
+    if (mainworld.moon) {
+      const gg = this.addGasGiant({ star, orbitIndex });
+      gg.isMainWorldHost = true;
+      this._mainWorldHostGG = gg;
+      orbits.splice(i, 1);
+      return 'moon';
+    }
+
     let mainType;
     let mainBody;
     const planetoidBeltPattern = /^.000...-./;
@@ -478,7 +486,7 @@ class SolarSystem {
 
     this.mainWorldType = this.assignMainWorld(allOrbits);
 
-    let start = this.mainWorldType === 'gasGiant' ? 1 : 0;
+    let start = this.mainWorldType === 'gasGiant' || this.mainWorldType === 'moon' ? 1 : 0;
     for (let i = start; i < this.gasGiants; i++) {
       const p = allOrbits.pop();
       if (p === undefined) {
@@ -514,6 +522,35 @@ class SolarSystem {
 
   addMoons() {
     for (const star of this.stars) assignMoons(star);
+  }
+
+  resolveMainWorldMoon() {
+    if (this.mainWorldType !== 'moon' || !this._mainWorldHostGG) return;
+
+    const gg = this._mainWorldHostGG;
+    const uwp = this.mainFromDefinition?.uwp;
+    const candidates = uwp ? gg.moons : gg.moons.filter((m) => m.size !== 'R');
+    if (candidates.length === 0) return;
+
+    const moon = candidates[randomInt(0, candidates.length - 1)];
+
+    if (uwp) {
+      const { deconstructUWP } = require('../utils');
+      const c = deconstructUWP(uwp);
+      if (c) {
+        moon.fromUWP = true;
+        moon.size = c.size;
+        moon.atmosphere.code = c.atmosphere;
+        moon.hydrographics.code = c.hydrographics;
+        moon.population.code = c.population;
+        moon.governmentCode = c.government;
+        moon.lawLevelCode = c.lawLevel;
+        moon.starPort = c.starPort;
+        moon.techLevel = c.techLevel;
+      }
+    }
+
+    this._mainWorld = moon;
   }
 
   setRotationPeriod() {
@@ -556,7 +593,7 @@ class SolarSystem {
           stellarObject.meanTemperature = meanTemperature(star, stellarObject);
           stellarObject.hydrographics = determineHydrographics(star, stellarObject);
         }
-        for (const moon of (stellarObject.moons ?? [])) {
+        for (const moon of stellarObject.moons ?? []) {
           assignAtmosphere(star, moon);
           if (moon.size === 'S' || moon.size === 'R' || moon.size === 0) {
             moon.hydrographics.code = 0;
@@ -647,7 +684,7 @@ class SolarSystem {
           stellarObject.resourceRating = resourceRating(stellarObject);
     for (const star of this.stars)
       for (const stellarObject of star.stellarObjects)
-        for (const moon of (stellarObject.moons ?? [])) {
+        for (const moon of stellarObject.moons ?? []) {
           if (moon.size === 'S' || moon.size === 'R' || moon.size === 0) continue;
           moon.resourceRating = resourceRating(moon);
         }
@@ -664,7 +701,7 @@ class SolarSystem {
           stellarObject.habitabilityRating = habitabilityRating(stellarObject);
     for (const star of this.stars)
       for (const stellarObject of star.stellarObjects)
-        for (const moon of (stellarObject.moons ?? [])) {
+        for (const moon of stellarObject.moons ?? []) {
           if (moon.size === 'S' || moon.size === 'R' || moon.size === 0) continue;
           moon.habitabilityRating = habitabilityRating(moon);
         }

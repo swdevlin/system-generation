@@ -38,6 +38,9 @@ class OrbitSequenceAssigner {
         index++;
         const prefix = star.companion && orbiting.length === 1 ? orbiting + 'ab' : orbiting;
         body.orbitSequence = sequenceIdentifier(prefix, index);
+        for (let m = 0; m < (body.moons?.length ?? 0); m++) {
+          body.moons[m].orbitSequence = `${body.orbitSequence}.${m + 1}`;
+        }
       }
     }
 

@@ -45,6 +45,7 @@ const assignMoons = (star) => {
       if (stellarObject.orbitType === ORBIT_TYPES.GAS_GIANT) {
         moons =
           stellarObject.code === 'GS' ? threeD6() - 7 - 3 * dm : threeD6() + d6() - 6 - 4 * dm;
+        if (stellarObject.isMainWorldHost) moons = Math.max(moons, 1);
       } else if (
         ![ORBIT_TYPES.PLANETOID_BELT, ORBIT_TYPES.PLANETOID_BELT_OBJECT].includes(
           stellarObject.orbitType
@@ -65,8 +66,12 @@ const assignMoons = (star) => {
       // const rocheLimit = 1.537 * stellarObject.diameter;
       let mor = Math.floor(hsml) - 2;
       mor = Math.min(mor, 200 + moons);
-      if (hsml < 0.5) continue;
-      else if (hsml < 1) moons = 0;
+      if (hsml < 0.5) {
+        if (!stellarObject.isMainWorldHost) continue;
+      } else if (hsml < 1) {
+        moons = stellarObject.isMainWorldHost ? Math.max(moons, 1) : 0;
+      }
+      if (stellarObject.isMainWorldHost && mor < 5) mor = 5;
       if (moons === 0) {
         stellarObject.hasRing = true;
       } else {
@@ -123,7 +128,8 @@ const assignMoons = (star) => {
 
           const moon = new Moon(size);
           moon.satelliteOrbit = orbit;
-          moon.orbit = stellarObject.orbit;
+          moon.orbit = orbit.orbit;
+          moon.parentOrbit = stellarObject.orbit;
           moon.hzcoDeviation = stellarObject.hzcoDeviation;
           moon.eccentricity = ecc;
           stellarObject.moons.push(moon);

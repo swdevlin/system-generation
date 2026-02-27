@@ -134,6 +134,7 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap) =>
         solarSystem.addAnomalousPlanets();
       }
       solarSystem.addMoons();
+      solarSystem.resolveMainWorldMoon();
       solarSystem.assignAtmospheres();
       solarSystem.assignBiomass();
       solarSystem.assignResourceRatings();

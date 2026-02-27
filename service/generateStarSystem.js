@@ -49,6 +49,7 @@ const generateStarSystem = (definition, subsector) => {
     solarSystem.addAnomalousPlanets();
   }
   solarSystem.addMoons();
+  solarSystem.resolveMainWorldMoon();
   solarSystem.setRotationPeriod();
   solarSystem.assignAtmospheres();
   solarSystem.assignBiomass();

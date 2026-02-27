@@ -36,11 +36,13 @@ const meanTemperature = (star, planet) => {
 
   roll += mod;
 
-  if (planet.orbit < star.hzco - 1) {
-    roll += 4 + Math.round((star.hzco - 1 - planet.orbit) / 0.5);
-  } else if (planet.orbit > star.hzco + 1) {
+  const stellarOrbit = planet.satelliteOrbit ? planet.parentOrbit : planet.orbit;
+
+  if (stellarOrbit < star.hzco - 1) {
+    roll += 4 + Math.round((star.hzco - 1 - stellarOrbit) / 0.5);
+  } else if (stellarOrbit > star.hzco + 1) {
     roll -= 4;
-    roll -= Math.round((planet.orbit - (star.hzco + 1)) / 0.5);
+    roll -= Math.round((stellarOrbit - (star.hzco + 1)) / 0.5);
   }
 
   let temp;
