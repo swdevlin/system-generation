@@ -326,7 +326,9 @@ class SolarSystem {
               }
             }
             break;
-          case 'outer':
+          case 'outer': {
+            let bestOuterI = null;
+            let bestOuterOrbit = -Infinity;
             for (const orbit of orbits) {
               const star = orbit[0];
               const orbitIndex = orbit[1];
@@ -336,8 +338,14 @@ class SolarSystem {
                 i = orbits.indexOf(orbit);
                 break;
               }
+              if (orbitNumber > bestOuterOrbit) {
+                bestOuterOrbit = orbitNumber;
+                bestOuterI = orbits.indexOf(orbit);
+              }
             }
+            if (i === null) i = bestOuterI;
             break;
+          }
           case 'inner':
             for (const orbit of orbits) {
               const star = orbit[0];
