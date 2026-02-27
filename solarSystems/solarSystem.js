@@ -550,35 +550,44 @@ class SolarSystem {
       }
     }
 
+    moon.name = this.mainFromDefinition?.name || this.name;
     this._mainWorld = moon;
   }
 
   setRotationPeriod() {
+    const calcRotation = (body, multiplierOverride) => {
+      let rotation = 0;
+      let r = 0;
+      let multiplier = multiplierOverride ?? 4;
+      if (
+        body.orbitType === ORBIT_TYPES.GAS_GIANT ||
+        body.size === 'S' ||
+        body.size === 'R' ||
+        body.size === 0
+      )
+        multiplier = 2;
+      do {
+        r = (twoD6() - 2) * multiplier + 2 + d6();
+        rotation += r;
+      } while (r > 40 && d6() > 4);
+      rotation += Math.floor(this.stars[0].age / 2);
+      const hm = randomInt(0, 59) + randomInt(0, 59) / 60;
+      body.rotation = rotation + hm / 60;
+    };
+
     for (const star of this.stars)
-      for (const stellarObject of star.stellarObjects)
+      for (const stellarObject of star.stellarObjects) {
         if (
           [ORBIT_TYPES.TERRESTRIAL, ORBIT_TYPES.PLANETOID, ORBIT_TYPES.GAS_GIANT].includes(
             stellarObject.orbitType
           )
         ) {
-          let rotation = 0;
-          let r = 0;
-          let multiplier = 4;
-          if (
-            stellarObject.orbitType === ORBIT_TYPES.GAS_GIANT ||
-            stellarObject.size === 'S' ||
-            stellarObject.size === 'R' ||
-            stellarObject.size === 0
-          )
-            multiplier = 2;
-          do {
-            r = (twoD6() - 2) * multiplier + 2 + d6();
-            rotation += r;
-          } while (r > 40 && d6() > 4);
-          rotation += Math.floor(this.stars[0].age / 2);
-          const hm = randomInt(0, 59) + randomInt(0, 59) / 60;
-          stellarObject.rotation = rotation + hm / 60;
+          calcRotation(stellarObject);
+          for (const moon of stellarObject.moons ?? []) {
+            calcRotation(moon);
+          }
         }
+      }
   }
 
   assignAtmospheres() {

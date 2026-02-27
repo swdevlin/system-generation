@@ -1,5 +1,5 @@
 const { twoD6, d6, threeD6, d3 } = require('../dice');
-const { ORBIT_TYPES, hillSpherePD, eccentricity, axialTilt } = require('../utils');
+const { ORBIT_TYPES, hillSpherePD, eccentricity, axialTilt, AU } = require('../utils');
 const Moon = require('./moon');
 
 const Random = require('random-js').Random;
@@ -120,8 +120,8 @@ const assignMoons = (star) => {
           else if (orbit.zone === 'outer') dm = 4;
           if (orbit.orbit > mor) dm += 2;
           let ecc = eccentricity(dm);
-          const psize = size === 'S' ? 0.333 : size;
-          let period = 0.176927 * Math.sqrt((pd * psize) ** 3 / stellarObject.mass);
+          const orbitAU = orbit.orbit * stellarObject.diameter / AU;
+          let period = Math.sqrt(orbitAU ** 3 / (stellarObject.mass * 3e-6));
           if (orbit.orbit > hsml) dm += 2;
           if (twoD6() + dm > 9) period *= -1;
           period *= 365.25;
