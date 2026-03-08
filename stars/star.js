@@ -236,6 +236,7 @@ class Star extends StellarObject {
       }
     return orbit + orbitOffet;
   }
+
   markOccupiedOrbits() {
     let orbit = this.minimumAllowableOrbit + this.spread + ((twoD6() - 7) * this.spread) / 10;
     this.occupiedOrbits.push(orbit);
@@ -338,8 +339,6 @@ class Star extends StellarObject {
 
     return orbitIndex;
   }
-
-
 }
 
 module.exports = Star;
