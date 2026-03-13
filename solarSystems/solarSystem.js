@@ -962,7 +962,7 @@ class SolarSystem {
     } else if (typeName === 'small gas giant') {
       this.gasGiants++;
       newBody = this.addGasGiant({ star: star, orbitIndex: orbitIndex, size: 'GS' });
-    } else if (typeName === 'gas giant') {
+    } else if (typeName === 'gas giant' || typeName === 'medium gas giant') {
       this.gasGiants++;
       newBody = this.addGasGiant({ star: star, orbitIndex: orbitIndex, size: 'GM' });
     } else if (typeName === 'large gas giant') {
