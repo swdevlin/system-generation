@@ -332,6 +332,12 @@ class Star extends StellarObject {
         while (this.occupiedOrbits[orbitIndex + 1] < this.hzco + 1) orbitIndex++;
       } else if (body.orbit === 'habitable') {
         while (this.occupiedOrbits[orbitIndex + 1] < this.hzco + 1) orbitIndex++;
+      } else if (body.orbit === 'hzco') {
+        while (
+          orbitIndex + 1 < this.occupiedOrbits.length &&
+          Math.abs(this.occupiedOrbits[orbitIndex + 1] - this.hzco) <
+            Math.abs(this.occupiedOrbits[orbitIndex] - this.hzco)
+        ) orbitIndex++;
       } else {
         throw `Invalid orbit specified: ${body.orbit}`;
       }

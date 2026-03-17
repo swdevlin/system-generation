@@ -8,6 +8,7 @@ const LABEL_TARGETS = {
   cold: (hzco) => hzco + 1,
   habitable: (hzco) => hzco + 1,
   inner: (hzco) => hzco - 1,
+  hzco: (hzco) => hzco,
 };
 
 const computeMaxSpread = (star, bodies) => {
