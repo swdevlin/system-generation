@@ -70,6 +70,7 @@ class SolarSystem {
     this.mainWorldType = null;
     this.uwp = null;
     this._mainWorldHostGG = null;
+    this.sophontCheck = 'standard';
   }
 
   get x() {
@@ -675,14 +676,14 @@ class SolarSystem {
             stellarObject.orbitType
           )
         ) {
-          biomass(star, stellarObject);
+          biomass(star, stellarObject, this.sophontCheck);
           if (stellarObject.nativeSophont) {
             // todo: determine sophont
             assignSocialCharacteristics(star, stellarObject);
           }
           for (const moon of stellarObject.moons) {
             if (moon.size === 'S' || moon.size === 'R' || moon.size === 0) continue;
-            biomass(star, moon);
+            biomass(star, moon, this.sophontCheck);
             if (moon.nativeSophont) {
               assignMoonSocialCharacteristics(star, moon);
             }

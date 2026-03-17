@@ -18,8 +18,8 @@ const logger = winston.createLogger({
     new winston.transports.File({ filename: 'logs/error.log', level: 'error' }),
     new winston.transports.File({ filename: 'logs/access.log' }),
     new winston.transports.Console({
-      format: winston.format.combine(winston.format.colorize(), winston.format.simple())
-    })
+      format: winston.format.combine(winston.format.colorize(), winston.format.simple()),
+    }),
   ],
 });
 
@@ -33,10 +33,12 @@ app.use((req, res, next) => {
 });
 
 morgan.token('tenant', (req) => req.tenantId);
-app.use(morgan(':method :url :status - :response-time ms - tenant: :tenant', {
-  skip: (req) => req.path === '/favicon.ico',
-  stream: { write: (message) => logger.info(message.trim()) }
-}));
+app.use(
+  morgan(':method :url :status - :response-time ms - tenant: :tenant', {
+    skip: (req) => req.path === '/favicon.ico',
+    stream: { write: (message) => logger.info(message.trim()) },
+  })
+);
 
 // Favicon silent handler
 app.get('/favicon.ico', (req, res) => res.status(204).end());

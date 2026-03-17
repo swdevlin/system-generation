@@ -28,6 +28,7 @@ const generateStarSystem = (definition, subsector) => {
     assignStars({ solarSystem: solarSystem, unusualChance: unusualChance });
   }
 
+  solarSystem.sophontCheck = definition?.sophontCheck || subsector?.sophontCheck || 'standard';
   solarSystem.assignSurveyIndex(si);
 
   solarSystem.determineAvailableOrbits();
