@@ -78,7 +78,7 @@ function assignTechLevel(planet) {
 
 function assignNativeSophontTechLevel(star, planet) {
   planet.techLevel = Math.min(
-    parseInt(process.env.maxNativeSophontTechLevel),
+    parseInt(process.env.maxNativeSophontTechLevel) || 15,
     Math.max(
       1, d3() + d3() + d3() - 2 + nativeSophontTechLevelDMs(star, planet)
     )
