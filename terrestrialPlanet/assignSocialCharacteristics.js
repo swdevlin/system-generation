@@ -1,11 +1,11 @@
 const {twoD6} = require("../dice");
 const {assignNativeSophontStarport} = require("./assignStarport");
-const {assignNativeSophontTechLevel} = require("./assignTechLevel");
+const {assignNativeSophontTechLevel, assignTechLevel} = require("./assignTechLevel");
 const assignPopulation = require("../population/assignPopulation");
 const {assignTradeCodes} = require("../economics/assignTradeCodes");
 const {getBoolFromEnv} = require("../utils");
 
-const assignSocialCharacteristics = (star, planet) => {
+const assignSocialCharacteristics = (star, planet, maxNativeSophontTechLevel = 15, nativeTech = true) => {
   console.log('  assigning social characteristics');
   assignPopulation(star, planet);
 
@@ -18,10 +18,13 @@ const assignSocialCharacteristics = (star, planet) => {
   planet.lawLevelCode = Math.max(twoD6() - 7 + planet.governmentCode, 0);
   // todo: flesh out law level
 
-  // todo: switch for native vs RAW
-  assignNativeSophontTechLevel(star, planet);
+  if (nativeTech) {
+    assignNativeSophontTechLevel(star, planet, maxNativeSophontTechLevel);
+  } else {
+    assignTechLevel(planet);
+    planet.techLevel = Math.min(maxNativeSophontTechLevel, Math.max(1, planet.techLevel));
+  }
 
-  // todo: switch for native vs RAW
   assignNativeSophontStarport(planet);
 
   assignTradeCodes(planet);

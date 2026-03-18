@@ -29,6 +29,8 @@ const generateStarSystem = (definition, subsector) => {
   }
 
   solarSystem.sophontCheck = definition?.sophontCheck || subsector?.sophontCheck || 'standard';
+  solarSystem.maxNativeSophontTechLevel = definition?.maxNativeSophontTechLevel ?? subsector?.maxNativeSophontTechLevel ?? 15;
+  solarSystem.nativeTech = definition?.nativeTech ?? subsector?.nativeTech ?? true;
   solarSystem.assignSurveyIndex(si);
 
   solarSystem.determineAvailableOrbits();
