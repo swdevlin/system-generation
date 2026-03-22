@@ -3,15 +3,18 @@ const {assignNativeSophontStarport} = require("./assignStarport");
 const {assignNativeSophontTechLevel, assignTechLevel} = require("./assignTechLevel");
 const assignPopulation = require("../population/assignPopulation");
 const {assignTradeCodes} = require("../economics/assignTradeCodes");
-const {getBoolFromEnv} = require("../utils");
 
-const assignSocialCharacteristics = (star, planet, maxNativeSophontTechLevel = 15, nativeTech = true) => {
+const assignSocialCharacteristics = (star, planet, {
+  maxNativeSophontTechLevel = 15,
+  nativeTech = true,
+  allowCaptiveGovernment = true,
+} = {}) => {
   console.log('  assigning social characteristics');
   assignPopulation(star, planet);
 
   do {
     planet.governmentCode = Math.max(twoD6() - 7 + planet.population.code, 0);
-  } while (planet.governmentCode === 6 && getBoolFromEnv('noCaptiveGovernment'));
+  } while (planet.governmentCode === 6 && !allowCaptiveGovernment);
 
   // todo: flesh out government
 
