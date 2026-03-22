@@ -55,10 +55,12 @@ const generateStarSystem = (definition, subsector) => {
   solarSystem.resolveMainWorldMoon();
   solarSystem.setRotationPeriod();
   solarSystem.assignAtmospheres();
+  solarSystem.assignTidalLock();
   solarSystem.assignBiomass();
   solarSystem.assignResourceRatings();
   solarSystem.assignHabitabilityRatings();
   solarSystem.assignOrbitSequences();
+  solarSystem.resolveTidalLockTargets();
 
   if (definition?.allegiance) solarSystem.allegiance = definition.allegiance;
 

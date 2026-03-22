@@ -43,6 +43,7 @@ const { determineStarport } = require('../terrestrialPlanet/assignStarport');
 const { techLevelDMs } = require('../terrestrialPlanet/assignTechLevel');
 const systemDensity = require('../utils/systemDensity');
 const { assignTradeCodes } = require('../economics/assignTradeCodes');
+const assignTidalLock = require('../tidalLock/assignTidalLock');
 
 const { GasGiant } = require('../gasGiants/gasGiant');
 
@@ -91,13 +92,11 @@ class SolarSystem {
     return this.stars.some((star) => {
       if (!isBrownDwarf(star.stellarType) && star.stellarType !== STELLAR_TYPES.WhiteDwarf)
         return true;
-      if (
+      return (
         star.companion &&
         !isBrownDwarf(star.companion.stellarType) &&
         star.companion.stellarType !== STELLAR_TYPES.WhiteDwarf
-      )
-        return true;
-      return false;
+      );
     });
   }
 
@@ -668,6 +667,22 @@ class SolarSystem {
     this.bases = bases;
   }
 
+  assignTidalLock() {
+    assignTidalLock(this.stars);
+  }
+
+  resolveTidalLockTargets() {
+    for (const star of this.stars)
+      for (const stellarObject of star.stellarObjects) {
+        if (stellarObject.tidalLockTarget)
+          stellarObject.tidalLockTarget = stellarObject.tidalLockTarget.orbitSequence ?? null;
+        for (const moon of stellarObject.moons ?? []) {
+          if (moon.tidalLockTarget)
+            moon.tidalLockTarget = moon.tidalLockTarget.orbitSequence ?? null;
+        }
+      }
+  }
+
   assignBiomass() {
     for (const star of this.stars)
       for (const stellarObject of star.stellarObjects)
@@ -679,13 +694,23 @@ class SolarSystem {
           biomass(star, stellarObject, this.sophontCheck);
           if (stellarObject.nativeSophont) {
             // todo: determine sophont
-            assignSocialCharacteristics(star, stellarObject, this.maxNativeSophontTechLevel, this.nativeTech);
+            assignSocialCharacteristics(
+              star,
+              stellarObject,
+              this.maxNativeSophontTechLevel,
+              this.nativeTech
+            );
           }
           for (const moon of stellarObject.moons) {
             if (moon.size === 'S' || moon.size === 'R' || moon.size === 0) continue;
             biomass(star, moon, this.sophontCheck);
             if (moon.nativeSophont) {
-              assignMoonSocialCharacteristics(star, moon, this.maxNativeSophontTechLevel, this.nativeTech);
+              assignMoonSocialCharacteristics(
+                star,
+                moon,
+                this.maxNativeSophontTechLevel,
+                this.nativeTech
+              );
             }
           }
         }

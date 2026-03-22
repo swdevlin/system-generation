@@ -11,6 +11,11 @@ class StellarObject {
     this.buildLog = [];
     this.fromUWP = false;
     this.hzcoDeviation = 0;
+    this.tidalLock = null;
+    this.tidalLockTarget = null;
+    this.tidalLockNote = null;
+    this.twilightZone = false;
+    this.siderealDay = null;
   }
 
   setOrbit(star, orbitNumber) {
