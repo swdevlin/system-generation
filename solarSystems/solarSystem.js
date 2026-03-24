@@ -1012,51 +1012,46 @@ class SolarSystem {
     return newBody;
   }
 
-  getPossibleMainWorlds(star, possibleMainWorlds) {
-    for (const stellarObject of star.stellarObjects)
-      if (stellarObject instanceof Star)
-        this.getPossibleMainWorlds(stellarObject, possibleMainWorlds);
-      else if (!(stellarObject instanceof GasGiant))
-        possibleMainWorlds.push([Math.abs(stellarObject.hzcoDeviation), stellarObject]);
-  }
-
-  getPossibleGGMainWorlds(star, possibleMainWorlds) {
-    for (const stellarObject of star.stellarObjects)
-      if (stellarObject instanceof Star)
-        this.getPossibleGGMainWorlds(stellarObject, possibleMainWorlds);
-      else if (stellarObject instanceof GasGiant)
+  collectMainWorldCandidates(star, candidates) {
+    for (const stellarObject of star.stellarObjects) {
+      if (stellarObject instanceof Star) {
+        this.collectMainWorldCandidates(stellarObject, candidates);
+      } else if (stellarObject instanceof GasGiant) {
         for (const moon of stellarObject.moons)
-          possibleMainWorlds.push([Math.abs(stellarObject.hzcoDeviation), moon]);
+          candidates.push([Math.abs(stellarObject.hzcoDeviation), true, moon]);
+      } else {
+        candidates.push([Math.abs(stellarObject.hzcoDeviation), false, stellarObject]);
+      }
+    }
   }
 
   get mainWorld() {
     if (this._mainWorld !== null) return this._mainWorld;
-    const possibleMainWorlds = [];
-    for (const star of this.stars) this.getPossibleMainWorlds(star, possibleMainWorlds);
-    possibleMainWorlds.sort((a, b) => {
-      if (b[1].population.code === a[1].population.code) {
-        if (Math.abs(a[0] - b[0]) > 0.1) return a[0] - b[0];
-        else {
-          const bSize = b[1].size === 'S' ? -1 : b[1].size;
-          const aSize = a[1].size === 'S' ? -1 : a[1].size;
-          return bSize - aSize;
-        }
-      } else return b[1].population.code - a[1].population.code;
-    });
 
-    if (possibleMainWorlds.length === 0) {
-      for (const star of this.stars) this.getPossibleGGMainWorlds(star, possibleMainWorlds);
-      possibleMainWorlds.sort((a, b) => {
-        if (Math.abs(a[0] - b[0]) > 0.1) return a[0] - b[0];
+    let candidates = [];
+    for (const star of this.stars) this.collectMainWorldCandidates(star, candidates);
 
-        const bSize = b[1].size === 'S' ? '-1' : b[1].size;
-        const aSize = a[1].size === 'S' ? '-1' : a[1].size;
-        return bSize - aSize;
-      });
+    const hasPopulation = candidates.some((c) => c[2].population.code > 0);
+    if (!hasPopulation) {
+      // moons must be at least size 1 to qualify when no body in the system has population
+      candidates = candidates.filter((c) => !c[1] || (c[2].size !== 'S' && c[2].size >= 1));
     }
 
+    candidates.sort((a, b) => {
+      const popA = a[2].population.code;
+      const popB = b[2].population.code;
+      const popDiff = popB - popA;
+      if (popDiff !== 0) return popDiff;
+      if (popA > 0) {
+        // planet-over-moon tiebreaker only applies when there is actual population
+        const moonDiff = a[1] - b[1]; // false(0) < true(1) → planet wins
+        if (moonDiff !== 0) return moonDiff;
+      }
+      return a[0] - b[0]; // closer to HZCO wins
+    });
+
     try {
-      this._mainWorld = possibleMainWorlds[0][1];
+      this._mainWorld = candidates[0][2];
     } catch (err) {
       if (err instanceof TypeError) {
         this._mainWorld = null;
