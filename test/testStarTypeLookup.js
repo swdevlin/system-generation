@@ -58,6 +58,38 @@ describe("Star Type Lookup", function () {
     type.should.equal('hot');
   });
 
+  describe("Realistic distribution", function() {
+    it("M for 3-8", function() {
+      for (let i = 3; i <= 8; i++) {
+        ROLL_CACHE.push(0);
+        ROLL_CACHE.push(i);
+        let type = starTypeLookup({dm: 0, realisticDistribution: true});
+        type.should.equal('M');
+      }
+    });
+
+    it("K for 9", function() {
+      ROLL_CACHE.push(0);
+      ROLL_CACHE.push(9);
+      let type = starTypeLookup({dm: 0, realisticDistribution: true});
+      type.should.equal('K');
+    });
+
+    it("G for 10", function() {
+      ROLL_CACHE.push(0);
+      ROLL_CACHE.push(10);
+      let type = starTypeLookup({dm: 0, realisticDistribution: true});
+      type.should.equal('G');
+    });
+
+    it("F for 11", function() {
+      ROLL_CACHE.push(0);
+      ROLL_CACHE.push(11);
+      let type = starTypeLookup({dm: 0, realisticDistribution: true, stellarClass: null});
+      type.should.equal('F');
+    });
+  });
+
   it("DM is applied", function() {
     ROLL_CACHE.push(0);
     ROLL_CACHE.push(2);

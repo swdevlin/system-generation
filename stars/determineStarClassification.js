@@ -13,10 +13,10 @@ const postStellarLookup = require('../lookups/postStellarLookup');
 
 let LAST_TYPE;
 
-const primaryStarClassification = ({ unusualChance }) => {
+const primaryStarClassification = ({ unusualChance, realisticStarDistribution }) => {
   let classification = new StellarClassification();
 
-  const type = starTypeLookup({ dm: 0 });
+  const type = starTypeLookup({ dm: 0, realisticDistribution: realisticStarDistribution });
 
   if (type === 'special') {
     if (unusualChance && percentageChance(unusualChance)) classification = unusualStarLookup();
@@ -37,7 +37,7 @@ const primaryStarClassification = ({ unusualChance }) => {
   return classification;
 };
 
-const multiStarClassification = ({ primary, unusualChance, orbitType }) => {
+const multiStarClassification = ({ primary, unusualChance, orbitType, realisticStarDistribution }) => {
   let classification = new StellarClassification();
   let type;
   if (isBrownDwarf(primary.stellarType)) {
@@ -59,7 +59,7 @@ const multiStarClassification = ({ primary, unusualChance, orbitType }) => {
 
   LAST_TYPE = type;
   if (type === 'Random') {
-    classification = primaryStarClassification({ unusualChance });
+    classification = primaryStarClassification({ unusualChance, realisticStarDistribution });
     if (isHotter(classification, primary)) {
       type = 'Lesser';
       classification = new StellarClassification();
@@ -124,13 +124,14 @@ const multiStarClassification = ({ primary, unusualChance, orbitType }) => {
   return classification;
 };
 
-const determineStarClassification = ({ unusualChance, primary, orbitType }) => {
-  if (!primary) return primaryStarClassification({ unusualChance: unusualChance });
+const determineStarClassification = ({ unusualChance, primary, orbitType, realisticStarDistribution }) => {
+  if (!primary) return primaryStarClassification({ unusualChance: unusualChance, realisticStarDistribution });
   else
     return multiStarClassification({
       primary: primary,
       unusualChance: unusualChance,
       orbitType: orbitType,
+      realisticStarDistribution,
     });
 };
 
