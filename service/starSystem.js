@@ -4,8 +4,8 @@ const toJSON = require("../utils/toJSON");
 const generateStarSystem = require("./generateStarSystem");
 
 router.post('/', (req, res) => {
-    const definition = req.body;
-    const starSystem = generateStarSystem(definition);
+    const { subsector, ...definition } = req.body;
+    const starSystem = generateStarSystem(definition, subsector);
 
     const tenant = req.tenantId;
     req.logger.info(`Generated StarSystem`, { tenant });

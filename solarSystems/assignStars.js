@@ -8,8 +8,8 @@ const generateNearSecondary = require('../stars/generateNearSecondary');
 const generateFarSecondary = require('../stars/generateFarSecondary');
 const companionDM = require('../stars/companionDM');
 
-const assignStars = ({ solarSystem, unusualChance }) => {
-  const classification = determineStarClassification({ unusualChance: unusualChance });
+const assignStars = ({ solarSystem, unusualChance, realisticStarDistribution }) => {
+  const classification = determineStarClassification({ unusualChance: unusualChance, realisticStarDistribution });
   const s = new Star(classification, ORBIT_TYPES.PRIMARY);
   solarSystem.addPrimary(s);
 
@@ -20,6 +20,7 @@ const assignStars = ({ solarSystem, unusualChance }) => {
       unusualChance: unusualChance,
       primary: solarSystem.primary,
       orbitType: ORBIT_TYPES.COMPANION,
+      realisticStarDistribution,
     });
     star = new Star(classification, ORBIT_TYPES.COMPANION);
     star.orbit = d6() / 10 + (twoD6() - 7) / 100;

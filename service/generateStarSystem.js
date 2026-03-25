@@ -25,7 +25,7 @@ const generateStarSystem = (definition, subsector) => {
       solarSystem: solarSystem,
     });
   } else {
-    assignStars({ solarSystem: solarSystem, unusualChance: unusualChance });
+    assignStars({ solarSystem: solarSystem, unusualChance: unusualChance, realisticStarDistribution: subsector?.realisticStarDistribution });
   }
 
   solarSystem.sophontCheck = definition?.sophontCheck || subsector?.sophontCheck || 'standard';
