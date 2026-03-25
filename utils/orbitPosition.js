@@ -1,16 +1,14 @@
-const {AU} = require("./index");
-const orbitToAU = require("./orbitToAU");
+const { AU } = require('./index');
+const orbitToAU = require('./orbitToAU');
 
 const randomAngle = () => {
   return Math.random() * 2 * Math.PI;
-}
+};
 
-const orbitPosition = (obj, star) => {
-  const x = orbitToAU(obj.orbit)*AU;
-  const y = 0;
-  const offsetX = star ? star.orbitPosition.x : 0;
-  const offsetY = star ? star.orbitPosition.y : 0;
-
+function assignPosition(x, obj, orbiting) {
+  const offsetX = orbiting ? orbiting.orbitPosition.x : 0;
+  const offsetY = orbiting ? orbiting.orbitPosition.y : 0;
+  let y = 0;
   const angle = randomAngle();
   const radius = x;
   obj.orbitPosition.x = x * Math.cos(angle) - y * Math.sin(angle) + offsetX;
@@ -21,14 +19,32 @@ const orbitPosition = (obj, star) => {
     radius: radius,
     orbitCentreX: offsetX,
     orbitCentreY: offsetY,
-    parentRadius: star.orbit * AU,
+    parentRadius: orbiting.orbit * AU,
     x: obj.orbitPosition.x,
     y: obj.orbitPosition.y,
     orbit: obj.orbit,
     orbitSequence: obj.orbitSequence,
     stellarObject: obj,
-    habitableZone: Math.abs(obj.hzcoDeviation) <= 1
-  }
+    habitableZone: Math.abs(obj.hzcoDeviation) <= 1,
+  };
 }
 
-module.exports = orbitPosition;
+const orbitPosition = (obj, star) => {
+  const x = orbitToAU(obj.orbit) * AU;
+  const position = assignPosition(x, obj, star);
+  position.habitableZone = Math.abs(obj.hzcoDeviation) <= 1;
+  return position;
+};
+
+const moonOrbitPosition = (moon, parent) => {
+  const x = moon.orbit * parent.diameter;
+
+  const position = assignPosition(x, moon, parent);
+  position.habitableZone = Math.abs(parent.hzcoDeviation) <= 1;
+  return position;
+};
+
+module.exports = {
+  orbitPosition,
+  moonOrbitPosition,
+};

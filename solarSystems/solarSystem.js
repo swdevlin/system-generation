@@ -5,7 +5,6 @@ const {
   determineHydrographics,
   meanTemperature,
   axialTilt,
-  orbitPosition,
   calculateDistance,
   travelTime,
   STELLAR_TYPES,
@@ -46,6 +45,7 @@ const { assignTradeCodes } = require('../economics/assignTradeCodes');
 const assignTidalLock = require('../tidalLock/assignTidalLock');
 
 const { GasGiant } = require('../gasGiants/gasGiant');
+const { orbitPosition, moonOrbitPosition } = require('../utils/orbitPosition');
 
 const Random = require('random-js').Random;
 const r = new Random();
@@ -1068,10 +1068,15 @@ class SolarSystem {
   setOrbitPositions() {
     this.primaryStar.stellarObjects.forEach((obj) => {
       orbitPosition(obj, this.primaryStar);
-      if (obj instanceof Star)
+      if (obj instanceof Star) {
         obj.stellarObjects.forEach((obj) => {
           orbitPosition(obj, this.primaryStar);
         });
+      } else {
+        obj.moons.forEach((moon) => {
+          moonOrbitPosition(moon, obj);
+        });
+      }
     });
   }
 

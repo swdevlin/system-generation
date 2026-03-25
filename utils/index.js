@@ -1,7 +1,7 @@
 require('dotenv').config();
-const {d6, twoD6} = require("../dice");
-const orbitToAU = require("./orbitToAU");
-const Random = require("random-js").Random;
+const { d6, twoD6 } = require('../dice');
+const orbitToAU = require('./orbitToAU');
+const Random = require('random-js').Random;
 
 const r = new Random();
 
@@ -13,18 +13,18 @@ const SOL_DIAMETER = 1392000;
 const EARTH_DIAMETER = 12756;
 
 const StarColour = {
-  'O': 'Blue',
-  'B': 'Blue White',
-  'A': 'White',
-  'F': 'Yellow White',
-  'G': 'Yellow',
-  'K': 'Light Orange',
-  'M': 'Orange Red',
-  'D': 'White',
-  'L': 'Deep Dim Red',
-  'T': 'Deep Dim Red',
-  'Y': 'Deep Dim Red',
-}
+  O: 'Blue',
+  B: 'Blue White',
+  A: 'White',
+  F: 'Yellow White',
+  G: 'Yellow',
+  K: 'Light Orange',
+  M: 'Orange Red',
+  D: 'White',
+  L: 'Deep Dim Red',
+  T: 'Deep Dim Red',
+  Y: 'Deep Dim Red',
+};
 
 const { ORBIT_TYPES, STELLAR_TYPES } = require('./constants');
 
@@ -53,16 +53,13 @@ const toHex = (v) => {
     default:
       return v.toString();
   }
-}
+};
 
 const hexToInt = (v) => {
-  if (v >= 'A' && v <= 'H')
-    return v.charCodeAt(0) - 55;
-  else if (v >= 'J')
-    return v.charCodeAt(0) - 56;
-  else
-    return parseInt(v);
-}
+  if (v >= 'A' && v <= 'H') return v.charCodeAt(0) - 55;
+  else if (v >= 'J') return v.charCodeAt(0) - 56;
+  else return parseInt(v);
+};
 
 const deconstructUWP = (uwp) => {
   return {
@@ -74,40 +71,32 @@ const deconstructUWP = (uwp) => {
     government: hexToInt(uwp[5]),
     lawLevel: hexToInt(uwp[6]),
     techLevel: hexToInt(uwp[8]),
-  }
-}
+  };
+};
 
 const isHotter = (starA, starB) => {
-  if (starA.stellarType === starB.stellarType)
-    return starA.subtype < starB.subtype;
-  else
-    return TYPES_BY_TEMP.indexOf(starA.stellarType) < TYPES_BY_TEMP.indexOf(starB.stellarType);
+  if (starA.stellarType === starB.stellarType) return starA.subtype < starB.subtype;
+  else return TYPES_BY_TEMP.indexOf(starA.stellarType) < TYPES_BY_TEMP.indexOf(starB.stellarType);
 };
 
 const determineDataKey = (stellarType, subtype) => {
   let dataKey;
   if (stellarType === 'M') {
-    if (subtype < 5)
-      dataKey = 'M0';
-    else if (subtype < 9)
-      dataKey = 'M5';
-    else
-      dataKey = 'M9';
+    if (subtype < 5) dataKey = 'M0';
+    else if (subtype < 9) dataKey = 'M5';
+    else dataKey = 'M9';
   } else {
-    if (subtype === '')
-      dataKey = stellarType;
-    else if (subtype < 5)
-      dataKey = stellarType + '0';
-    else
-      dataKey = stellarType + '5';
+    if (subtype === '') dataKey = stellarType;
+    else if (subtype < 5) dataKey = stellarType + '0';
+    else dataKey = stellarType + '5';
   }
 
   return dataKey;
-}
+};
 
 const companionOrbit = () => {
-  return d6()/10 + (twoD6()-7)/100;
-}
+  return d6() / 10 + (twoD6() - 7) / 100;
+};
 
 const additionalStarDM = (primary) => {
   let dm = 0;
@@ -121,21 +110,19 @@ const additionalStarDM = (primary) => {
       break;
     case 'V':
     case 'VI':
-      if (['O', 'B', 'A', 'F'].includes(primary.stellarType))
-        dm = 1;
-      else if (primary.stellarType === 'M')
-        dm = -1
+      if (['O', 'B', 'A', 'F'].includes(primary.stellarType)) dm = 1;
+      else if (primary.stellarType === 'M') dm = -1;
       break;
   }
   return dm;
-}
+};
 
 const shuffleArray = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
     const j = r.integer(0, i);
     [array[i], array[j]] = [array[j], array[i]];
   }
-}
+};
 
 const computeBaseline = (star) => {
   let baseline = twoD6();
@@ -185,39 +172,51 @@ const computeBaseline = (star) => {
 };
 
 const starIdentifier = (starIndex) => {
-  let identifier = String.fromCharCode(64 + starIndex[0])
-  for (let i=1; i < starIndex.length; i++)
-    identifier += String.fromCharCode(96 + starIndex[i])
+  let identifier = String.fromCharCode(64 + starIndex[0]);
+  for (let i = 1; i < starIndex.length; i++) identifier += String.fromCharCode(96 + starIndex[i]);
   return identifier;
-}
+};
 
 const sequenceIdentifier = (starIndex, index) => {
   return `${starIndex} ${romanNumeral(index)}`;
-}
+};
 
 const orbitText = (orbit, index, starIndex) => {
   try {
     if (index)
       return `${orbitToAU(orbit).toFixed(2)} (${orbit.toFixed(2)}) ${sequenceIdentifier(index, starIndex)}`;
-    else
-      return `${orbitToAU(orbit).toFixed(2)} (${orbit.toFixed(2)})`;
+    else return `${orbitToAU(orbit).toFixed(2)} (${orbit.toFixed(2)})`;
   } catch (e) {
     console.log(e);
     return `bad orbit`;
   }
-}
+};
 
 const romanNumeral = (n) => {
-  const lookup = {M:1000,CM:900,D:500,CD:400,C:100,XC:90,L:50,XL:40,X:10,IX:9,V:5,IV:4,I:1};
+  const lookup = {
+    M: 1000,
+    CM: 900,
+    D: 500,
+    CD: 400,
+    C: 100,
+    XC: 90,
+    L: 50,
+    XL: 40,
+    X: 10,
+    IX: 9,
+    V: 5,
+    IV: 4,
+    I: 1,
+  };
   let roman = '';
-  for (const i in lookup ) {
-    while ( n >= lookup[i] ) {
+  for (const i in lookup) {
+    while (n >= lookup[i]) {
       roman += i;
       n -= lookup[i];
     }
   }
   return roman;
-}
+};
 
 const isAnomaly = (type) => {
   return [
@@ -232,7 +231,7 @@ const isAnomaly = (type) => {
     STELLAR_TYPES.StarCluster,
     STELLAR_TYPES.WhiteDwarf,
   ].includes(type);
-}
+};
 
 const isNonBrownDwarfAnomaly = (type) => {
   return [
@@ -245,18 +244,15 @@ const isNonBrownDwarfAnomaly = (type) => {
     STELLAR_TYPES.StarCluster,
     STELLAR_TYPES.WhiteDwarf,
   ].includes(type);
-}
+};
 
 const isBrownDwarf = (type) => {
-  return [
-    STELLAR_TYPES.BrownDwarf,
-    'L', 'T', 'Y',
-  ].includes(type);
-}
+  return [STELLAR_TYPES.BrownDwarf, 'L', 'T', 'Y'].includes(type);
+};
 
 const getBoolFromEnv = (key) => {
   return process.env[key] === 'true';
-}
+};
 
 module.exports = {
   additionalStarDM: additionalStarDM,
@@ -285,17 +281,17 @@ module.exports = {
   EARTH_DIAMETER: EARTH_DIAMETER,
 };
 
-
-module.exports.auToOrbit = require("./auToOrbit");
-module.exports.orbitToAU = require("./orbitToAU");
-module.exports.calculatePeriod = require("./calculatePeriod");
-module.exports.hillSphere = require("./hillSphere").hillSphere;
-module.exports.hillSpherePD = require("./hillSphere").hillSpherePD;
-module.exports.eccentricity = require("./eccentricity");
-module.exports.determineHydrographics = require("./determineHydrographics");
-module.exports.meanTemperature = require("./meanTemperature");
-module.exports.axialTilt = require("./axialTilt");
-module.exports.calculateAlbedo = require("../atmosphere/albedo");
-module.exports.orbitPosition = require("./orbitPosition");
-module.exports.calculateDistance = require("./calculateDistance");
-module.exports.travelTime = require("./travelTime");
+module.exports.auToOrbit = require('./auToOrbit');
+module.exports.orbitToAU = require('./orbitToAU');
+module.exports.calculatePeriod = require('./calculatePeriod');
+module.exports.hillSphere = require('./hillSphere').hillSphere;
+module.exports.hillSpherePD = require('./hillSphere').hillSpherePD;
+module.exports.eccentricity = require('./eccentricity');
+module.exports.determineHydrographics = require('./determineHydrographics');
+module.exports.meanTemperature = require('./meanTemperature');
+module.exports.axialTilt = require('./axialTilt');
+module.exports.calculateAlbedo = require('../atmosphere/albedo');
+module.exports.orbitPosition = require('./orbitPosition').orbitPosition;
+module.exports.moonOrbitPosition = require('./orbitPosition').moonOrbitPosition;
+module.exports.calculateDistance = require('./calculateDistance');
+module.exports.travelTime = require('./travelTime');
