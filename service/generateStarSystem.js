@@ -5,8 +5,9 @@ const { gasGiantQuantity } = require('../gasGiants/gasGiant');
 const { planetoidBeltQuantity } = require('../planetoidBelts');
 const terrestrialPlanetQuantity = require('../terrestrialPlanet/terrestrialPlanetQuantity');
 const SolarSystem = require('../solarSystems/solarSystem');
+const Populated = require('../solarSystems/populated');
 
-const generateStarSystem = (definition, subsector) => {
+const generateStarSystem = (definition, subsector, row, col) => {
   const sector = { unusualChance: subsector?.unusualChance || 0 };
   const systemName = definition?.name;
   let unusualChance = (subsector?.unusualChance || 0) / 100.0;
@@ -25,16 +26,19 @@ const generateStarSystem = (definition, subsector) => {
       solarSystem: solarSystem,
     });
   } else {
-    assignStars({ solarSystem: solarSystem, unusualChance: unusualChance, realisticStarDistribution: subsector?.realisticStarDistribution });
+    assignStars({
+      solarSystem: solarSystem,
+      unusualChance: unusualChance,
+      realisticStarDistribution: subsector?.realisticStarDistribution,
+    });
   }
 
   solarSystem.sophontCheck = definition?.sophontCheck || subsector?.sophontCheck || 'standard';
-  solarSystem.maxNativeSophontTechLevel = definition?.maxNativeSophontTechLevel ?? subsector?.maxNativeSophontTechLevel ?? 15;
+  solarSystem.maxNativeSophontTechLevel =
+    definition?.maxNativeSophontTechLevel ?? subsector?.maxNativeSophontTechLevel ?? 15;
   solarSystem.nativeTech = definition?.nativeTech ?? subsector?.nativeTech ?? true;
   solarSystem.allowCaptiveGovernment =
-    definition?.allowCaptiveGovernment ??
-    subsector?.allowCaptiveGovernment ??
-    true;
+    definition?.allowCaptiveGovernment ?? subsector?.allowCaptiveGovernment ?? true;
   solarSystem.assignSurveyIndex(si);
 
   solarSystem.determineAvailableOrbits();
@@ -68,11 +72,14 @@ const generateStarSystem = (definition, subsector) => {
 
   if (definition?.allegiance) solarSystem.allegiance = definition.allegiance;
 
-  if (definition?.populated && !solarSystem.allegiance)
-    solarSystem.allegiance = definition.populated.allegiance;
+  const populatedSpec = definition?.populated ?? subsector?.populated;
+  const populated = new Populated(populatedSpec);
+  const zone = populated.getAllegiance(row, col);
+  if (zone && !solarSystem.allegiance)
+    solarSystem.allegiance = zone.allegiance;
 
-  if (definition?.populated) {
-    solarSystem.assignMainWorldSocialCharacteristics(definition.populated);
+  if (zone) {
+    solarSystem.assignMainWorldSocialCharacteristics(zone);
   }
 
   solarSystem.assignTradeCodes();

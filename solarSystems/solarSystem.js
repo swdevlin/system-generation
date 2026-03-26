@@ -626,21 +626,30 @@ class SolarSystem {
 
   assignMainWorldSocialCharacteristics(populated) {
     const mainWorld = this.mainWorld;
+
     if (!mainWorld || mainWorld.fromUWP) return;
+
     mainWorld.population.code = Math.min(
       populated.maxPopulationCode,
-      Math.max(populated.minPopulationCode, twoD6())
+      Math.max(populated.minPopulationCode, twoD6() - 2)
     );
+    mainWorld.population.code = Math.max(0, mainWorld.population.code);
+
     do {
       mainWorld.governmentCode = Math.max(twoD6() - 7 + mainWorld.population.code, 0);
     } while (mainWorld.governmentCode === 6 && !this.allowCaptiveGovernment);
+
     mainWorld.lawLevelCode = Math.max(twoD6() - 7 + mainWorld.governmentCode, 0);
+
     mainWorld.starPort = determineStarport(mainWorld);
+
     this.assignBases();
+
     mainWorld.techLevel = Math.min(
       populated.maxTechLevel,
       Math.max(populated.minTechLevel, d6() + techLevelDMs(mainWorld))
     );
+
     this.allegiance = populated.allegiance;
   }
 
@@ -1056,6 +1065,8 @@ class SolarSystem {
       if (err instanceof TypeError) {
         this._mainWorld = null;
         console.log(`  ${this.coordinates} has no main world`);
+        console.log(`  ${this}`);
+        console.log(`  ${candidates}`);
       }
     }
     return this._mainWorld;

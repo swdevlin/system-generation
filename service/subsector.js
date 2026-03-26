@@ -67,7 +67,7 @@ router.post('/', (req, res) => {
           defined.allegiance = defaultPopulated.getAllegiance(row, col)?.allegiance;
         }
       }
-      const starSystem = generateStarSystem(defined, subsector);
+      const starSystem = generateStarSystem(defined, subsector, row, col);
       starSystem.coordinates = coordinate(col, row);
       // fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-map.svg`, solarSystem.systemMap());
       // const text = `${sector.name} ${solarSystem.coordinates} ${solarSystem.primaryStar.textDump(0, '', '', 0, [1])}`;
