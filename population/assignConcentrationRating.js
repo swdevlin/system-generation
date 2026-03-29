@@ -46,12 +46,15 @@ const concentrationRatingDMs = (planet) => {
 const assignConcentrationRating = (star, planet) => {
   let roll = d6();
 
-  if (roll > planet.population.code) planet.population.concentrationRating = 9;
-  else roll += concentrationRatingDMs(planet);
+  if (roll > planet.population.code) {
+    planet.population.concentrationRating = 9;
+  } else {
+    roll = d6() + concentrationRatingDMs(planet);
 
-  if (roll <= 0) planet.population.concentrationRating = 0;
-  else if (roll >= 9) planet.population.concentrationRating = 9;
-  else planet.population.concentrationRating = roll;
+    if (roll <= 0) planet.population.concentrationRating = 0;
+    else if (roll >= 9) planet.population.concentrationRating = 9;
+    else planet.population.concentrationRating = roll;
+  }
 };
 
 module.exports = {

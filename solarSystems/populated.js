@@ -18,6 +18,7 @@ class Populated {
         maxTechLevel: spec.maxTechLevel,
         minPopulationCode: spec.minPopulationCode || 0,
         maxPopulationCode: spec.maxPopulationCode || 15,
+        populationDM: spec.populationDM || 0,
         allegiance: spec.allegiance,
       }
       this.after = null;
@@ -31,6 +32,7 @@ class Populated {
       this.before['maxTechLevel'] ||= 16;
       this.before['minPopulationCode'] ||= 0;
       this.before['maxPopulationCode'] ||= 16;
+      this.before['populationDM'] ??= 0;
       this.before['allegiance'] ||= null;
     }
     if (this.after) {
@@ -38,6 +40,7 @@ class Populated {
       this.after['maxTechLevel'] ||= 16;
       this.after['minPopulationCode'] ||= 0;
       this.after['maxPopulationCode'] ||= 16;
+      this.after['populationDM'] ??= 0;
       this.after['allegiance'] ||= null;
     }
 

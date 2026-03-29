@@ -140,7 +140,12 @@ const generateSubsector = (outputDir, sector, subsector, index, travellerMap) =>
       solarSystem.assignResourceRatings();
       solarSystem.assignHabitabilityRatings();
       const p = populated?.getAllegiance(row, col);
-      if (p && p.allegiance) solarSystem.assignMainWorldSocialCharacteristics(p);
+      if (p && p.allegiance) {
+        const zone = defined?.populationDM !== undefined
+          ? { ...p, populationDM: defined.populationDM }
+          : p;
+        solarSystem.assignMainWorldSocialCharacteristics(zone);
+      }
       fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-map.svg`, solarSystem.systemMap());
       const text = `${sector.name} ${solarSystem.coordinates} ${solarSystem.primaryStar.textDump(0, '', '', 0, [1])}`;
       fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}.txt`, text);

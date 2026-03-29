@@ -40,6 +40,9 @@ const assignSocialCharacteristics = require('../terrestrialPlanet/assignSocialCh
 const summaryBlock = require('../stars/summaryBlock');
 const { determineStarport } = require('../terrestrialPlanet/assignStarport');
 const { techLevelDMs } = require('../terrestrialPlanet/assignTechLevel');
+const { assignConcentrationRating } = require('../population/assignConcentrationRating');
+const { assignUrbanizationPercentage } = require('../population/assignUrbanizationPercentage');
+const { assignMajorCities } = require('../population/assignMajorCities');
 const systemDensity = require('../utils/systemDensity');
 const { assignTradeCodes } = require('../economics/assignTradeCodes');
 const assignTidalLock = require('../tidalLock/assignTidalLock');
@@ -627,11 +630,18 @@ class SolarSystem {
   assignMainWorldSocialCharacteristics(populated) {
     const mainWorld = this.mainWorld;
 
-    if (!mainWorld || mainWorld.fromUWP) return;
+    if (!mainWorld) return;
+
+    if (mainWorld.fromUWP) {
+      assignConcentrationRating(null, mainWorld);
+      assignUrbanizationPercentage(mainWorld);
+      assignMajorCities(mainWorld);
+      return;
+    }
 
     mainWorld.population.code = Math.min(
       populated.maxPopulationCode,
-      Math.max(populated.minPopulationCode, twoD6() - 2)
+      Math.max(populated.minPopulationCode, twoD6() - 2 + populated.populationDM)
     );
     mainWorld.population.code = Math.max(0, mainWorld.population.code);
 
@@ -649,6 +659,10 @@ class SolarSystem {
       populated.maxTechLevel,
       Math.max(populated.minTechLevel, d6() + techLevelDMs(mainWorld))
     );
+
+    assignConcentrationRating(null, mainWorld);
+    assignUrbanizationPercentage(mainWorld);
+    assignMajorCities(mainWorld);
 
     this.allegiance = populated.allegiance;
   }
@@ -698,11 +712,12 @@ class SolarSystem {
     for (const star of this.stars)
       for (const stellarObject of star.stellarObjects)
         if (
-          [ORBIT_TYPES.TERRESTRIAL, ORBIT_TYPES.PLANETOID_BELT_OBJECT].includes(
+          [ORBIT_TYPES.TERRESTRIAL, ORBIT_TYPES.GAS_GIANT, ORBIT_TYPES.PLANETOID_BELT_OBJECT].includes(
             stellarObject.orbitType
           )
         ) {
-          biomass(star, stellarObject, this.sophontCheck);
+          if (stellarObject.orbitType !== ORBIT_TYPES.GAS_GIANT)
+            biomass(star, stellarObject, this.sophontCheck);
           if (stellarObject.nativeSophont) {
             // todo: determine sophont
             assignSocialCharacteristics(star, stellarObject, {
