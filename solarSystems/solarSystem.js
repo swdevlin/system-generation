@@ -667,6 +667,26 @@ class SolarSystem {
     this.allegiance = populated.allegiance;
   }
 
+  assignPopulationDetails() {
+    const mainWorld = this.mainWorld;
+    for (const star of this.stars) {
+      for (const stellarObject of star.stellarObjects) {
+        if (stellarObject !== mainWorld && stellarObject.population?.code > 0) {
+          assignConcentrationRating(star, stellarObject);
+          assignUrbanizationPercentage(stellarObject);
+          assignMajorCities(stellarObject);
+        }
+        for (const moon of stellarObject.moons ?? []) {
+          if (moon !== mainWorld && moon.population?.code > 0) {
+            assignConcentrationRating(star, moon);
+            assignUrbanizationPercentage(moon);
+            assignMajorCities(moon);
+          }
+        }
+      }
+    }
+  }
+
   assignBases() {
     const bases = [];
     if (this.mainWorld.starPort === 'A') {

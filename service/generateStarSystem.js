@@ -82,6 +82,7 @@ const generateStarSystem = (definition, subsector, row, col) => {
     solarSystem.assignMainWorldSocialCharacteristics(zone);
   }
 
+  solarSystem.assignPopulationDetails();
   solarSystem.assignTradeCodes();
 
   solarSystem.mainWorldOrbitSequence = solarSystem.mainWorld?.orbitSequence;
