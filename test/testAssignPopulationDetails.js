@@ -76,15 +76,15 @@ describe('assignPopulationDetails', function () {
     (unpopulated.population.majorCities === null).should.be.true;
   });
 
-  it('main world is skipped and its population details are not set by this method', function () {
+  it('main world with population gets concentration rating, urbanization, and major cities', function () {
     const mainWorld = makePlanet(7);
     star.stellarObjects.push(mainWorld);
 
     solarSystem.assignPopulationDetails();
 
-    (mainWorld.population.concentrationRating === null).should.be.true;
-    (mainWorld.population.urbanizationPercentage === null).should.be.true;
-    (mainWorld.population.majorCities === null).should.be.true;
+    mainWorld.population.concentrationRating.should.not.equal(null);
+    mainWorld.population.urbanizationPercentage.should.not.equal(null);
+    mainWorld.population.majorCities.should.not.equal(null);
   });
 
   it('multiple secondary planets with population all get details', function () {

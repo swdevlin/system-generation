@@ -633,9 +633,6 @@ class SolarSystem {
     if (!mainWorld) return;
 
     if (mainWorld.fromUWP) {
-      assignConcentrationRating(null, mainWorld);
-      assignUrbanizationPercentage(mainWorld);
-      assignMajorCities(mainWorld);
       return;
     }
 
@@ -660,24 +657,19 @@ class SolarSystem {
       Math.max(populated.minTechLevel, d6() + techLevelDMs(mainWorld))
     );
 
-    assignConcentrationRating(null, mainWorld);
-    assignUrbanizationPercentage(mainWorld);
-    assignMajorCities(mainWorld);
-
     this.allegiance = populated.allegiance;
   }
 
   assignPopulationDetails() {
-    const mainWorld = this.mainWorld;
     for (const star of this.stars) {
       for (const stellarObject of star.stellarObjects) {
-        if (stellarObject !== mainWorld && stellarObject.population?.code > 0) {
+        if (stellarObject.population?.code > 0) {
           assignConcentrationRating(star, stellarObject);
           assignUrbanizationPercentage(stellarObject);
           assignMajorCities(stellarObject);
         }
         for (const moon of stellarObject.moons ?? []) {
-          if (moon !== mainWorld && moon.population?.code > 0) {
+          if (moon.population?.code > 0) {
             assignConcentrationRating(star, moon);
             assignUrbanizationPercentage(moon);
             assignMajorCities(moon);
