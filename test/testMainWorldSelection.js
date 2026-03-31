@@ -30,6 +30,14 @@ function makeBelt(hzcoDeviation, populationCode) {
   return belt;
 }
 
+function makeBeltObject(hzcoDeviation, parentBelt) {
+  const planet = new TerrestrialPlanet(1, 3);
+  planet.hzcoDeviation = hzcoDeviation;
+  planet.orbitType = ORBIT_TYPES.PLANETOID_BELT_OBJECT;
+  planet.belt = parentBelt;
+  return planet;
+}
+
 function makeGasGiantWithMoons(hzcoDeviation, moons) {
   const gg = new GasGiant('LGG', 100000, 300, 3);
   gg.hzcoDeviation = hzcoDeviation;
@@ -139,5 +147,30 @@ describe('mainWorld selection (computed)', function () {
     star.stellarObjects.push(planet, gg);
 
     solarSystem.mainWorld.should.equal(moon);
+  });
+
+  it('no population: planetoid belt object is excluded; belt itself is the candidate', function () {
+    const belt = makeBelt(0.3, 0);
+    const beltObj = makeBeltObject(0.3, belt);
+    const planet = makePlanet(3.0, 0);
+    star.stellarObjects.push(belt, beltObj, planet);
+
+    solarSystem.mainWorld.should.equal(belt);
+  });
+
+  it('no population: habitable-zone terrestrial beats a closer belt', function () {
+    const belt = makeBelt(0.2, 0);
+    const planet = makePlanet(0.5, 0);  // in habitable zone (< 1)
+    star.stellarObjects.push(belt, planet);
+
+    solarSystem.mainWorld.should.equal(planet);
+  });
+
+  it('no population: belt wins when terrestrial is outside habitable zone', function () {
+    const belt = makeBelt(0.2, 0);
+    const planet = makePlanet(1.5, 0);  // outside habitable zone
+    star.stellarObjects.push(belt, planet);
+
+    solarSystem.mainWorld.should.equal(belt);
   });
 });

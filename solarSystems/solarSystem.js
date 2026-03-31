@@ -1055,7 +1055,7 @@ class SolarSystem {
       } else if (stellarObject instanceof GasGiant) {
         for (const moon of stellarObject.moons)
           candidates.push([Math.abs(stellarObject.hzcoDeviation), true, moon]);
-      } else {
+      } else if (stellarObject.orbitType !== ORBIT_TYPES.PLANETOID_BELT_OBJECT) {
         candidates.push([Math.abs(stellarObject.hzcoDeviation), false, stellarObject]);
       }
     }
@@ -1083,6 +1083,10 @@ class SolarSystem {
         const moonDiff = a[1] - b[1]; // false(0) < true(1) → planet wins
         if (moonDiff !== 0) return moonDiff;
       }
+      // habitable-zone terrestrial planet beats a planetoid belt
+      const aIsHabTerrestrial = a[2].orbitType === ORBIT_TYPES.TERRESTRIAL && a[0] < 1;
+      const bIsHabTerrestrial = b[2].orbitType === ORBIT_TYPES.TERRESTRIAL && b[0] < 1;
+      if (aIsHabTerrestrial !== bIsHabTerrestrial) return aIsHabTerrestrial ? -1 : 1;
       return a[0] - b[0]; // closer to HZCO wins
     });
 

@@ -6,6 +6,7 @@ const { planetoidBeltQuantity } = require('../planetoidBelts');
 const terrestrialPlanetQuantity = require('../terrestrialPlanet/terrestrialPlanetQuantity');
 const SolarSystem = require('../solarSystems/solarSystem');
 const Populated = require('../solarSystems/populated');
+const toJSON = require('../utils/toJSON');
 
 const generateStarSystem = (definition, subsector, row, col) => {
   const sector = { unusualChance: subsector?.unusualChance || 0 };
@@ -75,8 +76,7 @@ const generateStarSystem = (definition, subsector, row, col) => {
   const populatedSpec = definition?.populated ?? subsector?.populated;
   const populated = new Populated(populatedSpec);
   const zone = populated.getAllegiance(row, col);
-  if (zone && !solarSystem.allegiance)
-    solarSystem.allegiance = zone.allegiance;
+  if (zone && !solarSystem.allegiance) solarSystem.allegiance = zone.allegiance;
 
   if (zone) {
     solarSystem.assignMainWorldSocialCharacteristics(zone);
@@ -87,6 +87,7 @@ const generateStarSystem = (definition, subsector, row, col) => {
 
   solarSystem.mainWorldOrbitSequence = solarSystem.mainWorld?.orbitSequence;
   solarSystem.setOrbitPositions();
+  if (solarSystem.mainWorldOrbitSequence.includes('.')) console.log(toJSON(solarSystem), row, col);
   return solarSystem;
 };
 
