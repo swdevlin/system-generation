@@ -1048,15 +1048,19 @@ class SolarSystem {
     return newBody;
   }
 
-  collectMainWorldCandidates(star, candidates) {
+  collectMainWorldCandidates(star, planets, moons, belts) {
     for (const stellarObject of star.stellarObjects) {
       if (stellarObject instanceof Star) {
-        this.collectMainWorldCandidates(stellarObject, candidates);
+        this.collectMainWorldCandidates(stellarObject, planets, moons, belts);
       } else if (stellarObject instanceof GasGiant) {
         for (const moon of stellarObject.moons)
-          candidates.push([Math.abs(stellarObject.hzcoDeviation), true, moon]);
+          moons.push([Math.abs(stellarObject.hzcoDeviation), moon]);
+      } else if (stellarObject.orbitType === ORBIT_TYPES.PLANETOID_BELT_OBJECT) {
+        // skip — sub-belt bodies are not main world candidates
+      } else if (stellarObject.orbitType === ORBIT_TYPES.PLANETOID_BELT) {
+        belts.push([Math.abs(stellarObject.hzcoDeviation), stellarObject]);
       } else {
-        candidates.push([Math.abs(stellarObject.hzcoDeviation), false, stellarObject]);
+        planets.push([Math.abs(stellarObject.hzcoDeviation), stellarObject]);
       }
     }
   }
@@ -1064,38 +1068,44 @@ class SolarSystem {
   get mainWorld() {
     if (this._mainWorld !== null) return this._mainWorld;
 
-    let candidates = [];
-    for (const star of this.stars) this.collectMainWorldCandidates(star, candidates);
+    const planets = [], moons = [], belts = [];
+    for (const star of this.stars) this.collectMainWorldCandidates(star, planets, moons, belts);
 
-    const hasPopulation = candidates.some((c) => c[2].population.code > 0);
-    if (!hasPopulation) {
-      // moons must be at least size 1 to qualify when no body in the system has population
-      candidates = candidates.filter((c) => !c[1] || (c[2].size !== 'S' && c[2].size >= 1));
-    }
+    const byDeviation = (a, b) => a[0] - b[0];
+    const closest = (list) => { list.sort(byDeviation); return list[0][1]; };
+    const bestHabitable = (list) => {
+      list.sort((a, b) => {
+        const hrDiff = habitabilityRating(b[1]) - habitabilityRating(a[1]);
+        return hrDiff !== 0 ? hrDiff : a[0] - b[0];
+      });
+      return list[0][1];
+    };
 
-    candidates.sort((a, b) => {
-      const popA = a[2].population.code;
-      const popB = b[2].population.code;
-      const popDiff = popB - popA;
-      if (popDiff !== 0) return popDiff;
-      if (popA > 0) {
-        // planet-over-moon tiebreaker only applies when there is actual population
-        const moonDiff = a[1] - b[1]; // false(0) < true(1) → planet wins
-        if (moonDiff !== 0) return moonDiff;
-      }
-      return a[0] - b[0]; // closer to HZCO wins
-    });
+    const hasPopulation = [...planets, ...moons, ...belts].some(([, b]) => b.population.code > 0);
 
-    try {
-      this._mainWorld = candidates[0][2];
-    } catch (err) {
-      if (err instanceof TypeError) {
+    if (hasPopulation) {
+      const all = [...planets, ...moons, ...belts];
+      all.sort((a, b) => {
+        const popDiff = b[1].population.code - a[1].population.code;
+        return popDiff !== 0 ? popDiff : a[0] - b[0];
+      });
+      this._mainWorld = all[0][1];
+    } else {
+      const eligibleMoons = moons.filter(([, m]) => m.size !== 'S' && m.size >= 1);
+      const habitablePlanets = planets.filter(([, p]) => habitabilityRating(p) > 0);
+      const habitableMoons = eligibleMoons.filter(([, m]) => habitabilityRating(m) > 0);
+
+      if (habitablePlanets.length > 0)      this._mainWorld = bestHabitable(habitablePlanets);
+      else if (habitableMoons.length > 0)   this._mainWorld = bestHabitable(habitableMoons);
+      else if (planets.length > 0)          this._mainWorld = closest(planets);
+      else if (eligibleMoons.length > 0)    this._mainWorld = closest(eligibleMoons);
+      else if (belts.length > 0)            this._mainWorld = closest(belts);
+      else {
         this._mainWorld = null;
         console.log(`  ${this.coordinates} has no main world`);
-        console.log(`  ${this}`);
-        console.log(`  ${candidates}`);
       }
     }
+
     return this._mainWorld;
   }
 

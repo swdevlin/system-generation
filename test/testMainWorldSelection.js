@@ -10,6 +10,8 @@ const { GasGiant } = require('../gasGiants/gasGiant');
 const Moon = require('../moons/moon');
 const PlanetoidBelt = require('../planetoidBelts/planetoidBelt');
 
+
+
 chai.should();
 
 function makeStar() {
@@ -43,6 +45,13 @@ function makeMoon(populationCode) {
   return moon;
 }
 
+function makeBeltObject(hzcoDeviation) {
+  const obj = new TerrestrialPlanet('S', 0);
+  obj.hzcoDeviation = hzcoDeviation;
+  obj.orbitType = ORBIT_TYPES.PLANETOID_BELT_OBJECT;
+  return obj;
+}
+
 describe('mainWorld selection (computed)', function () {
   let solarSystem;
   let star;
@@ -62,8 +71,8 @@ describe('mainWorld selection (computed)', function () {
     solarSystem.mainWorld.should.equal(high);
   });
 
-  it('planet beats moon at equal population', function () {
-    const planet = makePlanet(1.0, 5);
+  it('planet beats moon at equal population when planet is closer to HZCO', function () {
+    const planet = makePlanet(0.9, 5);
     const moon = makeMoon(5);
     const gg = makeGasGiantWithMoons(1.0, [moon]);
     star.stellarObjects.push(planet, gg);
@@ -88,13 +97,13 @@ describe('mainWorld selection (computed)', function () {
     solarSystem.mainWorld.should.equal(planet);
   });
 
-  it('all zero population: moon wins when its host GG is closer to HZCO than any planet', function () {
+  it('all zero population: habitable planet (tier 1) beats habitable moon (tier 2) even when GG is closer', function () {
     const planet = makePlanet(3.0, 0);
     const moon = makeMoon(0);
     const gg = makeGasGiantWithMoons(0.5, [moon]);
     star.stellarObjects.push(planet, gg);
 
-    solarSystem.mainWorld.should.equal(moon);
+    solarSystem.mainWorld.should.equal(planet);
   });
 
   it('returns null without throwing when there are no bodies', function () {
@@ -121,15 +130,43 @@ describe('mainWorld selection (computed)', function () {
     solarSystem.mainWorld.should.equal(planet);
   });
 
-  it('no population: moon with size 1 qualifies', function () {
+  it('no population: moon with size 1 qualifies only when no planets or belts exist', function () {
+    const moon = makeMoon(0);
+    moon.size = 1;
+    const gg = makeGasGiantWithMoons(0.1, [moon]);
+    star.stellarObjects.push(gg);
+
+    // moon is the only candidate — it wins
+    solarSystem.mainWorld.should.equal(moon);
+  });
+
+  it('no population: habitable planet (tier 1) beats habitable moon (tier 2) even when GG is closer', function () {
     const moon = makeMoon(0);
     moon.size = 1;
     const gg = makeGasGiantWithMoons(0.1, [moon]);
     const planet = makePlanet(3.0, 0);
     star.stellarObjects.push(gg, planet);
 
-    // moon is closer to HZCO and meets minimum size — moon wins
+    solarSystem.mainWorld.should.equal(planet);
+  });
+
+  it('no population: moon (tier 4) wins over belt (tier 5) when no planets exist', function () {
+    const moon = makeMoon(0);
+    moon.size = 1;
+    moon.atmosphere.code = 11; // non-habitable — ensures tier 2 is empty, falls to tier 4
+    const gg = makeGasGiantWithMoons(0.1, [moon]);
+    const belt = makeBelt(3.0, 0);
+    star.stellarObjects.push(gg, belt);
+
     solarSystem.mainWorld.should.equal(moon);
+  });
+
+  it('belt significant body is never a main world candidate', function () {
+    const beltObj = makeBeltObject(0.017); // very close to HZCO
+    const planet = makePlanet(2.0, 0);    // farther away, no population
+    star.stellarObjects.push(beltObj, planet);
+
+    solarSystem.mainWorld.should.equal(planet);
   });
 
   it('moon with higher population beats a planet with lower population', function () {
@@ -139,5 +176,48 @@ describe('mainWorld selection (computed)', function () {
     star.stellarObjects.push(planet, gg);
 
     solarSystem.mainWorld.should.equal(moon);
+  });
+
+  it('tier 1: habitable planet beats non-habitable planet closer to HZCO', function () {
+    const nonHabitable = makePlanet(0.3, 0);
+    nonHabitable.atmosphere.code = 11; // corrosive — HR = 0
+    const habitable = makePlanet(2.0, 0); // atmo null — HR = 10
+    star.stellarObjects.push(nonHabitable, habitable);
+
+    solarSystem.mainWorld.should.equal(habitable);
+  });
+
+  it('tier 1: among habitable planets, highest habitabilityRating wins over closer one', function () {
+    const highHR = makePlanet(2.0, 0); // atmo null — HR = 10, farther
+    const lowHR = makePlanet(0.5, 0);
+    lowHR.atmosphere.code = 5;          // thin breathable — HR = 9, closer
+    star.stellarObjects.push(highHR, lowHR);
+
+    solarSystem.mainWorld.should.equal(highHR);
+  });
+
+  it('tier 1: HZCO proximity breaks habitabilityRating tie among habitable planets', function () {
+    const near = makePlanet(0.5, 0); // atmo null — HR = 10
+    const far = makePlanet(2.0, 0);  // atmo null — HR = 10
+    star.stellarObjects.push(far, near);
+
+    solarSystem.mainWorld.should.equal(near);
+  });
+
+  it('tier 2: habitable moon beats non-habitable planet closer to HZCO', function () {
+    const nonHabitable = makePlanet(0.3, 0);
+    nonHabitable.atmosphere.code = 11; // HR = 0
+    const moon = makeMoon(0); // atmo null — HR = 9
+    const gg = makeGasGiantWithMoons(2.0, [moon]);
+    star.stellarObjects.push(nonHabitable, gg);
+
+    solarSystem.mainWorld.should.equal(moon);
+  });
+
+  it('tier 5: belt wins when no planets or moons exist', function () {
+    const belt = makeBelt(1.0, 0);
+    star.stellarObjects.push(belt);
+
+    solarSystem.mainWorld.should.equal(belt);
   });
 });
