@@ -1048,15 +1048,19 @@ class SolarSystem {
     return newBody;
   }
 
-  collectMainWorldCandidates(star, candidates) {
+  collectMainWorldCandidates(star, planets, moons, belts) {
     for (const stellarObject of star.stellarObjects) {
       if (stellarObject instanceof Star) {
-        this.collectMainWorldCandidates(stellarObject, candidates);
+        this.collectMainWorldCandidates(stellarObject, planets, moons, belts);
       } else if (stellarObject instanceof GasGiant) {
         for (const moon of stellarObject.moons)
-          candidates.push([Math.abs(stellarObject.hzcoDeviation), true, moon]);
-      } else if (stellarObject.orbitType !== ORBIT_TYPES.PLANETOID_BELT_OBJECT) {
-        candidates.push([Math.abs(stellarObject.hzcoDeviation), false, stellarObject]);
+          moons.push([Math.abs(stellarObject.hzcoDeviation), moon]);
+      } else if (stellarObject.orbitType === ORBIT_TYPES.PLANETOID_BELT_OBJECT) {
+        // skip — sub-belt bodies are not main world candidates
+      } else if (stellarObject.orbitType === ORBIT_TYPES.PLANETOID_BELT) {
+        belts.push([Math.abs(stellarObject.hzcoDeviation), stellarObject]);
+      } else {
+        planets.push([Math.abs(stellarObject.hzcoDeviation), stellarObject]);
       }
     }
   }
@@ -1064,42 +1068,53 @@ class SolarSystem {
   get mainWorld() {
     if (this._mainWorld !== null) return this._mainWorld;
 
-    let candidates = [];
-    for (const star of this.stars) this.collectMainWorldCandidates(star, candidates);
+    const planets = [], moons = [], belts = [];
+    for (const star of this.stars) this.collectMainWorldCandidates(star, planets, moons, belts);
 
-    const hasPopulation = candidates.some((c) => c[2].population.code > 0);
-    if (!hasPopulation) {
-      // moons must be at least size 1 to qualify when no body in the system has population
-      candidates = candidates.filter((c) => !c[1] || (c[2].size !== 'S' && c[2].size >= 1));
-    }
+    const hasPopulation = [...planets, ...moons, ...belts].some(([, b]) => b.population.code > 0);
 
-    candidates.sort((a, b) => {
-      const popA = a[2].population.code;
-      const popB = b[2].population.code;
-      const popDiff = popB - popA;
-      if (popDiff !== 0) return popDiff;
-      if (popA > 0) {
-        // planet-over-moon tiebreaker only applies when there is actual population
-        const moonDiff = a[1] - b[1]; // false(0) < true(1) → planet wins
-        if (moonDiff !== 0) return moonDiff;
-      }
-      // habitable-zone terrestrial planet beats a planetoid belt
-      const aIsHabTerrestrial = a[2].orbitType === ORBIT_TYPES.TERRESTRIAL && a[0] < 1;
-      const bIsHabTerrestrial = b[2].orbitType === ORBIT_TYPES.TERRESTRIAL && b[0] < 1;
-      if (aIsHabTerrestrial !== bIsHabTerrestrial) return aIsHabTerrestrial ? -1 : 1;
-      return a[0] - b[0]; // closer to HZCO wins
-    });
-
-    try {
-      this._mainWorld = candidates[0][2];
-    } catch (err) {
-      if (err instanceof TypeError) {
+    if (hasPopulation) {
+      const all = [
+        ...planets.map(([hzco, body]) => ({ hzco, body, isMoon: false })),
+        ...moons.map(([hzco, body]) => ({ hzco, body, isMoon: true })),
+        ...belts.map(([hzco, body]) => ({ hzco, body, isMoon: false })),
+      ];
+      all.sort((a, b) => {
+        const popDiff = b.body.population.code - a.body.population.code;
+        if (popDiff !== 0) return popDiff;
+        if (a.isMoon !== b.isMoon) return a.isMoon ? 1 : -1; // planet/belt beats moon
+        return a.hzco - b.hzco;
+      });
+      this._mainWorld = all.length > 0 ? all[0].body : null;
+    } else {
+      const eligibleMoons = moons.filter(([, m]) => m.size !== 'S' && m.size >= 1);
+      const all = [
+        ...planets.map(([hzco, body]) => ({ hzco, body, isBelt: false })),
+        ...eligibleMoons.map(([hzco, body]) => ({ hzco, body, isBelt: false })),
+        ...belts.map(([hzco, body]) => ({ hzco, body, isBelt: true })),
+      ];
+      if (all.length === 0) {
         this._mainWorld = null;
         console.log(`  ${this.coordinates} has no main world`);
-        console.log(`  ${this}`);
-        console.log(`  ${candidates}`);
+      } else {
+        all.sort((a, b) => {
+          // habitable-zone non-belts beat everything else
+          const aHab = !a.isBelt && a.hzco < 1;
+          const bHab = !b.isBelt && b.hzco < 1;
+          if (aHab !== bHab) return aHab ? -1 : 1;
+          // highest habitability rating
+          const hrDiff = (b.body.habitabilityRating ?? 0) - (a.body.habitabilityRating ?? 0);
+          if (hrDiff !== 0) return hrDiff;
+          // highest resource rating
+          const rrDiff = (b.body.resourceRating ?? 0) - (a.body.resourceRating ?? 0);
+          if (rrDiff !== 0) return rrDiff;
+          // closest to HZCO
+          return a.hzco - b.hzco;
+        });
+        this._mainWorld = all[0].body;
       }
     }
+
     return this._mainWorld;
   }
 

@@ -153,6 +153,7 @@ describe('mainWorld selection (computed)', function () {
     const belt = makeBelt(0.3, 0);
     const beltObj = makeBeltObject(0.3, belt);
     const planet = makePlanet(3.0, 0);
+    planet.resourceRating = 0;  // clear constructor default so HZCO decides
     star.stellarObjects.push(belt, beltObj, planet);
 
     solarSystem.mainWorld.should.equal(belt);
@@ -169,6 +170,7 @@ describe('mainWorld selection (computed)', function () {
   it('no population: belt wins when terrestrial is outside habitable zone', function () {
     const belt = makeBelt(0.2, 0);
     const planet = makePlanet(1.5, 0);  // outside habitable zone
+    planet.resourceRating = 0;  // clear constructor default so HZCO decides
     star.stellarObjects.push(belt, planet);
 
     solarSystem.mainWorld.should.equal(belt);
