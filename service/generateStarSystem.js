@@ -87,7 +87,6 @@ const generateStarSystem = (definition, subsector, row, col) => {
 
   solarSystem.mainWorldOrbitSequence = solarSystem.mainWorld?.orbitSequence;
   solarSystem.setOrbitPositions();
-  if (solarSystem.mainWorldOrbitSequence.includes('.')) console.log(toJSON(solarSystem), row, col);
   return solarSystem;
 };
 
