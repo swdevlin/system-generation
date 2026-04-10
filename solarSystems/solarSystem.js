@@ -40,9 +40,7 @@ const assignSocialCharacteristics = require('../terrestrialPlanet/assignSocialCh
 const summaryBlock = require('../stars/summaryBlock');
 const { determineStarport } = require('../terrestrialPlanet/assignStarport');
 const { techLevelDMs } = require('../terrestrialPlanet/assignTechLevel');
-const { assignConcentrationRating } = require('../population/assignConcentrationRating');
-const { assignUrbanizationPercentage } = require('../population/assignUrbanizationPercentage');
-const { assignMajorCities } = require('../population/assignMajorCities');
+const { applyPopulationDetails } = require('../population/applyPopulationDetails');
 const systemDensity = require('../utils/systemDensity');
 const { assignTradeCodes } = require('../economics/assignTradeCodes');
 const assignTidalLock = require('../tidalLock/assignTidalLock');
@@ -664,15 +662,11 @@ class SolarSystem {
     for (const star of this.stars) {
       for (const stellarObject of star.stellarObjects) {
         if (stellarObject.population?.code > 0) {
-          assignConcentrationRating(star, stellarObject);
-          assignUrbanizationPercentage(stellarObject);
-          assignMajorCities(stellarObject);
+          applyPopulationDetails(star, stellarObject);
         }
         for (const moon of stellarObject.moons ?? []) {
           if (moon.population?.code > 0) {
-            assignConcentrationRating(star, moon);
-            assignUrbanizationPercentage(moon);
-            assignMajorCities(moon);
+            applyPopulationDetails(star, moon);
           }
         }
       }
@@ -724,9 +718,11 @@ class SolarSystem {
     for (const star of this.stars)
       for (const stellarObject of star.stellarObjects)
         if (
-          [ORBIT_TYPES.TERRESTRIAL, ORBIT_TYPES.GAS_GIANT, ORBIT_TYPES.PLANETOID_BELT_OBJECT].includes(
-            stellarObject.orbitType
-          )
+          [
+            ORBIT_TYPES.TERRESTRIAL,
+            ORBIT_TYPES.GAS_GIANT,
+            ORBIT_TYPES.PLANETOID_BELT_OBJECT,
+          ].includes(stellarObject.orbitType)
         ) {
           if (stellarObject.orbitType !== ORBIT_TYPES.GAS_GIANT)
             biomass(star, stellarObject, this.sophontCheck);
@@ -1068,7 +1064,9 @@ class SolarSystem {
   get mainWorld() {
     if (this._mainWorld !== null) return this._mainWorld;
 
-    const planets = [], moons = [], belts = [];
+    const planets = [],
+      moons = [],
+      belts = [];
     for (const star of this.stars) this.collectMainWorldCandidates(star, planets, moons, belts);
 
     const hasPopulation = [...planets, ...moons, ...belts].some(([, b]) => b.population.code > 0);

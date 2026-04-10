@@ -4,9 +4,7 @@ const { twoD6, d6 } = require('../dice');
 const { determineStarport } = require('../terrestrialPlanet/assignStarport');
 const { techLevelDMs } = require('../terrestrialPlanet/assignTechLevel');
 const { assignTradeCodes } = require('../economics/assignTradeCodes');
-const { assignConcentrationRating } = require('../population/assignConcentrationRating');
-const { assignUrbanizationPercentage } = require('../population/assignUrbanizationPercentage');
-const { assignMajorCities } = require('../population/assignMajorCities');
+const { applyPopulationDetails } = require('../population/applyPopulationDetails');
 
 class SocialCharacteristicsAssigner {
   constructor(world, star, spec) {
@@ -22,9 +20,7 @@ class SocialCharacteristicsAssigner {
     this.assignStarport();
     this.assignTechLevel();
     assignTradeCodes(this.world);
-    assignConcentrationRating(this.star, this.world);
-    assignUrbanizationPercentage(this.world);
-    assignMajorCities(this.world);
+    applyPopulationDetails(this.star, this.world);
   }
 
   assignPopulation() {
@@ -34,7 +30,10 @@ class SocialCharacteristicsAssigner {
     do {
       roll = twoD6() - 2;
       attempts++;
-    } while (attempts < 100 && ((min !== undefined && roll < min) || (max !== undefined && roll > max)));
+    } while (
+      attempts < 100 &&
+      ((min !== undefined && roll < min) || (max !== undefined && roll > max))
+    );
     if (min !== undefined) roll = Math.max(min, roll);
     if (max !== undefined) roll = Math.min(max, roll);
     this.world.population.code = roll;
@@ -74,7 +73,11 @@ class SocialCharacteristicsAssigner {
     do {
       roll = d6() + techLevelDMs(this.world);
       attempts++;
-    } while (attempts < 100 && tl && ((tl.min !== undefined && roll < tl.min) || (tl.max !== undefined && roll > tl.max)));
+    } while (
+      attempts < 100 &&
+      tl &&
+      ((tl.min !== undefined && roll < tl.min) || (tl.max !== undefined && roll > tl.max))
+    );
     if (tl) {
       if (tl.min !== undefined) roll = Math.max(tl.min, roll);
       if (tl.max !== undefined) roll = Math.min(tl.max, roll);
