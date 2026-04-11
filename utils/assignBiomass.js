@@ -6,7 +6,10 @@ const {nativeSophont, extinctSophont} = require("./sophonts");
 
 const assignBiomass = (star, planet, sophontCheck = 'standard') => {
   planet.biomassRating = biomass(star, planet);
-  planet.biocomplexityCode = biocomplexity(star, planet, sophontCheck === 'rareEarth' ? -2 : 0);
+  let biocomplexityDM = 0;
+  if (sophontCheck === 'rareEarth') biocomplexityDM = -2;
+  else if (sophontCheck === 'veryRareEarth') biocomplexityDM = -3;
+  planet.biocomplexityCode = biocomplexity(star, planet, biocomplexityDM);
   planet.biodiversityRating = biodiversity(planet);
   planet.compatibilityRating = compatibilityRating(star, planet);
   if (sophontCheck === 'none') {
