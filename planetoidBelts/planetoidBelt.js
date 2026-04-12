@@ -27,6 +27,7 @@ class PlanetoidBelt extends StellarObject {
       distribution: null
     };
     this.population = new Population();
+    this.government = new Government();
     this.size = 0;
 
     // Parse UWP if provided for social characteristics
@@ -40,7 +41,6 @@ class PlanetoidBelt extends StellarObject {
       this.techLevel = components.techLevel;
     } else {
       this.fromUWP = false;
-      this.government = new Government();
       this.lawLevelCode = 0;
       this.starPort = 'X';
       this.techLevel = 0;
