@@ -43,11 +43,11 @@ class SocialCharacteristicsAssigner {
     const gov = this.spec.government;
     const allowCaptive = this.spec.allowCaptiveGovernment ?? true;
     if (typeof gov === 'number') {
-      this.world.governmentCode = gov;
+      this.world.government.code = gov;
     } else {
       do {
-        this.world.governmentCode = Math.max(twoD6() - 7 + this.world.population.code, 0);
-      } while (this.world.governmentCode === 6 && !allowCaptive);
+        this.world.government.code = Math.max(twoD6() - 7 + this.world.population.code, 0);
+      } while (this.world.government.code === 6 && !allowCaptive);
     }
   }
 
@@ -56,7 +56,7 @@ class SocialCharacteristicsAssigner {
     if (typeof law === 'number') {
       this.world.lawLevelCode = law;
     } else {
-      this.world.lawLevelCode = Math.max(twoD6() - 7 + this.world.governmentCode, 0);
+      this.world.lawLevelCode = Math.max(twoD6() - 7 + this.world.government.code, 0);
     }
   }
 

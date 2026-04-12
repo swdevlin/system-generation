@@ -552,7 +552,7 @@ class SolarSystem {
         moon.atmosphere.code = c.atmosphere;
         moon.hydrographics.code = c.hydrographics;
         moon.population.code = c.population;
-        moon.governmentCode = c.government;
+        moon.government.code = c.government;
         moon.lawLevelCode = c.lawLevel;
         moon.starPort = c.starPort;
         moon.techLevel = c.techLevel;
@@ -641,10 +641,10 @@ class SolarSystem {
     mainWorld.population.code = Math.max(0, mainWorld.population.code);
 
     do {
-      mainWorld.governmentCode = Math.max(twoD6() - 7 + mainWorld.population.code, 0);
-    } while (mainWorld.governmentCode === 6 && !this.allowCaptiveGovernment);
+      mainWorld.government.code = Math.max(twoD6() - 7 + mainWorld.population.code, 0);
+    } while (mainWorld.government.code === 6 && !this.allowCaptiveGovernment);
 
-    mainWorld.lawLevelCode = Math.max(twoD6() - 7 + mainWorld.governmentCode, 0);
+    mainWorld.lawLevelCode = Math.max(twoD6() - 7 + mainWorld.government.code, 0);
 
     mainWorld.starPort = determineStarport(mainWorld);
 

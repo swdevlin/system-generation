@@ -25,7 +25,7 @@ const concentrationRatingDMs = (planet) => {
   if (planet.population.code === 8) dm -= 1;
   else if (planet.population.code >= 9) dm -= 2;
 
-  if (planet.governmentCode === 7) dm -= 2;
+  if (planet.government.code === 7) dm -= 2;
 
   // Tech Level
   if (planet.techLevel >= 0 && planet.techLevel <= 1) dm -= 2;

@@ -4,7 +4,7 @@ const assignDiversity = (planet) => {
   const pcr = planet.population.concentrationRating;
   const pop = planet.population.code;
   const gov = planet.government.code;
-  const law = planet.lawLevelcode;
+  const law = planet.lawLevelCode;
 
   let diversity = twoD6();
 
@@ -29,7 +29,7 @@ const assignXenophilia = (planet) => {
   const gov = planet.government.code;
   const law = planet.lawLevelCode;
   const div = planet.population.diversity;
-  const starport = planet.starport;
+  const starport = planet.starPort;
 
   let xenophilia = twoD6();
 
@@ -54,7 +54,7 @@ const assignXenophilia = (planet) => {
 
 const assignUniqueness = (planet) => {
   const div = planet.population.diversity;
-  const starport = planet.starport;
+  const starport = planet.starPort;
   const xeno = planet.population.xenophilia;
 
   let uniqueness = twoD6();

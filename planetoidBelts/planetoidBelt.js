@@ -3,6 +3,7 @@ const StellarObject = require("../stellarObject");
 const Atmosphere = require("../atmosphere/Atmosphere");
 const AtmosphereDensities = require("../atmosphere/AtmosphereDensities");
 const Population = require("../population/Population");
+const Government = require("../government/Government");
 
 class PlanetoidBelt extends StellarObject {
   constructor(orbit, uwp) {
@@ -34,12 +35,12 @@ class PlanetoidBelt extends StellarObject {
       this.fromUWP = true;
       this.starPort = components.starPort;
       this.population.code = components.population;
-      this.governmentCode = components.government;
+      this.government.code = components.government;
       this.lawLevelCode = components.lawLevel;
       this.techLevel = components.techLevel;
     } else {
       this.fromUWP = false;
-      this.governmentCode = 0;
+      this.government = new Government();
       this.lawLevelCode = 0;
       this.starPort = 'X';
       this.techLevel = 0;
@@ -52,7 +53,7 @@ class PlanetoidBelt extends StellarObject {
   }
 
   get uwp() {
-    return `${this.starPort}${toHex(this.size)}${toHex(this.atmosphere.code)}${toHex(this.hydrographics.code)}${toHex(this.population.code)}${toHex(this.governmentCode)}${toHex(this.lawLevelCode)}-${toHex(this.techLevel)}`;
+    return `${this.starPort}${toHex(this.size)}${toHex(this.atmosphere.code)}${toHex(this.hydrographics.code)}${toHex(this.population.code)}${toHex(this.government.code)}${toHex(this.lawLevelCode)}-${toHex(this.techLevel)}`;
   }
 
   addSignificantBody(body) {

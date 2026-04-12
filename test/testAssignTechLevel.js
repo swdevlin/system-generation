@@ -20,7 +20,7 @@ describe('Tech level tests', function () {
     planet.atmosphere.code = 6;
     planet.hydrographics.code = 6;
     planet.population.code = 6;
-    planet.governmentCode = 6;
+    planet.government.code =6;
   });
 
   it('size less than 2 is +2', function () {
@@ -137,37 +137,37 @@ describe('Tech level tests', function () {
 
   describe('government tests', function () {
     it('government 0 is +1', function () {
-      planet.governmentCode = 0;
+      planet.government.code =0;
       const dm = techLevelDMs(planet);
       dm.should.equal(1);
     });
 
     it('government 5 is +1', function () {
-      planet.governmentCode = 5;
+      planet.government.code =5;
       const dm = techLevelDMs(planet);
       dm.should.equal(1);
     });
 
     it('government 7 is +2', function () {
-      planet.governmentCode = 7;
+      planet.government.code =7;
       const dm = techLevelDMs(planet);
       dm.should.equal(2);
     });
 
     it('government 13 is -2', function () {
-      planet.governmentCode = 13;
+      planet.government.code =13;
       const dm = techLevelDMs(planet);
       dm.should.equal(-2);
     });
 
     it('government 14 is -2', function () {
-      planet.governmentCode = 14;
+      planet.government.code =14;
       const dm = techLevelDMs(planet);
       dm.should.equal(-2);
     });
 
     it('government 9 is 0', function () {
-      planet.governmentCode = 9;
+      planet.government.code =9;
       const dm = techLevelDMs(planet);
       dm.should.equal(0);
     });
@@ -227,19 +227,19 @@ describe('Tech level tests', function () {
 
   describe('government tests', function () {
     it('Feudal Technocracy is +1', function () {
-      planet.governmentCode = 5;
+      planet.government.code =5;
       const dm = nativeSophontTechLevelDMs(star, planet);
       dm.should.equal(1);
     });
 
     it('Company is +1', function () {
-      planet.governmentCode = 1;
+      planet.government.code =1;
       const dm = nativeSophontTechLevelDMs(star, planet);
       dm.should.equal(1);
     });
 
     it('Balkanisation is +1', function () {
-      planet.governmentCode = 7;
+      planet.government.code =7;
       const dm = nativeSophontTechLevelDMs(star, planet);
       dm.should.equal(1);
     });

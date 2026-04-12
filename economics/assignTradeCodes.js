@@ -16,7 +16,7 @@ const isAsteroid = (planet) => {
 
 const isBarren = (planet) => {
   if (planet.population.code === 0)
-    if (planet.governmentCode === 0) if (planet.lawLevelCode === 0) return true;
+    if (planet.government.code === 0) if (planet.lawLevelCode === 0) return true;
 
   return false;
 };
@@ -103,7 +103,7 @@ const isPoor = (planet) => {
 const isRich = (planet) => {
   if (planet.atmosphere.code === 6 || planet.atmosphere.code === 8)
     if (planet.population.code >= 6 && planet.population.code <= 8)
-      if (planet.governmentCode >= 4 && planet.governmentCode <= 9) return true;
+      if (planet.government.code >= 4 && planet.government.code <= 9) return true;
 
   return false;
 };

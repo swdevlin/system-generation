@@ -28,15 +28,15 @@ function techLevelDMs(planet) {
   else if (planet.population.code >= 10)
     dm +=4;
 
-  if (planet.governmentCode === 0)
+  if (planet.government.code === 0)
     dm += 1;
-  else if (planet.governmentCode === 5)
+  else if (planet.government.code === 5)
     dm += 1;
-  else if (planet.governmentCode === 7)
+  else if (planet.government.code === 7)
     dm += 2;
-  else if (planet.governmentCode === 13)
+  else if (planet.government.code === 13)
     dm -= 2;
-  else if (planet.governmentCode === 14)
+  else if (planet.government.code === 14)
     dm -= 2;
 
   if (planet.starport === 'A')
@@ -60,11 +60,11 @@ function nativeSophontTechLevelDMs(star, planet) {
   else if (star.age >= 4)
     dm += 2;
 
-  if (planet.governmentCode === 1)
+  if (planet.government.code === 1)
     dm += 1;
-  else if (planet.governmentCode === 5)
+  else if (planet.government.code === 5)
     dm += 1;
-  else if (planet.governmentCode === 7)
+  else if (planet.government.code === 7)
     dm += 1;
 
   if (planet.population.code > 7)

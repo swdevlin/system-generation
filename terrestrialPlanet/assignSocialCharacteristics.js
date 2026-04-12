@@ -13,12 +13,12 @@ const assignSocialCharacteristics = (star, planet, {
   assignPopulation(star, planet);
 
   do {
-    planet.governmentCode = Math.max(twoD6() - 7 + planet.population.code, 0);
-  } while (planet.governmentCode === 6 && !allowCaptiveGovernment);
+    planet.government.code = Math.max(twoD6() - 7 + planet.population.code, 0);
+  } while (planet.government.code === 6 && !allowCaptiveGovernment);
 
   // todo: flesh out government
 
-  planet.lawLevelCode = Math.max(twoD6() - 7 + planet.governmentCode, 0);
+  planet.lawLevelCode = Math.max(twoD6() - 7 + planet.government.code, 0);
   // todo: flesh out law level
 
   if (nativeTech) {

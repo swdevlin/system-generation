@@ -3,6 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const { assignCulture } = require('../population/assignCulture');
+const {assignGovernmentDetails} = require("../government/assignGovernmentDetails");
 
 function validateRequest(req, res, next) {
   const { planet } = req.body;
@@ -41,7 +42,7 @@ router.post('/', validateRequest, (req, res) => {
   const { planet } = req.body;
 
   assignCulture(planet);
-
+  assignGovernmentDetails(planet);
   req.logger.info('Assigned culture', { tenant: req.tenantId });
   res.json({ planet });
 });

@@ -16,7 +16,7 @@ const urbanizationDMs = (planet) => {
   else if (planet.population.code === 9) dm += 2;
   else if (planet.population.code >= 10) dm += 4;
 
-  if (planet.governmentCode === 0) dm -= 2;
+  if (planet.government.code === 0) dm -= 2;
 
   if (planet.lawLevelCode >= 9) dm += 1;
 
