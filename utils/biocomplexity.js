@@ -4,7 +4,7 @@ const { twoD6 } = require('../dice');
 const biocomplexity = (star, planet, dm = 0) => {
   if (planet.biomassRating < 1) return 0;
 
-  const bmr = dm !== 0 ? planet.biomassRating / 2 : Math.min(planet.biomassRating, 9);
+  const bmr = dm !== 0 ? Math.floor(planet.biomassRating / 2) : Math.min(planet.biomassRating, 9);
   let b = twoD6() - 7 + bmr + dm;
   if (planet.atmosphere.code < 3 || planet.atmosphere.code > 9) b -= 2;
   if (star.age > 3 && star.age <= 4) b -= 2;
