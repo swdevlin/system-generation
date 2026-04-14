@@ -7,10 +7,11 @@ const { assignTradeCodes } = require('../economics/assignTradeCodes');
 const { applyPopulationDetails } = require('../population/applyPopulationDetails');
 
 class SocialCharacteristicsAssigner {
-  constructor(world, star, spec) {
+  constructor(world, star, spec, starSystem) {
     this.world = world;
     this.star = star;
     this.spec = spec;
+    this.starSystem = starSystem;
   }
 
   assign() {
@@ -20,7 +21,7 @@ class SocialCharacteristicsAssigner {
     this.assignStarport();
     this.assignTechLevel();
     assignTradeCodes(this.world);
-    applyPopulationDetails(this.star, this.world);
+    applyPopulationDetails(this.star, this.world, this.starSystem);
   }
 
   assignPopulation() {
@@ -54,9 +55,9 @@ class SocialCharacteristicsAssigner {
   assignLawLevel() {
     const law = this.spec.lawLevel;
     if (typeof law === 'number') {
-      this.world.lawLevelCode = law;
+      this.world.lawLevel.code = law;
     } else {
-      this.world.lawLevelCode = Math.max(twoD6() - 7 + this.world.government.code, 0);
+      this.world.lawLevel.code = Math.max(twoD6() - 7 + this.world.government.code, 0);
     }
   }
 

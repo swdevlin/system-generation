@@ -30,7 +30,7 @@ function makeSystem({ habitabilityRating = 8, resourceRating = 5, hzcoDeviation 
           resourceRating,
           population: { code: 0 },
           government: { code: 0 },
-          lawLevelCode: 0,
+          lawLevel: { code: 0 },
           techLevel: 0,
           starPort: 'X',
           starport: 'X',
@@ -58,7 +58,7 @@ describe('POST /social_characteristics', function () {
       }).then((res) => {
         res.should.have.status(200);
         res.body.world.government.code.should.equal(3);
-        res.body.world.lawLevelCode.should.equal(4);
+        res.body.world.lawLevel.code.should.equal(4);
         res.body.world.techLevel.should.equal(9);
       });
     });
@@ -159,7 +159,7 @@ describe('POST /social_characteristics', function () {
       return post({ system: makeSystem(), population: { min: 5, max: 5 } }).then((res) => {
         res.should.have.status(200);
         res.body.world.government.code.should.be.a('number').and.at.least(0);
-        res.body.world.lawLevelCode.should.be.a('number').and.at.least(0);
+        res.body.world.lawLevel.code.should.be.a('number').and.at.least(0);
         res.body.world.techLevel.should.be.a('number');
         res.body.world.starPort.should.be.a('string').and.have.length(1);
       });
@@ -171,8 +171,8 @@ describe('POST /social_characteristics', function () {
       const system = {
         primaryStar: {
           stellarObjects: [
-            { orbitType: 11, hzcoDeviation: 0.2, habitabilityRating: 3, resourceRating: 8, population: { code: 0 }, government: { code: 0 }, lawLevelCode: 0, techLevel: 0, starPort: 'X', starport: 'X', size: 6, atmosphere: { code: 6 }, hydrographics: { code: 5 }, moons: [] },
-            { orbitType: 11, hzcoDeviation: 0.5, habitabilityRating: 9, resourceRating: 2, population: { code: 0 }, government: { code: 0 }, lawLevelCode: 0, techLevel: 0, starPort: 'X', starport: 'X', size: 6, atmosphere: { code: 6 }, hydrographics: { code: 5 }, moons: [] },
+            { orbitType: 11, hzcoDeviation: 0.2, habitabilityRating: 3, resourceRating: 8, population: { code: 0 }, government: { code: 0 }, lawLevel: { code: 0 }, techLevel: 0, starPort: 'X', starport: 'X', size: 6, atmosphere: { code: 6 }, hydrographics: { code: 5 }, moons: [] },
+            { orbitType: 11, hzcoDeviation: 0.5, habitabilityRating: 9, resourceRating: 2, population: { code: 0 }, government: { code: 0 }, lawLevel: { code: 0 }, techLevel: 0, starPort: 'X', starport: 'X', size: 6, atmosphere: { code: 6 }, hydrographics: { code: 5 }, moons: [] },
           ],
         },
       };
@@ -186,8 +186,8 @@ describe('POST /social_characteristics', function () {
       const system = {
         primaryStar: {
           stellarObjects: [
-            { orbitType: 11, hzcoDeviation: 0.2, habitabilityRating: 9, resourceRating: 1, population: { code: 0 }, government: { code: 0 }, lawLevelCode: 0, techLevel: 0, starPort: 'X', starport: 'X', size: 6, atmosphere: { code: 6 }, hydrographics: { code: 5 }, moons: [] },
-            { orbitType: 11, hzcoDeviation: 0.5, habitabilityRating: 5, resourceRating: 8, population: { code: 0 }, government: { code: 0 }, lawLevelCode: 0, techLevel: 0, starPort: 'X', starport: 'X', size: 6, atmosphere: { code: 6 }, hydrographics: { code: 5 }, moons: [] },
+            { orbitType: 11, hzcoDeviation: 0.2, habitabilityRating: 9, resourceRating: 1, population: { code: 0 }, government: { code: 0 }, lawLevel: { code: 0 }, techLevel: 0, starPort: 'X', starport: 'X', size: 6, atmosphere: { code: 6 }, hydrographics: { code: 5 }, moons: [] },
+            { orbitType: 11, hzcoDeviation: 0.5, habitabilityRating: 5, resourceRating: 8, population: { code: 0 }, government: { code: 0 }, lawLevel: { code: 0 }, techLevel: 0, starPort: 'X', starport: 'X', size: 6, atmosphere: { code: 6 }, hydrographics: { code: 5 }, moons: [] },
           ],
         },
       };
@@ -202,8 +202,8 @@ describe('POST /social_characteristics', function () {
       const system = {
         primaryStar: {
           stellarObjects: [
-            { orbitType: 11, hzcoDeviation: 0.3, habitabilityRating: 7, resourceRating: 3, population: { code: 0 }, government: { code: 0 }, lawLevelCode: 0, techLevel: 0, starPort: 'X', starport: 'X', size: 6, atmosphere: { code: 6 }, hydrographics: { code: 5 }, moons: [] },
-            { orbitType: 12, hzcoDeviation: 1.0, resourceRating: 9, significantBodies: [], population: { code: 0 }, government: { code: 0 }, lawLevelCode: 0, techLevel: 0, starPort: 'X', starport: 'X', size: 0, atmosphere: { code: 0 }, hydrographics: { code: 0 }, moons: [] },
+            { orbitType: 11, hzcoDeviation: 0.3, habitabilityRating: 7, resourceRating: 3, population: { code: 0 }, government: { code: 0 }, lawLevel: { code: 0 }, techLevel: 0, starPort: 'X', starport: 'X', size: 6, atmosphere: { code: 6 }, hydrographics: { code: 5 }, moons: [] },
+            { orbitType: 12, hzcoDeviation: 1.0, resourceRating: 9, significantBodies: [], population: { code: 0 }, government: { code: 0 }, lawLevel: { code: 0 }, techLevel: 0, starPort: 'X', starport: 'X', size: 0, atmosphere: { code: 0 }, hydrographics: { code: 0 }, moons: [] },
           ],
         },
       };
@@ -217,8 +217,8 @@ describe('POST /social_characteristics', function () {
       const system = {
         primaryStar: {
           stellarObjects: [
-            { orbitType: 11, hzcoDeviation: 0.3, habitabilityRating: 4, resourceRating: 3, population: { code: 0 }, government: { code: 0 }, lawLevelCode: 0, techLevel: 0, starPort: 'X', starport: 'X', size: 6, atmosphere: { code: 6 }, hydrographics: { code: 5 }, moons: [] },
-            { orbitType: 12, hzcoDeviation: 0.1, resourceRating: 15, significantBodies: [], population: { code: 0 }, government: { code: 0 }, lawLevelCode: 0, techLevel: 0, starPort: 'X', starport: 'X', size: 0, atmosphere: { code: 0 }, hydrographics: { code: 0 }, moons: [] },
+            { orbitType: 11, hzcoDeviation: 0.3, habitabilityRating: 4, resourceRating: 3, population: { code: 0 }, government: { code: 0 }, lawLevel: { code: 0 }, techLevel: 0, starPort: 'X', starport: 'X', size: 6, atmosphere: { code: 6 }, hydrographics: { code: 5 }, moons: [] },
+            { orbitType: 12, hzcoDeviation: 0.1, resourceRating: 15, significantBodies: [], population: { code: 0 }, government: { code: 0 }, lawLevel: { code: 0 }, techLevel: 0, starPort: 'X', starport: 'X', size: 0, atmosphere: { code: 0 }, hydrographics: { code: 0 }, moons: [] },
           ],
         },
       };
@@ -237,7 +237,7 @@ describe('POST /social_characteristics', function () {
         resourceRating: 4,
         population: { code: 0 },
         government: { code: 0 },
-        lawLevelCode: 0,
+        lawLevel: { code: 0 },
         techLevel: 0,
         starPort: 'X',
         starport: 'X',
@@ -248,7 +248,7 @@ describe('POST /social_characteristics', function () {
       const system = {
         primaryStar: {
           stellarObjects: [
-            { orbitType: 11, hzcoDeviation: 0.2, habitabilityRating: 2, resourceRating: 3, population: { code: 0 }, government: { code: 0 }, lawLevelCode: 0, techLevel: 0, starPort: 'X', starport: 'X', size: 6, atmosphere: { code: 6 }, hydrographics: { code: 5 }, moons: [] },
+            { orbitType: 11, hzcoDeviation: 0.2, habitabilityRating: 2, resourceRating: 3, population: { code: 0 }, government: { code: 0 }, lawLevel: { code: 0 }, techLevel: 0, starPort: 'X', starport: 'X', size: 6, atmosphere: { code: 6 }, hydrographics: { code: 5 }, moons: [] },
             { orbitType: 10, hzcoDeviation: 0.5, moons: [moon] },
           ],
         },
@@ -268,7 +268,7 @@ describe('POST /social_characteristics', function () {
         resourceRating: 4,
         population: { code: 0 },
         government: { code: 0 },
-        lawLevelCode: 0,
+        lawLevel: { code: 0 },
         techLevel: 0,
         starPort: 'X',
         starport: 'X',
@@ -279,7 +279,7 @@ describe('POST /social_characteristics', function () {
       const system = {
         primaryStar: {
           stellarObjects: [
-            { orbitType: 11, hzcoDeviation: 0.5, habitabilityRating: 7, resourceRating: 4, population: { code: 0 }, government: { code: 0 }, lawLevelCode: 0, techLevel: 0, starPort: 'X', starport: 'X', size: 6, atmosphere: { code: 6 }, hydrographics: { code: 5 }, moons: [] },
+            { orbitType: 11, hzcoDeviation: 0.5, habitabilityRating: 7, resourceRating: 4, population: { code: 0 }, government: { code: 0 }, lawLevel: { code: 0 }, techLevel: 0, starPort: 'X', starport: 'X', size: 6, atmosphere: { code: 6 }, hydrographics: { code: 5 }, moons: [] },
             { orbitType: 10, hzcoDeviation: 0.5, moons: [moon] },
           ],
         },

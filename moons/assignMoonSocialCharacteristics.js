@@ -15,7 +15,7 @@ const assignMoonSocialCharacteristics = (star, moon, {
     moon.government.code = Math.max(twoD6() - 7 + moon.population.code, 0);
   } while (moon.government.code === 6 && !allowCaptiveGovernment);
 
-  moon.lawLevelCode = Math.max(twoD6() - 7 + moon.government.code, 0);
+  moon.lawLevel.code = Math.max(twoD6() - 7 + moon.government.code, 0);
 
   if (nativeTech) {
     assignNativeSophontTechLevel(star, moon, maxNativeSophontTechLevel);

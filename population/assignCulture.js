@@ -4,7 +4,7 @@ const assignDiversity = (planet) => {
   const pcr = planet.population.concentrationRating;
   const pop = planet.population.code;
   const gov = planet.government.code;
-  const law = planet.lawLevelCode;
+  const law = planet.lawLevel.code;
 
   let diversity = twoD6();
 
@@ -27,7 +27,7 @@ const assignDiversity = (planet) => {
 const assignXenophilia = (planet) => {
   const pop = planet.population.code;
   const gov = planet.government.code;
-  const law = planet.lawLevelCode;
+  const law = planet.lawLevel.code;
   const div = planet.population.diversity;
   const starport = planet.starPort;
 
@@ -94,7 +94,7 @@ const assignSymbology = (planet) => {
 
 const assignCohesion = (planet) => {
   const gov = planet.government.code;
-  const law = planet.lawLevelCode;
+  const law = planet.lawLevel.code;
   const pcr = planet.population.concentrationRating;
   const diversity = planet.population.diversity;
 
@@ -119,7 +119,7 @@ const assignCohesion = (planet) => {
 
 const assignMilitancy = (planet) => {
   const gov = planet.government.code;
-  const law = planet.lawLevelCode;
+  const law = planet.lawLevel.code;
   const xeno = planet.population.xenophilia;
   const expansionism = planet.population.expansionism;
 
@@ -159,7 +159,7 @@ const assignExpansionism = (planet) => {
 
 const assignProgressiveness = (planet) => {
   const gov = planet.government.code;
-  const law = planet.lawLevelCode;
+  const law = planet.lawLevel.code;
   const pop = planet.population.code;
   const div = planet.population.diversity;
   const xeno = planet.population.xenophilia;

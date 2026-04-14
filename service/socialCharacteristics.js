@@ -90,7 +90,7 @@ router.post('/', validateRequest, (req, res) => {
   if (!result) return res.status(422).json({ error: 'No valid main world found for criteria' });
 
   const spec = { population, government, lawLevel, techLevel, allowCaptiveGovernment };
-  const assigner = new SocialCharacteristicsAssigner(result.world, result.star, spec);
+  const assigner = new SocialCharacteristicsAssigner(result.world, result.star, spec, system);
   assigner.assign();
 
   req.logger.info('Assigned social characteristics', { tenant: req.tenantId });

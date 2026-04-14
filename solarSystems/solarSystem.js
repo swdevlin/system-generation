@@ -553,7 +553,7 @@ class SolarSystem {
         moon.hydrographics.code = c.hydrographics;
         moon.population.code = c.population;
         moon.government.code = c.government;
-        moon.lawLevelCode = c.lawLevel;
+        moon.lawLevel.code = c.lawLevel;
         moon.starPort = c.starPort;
         moon.techLevel = c.techLevel;
       }
@@ -644,7 +644,7 @@ class SolarSystem {
       mainWorld.government.code = Math.max(twoD6() - 7 + mainWorld.population.code, 0);
     } while (mainWorld.government.code === 6 && !this.allowCaptiveGovernment);
 
-    mainWorld.lawLevelCode = Math.max(twoD6() - 7 + mainWorld.government.code, 0);
+    mainWorld.lawLevel.code = Math.max(twoD6() - 7 + mainWorld.government.code, 0);
 
     mainWorld.starPort = determineStarport(mainWorld);
 
@@ -662,11 +662,11 @@ class SolarSystem {
     for (const star of this.stars) {
       for (const stellarObject of star.stellarObjects) {
         if (stellarObject.population?.code > 0) {
-          applyPopulationDetails(star, stellarObject);
+          applyPopulationDetails(star, stellarObject, this);
         }
         for (const moon of stellarObject.moons ?? []) {
           if (moon.population?.code > 0) {
-            applyPopulationDetails(star, moon);
+            applyPopulationDetails(star, moon, this);
           }
         }
       }

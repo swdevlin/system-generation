@@ -26,8 +26,8 @@ function validateRequest(req, res, next) {
   if (!Number.isInteger(planet.government.code) || planet.government.code < 0)
     return res.status(400).json({ error: 'planet.government.code must be a non-negative integer' });
 
-  if (!Number.isInteger(planet.lawLevelCode) || planet.lawLevelCode < 0)
-    return res.status(400).json({ error: 'planet.lawLevelCode must be a non-negative integer' });
+  if (!Number.isInteger(planet.lawLevel?.code) || planet.lawLevel.code < 0)
+    return res.status(400).json({ error: 'planet.lawLevel.code must be a non-negative integer' });
 
   if (!Number.isInteger(planet.techLevel) || planet.techLevel < 0)
     return res.status(400).json({ error: 'planet.techLevel must be a non-negative integer' });

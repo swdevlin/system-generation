@@ -16,7 +16,7 @@ const isAsteroid = (planet) => {
 
 const isBarren = (planet) => {
   if (planet.population.code === 0)
-    if (planet.government.code === 0) if (planet.lawLevelCode === 0) return true;
+    if (planet.government.code === 0) if (planet.lawLevel.code === 0) return true;
 
   return false;
 };
