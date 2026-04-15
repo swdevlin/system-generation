@@ -1,4 +1,4 @@
-const { twoD6, d6, d3 } = require('../dice');
+const { twoD6, d6, d3, d2 } = require('../dice');
 const { ORBIT_TYPES } = require('../utils');
 const TerrestrialPlanet = require('../terrestrialPlanet/terrestrialPlanet');
 const assignPhysicalCharacteristics = require('../terrestrialPlanet/assignPhysicalCharacteristics');
@@ -98,7 +98,7 @@ const determineBeltComposition = (star, belt) => {
 };
 
 const determineBeltBulk = (star, belt) => {
-  let bulk = twoD6() + 2;
+  let bulk = d2() + d2() + 2;
   belt.buildLog.push(`bulk roll ${bulk}`);
   bulk -= Math.floor(star.age / 2);
   bulk += Math.floor(belt.cType / 10);
