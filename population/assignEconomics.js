@@ -27,8 +27,8 @@ function determineImportance(starSystem, planet) {
   else if (planet.starPort === 'D' || planet.starPort === 'E' || planet.starPort === 'X')
     importance -= 1;
 
-  if (planet.techLevel.code <= 8) importance -= 1;
-  else if (planet.techLevel.code <= 15) importance += 1;
+  if (planet.techLevel <= 8) importance -= 1;
+  else if (planet.techLevel <= 15) importance += 1;
   else importance += 2;
 
   planet.economics.importance = importance;
@@ -37,7 +37,7 @@ function determineImportance(starSystem, planet) {
 const determineResourceFactor = (starSystem, planet) => {
   let rf = 0;
 
-  if (planet.techLevel.code >= 8) rf += starSystem.gasGiants + starSystem.planetoidBelts;
+  if (planet.techLevel >= 8) rf += starSystem.gasGiants + starSystem.planetoidBelts;
 
   if (isIndustrial(planet)) rf += 1 - d6();
 
@@ -103,7 +103,7 @@ const determineGrossWorldProduct = (planet) => {
   gwp = Math.max(2, Math.min(gwp, planet.economics.infrastructure * 2));
 
   let modifier = 1;
-  modifier *= Math.max(0.05, planet.techLevel.code / 10);
+  modifier *= Math.max(0.05, planet.techLevel / 10);
 
   modifier +=
     planet.starPort === 'A'
@@ -182,28 +182,124 @@ const determineGrossWorldProduct = (planet) => {
 const wtnStarportModifier = (baseWtn, starPort) => {
   const sp = starPort;
   if (baseWtn <= 1)
-    return sp === 'A' ? 3 : sp === 'B' ? 2 : sp === 'C' ? 2 : sp === 'D' ? 1 : sp === 'E' ? 1 : sp === 'X' ? 0 : 0;
+    return sp === 'A'
+      ? 3
+      : sp === 'B'
+        ? 2
+        : sp === 'C'
+          ? 2
+          : sp === 'D'
+            ? 1
+            : sp === 'E'
+              ? 1
+              : sp === 'X'
+                ? 0
+                : 0;
   if (baseWtn <= 3)
-    return sp === 'A' ? 2 : sp === 'B' ? 2 : sp === 'C' ? 1 : sp === 'D' ? 1 : sp === 'E' ? 0 : sp === 'X' ? 0 : 0;
+    return sp === 'A'
+      ? 2
+      : sp === 'B'
+        ? 2
+        : sp === 'C'
+          ? 1
+          : sp === 'D'
+            ? 1
+            : sp === 'E'
+              ? 0
+              : sp === 'X'
+                ? 0
+                : 0;
   if (baseWtn <= 5)
-    return sp === 'A' ? 2 : sp === 'B' ? 1 : sp === 'C' ? 1 : sp === 'D' ? 0 : sp === 'E' ? 0 : sp === 'X' ? -5 : 0;
+    return sp === 'A'
+      ? 2
+      : sp === 'B'
+        ? 1
+        : sp === 'C'
+          ? 1
+          : sp === 'D'
+            ? 0
+            : sp === 'E'
+              ? 0
+              : sp === 'X'
+                ? -5
+                : 0;
   if (baseWtn <= 7)
-    return sp === 'A' ? 1 : sp === 'B' ? 1 : sp === 'C' ? 0 : sp === 'D' ? 0 : sp === 'E' ? -1 : sp === 'X' ? -6 : 0;
+    return sp === 'A'
+      ? 1
+      : sp === 'B'
+        ? 1
+        : sp === 'C'
+          ? 0
+          : sp === 'D'
+            ? 0
+            : sp === 'E'
+              ? -1
+              : sp === 'X'
+                ? -6
+                : 0;
   if (baseWtn <= 9)
-    return sp === 'A' ? 1 : sp === 'B' ? 0 : sp === 'C' ? 0 : sp === 'D' ? -1 : sp === 'E' ? -2 : sp === 'X' ? -7 : 0;
+    return sp === 'A'
+      ? 1
+      : sp === 'B'
+        ? 0
+        : sp === 'C'
+          ? 0
+          : sp === 'D'
+            ? -1
+            : sp === 'E'
+              ? -2
+              : sp === 'X'
+                ? -7
+                : 0;
   if (baseWtn <= 11)
-    return sp === 'A' ? 0 : sp === 'B' ? 0 : sp === 'C' ? -1 : sp === 'D' ? -2 : sp === 'E' ? -3 : sp === 'X' ? -8 : 0;
+    return sp === 'A'
+      ? 0
+      : sp === 'B'
+        ? 0
+        : sp === 'C'
+          ? -1
+          : sp === 'D'
+            ? -2
+            : sp === 'E'
+              ? -3
+              : sp === 'X'
+                ? -8
+                : 0;
   if (baseWtn <= 13)
-    return sp === 'A' ? 0 : sp === 'B' ? -1 : sp === 'C' ? -2 : sp === 'D' ? -3 : sp === 'E' ? -4 : sp === 'X' ? -9 : 0;
-  return sp === 'A' ? 0 : sp === 'B' ? -2 : sp === 'C' ? -3 : sp === 'D' ? -4 : sp === 'E' ? -5 : sp === 'X' ? -10 : 0;
+    return sp === 'A'
+      ? 0
+      : sp === 'B'
+        ? -1
+        : sp === 'C'
+          ? -2
+          : sp === 'D'
+            ? -3
+            : sp === 'E'
+              ? -4
+              : sp === 'X'
+                ? -9
+                : 0;
+  return sp === 'A'
+    ? 0
+    : sp === 'B'
+      ? -2
+      : sp === 'C'
+        ? -3
+        : sp === 'D'
+          ? -4
+          : sp === 'E'
+            ? -5
+            : sp === 'X'
+              ? -10
+              : 0;
 };
 
 const determineWorldTradeNumber = (planet) => {
   let wtn = planet.population.code;
 
-  if (planet.techLevel.code <= 1) wtn -= 1;
-  else if (planet.techLevel.code >= 5 && planet.techLevel.code <= 8) wtn += 1;
-  else if (planet.techLevel.code <= 14) wtn += 2;
+  if (planet.techLevel <= 1) wtn -= 1;
+  else if (planet.techLevel >= 5 && planet.techLevel <= 8) wtn += 1;
+  else if (planet.techLevel <= 14) wtn += 2;
   else wtn += 3;
 
   wtn += wtnStarportModifier(wtn, planet.starPort);
@@ -227,7 +323,7 @@ const determineInequalityRating = (planet) => {
 };
 
 const determineDevelopmentScore = (planet) => {
-  let ds = (planet.economics.perCapitaGWP / 1000) * (1 - (planet.economics.inequalityRating / 100));
+  let ds = (planet.economics.perCapitaGWP / 1000) * (1 - planet.economics.inequalityRating / 100);
 
   planet.economics.developmentScore = ds;
 };
@@ -259,9 +355,9 @@ const resolveTariffRoll = (roll) => {
 const determineTariffs = (planet) => {
   // Re-derive base WTN (before starport modifier) to look up the modifier.
   let baseWtn = planet.population.code;
-  if (planet.techLevel.code <= 1) baseWtn -= 1;
-  else if (planet.techLevel.code >= 5 && planet.techLevel.code <= 8) baseWtn += 1;
-  else if (planet.techLevel.code <= 14) baseWtn += 2;
+  if (planet.techLevel <= 1) baseWtn -= 1;
+  else if (planet.techLevel >= 5 && planet.techLevel <= 8) baseWtn += 1;
+  else if (planet.techLevel <= 14) baseWtn += 2;
   else baseWtn += 3;
 
   const spMod = wtnStarportModifier(baseWtn, planet.starPort);

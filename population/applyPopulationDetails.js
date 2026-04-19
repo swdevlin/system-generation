@@ -13,8 +13,8 @@ const applyPopulationDetails = (star, planet, starSystem) => {
   assignMajorCities(planet);
   assignCulture(planet);
   assignGovernmentDetails(planet);
-  // assignLawDetails(planet);
   assignEconomics(starSystem, planet);
+  assignLawDetails(planet);
 };
 
 module.exports = { applyPopulationDetails };
