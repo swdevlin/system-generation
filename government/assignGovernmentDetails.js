@@ -1,23 +1,36 @@
 const {twoD6, d6} = require("../dice");
 
 const assignCentralisation = (planet) => {
-  let r = twoD6();
+  const raw = twoD6();
   const gov = planet.government.code;
   const pcr = planet.population.concentrationRating;
 
-  if (gov >= 2 && gov <= 5) r -= 1;
-  else if (gov === 6 || (gov >= 8 && gov <= 11)) r += 1;
-  else if (gov === 7) r += 1;
-  else if (gov >= 12) r += 2;
+  let govDM = 0;
+  if (gov >= 2 && gov <= 5) govDM = -1;
+  else if (gov === 6 || (gov >= 8 && gov <= 11)) govDM = 1;
+  else if (gov === 7) govDM = 1;
+  else if (gov >= 12) govDM = 2;
 
-  if (pcr <= 3) r -= 1;
-  else if (pcr === 7 || pcr === 8) r += 1;
-  else if (pcr === 9) r += 3;
+  let pcrDM = 0;
+  if (pcr <= 3) pcrDM = -1;
+  else if (pcr === 7 || pcr === 8) pcrDM = 1;
+  else if (pcr === 9) pcrDM = 3;
 
-  if (r <= 5) planet.government.centralisation = 'C';
-  else if (r <= 8) planet.government.centralisation = 'F';
+  const total = raw + govDM + pcrDM;
+
+  if (total <= 5) planet.government.centralisation = 'C';
+  else if (total <= 8) planet.government.centralisation = 'F';
   else planet.government.centralisation = 'U';
-}
+
+  planet.buildLog?.push({
+    'Government Centralisation': {
+      inputs: { governmentCode: gov, concentrationRating: pcr },
+      dms: { government: govDM, populationConcentration: pcrDM, total: govDM + pcrDM },
+      roll: { raw, total },
+      result: planet.government.centralisation,
+    },
+  });
+};
 
 function rollToAuthority(roll) {
   if (roll <= 4) return 'L'; // Legislative
@@ -32,36 +45,49 @@ function rollToAuthority(roll) {
 }
 
 const assignAuthority = (planet) => {
-  let r = twoD6();
+  const raw = twoD6();
   const gov = planet.government.code;
+  const centralisation = planet.government.centralisation;
 
-  if (planet.government.centralisation === 'C') r -= 2;
-  else if (planet.government.centralisation === 'U') r += 2;
+  let centralisationDM = 0;
+  if (centralisation === 'C') centralisationDM = -2;
+  else if (centralisation === 'U') centralisationDM = 2;
 
+  let govDM = 0;
   switch (gov) {
     case 1:
     case 6:
     case 10:
     case 13:
     case 14:
-      r += 6;
+      govDM = 6;
       break;
     case 2:
-      r -= 4;
-      break
+      govDM = -4;
+      break;
     case 3:
     case 5:
     case 12:
-      r -= 2;
-      break
+      govDM = -2;
+      break;
     case 11:
     case 15:
-      r += 4;
-      break
+      govDM = 4;
+      break;
   }
 
-  planet.government.authority = rollToAuthority(r);
-}
+  const total = raw + centralisationDM + govDM;
+  planet.government.authority = rollToAuthority(total);
+
+  planet.buildLog?.push({
+    'Government Authority': {
+      inputs: { governmentCode: gov, centralisation },
+      dms: { centralisation: centralisationDM, government: govDM, total: centralisationDM + govDM },
+      roll: { raw, total },
+      result: planet.government.authority,
+    },
+  });
+};
 
 const assignStructure = (planet) => {
   const governmentCode = planet.government.code;
@@ -71,15 +97,15 @@ const assignStructure = (planet) => {
   const structures = {
     executive: null,
     legislative: null,
-    judicial: null
-  }
+    judicial: null,
+  };
 
   const authorityMap = {
     E: 'executive',
     L: 'legislative',
     J: 'judicial',
-    B: 'balanced'
-  }
+    B: 'balanced',
+  };
 
   const authoritativeBranch =
     authorityMap[authority] === 'balanced' ? null : authorityMap[authority];
@@ -87,89 +113,114 @@ const assignStructure = (planet) => {
   const isUnitary = centralisation === 'U';
 
   const functionalStructureRoll = (dm = 0) => {
-    const total = twoD6() + dm;
-
-    if (total <= 3) return 'D';
-    if (total === 4) return 'S';
-    if (total === 5 || total === 6) return 'M';
-    if (total === 7 || total === 8) return 'R';
-    if (total === 9) return 'M';
-    if (total === 10) return 'S';
-    if (total === 11) return 'M';
-    return 'S';
-  }
+    const raw = twoD6();
+    const total = raw + dm;
+    let result;
+    if (total <= 3) result = 'D';
+    else if (total === 4) result = 'S';
+    else if (total <= 6) result = 'M';
+    else if (total <= 8) result = 'R';
+    else if (total === 9) result = 'M';
+    else if (total === 10) result = 'S';
+    else if (total === 11) result = 'M';
+    else result = 'S';
+    return { result, roll: { raw, total, dm } };
+  };
 
   const legislativeAuthorityStructure = () => {
-    const total = twoD6();
-
-    if (total <= 3) return 'D';
-    if (total <= 8) return 'M';
-    return 'S';
-  }
+    const raw = twoD6();
+    let result;
+    if (raw <= 3) result = 'D';
+    else if (raw <= 8) result = 'M';
+    else result = 'S';
+    return { result, roll: { raw, total: raw, dm: 0 } };
+  };
 
   const government3CFStructure = () => {
-    return d6() <= 4 ? 'S' : 'M';
-  }
+    const raw = d6();
+    const result = raw <= 4 ? 'S' : 'M';
+    return { result, roll: { raw, total: raw, dm: 0 } };
+  };
 
   const authoritativeABDEStructure = () => {
-    return d6() <= 5 ? 'R' : 'S';
-  }
-
-  const assignAllSame = (code) => {
-    structures.executive = code;
-    structures.legislative = code;
-    structures.judicial = code;
-  }
+    const raw = d6();
+    const result = raw <= 5 ? 'R' : 'S';
+    return { result, roll: { raw, total: raw, dm: 0 } };
+  };
 
   const assignBranch = (branch) => {
     const isAuthoritative = authoritativeBranch === branch;
     const isBalancedLegislative = authority === 'B' && branch === 'legislative';
 
-    if (governmentCode === 2 && (isAuthoritative || isBalancedLegislative)) {
-      return 'D';
-    }
+    if (governmentCode === 2 && (isAuthoritative || isBalancedLegislative))
+      return { result: 'D', method: 'fixed-D', roll: null };
 
-    if (governmentCode === 8 || governmentCode === 9) {
-      return 'M';
-    }
+    if (governmentCode === 8 || governmentCode === 9)
+      return { result: 'M', method: 'fixed-M', roll: null };
 
     if (governmentCode === 3 || governmentCode === 12 || governmentCode === 15) {
-      return government3CFStructure();
+      const { result, roll } = government3CFStructure();
+      return { result, method: 'government-3CF', roll };
     }
 
     if ([10, 11, 13, 14].includes(governmentCode)) {
-      if (isAuthoritative) return authoritativeABDEStructure();
-      return functionalStructureRoll(2);
+      if (isAuthoritative) {
+        const { result, roll } = authoritativeABDEStructure();
+        return { result, method: 'authoritative-ABDE', roll };
+      }
+      const { result, roll } = functionalStructureRoll(2);
+      return { result, method: 'functional', roll };
     }
 
     if (isAuthoritative && branch === 'legislative') {
-      return legislativeAuthorityStructure();
+      const { result, roll } = legislativeAuthorityStructure();
+      return { result, method: 'legislative-authority', roll };
     }
 
-    return functionalStructureRoll();
-  }
+    const { result, roll } = functionalStructureRoll();
+    return { result, method: 'functional', roll };
+  };
+
+  const branchLog = {};
 
   if (authoritativeBranch) {
-    const dominantStructure = assignBranch(authoritativeBranch);
-    structures[authoritativeBranch] = dominantStructure;
+    const dominant = assignBranch(authoritativeBranch);
+    structures[authoritativeBranch] = dominant.result;
+    branchLog[authoritativeBranch] = dominant;
 
-    if (isUnitary && (dominantStructure === 'R' || dominantStructure === 'S')) {
-      assignAllSame(dominantStructure);
+    if (isUnitary && (dominant.result === 'R' || dominant.result === 'S')) {
+      for (const b of ['executive', 'legislative', 'judicial']) {
+        structures[b] = dominant.result;
+        if (b !== authoritativeBranch)
+          branchLog[b] = { result: dominant.result, method: 'unitary-propagated', roll: null };
+      }
     } else {
-      for (const branch of ['executive', 'legislative', 'judicial']) {
-        if (structures[branch] === null) {
-          structures[branch] = assignBranch(branch);
+      for (const b of ['executive', 'legislative', 'judicial']) {
+        if (structures[b] === null) {
+          const entry = assignBranch(b);
+          structures[b] = entry.result;
+          branchLog[b] = entry;
         }
       }
     }
   } else {
-    for (const branch of ['executive', 'legislative', 'judicial']) {
-      structures[branch] = assignBranch(branch);
+    for (const b of ['executive', 'legislative', 'judicial']) {
+      const entry = assignBranch(b);
+      structures[b] = entry.result;
+      branchLog[b] = entry;
     }
   }
 
   planet.government.structure = structures;
-}
+
+  planet.buildLog?.push({
+    'Government Structure': {
+      inputs: { governmentCode, authority, centralisation },
+      branches: branchLog,
+      result: { ...structures },
+    },
+  });
+};
 
 const assignGovernmentDetails = (planet) => {
   assignCentralisation(planet);
@@ -177,4 +228,4 @@ const assignGovernmentDetails = (planet) => {
   assignStructure(planet);
 };
 
-module.exports = {assignGovernmentDetails};
+module.exports = { assignGovernmentDetails, assignCentralisation, assignAuthority, assignStructure };
