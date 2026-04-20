@@ -6,6 +6,7 @@ const { assignMajorCities } = require('./assignMajorCities');
 const { assignCulture } = require('./assignCulture');
 const { assignGovernmentDetails } = require('../government/assignGovernmentDetails');
 const { assignEconomics } = require('./assignEconomics');
+const {assignLawDetails} = require("../lawLevel/assignLawDetails");
 
 const applyPopulationDetails = (star, planet, starSystem) => {
   assignConcentrationRating(star, planet);
