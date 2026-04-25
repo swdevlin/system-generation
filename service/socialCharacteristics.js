@@ -5,6 +5,8 @@ const router = express.Router();
 const { MainWorldSelector, VALID_CRITERIA } = require('../solarSystems/MainWorldSelector');
 const SocialCharacteristicsAssigner = require('../solarSystems/SocialCharacteristicsAssigner');
 
+const VALID_STARPORTS = ['X', 'E', 'D', 'C', 'B', 'A'];
+
 function validateRequest(req, res, next) {
   const {
     system,
@@ -14,6 +16,7 @@ function validateRequest(req, res, next) {
     techLevel,
     mainWorldCriteria,
     allowCaptiveGovernment,
+    starport,
   } = req.body;
 
   if (!system || typeof system !== 'object' || Array.isArray(system))
@@ -71,6 +74,9 @@ function validateRequest(req, res, next) {
   if (allowCaptiveGovernment !== undefined && typeof allowCaptiveGovernment !== 'boolean')
     return res.status(400).json({ error: 'allowCaptiveGovernment must be a boolean' });
 
+  if (starport !== undefined && !VALID_STARPORTS.includes(starport))
+    return res.status(400).json({ error: 'starport must be one of: X, E, D, C, B, A' });
+
   next();
 }
 
@@ -83,13 +89,14 @@ router.post('/', validateRequest, (req, res) => {
     techLevel,
     mainWorldCriteria = 'habitable',
     allowCaptiveGovernment = true,
+    starport,
   } = req.body;
 
   const selector = new MainWorldSelector(system, mainWorldCriteria);
   const result = selector.select();
   if (!result) return res.status(422).json({ error: 'No valid main world found for criteria' });
 
-  const spec = { population, government, lawLevel, techLevel, allowCaptiveGovernment };
+  const spec = { population, government, lawLevel, techLevel, allowCaptiveGovernment, starport };
   const assigner = new SocialCharacteristicsAssigner(result.world, result.star, spec, system);
   assigner.assign();
 

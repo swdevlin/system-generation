@@ -62,7 +62,7 @@ class SocialCharacteristicsAssigner {
   }
 
   assignStarport() {
-    const sp = determineStarport(this.world);
+    const sp = this.spec.starport !== undefined ? this.spec.starport : determineStarport(this.world);
     this.world.starPort = sp;
     this.world.starport = sp;
   }

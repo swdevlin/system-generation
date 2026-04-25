@@ -291,6 +291,30 @@ describe('POST /social_characteristics', function () {
     });
   });
 
+  describe('starport', function () {
+    it('uses fixed starport when provided', function () {
+      return post({ system: makeSystem(), population: {}, starport: 'A' }).then((res) => {
+        res.should.have.status(200);
+        res.body.world.starPort.should.equal('A');
+        res.body.world.starport.should.equal('A');
+      });
+    });
+
+    it('rolls starport freely when omitted', function () {
+      return post({ system: makeSystem(), population: {} }).then((res) => {
+        res.should.have.status(200);
+        res.body.world.starPort.should.be.oneOf(['X', 'E', 'D', 'C', 'B', 'A']);
+      });
+    });
+
+    it('returns 400 for an invalid starport value', function () {
+      return post({ system: makeSystem(), population: {}, starport: 'Z' }).then((res) => {
+        res.should.have.status(400);
+        res.body.error.should.equal('starport must be one of: X, E, D, C, B, A');
+      });
+    });
+  });
+
   describe('no valid world', function () {
     it('returns 422 when no candidates match the criteria', function () {
       const system = {
