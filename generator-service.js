@@ -25,7 +25,7 @@ const logger = winston.createLogger({
   ],
 });
 
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
 
 // Middleware
 app.use((req, res, next) => {
