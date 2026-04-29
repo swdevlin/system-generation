@@ -55,7 +55,7 @@ const isHighPopulation = (planet) => {
 };
 
 const isHighTech = (planet) => {
-  return planet.techLevel >= 12;
+  return planet.techLevel.code >= 12;
 };
 
 const isIceCapped = (planet) => {
@@ -77,7 +77,7 @@ const isLowPopulation = (planet) => {
 };
 
 const isLowTech = (planet) => {
-  if (planet.population.code >= 1) if (planet.techLevel <= 5) return true;
+  if (planet.population.code >= 1) if (planet.techLevel.code <= 5) return true;
 
   return false;
 };

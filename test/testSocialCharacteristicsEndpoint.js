@@ -59,7 +59,7 @@ describe('POST /social_characteristics', function () {
         res.should.have.status(200);
         res.body.world.government.code.should.equal(3);
         res.body.world.lawLevel.code.should.equal(4);
-        res.body.world.techLevel.should.equal(9);
+        res.body.world.techLevel.code.should.equal(9);
       });
     });
 
@@ -128,8 +128,8 @@ describe('POST /social_characteristics', function () {
       return Promise.all(requests).then((results) => {
         for (const res of results) {
           res.should.have.status(200);
-          res.body.world.techLevel.should.be.at.least(8);
-          res.body.world.techLevel.should.be.at.most(12);
+          res.body.world.techLevel.code.should.be.at.least(8);
+          res.body.world.techLevel.code.should.be.at.most(12);
         }
       });
     });
@@ -141,7 +141,7 @@ describe('POST /social_characteristics', function () {
       return Promise.all(requests).then((results) => {
         for (const res of results) {
           res.should.have.status(200);
-          res.body.world.techLevel.should.be.at.least(8);
+          res.body.world.techLevel.code.should.be.at.least(8);
         }
       });
     });
@@ -149,7 +149,7 @@ describe('POST /social_characteristics', function () {
     it('rolls freely when techLevel is omitted entirely', function () {
       return post({ system: makeSystem(), population: {} }).then((res) => {
         res.should.have.status(200);
-        res.body.world.techLevel.should.be.a('number');
+        res.body.world.techLevel.code.should.be.a('number');
       });
     });
   });
@@ -160,7 +160,7 @@ describe('POST /social_characteristics', function () {
         res.should.have.status(200);
         res.body.world.government.code.should.be.a('number').and.at.least(0);
         res.body.world.lawLevel.code.should.be.a('number').and.at.least(0);
-        res.body.world.techLevel.should.be.a('number');
+        res.body.world.techLevel.code.should.be.a('number');
         res.body.world.starPort.should.be.a('string').and.have.length(1);
       });
     });

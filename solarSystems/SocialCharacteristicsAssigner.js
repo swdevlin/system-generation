@@ -68,6 +68,9 @@ class SocialCharacteristicsAssigner {
   }
 
   assignTechLevel() {
+    if (typeof this.world.techLevel !== 'object' || this.world.techLevel === null) {
+      this.world.techLevel = { code: typeof this.world.techLevel === 'number' ? this.world.techLevel : 0 };
+    }
     const tl = this.spec.techLevel;
     let roll;
     let attempts = 0;
@@ -83,7 +86,7 @@ class SocialCharacteristicsAssigner {
       if (tl.min !== undefined) roll = Math.max(tl.min, roll);
       if (tl.max !== undefined) roll = Math.min(tl.max, roll);
     }
-    this.world.techLevel = roll;
+    this.world.techLevel.code = roll;
   }
 }
 

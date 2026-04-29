@@ -27,8 +27,8 @@ function determineImportance(starSystem, planet) {
   else if (planet.starPort === 'D' || planet.starPort === 'E' || planet.starPort === 'X')
     importance -= 1;
 
-  if (planet.techLevel <= 8) importance -= 1;
-  else if (planet.techLevel <= 15) importance += 1;
+  if (planet.techLevel.code <= 8) importance -= 1;
+  else if (planet.techLevel.code <= 15) importance += 1;
   else importance += 2;
 
   planet.economics.importance = importance;
@@ -37,7 +37,7 @@ function determineImportance(starSystem, planet) {
 const determineResourceFactor = (starSystem, planet) => {
   let rf = 0;
 
-  if (planet.techLevel >= 8) rf += starSystem.gasGiants + starSystem.planetoidBelts;
+  if (planet.techLevel.code >= 8) rf += starSystem.gasGiants + starSystem.planetoidBelts;
 
   if (isIndustrial(planet)) rf += 1 - d6();
 
@@ -103,7 +103,7 @@ const determineGrossWorldProduct = (planet) => {
   gwp = Math.max(2, Math.min(gwp, planet.economics.infrastructure * 2));
 
   let modifier = 1;
-  modifier *= Math.max(0.05, planet.techLevel / 10);
+  modifier *= Math.max(0.05, planet.techLevel.code / 10);
 
   modifier +=
     planet.starPort === 'A'
@@ -297,9 +297,9 @@ const wtnStarportModifier = (baseWtn, starPort) => {
 const determineWorldTradeNumber = (planet) => {
   let wtn = planet.population.code;
 
-  if (planet.techLevel <= 1) wtn -= 1;
-  else if (planet.techLevel >= 5 && planet.techLevel <= 8) wtn += 1;
-  else if (planet.techLevel <= 14) wtn += 2;
+  if (planet.techLevel.code <= 1) wtn -= 1;
+  else if (planet.techLevel.code >= 5 && planet.techLevel.code <= 8) wtn += 1;
+  else if (planet.techLevel.code <= 14) wtn += 2;
   else wtn += 3;
 
   wtn += wtnStarportModifier(wtn, planet.starPort);
@@ -355,9 +355,9 @@ const resolveTariffRoll = (roll) => {
 const determineTariffs = (planet) => {
   // Re-derive base WTN (before starport modifier) to look up the modifier.
   let baseWtn = planet.population.code;
-  if (planet.techLevel <= 1) baseWtn -= 1;
-  else if (planet.techLevel >= 5 && planet.techLevel <= 8) baseWtn += 1;
-  else if (planet.techLevel <= 14) baseWtn += 2;
+  if (planet.techLevel.code <= 1) baseWtn -= 1;
+  else if (planet.techLevel.code >= 5 && planet.techLevel.code <= 8) baseWtn += 1;
+  else if (planet.techLevel.code <= 14) baseWtn += 2;
   else baseWtn += 3;
 
   const spMod = wtnStarportModifier(baseWtn, planet.starPort);

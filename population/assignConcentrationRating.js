@@ -28,9 +28,9 @@ const concentrationRatingDMs = (planet) => {
   if (planet.government.code === 7) dm -= 2;
 
   // Tech Level
-  if (planet.techLevel >= 0 && planet.techLevel <= 1) dm -= 2;
-  else if (planet.techLevel >= 2 && planet.techLevel <= 3) dm -= 1;
-  else if (planet.techLevel >= 4 && planet.techLevel <= 9) dm += 1;
+  if (planet.techLevel.code >= 0 && planet.techLevel.code <= 1) dm -= 2;
+  else if (planet.techLevel.code >= 2 && planet.techLevel.code <= 3) dm -= 1;
+  else if (planet.techLevel.code >= 4 && planet.techLevel.code <= 9) dm += 1;
 
   if (isAgricultural(planet)) dm -= 2;
 

@@ -25,7 +25,7 @@ const assignSocialCharacteristics = (star, planet, {
     assignNativeSophontTechLevel(star, planet, maxNativeSophontTechLevel);
   } else {
     assignTechLevel(planet);
-    planet.techLevel = Math.min(maxNativeSophontTechLevel, Math.max(1, planet.techLevel));
+    planet.techLevel.code = Math.min(maxNativeSophontTechLevel, Math.max(1, planet.techLevel.code));
   }
 
   assignNativeSophontStarport(planet);

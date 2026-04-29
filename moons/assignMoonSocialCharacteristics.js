@@ -21,7 +21,7 @@ const assignMoonSocialCharacteristics = (star, moon, {
     assignNativeSophontTechLevel(star, moon, maxNativeSophontTechLevel);
   } else {
     assignTechLevel(moon);
-    moon.techLevel = Math.min(maxNativeSophontTechLevel, Math.max(1, moon.techLevel));
+    moon.techLevel.code = Math.min(maxNativeSophontTechLevel, Math.max(1, moon.techLevel.code));
   }
 
   assignNativeSophontStarport(moon);

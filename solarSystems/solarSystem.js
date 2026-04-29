@@ -555,7 +555,7 @@ class SolarSystem {
         moon.government.code = c.government;
         moon.lawLevel.code = c.lawLevel;
         moon.starPort = c.starPort;
-        moon.techLevel = c.techLevel;
+        moon.techLevel.code = c.techLevel;
       }
     }
 
@@ -650,7 +650,7 @@ class SolarSystem {
 
     this.assignBases();
 
-    mainWorld.techLevel = Math.min(
+    mainWorld.techLevel.code = Math.min(
       populated.maxTechLevel,
       Math.max(populated.minTechLevel, d6() + techLevelDMs(mainWorld))
     );

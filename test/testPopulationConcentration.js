@@ -23,7 +23,7 @@ describe("Population concentration tests", function () {
   describe("Test DMs", function () {
     it('size 1 is +2', function() {
       planet.size = 1;
-      planet.techLevel = 10;
+      planet.techLevel.code = 10;
       const dm = concentrationRatingDMs(planet);
       dm.should.equal(2);
     });

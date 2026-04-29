@@ -29,8 +29,8 @@ function validateRequest(req, res, next) {
   if (!Number.isInteger(planet.lawLevel?.code) || planet.lawLevel.code < 0)
     return res.status(400).json({ error: 'planet.lawLevel.code must be a non-negative integer' });
 
-  if (!Number.isInteger(planet.techLevel) || planet.techLevel < 0)
-    return res.status(400).json({ error: 'planet.techLevel must be a non-negative integer' });
+  if (!Number.isInteger(planet.techLevel?.code) || planet.techLevel.code < 0)
+    return res.status(400).json({ error: 'planet.techLevel.code must be a non-negative integer' });
 
   if (typeof planet.starport !== 'string')
     return res.status(400).json({ error: 'planet.starport must be a string' });

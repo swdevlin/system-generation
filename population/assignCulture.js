@@ -74,8 +74,8 @@ const assignUniqueness = (planet) => {
 
 const assignSymbology = (planet) => {
   const gov = planet.government.code;
-  const tl = planet.techLevel;
-  const u = planet.techLevel;
+  const tl = planet.techLevel.code;
+  const u = planet.techLevel.code;
 
   let symbology = twoD6();
 

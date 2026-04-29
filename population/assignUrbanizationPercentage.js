@@ -8,7 +8,7 @@ const urbanizationDMs = (planet) => {
   if (pcr <= 2) dm += -3 + pcr;
   else if (pcr >= 7) dm += -6 + pcr;
 
-  if (planet.techLevel >= 0 && planet.techLevel <= 3) dm -= 1;
+  if (planet.techLevel.code >= 0 && planet.techLevel.code <= 3) dm -= 1;
 
   if (planet.size === 0) dm += 2;
 
@@ -20,11 +20,11 @@ const urbanizationDMs = (planet) => {
 
   if (planet.lawLevel.code >= 9) dm += 1;
 
-  if (planet.techLevel <= 2) dm -= 2;
-  else if (planet.techLevel === 3) dm -= 1;
-  else if (planet.techLevel === 4) dm += 1;
-  else if (planet.techLevel >= 5 && planet.techLevel <= 9) dm += 2;
-  else if (planet.techLevel >= 10) dm += 1;
+  if (planet.techLevel.code <= 2) dm -= 2;
+  else if (planet.techLevel.code === 3) dm -= 1;
+  else if (planet.techLevel.code === 4) dm += 1;
+  else if (planet.techLevel.code >= 5 && planet.techLevel.code <= 9) dm += 2;
+  else if (planet.techLevel.code >= 10) dm += 1;
 
   if (isAgricultural(planet)) dm -= 2;
   if (isNonAgricultural(planet)) dm += 2;
@@ -59,10 +59,10 @@ const assignUrbanizationPercentage = (planet) => {
 
   // Maximums — collect all applicable, take most restrictive
   const maxValues = [];
-  if (planet.techLevel <= 2) maxValues.push(20 + d6());
-  else if (planet.techLevel === 3) maxValues.push(30 + d6());
-  else if (planet.techLevel === 4) maxValues.push(60 + d6());
-  else if (planet.techLevel >= 5 && planet.techLevel <= 9) maxValues.push(90 + d6());
+  if (planet.techLevel.code <= 2) maxValues.push(20 + d6());
+  else if (planet.techLevel.code === 3) maxValues.push(30 + d6());
+  else if (planet.techLevel.code === 4) maxValues.push(60 + d6());
+  else if (planet.techLevel.code >= 5 && planet.techLevel.code <= 9) maxValues.push(90 + d6());
 
   if (isAgricultural(planet)) maxValues.push(90 + d6());
 

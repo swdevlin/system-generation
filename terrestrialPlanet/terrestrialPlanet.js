@@ -6,6 +6,7 @@ const {determineTaint} = require("../atmosphere/taint");
 const Population = require("../population/Population");
 const Government = require("../government/Government");
 const LawLevel = require("../lawLevel/LawLevel");
+const TechLevel = require("../techLevel/TechLevel");
 const {randomInt} = require("../dice");
 
 const SIZE_STEP = 1600;
@@ -50,13 +51,14 @@ class TerrestrialPlanet extends StellarObject {
     this.lawLevel = new LawLevel();
     this.lawLevel.code = components ? components.lawLevel : 0;
     this.starPort = components ? components.starPort : 'X';
-    this.techLevel = components ? components.techLevel : 0;
+    this.techLevel = new TechLevel();
+    this.techLevel.code = components ? components.techLevel : 0;
     this.tradeCodes = [];
     this.albedo = 0;
   }
 
   get uwp() {
-    return `${this.starPort}${toHex(this.size)}${toHex(this.atmosphere.code)}${toHex(this.hydrographics.code)}${toHex(this.population.code)}${toHex(this.government.code)}${toHex(this.lawLevel.code)}-${toHex(this.techLevel)}`;
+    return `${this.starPort}${toHex(this.size)}${toHex(this.atmosphere.code)}${toHex(this.hydrographics.code)}${toHex(this.population.code)}${toHex(this.government.code)}${toHex(this.lawLevel.code)}-${toHex(this.techLevel.code)}`;
   }
 
   get diameter() {

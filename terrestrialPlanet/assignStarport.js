@@ -11,7 +11,7 @@ function starportDMs(planet) {
 }
 
 function assignNativeSophontStarport(planet) {
-  if (planet.techLevel < 9) planet.starPort = 'X';
+  if (planet.techLevel.code < 9) planet.starPort = 'X';
   else {
     const roll = twoD6() + starportDMs(planet);
     if (roll <= 2) planet.starPort = 'X';

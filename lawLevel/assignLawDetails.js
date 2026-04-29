@@ -5,8 +5,8 @@ const { d6, twoD6, d3} = require('../dice');
 function systemOfJustice(planet) {
   let roll = twoD6();
 
-  if (planet.techLevel === 0) roll += 4;
-  else if (planet.techLevel <= 2) roll += 2;
+  if (planet.techLevel.code === 0) roll += 4;
+  else if (planet.techLevel.code <= 2) roll += 2;
 
   if (planet.government.code === 13 || planet.government.code === 14) roll += 4;
   else {
