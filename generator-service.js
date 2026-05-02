@@ -42,6 +42,9 @@ app.use(
   })
 );
 
+app.get('/health', (_req, res) => {
+  res.status(200).json({ ok: true });
+});
 // Favicon silent handler
 app.get('/favicon.ico', (req, res) => res.status(204).end());
 

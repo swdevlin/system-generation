@@ -1,15 +1,41 @@
 services:
-  generator:
+  generator_blue:
     build:
       context: .
       dockerfile: Dockerfile
     image: system-generation:latest
-    container_name: generator
+    container_name: generator_blue
     restart: unless-stopped
     ports:
-      - "3007:3007"
+      - '127.0.0.1:3008:3007'
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://localhost:3007/health']
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
     networks:
       - kamal
+    profiles: ['blue']
+
+  generator_green:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: system-generation:latest
+    container_name: generator_green
+    restart: unless-stopped
+    ports:
+      - '127.0.0.1:3009:3007'
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://localhost:3007/health']
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+    networks:
+      - kamal
+    profiles: ['green']
 
 networks:
   kamal:
