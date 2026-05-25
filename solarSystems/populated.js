@@ -7,6 +7,10 @@ class Populated {
       return;
     }
 
+    if (spec === true || !spec.type) {
+      spec = spec === true ? { type: 'full' } : { type: 'full', ...spec };
+    }
+
     this.type = spec.type;
 
     this.allegiance = new Array(11).fill(undefined);
