@@ -2,7 +2,7 @@
   "name": "system-generation",
   "version": "0.4",
   "description": "Generate a sector of systems for Mongoose Traveller",
-  "main": "generate.js",
+  "main": "generator-service.js",
   "scripts": {
     "test": "node node_modules/mocha/bin/mocha",
     "coverage": "nyc node_modules/mocha/bin/mocha --recursive",
@@ -14,13 +14,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "commander": "^11.0.0",
     "dotenv": "^16.3.1",
     "express": "^5.2.1",
-    "js-yaml": "^4.1.1",
-    "knex": "^3.1.0",
     "morgan": "^1.10.1",
-    "pg": "^8.13.1",
     "random": "^4.1.0",
     "random-js": "^2.1.0",
     "winston": "^3.19.0"
