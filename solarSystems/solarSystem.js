@@ -648,6 +648,7 @@ class SolarSystem {
     mainWorld.lawLevel.code = Math.max(twoD6() - 7 + mainWorld.government.code, 0);
 
     mainWorld.starPort = determineStarport(mainWorld);
+    mainWorld.starport = mainWorld.starPort;
 
     this.assignBases();
 
