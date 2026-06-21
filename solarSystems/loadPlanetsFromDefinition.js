@@ -35,6 +35,21 @@ const hasBodies = (definition) => {
   return false;
 };
 
+const findStarMainWorld = (definition) => {
+  if (!definition.primary) return null;
+  const found = [];
+  const collect = (starDef) => {
+    if (starDef?.mainWorld) found.push(starDef.mainWorld);
+    if (starDef?.companion?.mainWorld) found.push(starDef.companion.mainWorld);
+  };
+  collect(definition.primary);
+  for (const d of ['close', 'near', 'far']) collect(definition.primary[d]);
+  if (found.length > 1) throw new Error('Multiple mainWorld definitions found across stars');
+  const mw = found[0];
+  if (!mw) return null;
+  return { ...mw, orbit: mw.orbit ?? 'habitable' };
+};
+
 const assignBodies = (star, definition, solarSystem) => {
   if (!definition.bodies) return;
   let loops = 1;
@@ -88,6 +103,16 @@ const loadPlanetsFromDefinition = ({ definition, solarSystem }) => {
       solarSystem.assignFromDensity(definition.counts.density);
     }
     solarSystem.mainFromDefinition = definition.counts.mainWorld || null;
+    if (!solarSystem.mainFromDefinition) {
+      solarSystem.mainFromDefinition = findStarMainWorld(definition);
+    }
+    if (!solarSystem.mainFromDefinition && definition.uwp) {
+      solarSystem.mainFromDefinition = {
+        uwp: definition.uwp,
+        name: definition.name || null,
+        orbit: definition.orbit ?? 'habitable',
+      };
+    }
   } else {
     solarSystem.gasGiants = gasGiantQuantity(solarSystem, definition.densityIndex);
     solarSystem.planetoidBelts = planetoidBeltQuantity(solarSystem, definition.densityIndex);
@@ -95,6 +120,14 @@ const loadPlanetsFromDefinition = ({ definition, solarSystem }) => {
       solarSystem,
       definition.densityIndex
     );
+    solarSystem.mainFromDefinition = findStarMainWorld(definition);
+    if (!solarSystem.mainFromDefinition && definition.uwp) {
+      solarSystem.mainFromDefinition = {
+        uwp: definition.uwp,
+        name: definition.name || null,
+        orbit: definition.orbit ?? 'habitable',
+      };
+    }
   }
   if (!hasBodies(definition)) {
     solarSystem.distributeObjects();

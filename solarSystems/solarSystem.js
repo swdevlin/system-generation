@@ -423,6 +423,7 @@ class SolarSystem {
       mainType = 'terrestrialPlanet';
     }
     if (mainType !== 'moon') {
+      mainBody.name = mainworld.name || null;
       this._mainWorld = mainBody;
       orbits.splice(i, 1);
     }

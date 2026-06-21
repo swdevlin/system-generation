@@ -5,7 +5,7 @@ const starFromDefinition = require("./starFromDefinition");
 
 const addCompanion = ({star, unusualChance, definition}) => {
   let companion;
-  if (definition) {
+  if (definition && definition.type) {
     companion = starFromDefinition(definition, ORBIT_TYPES.COMPANION, unusualChance);
   } else {
     const classification = multiStarClassification({

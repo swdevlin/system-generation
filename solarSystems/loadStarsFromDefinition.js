@@ -16,7 +16,15 @@ const loadStarsFromDefinition = ({definition, solarSystem, unusualChance}) => {
   let near;
   let far;
   if (definition.primary) {
-    primary = starFromDefinition(definition.primary, ORBIT_TYPES.PRIMARY, unusualChance);
+    if (definition.primary.type) {
+      primary = starFromDefinition(definition.primary, ORBIT_TYPES.PRIMARY, unusualChance);
+    } else {
+      const classification = determineStarClassification({ unusualChance: unusualChance });
+      primary = new Star(classification, ORBIT_TYPES.PRIMARY);
+      if (definition.primary.companion) {
+        addCompanion({ star: primary, unusualChance: unusualChance, definition: definition.primary.companion });
+      }
+    }
     solarSystem.addPrimary(primary);
     if (definition.primary.close) {
       const classification = (definition.primary.close.type) ? predefinedClassification(definition.primary.close) : null;
