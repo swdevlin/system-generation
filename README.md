@@ -6,8 +6,8 @@ This project automates building solar systems using
 
 This project was created to support a
 [Deepnight Revelation](https://www.mongoosepublishing.com/products/deepnight-revelation-core-set) 
-campaign. As such, no effort has been made to support building systems in
-charted space.
+campaign. While it skews towards an exploration campaign, it can
+be used to generate system details in charted space.
 
 # Changes from book
 

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { Random } = require('random-js');
 const toJSON = require('../utils/toJSON');
-const generateStarSystem = require('./generateStarSystem');
+const generateStarSystem = require('../solarSystems/generateStarSystem');
 const Populated = require('../solarSystems/populated');
 
 const r = new Random();

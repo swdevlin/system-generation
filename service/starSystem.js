@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const toJSON = require("../utils/toJSON");
-const generateStarSystem = require("./generateStarSystem");
+const generateStarSystem = require("../solarSystems/generateStarSystem");
 
 router.post('/', (req, res) => {
     const { subsector, ...definition } = req.body;

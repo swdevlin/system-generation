@@ -4,7 +4,7 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const express = require('express');
 const subsectorRouter = require('../service/subsector');
-const generateStarSystem = require('../service/generateStarSystem');
+const generateStarSystem = require('../solarSystems/generateStarSystem');
 
 chai.use(chaiHttp);
 chai.should();

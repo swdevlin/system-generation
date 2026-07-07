@@ -1,7 +1,7 @@
 'use strict';
 
 const chai = require('chai');
-const generateStarSystem = require('../service/generateStarSystem');
+const generateStarSystem = require('../solarSystems/generateStarSystem');
 const { deconstructUWP } = require('../utils');
 
 chai.should();

@@ -1,12 +1,11 @@
-const loadStarsFromDefinition = require('../solarSystems/loadStarsFromDefinition');
-const assignStars = require('../solarSystems/assignStars');
-const loadPlanetsFromDefinition = require('../solarSystems/loadPlanetsFromDefinition');
+const loadStarsFromDefinition = require('./loadStarsFromDefinition');
+const assignStars = require('./assignStars');
+const loadPlanetsFromDefinition = require('./loadPlanetsFromDefinition');
 const { gasGiantQuantity } = require('../gasGiants/gasGiant');
 const { planetoidBeltQuantity } = require('../planetoidBelts');
 const terrestrialPlanetQuantity = require('../terrestrialPlanet/terrestrialPlanetQuantity');
-const SolarSystem = require('../solarSystems/solarSystem');
-const Populated = require('../solarSystems/populated');
-const toJSON = require('../utils/toJSON');
+const SolarSystem = require('./solarSystem');
+const Populated = require('./populated');
 
 const generateStarSystem = (definition, subsector, row, col) => {
   const sector = { unusualChance: subsector?.unusualChance || 0 };
