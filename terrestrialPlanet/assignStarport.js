@@ -37,8 +37,45 @@ function determineStarport(planet) {
   else return 'A';
 }
 
+const determineBases = (starport) => {
+  let navalTN = null;
+  let scoutTN = null;
+  let militaryTN = null;
+
+  switch (starport) {
+    case 'A':
+      navalTN = 8;
+      scoutTN = 10;
+      militaryTN = 8;
+      break;
+    case 'B':
+      navalTN = 8;
+      scoutTN = 9;
+      militaryTN = 8;
+      break;
+    case 'C':
+      scoutTN = 9;
+      militaryTN = 10;
+      break;
+    case 'D':
+      scoutTN = 8;
+      break;
+  }
+  let bases = [];
+
+  if (navalTN && twoD6() >= navalTN)
+    bases.push('N');
+  if (scoutTN && twoD6() >= scoutTN)
+    bases.push('S');
+  if (militaryTN && twoD6() >= militaryTN)
+    bases.push('M');
+
+  return bases;
+};
+
 module.exports = {
-  assignNativeSophontStarport: assignNativeSophontStarport,
-  determineStarport: determineStarport,
-  starportDMs: starportDMs,
+  assignNativeSophontStarport,
+  determineStarport,
+  determineBases,
+  starportDMs,
 };

@@ -16,8 +16,9 @@ const generateStarSystem = (definition, subsector, row, col) => {
 
   if (definition) {
     solarSystem.known = definition.known ? definition.known : false;
-    if (definition.bases) {
+    if (definition.bases !== undefined) {
       solarSystem.bases = definition.bases;
+      solarSystem.basesFromDefinition = true;
     }
     loadStarsFromDefinition({
       sector: sector,

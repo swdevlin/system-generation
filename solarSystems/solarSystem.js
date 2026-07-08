@@ -38,7 +38,7 @@ const superEarthWorldSize = require('../terrestrialPlanet/superEarthWorldSize');
 const assignPhysicalCharacteristics = require('../terrestrialPlanet/assignPhysicalCharacteristics');
 const assignSocialCharacteristics = require('../terrestrialPlanet/assignSocialCharacteristics');
 const summaryBlock = require('../stars/summaryBlock');
-const { determineStarport } = require('../terrestrialPlanet/assignStarport');
+const { determineStarport, determineBases } = require('../terrestrialPlanet/assignStarport');
 const { techLevelDMs } = require('../terrestrialPlanet/assignTechLevel');
 const { applyPopulationDetails } = require('../population/applyPopulationDetails');
 const systemDensity = require('../utils/systemDensity');
@@ -65,6 +65,7 @@ class SolarSystem {
     this.scanPoints = 0;
     this._mainWorld = null;
     this.bases = [];
+    this.basesFromDefinition = false;
     this.remarks = '';
     this.surveyIndex = 0;
     this.allegiance = null;
@@ -657,28 +658,8 @@ class SolarSystem {
   }
 
   assignBases() {
-    const bases = [];
-    if (this.mainWorld.starPort === 'A') {
-      if (twoD6() >= 8) bases.push('M');
-      if (twoD6() >= 8) bases.push('N');
-      if (twoD6() >= 10) bases.push('S');
-    } else if (this.mainWorld.starPort === 'B') {
-      if (twoD6() >= 8) bases.push('M');
-      if (twoD6() >= 8) bases.push('N');
-      if (twoD6() >= 9) bases.push('S');
-    } else if (this.mainWorld.starPort === 'C') {
-      if (twoD6() >= 10) bases.push('M');
-      if (twoD6() >= 9) bases.push('S');
-    } else if (this.mainWorld.starPort === 'D') {
-      if (twoD6() >= 12) bases.push('C');
-      if (twoD6() >= 8) bases.push('S');
-    } else if (this.mainWorld.starPort === 'E') {
-      if (twoD6() >= 10) bases.push('C');
-      if (twoD6() >= 8) bases.push('S');
-    } else if (this.mainWorld.starPort === 'X') {
-      if (twoD6() >= 10) bases.push('C');
-    }
-    this.bases = bases;
+    if (this.basesFromDefinition) return;
+    this.bases = determineBases(this.mainWorld.starPort);
   }
 
   assignTidalLock() {
