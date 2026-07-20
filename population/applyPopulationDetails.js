@@ -8,8 +8,10 @@ const { assignGovernmentDetails } = require('../government/assignGovernmentDetai
 const { assignEconomics } = require('./assignEconomics');
 const { assignLawDetails } = require('../lawLevel/assignLawDetails');
 const { assignTechLevelDetails } = require('../techLevel/assignTechLevelDetails');
+const { assignCensus } = require('./assignCensus');
 
 const applyPopulationDetails = (star, planet, starSystem) => {
+  assignCensus(planet.population);
   assignConcentrationRating(star, planet);
   assignUrbanizationPercentage(planet);
   assignMajorCities(planet);

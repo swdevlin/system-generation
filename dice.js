@@ -4,6 +4,15 @@ const rng = new Random();
 
 const ROLL_CACHE = [];
 
+const INT_CACHE = new Map();
+const intCacheKey = (min, max) => `${min}:${max}`;
+
+const queueRandomInt = (min, max, ...values) => {
+  const key = intCacheKey(min, max);
+  if (!INT_CACHE.has(key)) INT_CACHE.set(key, []);
+  INT_CACHE.get(key).push(...values);
+}
+
 const DICE_LOG = [];
 
 const logIt = (r) => {
@@ -78,11 +87,15 @@ const percentageChance = (p) => {
 }
 
 const randomInt = (min, max) => {
+  const cache = INT_CACHE.get(intCacheKey(min, max));
+  if (cache && cache.length)
+    return cache.shift();
   return rng.integer(min, max);
 }
 
 const clearCache = () => {
   ROLL_CACHE.length = 0;
+  INT_CACHE.clear();
 }
 
 module.exports = {
@@ -101,6 +114,7 @@ module.exports = {
   percentageChance: percentageChance,
   randomInt: randomInt,
   ROLL_CACHE: ROLL_CACHE,
+  queueRandomInt: queueRandomInt,
   clearCache: clearCache,
   DICE_LOG: DICE_LOG,
 }

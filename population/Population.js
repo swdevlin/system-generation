@@ -1,4 +1,3 @@
-
 class Population {
   constructor() {
     this.code = 0;
@@ -6,6 +5,9 @@ class Population {
     this.urbanizationPercentage = null;
     this.majorCities = null;
     this.majorCityPopulation = null;
+    this.censusPopulation = null;
+    this.totalUrbanPopulation = null;
+    this.majorCityPopulations = [];
   }
 }
 
