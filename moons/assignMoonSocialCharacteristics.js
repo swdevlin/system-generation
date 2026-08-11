@@ -3,17 +3,20 @@ const assignPopulation = require('../population/assignPopulation');
 const { assignNativeSophontStarport } = require('../terrestrialPlanet/assignStarport');
 const { assignNativeSophontTechLevel, assignTechLevel } = require('../terrestrialPlanet/assignTechLevel');
 const { assignTradeCodes } = require('../economics/assignTradeCodes');
+const { rollGovernmentCode } = require('../government/rollGovernmentCode');
 
 const assignMoonSocialCharacteristics = (star, moon, {
   maxNativeSophontTechLevel = 15,
   nativeTech = true,
   allowCaptiveGovernment = true,
+  governmentTypes,
 } = {}) => {
   assignPopulation(star, moon);
 
-  do {
-    moon.government.code = Math.max(twoD6() - 7 + moon.population.code, 0);
-  } while (moon.government.code === 6 && !allowCaptiveGovernment);
+  moon.government.code = rollGovernmentCode(moon.population.code, {
+    allowCaptiveGovernment,
+    governmentTypes,
+  });
 
   moon.lawLevel.code = Math.max(twoD6() - 7 + moon.government.code, 0);
 

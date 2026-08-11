@@ -40,6 +40,7 @@ const generateStarSystem = (definition, subsector, row, col) => {
   solarSystem.nativeTech = definition?.nativeTech ?? subsector?.nativeTech ?? true;
   solarSystem.allowCaptiveGovernment =
     definition?.allowCaptiveGovernment ?? subsector?.allowCaptiveGovernment ?? true;
+  solarSystem.governmentTypes = definition?.governmentTypes ?? subsector?.governmentTypes;
   solarSystem.assignSurveyIndex(si);
 
   solarSystem.determineAvailableOrbits();

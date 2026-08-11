@@ -37,6 +37,7 @@ const terrestrialDensity = require('../terrestrialPlanet/terrestrialDensity');
 const superEarthWorldSize = require('../terrestrialPlanet/superEarthWorldSize');
 const assignPhysicalCharacteristics = require('../terrestrialPlanet/assignPhysicalCharacteristics');
 const assignSocialCharacteristics = require('../terrestrialPlanet/assignSocialCharacteristics');
+const { rollGovernmentCode } = require('../government/rollGovernmentCode');
 const summaryBlock = require('../stars/summaryBlock');
 const { determineStarport, determineBases } = require('../terrestrialPlanet/assignStarport');
 const { techLevelDMs } = require('../terrestrialPlanet/assignTechLevel');
@@ -624,9 +625,10 @@ class SolarSystem {
     );
     mainWorld.population.code = Math.max(0, mainWorld.population.code);
 
-    do {
-      mainWorld.government.code = Math.max(twoD6() - 7 + mainWorld.population.code, 0);
-    } while (mainWorld.government.code === 6 && !this.allowCaptiveGovernment);
+    mainWorld.government.code = rollGovernmentCode(mainWorld.population.code, {
+      allowCaptiveGovernment: this.allowCaptiveGovernment,
+      governmentTypes: this.governmentTypes,
+    });
 
     mainWorld.lawLevel.code = Math.max(twoD6() - 7 + mainWorld.government.code, 0);
 
@@ -696,6 +698,7 @@ class SolarSystem {
               maxNativeSophontTechLevel: this.maxNativeSophontTechLevel,
               nativeTech: this.nativeTech,
               allowCaptiveGovernment: this.allowCaptiveGovernment,
+              governmentTypes: this.governmentTypes,
             });
           }
           for (const moon of stellarObject.moons) {
@@ -706,6 +709,7 @@ class SolarSystem {
                 maxNativeSophontTechLevel: this.maxNativeSophontTechLevel,
                 nativeTech: this.nativeTech,
                 allowCaptiveGovernment: this.allowCaptiveGovernment,
+                governmentTypes: this.governmentTypes,
               });
             }
           }
