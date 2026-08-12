@@ -1,17 +1,25 @@
 const { twoD6, randomInt } = require('../dice');
 
 const rollGovernmentCode = (populationCode, { allowCaptiveGovernment = true, governmentTypes } = {}) => {
-  const isPermitted = (code) => !governmentTypes || governmentTypes.includes(code);
+  const allowedTypes = governmentTypes && !allowCaptiveGovernment
+    ? governmentTypes.filter((c) => c !== 6)
+    : governmentTypes;
+
+  const isValid = (code) =>
+    (allowedTypes ? allowedTypes.includes(code) : allowCaptiveGovernment || code !== 6);
 
   let code;
   let attempts = 0;
   do {
     code = Math.max(twoD6() - 7 + populationCode, 0);
     attempts++;
-  } while (((code === 6 && !allowCaptiveGovernment) || !isPermitted(code)) && attempts < 100);
+  } while (!isValid(code) && attempts < 100);
 
-  if (!isPermitted(code) && governmentTypes?.length) {
-    code = governmentTypes[randomInt(0, governmentTypes.length - 1)];
+  if (!isValid(code) && allowedTypes) {
+    if (!allowedTypes.length) {
+      throw new Error('governmentTypes has no code satisfying allowCaptiveGovernment: false');
+    }
+    code = allowedTypes[randomInt(0, allowedTypes.length - 1)];
   }
 
   return code;

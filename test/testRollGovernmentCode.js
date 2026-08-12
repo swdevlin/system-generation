@@ -50,4 +50,21 @@ describe('rollGovernmentCode', function () {
     const code = rollGovernmentCode(0, { governmentTypes: [99] });
     code.should.equal(99);
   });
+
+  it('fallback never returns 6 when allowCaptiveGovernment is false, even if 6 is permitted', function () {
+    for (let i = 0; i < 20; i++) {
+      clearCache();
+      const code = rollGovernmentCode(0, {
+        allowCaptiveGovernment: false,
+        governmentTypes: [6, 99],
+      });
+      code.should.equal(99);
+    }
+  });
+
+  it('throws when governmentTypes only contains 6 and allowCaptiveGovernment is false', function () {
+    (() => rollGovernmentCode(0, { allowCaptiveGovernment: false, governmentTypes: [6] })).should.throw(
+      /governmentTypes/
+    );
+  });
 });

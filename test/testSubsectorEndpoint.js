@@ -54,6 +54,25 @@ describe('POST /subsector', function () {
       });
     });
   });
+
+  describe('governmentTypes validation', function () {
+    it('returns 400 when the subsector governmentTypes is an empty array', function () {
+      return post({ type: 'EMPTY', governmentTypes: [] }).then((res) => {
+        res.should.have.status(400);
+        res.body.should.have.property('error');
+      });
+    });
+
+    it('returns 400 when a predefined system governmentTypes is an empty array', function () {
+      return post({
+        type: 'EMPTY',
+        systems: [{ x: 1, y: 1, uwp: 'B874409-A', governmentTypes: [] }],
+      }).then((res) => {
+        res.should.have.status(400);
+        res.body.should.have.property('error');
+      });
+    });
+  });
 });
 
 // Logic-level tests for subsector behaviours.

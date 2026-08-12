@@ -4,6 +4,7 @@ const { Random } = require('random-js');
 const toJSON = require('../utils/toJSON');
 const generateStarSystem = require('../solarSystems/generateStarSystem');
 const Populated = require('../solarSystems/populated');
+const { hasEmptyGovernmentTypes } = require('./validateGovernmentTypes');
 
 const r = new Random();
 
@@ -45,6 +46,16 @@ const coordinate = (col, row) => {
 
 router.post('/', (req, res) => {
   const subsector = req.body;
+
+  if (hasEmptyGovernmentTypes(subsector)) {
+    return res.status(400).json({ error: 'governmentTypes must not be an empty array' });
+  }
+  for (const s of [...(subsector.systems ?? []), ...(subsector.required ?? [])]) {
+    if (hasEmptyGovernmentTypes(s)) {
+      return res.status(400).json({ error: 'governmentTypes must not be an empty array' });
+    }
+  }
+
   const systems = [];
 
   for (let col = 1; col <= 8; col++)
