@@ -630,7 +630,10 @@ class SolarSystem {
       governmentTypes: this.governmentTypes,
     });
 
-    mainWorld.lawLevel.code = Math.max(twoD6() - 7 + mainWorld.government.code, 0);
+    mainWorld.lawLevel.code = Math.min(
+      populated.maxLawLevel,
+      Math.max(populated.minLawLevel, twoD6() - 7 + mainWorld.government.code)
+    );
 
     mainWorld.starPort = determineStarport(mainWorld);
 

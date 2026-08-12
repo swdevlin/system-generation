@@ -20,6 +20,8 @@ class Populated {
       this.before = {
         minTechLevel: spec.minTechLevel,
         maxTechLevel: spec.maxTechLevel,
+        minLawLevel: spec.minLawLevel,
+        maxLawLevel: spec.maxLawLevel,
         minPopulationCode: spec.minPopulationCode || 0,
         maxPopulationCode: spec.maxPopulationCode || 15,
         populationDM: spec.populationDM || 0,
@@ -34,6 +36,8 @@ class Populated {
     if (this.before) {
       this.before['minTechLevel'] ||= 0;
       this.before['maxTechLevel'] ||= 16;
+      this.before['minLawLevel'] ||= 0;
+      this.before['maxLawLevel'] ||= 16;
       this.before['minPopulationCode'] ||= 0;
       this.before['maxPopulationCode'] ||= 16;
       this.before['populationDM'] ??= 0;
@@ -42,6 +46,8 @@ class Populated {
     if (this.after) {
       this.after['minTechLevel'] ||= 0;
       this.after['maxTechLevel'] ||= 16;
+      this.after['minLawLevel'] ||= 0;
+      this.after['maxLawLevel'] ||= 16;
       this.after['minPopulationCode'] ||= 0;
       this.after['maxPopulationCode'] ||= 16;
       this.after['populationDM'] ??= 0;

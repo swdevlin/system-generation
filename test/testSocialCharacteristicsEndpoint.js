@@ -154,6 +154,52 @@ describe('POST /social_characteristics', function () {
     });
   });
 
+  describe('law level range', function () {
+    it('result stays within min/max bounds across many rolls', function () {
+      const requests = Array.from({ length: 20 }, () =>
+        post({ system: makeSystem(), population: { min: 6, max: 6 }, lawLevel: { min: 3, max: 7 } })
+      );
+      return Promise.all(requests).then((results) => {
+        for (const res of results) {
+          res.should.have.status(200);
+          res.body.world.lawLevel.code.should.be.at.least(3);
+          res.body.world.lawLevel.code.should.be.at.most(7);
+        }
+      });
+    });
+
+    it('applies only min when max is omitted', function () {
+      const requests = Array.from({ length: 20 }, () =>
+        post({ system: makeSystem(), population: {}, lawLevel: { min: 5 } })
+      );
+      return Promise.all(requests).then((results) => {
+        for (const res of results) {
+          res.should.have.status(200);
+          res.body.world.lawLevel.code.should.be.at.least(5);
+        }
+      });
+    });
+
+    it('applies only max when min is omitted', function () {
+      const requests = Array.from({ length: 20 }, () =>
+        post({ system: makeSystem(), population: {}, lawLevel: { max: 2 } })
+      );
+      return Promise.all(requests).then((results) => {
+        for (const res of results) {
+          res.should.have.status(200);
+          res.body.world.lawLevel.code.should.be.at.most(2);
+        }
+      });
+    });
+
+    it('rolls freely when lawLevel is omitted entirely', function () {
+      return post({ system: makeSystem(), population: {} }).then((res) => {
+        res.should.have.status(200);
+        res.body.world.lawLevel.code.should.be.a('number').and.at.least(0);
+      });
+    });
+  });
+
   describe('omitted optional fields', function () {
     it('rolls government, law level, and tech level when omitted', function () {
       return post({ system: makeSystem(), population: { min: 5, max: 5 } }).then((res) => {
@@ -392,6 +438,27 @@ describe('POST /social_characteristics', function () {
       return post({ system: makeSystem(), population: {}, lawLevel: -1 }).then((res) => {
         res.should.have.status(400);
         res.body.error.should.equal('lawLevel must be at least 0');
+      });
+    });
+
+    it('returns 400 when lawLevel min is negative', function () {
+      return post({ system: makeSystem(), population: {}, lawLevel: { min: -1 } }).then((res) => {
+        res.should.have.status(400);
+        res.body.error.should.equal('lawLevel min must be a non-negative integer');
+      });
+    });
+
+    it('returns 400 when lawLevel range min exceeds max', function () {
+      return post({ system: makeSystem(), population: {}, lawLevel: { min: 7, max: 3 } }).then((res) => {
+        res.should.have.status(400);
+        res.body.error.should.equal('lawLevel.min must not exceed lawLevel.max');
+      });
+    });
+
+    it('returns 400 when lawLevel is an array', function () {
+      return post({ system: makeSystem(), population: {}, lawLevel: [1, 2] }).then((res) => {
+        res.should.have.status(400);
+        res.body.error.should.equal('lawLevel must be a number or an object with min/max');
       });
     });
 

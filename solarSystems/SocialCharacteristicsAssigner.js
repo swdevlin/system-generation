@@ -56,9 +56,23 @@ class SocialCharacteristicsAssigner {
     const law = this.spec.lawLevel;
     if (typeof law === 'number') {
       this.world.lawLevel.code = law;
-    } else {
-      this.world.lawLevel.code = Math.max(twoD6() - 7 + this.world.government.code, 0);
+      return;
     }
+    let roll;
+    let attempts = 0;
+    do {
+      roll = Math.max(twoD6() - 7 + this.world.government.code, 0);
+      attempts++;
+    } while (
+      attempts < 100 &&
+      law &&
+      ((law.min !== undefined && roll < law.min) || (law.max !== undefined && roll > law.max))
+    );
+    if (law) {
+      if (law.min !== undefined) roll = Math.max(law.min, roll);
+      if (law.max !== undefined) roll = Math.min(law.max, roll);
+    }
+    this.world.lawLevel.code = roll;
   }
 
   assignStarport() {

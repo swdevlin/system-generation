@@ -28,6 +28,8 @@ describe('Populated', function () {
       const zone = new Populated(true).getAllegiance(0, 0);
       zone.minTechLevel.should.equal(0);
       zone.maxTechLevel.should.equal(16);
+      zone.minLawLevel.should.equal(0);
+      zone.maxLawLevel.should.equal(16);
       zone.minPopulationCode.should.equal(0);
       zone.maxPopulationCode.should.equal(15);
       zone.populationDM.should.equal(0);
@@ -40,6 +42,8 @@ describe('Populated', function () {
       const zone = new Populated({}).getAllegiance(0, 0);
       zone.minTechLevel.should.equal(0);
       zone.maxTechLevel.should.equal(16);
+      zone.minLawLevel.should.equal(0);
+      zone.maxLawLevel.should.equal(16);
       zone.minPopulationCode.should.equal(0);
       zone.maxPopulationCode.should.equal(15);
       zone.populationDM.should.equal(0);
@@ -65,6 +69,17 @@ describe('Populated', function () {
       zone.maxPopulationCode.should.equal(8);
     });
 
+    it('uses provided minLawLevel and defaults the rest', function () {
+      const zone = new Populated({ minLawLevel: 3 }).getAllegiance(0, 0);
+      zone.minLawLevel.should.equal(3);
+      zone.maxLawLevel.should.equal(16);
+    });
+
+    it('uses provided maxLawLevel', function () {
+      const zone = new Populated({ maxLawLevel: 9 }).getAllegiance(0, 0);
+      zone.maxLawLevel.should.equal(9);
+    });
+
     it('uses provided populationDM', function () {
       const zone = new Populated({ populationDM: 2 }).getAllegiance(0, 0);
       zone.populationDM.should.equal(2);
@@ -79,6 +94,8 @@ describe('Populated', function () {
       const zone = new Populated({
         minTechLevel: 5,
         maxTechLevel: 12,
+        minLawLevel: 2,
+        maxLawLevel: 8,
         minPopulationCode: 3,
         maxPopulationCode: 9,
         populationDM: 1,
@@ -86,6 +103,8 @@ describe('Populated', function () {
       }).getAllegiance(0, 0);
       zone.minTechLevel.should.equal(5);
       zone.maxTechLevel.should.equal(12);
+      zone.minLawLevel.should.equal(2);
+      zone.maxLawLevel.should.equal(8);
       zone.minPopulationCode.should.equal(3);
       zone.maxPopulationCode.should.equal(9);
       zone.populationDM.should.equal(1);

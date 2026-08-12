@@ -48,8 +48,24 @@ function validateRequest(req, res, next) {
   }
 
   if (lawLevel !== undefined) {
-    if (!Number.isInteger(lawLevel) || lawLevel < 0)
-      return res.status(400).json({ error: 'lawLevel must be at least 0' });
+    if (typeof lawLevel === 'number') {
+      if (!Number.isInteger(lawLevel) || lawLevel < 0)
+        return res.status(400).json({ error: 'lawLevel must be at least 0' });
+    } else if (typeof lawLevel === 'object' && lawLevel !== null && !Array.isArray(lawLevel)) {
+      const { min, max } = lawLevel;
+      if (min !== undefined) {
+        if (!Number.isInteger(min) || min < 0)
+          return res.status(400).json({ error: 'lawLevel min must be a non-negative integer' });
+      }
+      if (max !== undefined) {
+        if (!Number.isInteger(max) || max < 0)
+          return res.status(400).json({ error: 'lawLevel max must be a non-negative integer' });
+      }
+      if (min !== undefined && max !== undefined && min > max)
+        return res.status(400).json({ error: 'lawLevel.min must not exceed lawLevel.max' });
+    } else {
+      return res.status(400).json({ error: 'lawLevel must be a number or an object with min/max' });
+    }
   }
 
   if (techLevel !== undefined) {
