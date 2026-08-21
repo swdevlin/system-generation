@@ -1,7 +1,7 @@
 const { twoD6 } = require('../dice');
 const assignPopulation = require('../population/assignPopulation');
 const { assignNativeSophontStarport } = require('../terrestrialPlanet/assignStarport');
-const { assignNativeSophontTechLevel, assignTechLevel } = require('../terrestrialPlanet/assignTechLevel');
+const TechLevelGenerator = require('../techLevel/TechLevelGenerator');
 const { assignTradeCodes } = require('../economics/assignTradeCodes');
 const { rollGovernmentCode } = require('../government/rollGovernmentCode');
 
@@ -21,10 +21,9 @@ const assignMoonSocialCharacteristics = (star, moon, {
   moon.lawLevel.code = Math.max(twoD6() - 7 + moon.government.code, 0);
 
   if (nativeTech) {
-    assignNativeSophontTechLevel(star, moon, maxNativeSophontTechLevel);
+    TechLevelGenerator.computeNativeTechLevel(star, moon, { max: maxNativeSophontTechLevel });
   } else {
-    assignTechLevel(moon);
-    moon.techLevel.code = Math.min(maxNativeSophontTechLevel, Math.max(1, moon.techLevel.code));
+    TechLevelGenerator.computeTechLevel(moon, { min: 1, max: maxNativeSophontTechLevel });
   }
 
   assignNativeSophontStarport(moon);

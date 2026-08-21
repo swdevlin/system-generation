@@ -4,13 +4,16 @@ const chai = require('chai');
 
 const TerrestrialPlanet = require('../terrestrialPlanet/terrestrialPlanet');
 const { clearCache } = require('../dice');
-const { techLevelDMs, nativeSophontTechLevelDMs } = require('../terrestrialPlanet/assignTechLevel');
+const TechLevelGenerator = require('../techLevel/TechLevelGenerator');
+const techLevelDMs = (planet) => TechLevelGenerator.techLevelDMs(planet);
+const nativeSophontTechLevelDMs = (star, planet) =>
+  TechLevelGenerator.nativeSophontTechLevelDMs(star, planet);
 const Star = require('../stars/star');
 const { ORBIT_TYPES } = require('../utils');
 
 chai.should();
 
-describe('Tech level tests', function () {
+describe('TechLevelGenerator.techLevelDMs', function () {
   let planet;
 
   beforeEach(() => {
@@ -174,7 +177,7 @@ describe('Tech level tests', function () {
   });
 });
 
-describe('Tech level tests', function () {
+describe('TechLevelGenerator.nativeSophontTechLevelDMs', function () {
   let planet;
   let star;
 

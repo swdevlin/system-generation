@@ -7,7 +7,7 @@ const { assignCulture } = require('./assignCulture');
 const { assignGovernmentDetails } = require('../government/assignGovernmentDetails');
 const { assignEconomics } = require('./assignEconomics');
 const { assignLawDetails } = require('../lawLevel/assignLawDetails');
-const { assignTechLevelDetails } = require('../techLevel/assignTechLevelDetails');
+const TechLevelGenerator = require('../techLevel/TechLevelGenerator');
 const { assignCensus } = require('./assignCensus');
 
 const applyPopulationDetails = (star, planet, starSystem) => {
@@ -19,7 +19,7 @@ const applyPopulationDetails = (star, planet, starSystem) => {
   assignGovernmentDetails(planet);
   assignEconomics(starSystem, planet);
   assignLawDetails(planet);
-  assignTechLevelDetails(planet);
+  TechLevelGenerator.computeTechLevelDetails(planet);
 };
 
 module.exports = { applyPopulationDetails };

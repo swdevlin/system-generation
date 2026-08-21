@@ -1,6 +1,6 @@
 const {twoD6} = require("../dice");
 const {assignNativeSophontStarport} = require("./assignStarport");
-const {assignNativeSophontTechLevel, assignTechLevel} = require("./assignTechLevel");
+const TechLevelGenerator = require("../techLevel/TechLevelGenerator");
 const assignPopulation = require("../population/assignPopulation");
 const {assignTradeCodes} = require("../economics/assignTradeCodes");
 const { rollGovernmentCode } = require("../government/rollGovernmentCode");
@@ -25,10 +25,9 @@ const assignSocialCharacteristics = (star, planet, {
   // todo: flesh out law level
 
   if (nativeTech) {
-    assignNativeSophontTechLevel(star, planet, maxNativeSophontTechLevel);
+    TechLevelGenerator.computeNativeTechLevel(star, planet, { max: maxNativeSophontTechLevel });
   } else {
-    assignTechLevel(planet);
-    planet.techLevel.code = Math.min(maxNativeSophontTechLevel, Math.max(1, planet.techLevel.code));
+    TechLevelGenerator.computeTechLevel(planet, { min: 1, max: maxNativeSophontTechLevel });
   }
 
   assignNativeSophontStarport(planet);

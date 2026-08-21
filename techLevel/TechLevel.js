@@ -3,6 +3,11 @@
 class TechLevel {
   constructor() {
     this.code = 0;
+    this.dm = null;
+    this.environmentMinTechLevel = null;
+    this.min = null;
+    this.max = null;
+    this.floorExceededCeiling = false;
     this.energy = null;
     this.electronics = null;
     this.manufacturing = null;

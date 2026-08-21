@@ -40,7 +40,7 @@ const assignSocialCharacteristics = require('../terrestrialPlanet/assignSocialCh
 const { rollGovernmentCode } = require('../government/rollGovernmentCode');
 const summaryBlock = require('../stars/summaryBlock');
 const { determineStarport, determineBases } = require('../terrestrialPlanet/assignStarport');
-const { techLevelDMs } = require('../terrestrialPlanet/assignTechLevel');
+const TechLevelGenerator = require('../techLevel/TechLevelGenerator');
 const { applyPopulationDetails } = require('../population/applyPopulationDetails');
 const systemDensity = require('../utils/systemDensity');
 const { assignTradeCodes } = require('../economics/assignTradeCodes');
@@ -639,10 +639,10 @@ class SolarSystem {
 
     this.assignBases();
 
-    mainWorld.techLevel.code = Math.min(
-      populated.maxTechLevel,
-      Math.max(populated.minTechLevel, d6() + techLevelDMs(mainWorld))
-    );
+    TechLevelGenerator.computeTechLevel(mainWorld, {
+      min: populated.minTechLevel,
+      max: populated.maxTechLevel,
+    });
 
     this.allegiance = populated.allegiance;
   }

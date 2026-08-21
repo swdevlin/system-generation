@@ -1,8 +1,8 @@
 'use strict';
 
-const { twoD6, d6 } = require('../dice');
+const { twoD6 } = require('../dice');
 const { determineStarport } = require('../terrestrialPlanet/assignStarport');
-const { techLevelDMs } = require('../terrestrialPlanet/assignTechLevel');
+const TechLevelGenerator = require('../techLevel/TechLevelGenerator');
 const { assignTradeCodes } = require('../economics/assignTradeCodes');
 const { applyPopulationDetails } = require('../population/applyPopulationDetails');
 
@@ -76,31 +76,20 @@ class SocialCharacteristicsAssigner {
   }
 
   assignStarport() {
-    const sp = this.spec.starport !== undefined ? this.spec.starport : determineStarport(this.world);
+    const sp =
+      this.spec.starport !== undefined ? this.spec.starport : determineStarport(this.world);
     this.world.starPort = sp;
     this.world.starport = sp;
   }
 
   assignTechLevel() {
     if (typeof this.world.techLevel !== 'object' || this.world.techLevel === null) {
-      this.world.techLevel = { code: typeof this.world.techLevel === 'number' ? this.world.techLevel : 0 };
+      this.world.techLevel = {
+        code: typeof this.world.techLevel === 'number' ? this.world.techLevel : 0,
+      };
     }
     const tl = this.spec.techLevel;
-    let roll;
-    let attempts = 0;
-    do {
-      roll = d6() + techLevelDMs(this.world);
-      attempts++;
-    } while (
-      attempts < 100 &&
-      tl &&
-      ((tl.min !== undefined && roll < tl.min) || (tl.max !== undefined && roll > tl.max))
-    );
-    if (tl) {
-      if (tl.min !== undefined) roll = Math.max(tl.min, roll);
-      if (tl.max !== undefined) roll = Math.min(tl.max, roll);
-    }
-    this.world.techLevel.code = roll;
+    TechLevelGenerator.computeTechLevel(this.world, { min: tl?.min, max: tl?.max });
   }
 }
 
