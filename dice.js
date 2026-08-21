@@ -91,7 +91,7 @@ const randomInt = (min, max) => {
 const randomFloat = (min, max) => {
   const cache = INT_CACHE.get(intCacheKey(min, max));
   if (cache && cache.length) return cache.shift();
-  return rng.real(0, 360, true);
+  return rng.real(min, max, true);
 };
 
 const clearCache = () => {

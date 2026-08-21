@@ -1,17 +1,34 @@
 const StellarClassification = require("./StellarClassification");
 const giantsStellarClassLookup = require("../lookups/giantsStellarClassLookup");
+const { isBrownDwarf, STELLAR_TYPES } = require("../utils");
+
+const ANOMALY_TYPES = new Set([
+  STELLAR_TYPES.WhiteDwarf,
+  STELLAR_TYPES.BrownDwarf,
+  STELLAR_TYPES.BlackHole,
+  STELLAR_TYPES.Pulsar,
+  STELLAR_TYPES.NeutronStar,
+  STELLAR_TYPES.StarCluster,
+  STELLAR_TYPES.Anomaly,
+  STELLAR_TYPES.Nebula,
+  STELLAR_TYPES.Protostar,
+]);
 
 const predefinedClassification = (star) => {
   const classification = new StellarClassification();
 
-  if (star.type === 'BD')
-    classification.stellarType = 'BD';
-  else if (star.type === 'NS')
-    classification.stellarType = 'NS';
-  else {
+  if (ANOMALY_TYPES.has(star.type)) {
+    classification.stellarType = star.type;
+    classification.isProtostar = star.type === STELLAR_TYPES.Protostar;
+  } else {
     const tokens = star.type.split('');
 
-    if (star.class) {
+    classification.stellarType = tokens[0];
+    classification.subtype = parseInt(tokens[1]);
+
+    if (isBrownDwarf(classification.stellarType)) {
+      classification.stellarClass = '';
+    } else if (star.class) {
       if (star.class.toLowerCase() === 'giant')
         classification.stellarClass = giantsStellarClassLookup();
       else
@@ -19,9 +36,6 @@ const predefinedClassification = (star) => {
     } else {
       classification.stellarClass = 'V';
     }
-    classification.stellarType = tokens[0];
-    classification.subtype = parseInt(tokens[1]);
-
   }
 
   return classification;

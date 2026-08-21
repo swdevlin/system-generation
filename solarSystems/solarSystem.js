@@ -48,7 +48,7 @@ const assignTidalLock = require('../tidalLock/assignTidalLock');
 const calcRotation = require('../utils/calcRotation');
 
 const { GasGiant } = require('../gasGiants/gasGiant');
-const { orbitPosition, moonOrbitPosition } = require('../utils/orbitPosition');
+const { orbitPosition, recalculateSystemOrbitPositions } = require('../utils/orbitPosition');
 
 const Random = require('random-js').Random;
 const r = new Random();
@@ -1092,18 +1092,7 @@ class SolarSystem {
   }
 
   setOrbitPositions() {
-    this.primaryStar.stellarObjects.forEach((obj) => {
-      orbitPosition(obj, this.primaryStar);
-      if (obj instanceof Star) {
-        obj.stellarObjects.forEach((obj) => {
-          orbitPosition(obj, this.primaryStar);
-        });
-      } else {
-        obj.moons.forEach((moon) => {
-          moonOrbitPosition(moon, obj);
-        });
-      }
-    });
+    recalculateSystemOrbitPositions(this.primaryStar);
   }
 
   assignTradeCodes() {

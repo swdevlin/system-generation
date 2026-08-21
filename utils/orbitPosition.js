@@ -1,6 +1,7 @@
 const { AU } = require('./index');
 const orbitToAU = require('./orbitToAU');
 const { randomFloat } = require('../dice');
+const { ORBIT_TYPES } = require('./constants');
 
 function assignPosition(x, obj, orbiting) {
   const eccentricity = obj.eccentricity || 0;
@@ -159,7 +160,24 @@ const moonOrbitPosition = (moon, parent) => {
   return position;
 };
 
+const recalculateSystemOrbitPositions = (primaryStar) => {
+  primaryStar.stellarObjects.forEach((obj) => {
+    orbitPosition(obj, primaryStar);
+    if (obj.orbitType < ORBIT_TYPES.GAS_GIANT) {
+      obj.stellarObjects.forEach((child) => {
+        orbitPosition(child, primaryStar);
+      });
+    } else {
+      (obj.moons || []).forEach((moon) => {
+        moonOrbitPosition(moon, obj);
+      });
+    }
+  });
+  return primaryStar;
+};
+
 module.exports = {
   orbitPosition,
   moonOrbitPosition,
+  recalculateSystemOrbitPositions,
 };
