@@ -6,6 +6,7 @@ const { ORBIT_TYPES } = require('../utils');
 const { clearCache, ROLL_CACHE } = require('../dice');
 const SolarSystem = require('../solarSystems/solarSystem');
 const Star = require('../stars/star');
+const { PlanetoidBelt } = require('../planetoidBelts');
 
 chai.should();
 
@@ -99,5 +100,15 @@ describe('Assign main world from counts section', function () {
     solarSystem.mainFromDefinition = { uwp: 'B874409-X', orbit: 'inner' };
     solarSystem.assignMainWorld(orbits);
     solarSystem._mainWorld.orbit.should.equal(solarSystem.primaryStar.occupiedOrbits[0]);
+  });
+
+  it('is a planetoid belt when the UWP indicates one, even if planetoidBelts count is 0', function () {
+    // Traveller Map's PBG "Belts" digit excludes the mainworld belt itself, so it is
+    // commonly 0 even when the mainworld UWP (size digit 0) says it is a belt.
+    solarSystem.planetoidBelts = 0;
+    solarSystem.mainFromDefinition = { uwp: 'A000303-F', orbit: 'habitable' };
+    const mainType = solarSystem.assignMainWorld(orbits);
+    mainType.should.equal('planetoidBelt');
+    solarSystem._mainWorld.should.be.an.instanceof(PlanetoidBelt);
   });
 });

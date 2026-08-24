@@ -411,16 +411,8 @@ class SolarSystem {
     let mainBody;
     const planetoidBeltPattern = /^.000...-./;
     if (planetoidBeltPattern.test(mainworld.uwp)) {
-      if (this.planetoidBelts > 0) {
-        mainType = 'planetoidBelt';
-        mainBody = this.addPlanetoidBelt(star, orbitIndex, mainworld.uwp);
-      } else {
-        const size = null;
-        const gg = this.addGasGiant({ star, orbitIndex, size });
-        gg.uwp = mainworld.uwp;
-        mainType = 'gasGiant';
-        mainBody = gg;
-      }
+      mainType = 'planetoidBelt';
+      mainBody = this.addPlanetoidBelt(star, orbitIndex, mainworld.uwp);
     } else {
       mainBody = this.addTerrestrialPlanet({ star, orbitIndex, uwp: mainworld.uwp });
       mainType = 'terrestrialPlanet';
