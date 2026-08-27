@@ -211,6 +211,13 @@ class Star extends StellarObject {
 
     if (this.spread <= 0) this.spread = this.minimumAllowableOrbit / Math.max(1, this.baseline);
 
+    if (Number.isFinite(this.hzco) && this.hzco > this.minimumAllowableOrbit) {
+      const minSpreadForHZ =
+        (this.hzco - this.minimumAllowableOrbit) /
+        Math.max(1, this.totalObjects + this.emptyOrbits - 1);
+      if (this.spread < minSpreadForHZ) this.spread = minSpreadForHZ;
+    }
+
     const possibleOrbits = this.availableOrbits.reduce((orbits, range) => {
       return orbits + range[1] - range[0];
     }, 0);
