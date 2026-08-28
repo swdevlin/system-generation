@@ -10,6 +10,7 @@ class StellarObject {
     this.orbit = 0;
     this.buildLog = [];
     this.fromUWP = false;
+    this.populationDigit = null;
     this.hzcoDeviation = 0;
     this.tidalLock = null;
     this.tidalLockTarget = null;

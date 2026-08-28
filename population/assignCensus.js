@@ -1,8 +1,10 @@
 const { randomInt, d6 } = require('../dice');
 
-const assignCensus = (population) => {
+const assignCensus = (population, populationDigit) => {
   let p;
-  if (population.code >= 10) {
+  if (populationDigit !== undefined && populationDigit !== null) {
+    p = populationDigit;
+  } else if (population.code >= 10) {
     p = 1;
     let r = d6();
     while (p < 9 && r > 4) {

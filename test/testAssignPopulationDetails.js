@@ -103,4 +103,14 @@ describe('assignPopulationDetails', function () {
     secondary2.population.urbanizationPercentage.should.not.equal(null);
     secondary2.population.majorCities.should.not.equal(null);
   });
+
+  it('uses populationDigit as the leading digit of censusPopulation when set on the planet', function () {
+    const mainWorld = makePlanet(5);
+    mainWorld.populationDigit = 7;
+    star.stellarObjects.push(mainWorld);
+
+    solarSystem.assignPopulationDetails();
+
+    Math.floor(mainWorld.population.censusPopulation / 100_000).should.equal(7);
+  });
 });

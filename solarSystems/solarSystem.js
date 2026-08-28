@@ -419,6 +419,7 @@ class SolarSystem {
     }
     if (mainType !== 'moon') {
       mainBody.name = mainworld.name || null;
+      mainBody.populationDigit = mainworld.populationDigit ?? null;
       this._mainWorld = mainBody;
       orbits.splice(i, 1);
     }
@@ -556,6 +557,7 @@ class SolarSystem {
     }
 
     moon.name = this.mainFromDefinition?.name || this.name;
+    moon.populationDigit = this.mainFromDefinition?.populationDigit ?? null;
     this._mainWorld = moon;
   }
 

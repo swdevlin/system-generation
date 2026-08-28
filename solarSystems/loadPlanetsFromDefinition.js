@@ -71,6 +71,7 @@ const assignBodies = (star, definition, solarSystem) => {
       const newSO = solarSystem.preassignedBody({ star: star, body: body, orbitIndex: orbitIndex });
       if (!newSO) continue;
       newSO.name = body.name ? body.name : null;
+      newSO.populationDigit = body.populationDigit ?? null;
       if (body.mainWorld) solarSystem._mainWorld = newSO;
     }
     loops++;

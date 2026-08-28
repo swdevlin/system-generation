@@ -91,4 +91,28 @@ describe('assignCensus', function () {
     assignCensus(population);
     population.code.should.equal(6);
   });
+
+  describe('populationDigit override', function () {
+    it('uses populationDigit as the leading digit instead of rolling it (code < 10)', function () {
+      queueRandomInt(1, 9, 3);
+      const population = { code: 5 };
+      assignCensus(population, 7);
+      population.censusPopulation.should.equal(730_000);
+    });
+
+    it('uses populationDigit as the leading digit instead of rolling it (code >= 10)', function () {
+      queueRandomInt(1, 9, 6, 3);
+      const population = { code: 10 };
+      assignCensus(population, 9);
+      population.censusPopulation.should.equal(96_300_000_000);
+      ROLL_CACHE.should.deep.equal([]);
+    });
+
+    it('falls back to rolling when populationDigit is null', function () {
+      queueRandomInt(1, 9, 3, 5);
+      const population = { code: 5 };
+      assignCensus(population, null);
+      population.censusPopulation.should.equal(350_000);
+    });
+  });
 });

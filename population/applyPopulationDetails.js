@@ -11,7 +11,7 @@ const TechLevelGenerator = require('../techLevel/TechLevelGenerator');
 const { assignCensus } = require('./assignCensus');
 
 const applyPopulationDetails = (star, planet, starSystem) => {
-  assignCensus(planet.population);
+  assignCensus(planet.population, planet.populationDigit);
   assignConcentrationRating(star, planet);
   assignUrbanizationPercentage(planet);
   assignMajorCities(planet);

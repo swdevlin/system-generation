@@ -122,6 +122,23 @@ describe('Top-level UWP in build spec', function () {
       sys.mainWorld.name.should.equal('Counts World');
     });
 
+    it('applies counts.mainWorld.populationDigit as the census leading digit', function () {
+      const sys = generateStarSystem({
+        counts: {
+          gasGiants: 1,
+          terrestrialPlanets: 2,
+          planetoidBelts: 0,
+          mainWorld: { uwp: TERRESTRIAL_UWP, populationDigit: 4 },
+        },
+      });
+      sys.mainWorld.should.exist;
+      sys.mainWorld.populationDigit.should.equal(4);
+      const censusCode = deconstructUWP(TERRESTRIAL_UWP).population;
+      Math.floor(
+        sys.mainWorld.population.censusPopulation / 10 ** censusCode
+      ).should.equal(4);
+    });
+
     it('counts.mainWorld takes precedence over top-level uwp', function () {
       const countsUWP = 'A567890-B';
       const sys = generateStarSystem({
