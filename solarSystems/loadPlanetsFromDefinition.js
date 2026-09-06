@@ -72,6 +72,10 @@ const assignBodies = (star, definition, solarSystem) => {
       if (!newSO) continue;
       newSO.name = body.name ? body.name : null;
       newSO.populationDigit = body.populationDigit ?? null;
+      if (body.eccentricity !== undefined) {
+        newSO.eccentricity = body.eccentricity;
+        newSO.eccentricityFromDefinition = true;
+      }
       if (body.mainWorld) solarSystem._mainWorld = newSO;
     }
     loops++;
@@ -112,6 +116,7 @@ const loadPlanetsFromDefinition = ({ definition, solarSystem }) => {
         uwp: definition.uwp,
         name: definition.name || null,
         orbit: definition.orbit ?? 'habitable',
+        eccentricity: definition.eccentricity,
       };
     }
   } else {
@@ -127,6 +132,7 @@ const loadPlanetsFromDefinition = ({ definition, solarSystem }) => {
         uwp: definition.uwp,
         name: definition.name || null,
         orbit: definition.orbit ?? 'habitable',
+        eccentricity: definition.eccentricity,
       };
     }
   }

@@ -1,11 +1,18 @@
-const {twoD6} = require("../dice");
+const {twoD6, twoD6InRange} = require("../dice");
 
 const Random = require("random-js").Random;
 const r = new Random();
 
-const eccentricity = (dm) => {
+const eccentricity = (dm, low = false) => {
   let ecc = 0;
-  let roll = twoD6() + 2 + dm;
+  let roll;
+  if (low) {
+    roll = twoD6InRange(2, 9) + dm;
+    roll = Math.min(roll, 9); // dm can push it back out of range; cap handles that
+  } else {
+    roll = twoD6() + dm;
+  }
+
   if (roll <= 5)
     ecc = r.real(0.0,0.005,true);
   else if (roll <= 7)

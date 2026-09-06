@@ -2,7 +2,7 @@
 
 const chai = require('chai');
 const { ORBIT_TYPES } = require('../utils');
-const { clearCache } = require('../dice');
+const { clearCache, ROLL_CACHE, queueRandomInt } = require('../dice');
 const SolarSystem = require('../solarSystems/solarSystem');
 const Star = require('../stars/star');
 const TerrestrialPlanet = require('../terrestrialPlanet/terrestrialPlanet');
@@ -174,5 +174,82 @@ describe('mainWorld selection (computed)', function () {
     star.stellarObjects.push(belt, planet);
 
     solarSystem.mainWorld.should.equal(belt);
+  });
+});
+
+describe('enforcePopulatedWorldEccentricity', function () {
+  let solarSystem;
+  let star;
+
+  beforeEach(function () {
+    clearCache();
+    solarSystem = new SolarSystem();
+    star = makeStar();
+    solarSystem.addPrimary(star);
+  });
+
+  it('does nothing when limitedMainWorldEccentricity is not set', function () {
+    const planet = makePlanet(0.5, 5);
+    planet.eccentricity = 0.8;
+    star.stellarObjects.push(planet);
+
+    solarSystem.enforcePopulatedWorldEccentricity();
+
+    solarSystem.mainWorld.eccentricity.should.equal(0.8);
+  });
+
+  it('forces a low eccentricity on every populated body when the flag is set, not just the main world', function () {
+    const mainWorld = makePlanet(0.5, 8);
+    mainWorld.eccentricity = 0.8;
+    const otherPopulated = makePlanet(1.5, 3);
+    otherPopulated.eccentricity = 0.8;
+    star.stellarObjects.push(mainWorld, otherPopulated);
+    solarSystem.limitedMainWorldEccentricity = true;
+    queueRandomInt(1, 30, 30, 30); // top of the range -> roll = 9, well within the low range
+
+    solarSystem.enforcePopulatedWorldEccentricity();
+
+    solarSystem.mainWorld.should.equal(mainWorld);
+    mainWorld.eccentricity.should.be.at.most(0.09);
+    otherPopulated.eccentricity.should.be.at.most(0.09);
+  });
+
+  it('leaves unpopulated bodies untouched even when the flag is set', function () {
+    const mainWorld = makePlanet(0.5, 8);
+    const unpopulated = makePlanet(1.5, 0);
+    unpopulated.eccentricity = 0.8;
+    star.stellarObjects.push(mainWorld, unpopulated);
+    solarSystem.limitedMainWorldEccentricity = true;
+    queueRandomInt(1, 30, 30);
+
+    solarSystem.enforcePopulatedWorldEccentricity();
+
+    unpopulated.eccentricity.should.equal(0.8);
+  });
+
+  it('leaves an explicitly-defined eccentricity untouched even when the flag is set', function () {
+    const planet = makePlanet(0.5, 5);
+    planet.eccentricity = 0.8;
+    planet.eccentricityFromDefinition = true;
+    star.stellarObjects.push(planet);
+    solarSystem.limitedMainWorldEccentricity = true;
+
+    solarSystem.enforcePopulatedWorldEccentricity();
+
+    planet.eccentricity.should.equal(0.8);
+  });
+
+  it('does not cap a populated moon', function () {
+    const mainWorld = makePlanet(0.5, 8);
+    const moon = makeMoon(5);
+    moon.eccentricity = 0.8;
+    const gasGiant = makeGasGiantWithMoons(1.5, [moon]);
+    star.stellarObjects.push(mainWorld, gasGiant);
+    solarSystem.limitedMainWorldEccentricity = true;
+    queueRandomInt(1, 30, 30);
+
+    solarSystem.enforcePopulatedWorldEccentricity();
+
+    moon.eccentricity.should.equal(0.8);
   });
 });

@@ -4,6 +4,8 @@ const {
   eccentricity,
   determineHydrographics,
   meanTemperature,
+  periapsisTemperature,
+  apoapsisTemperature,
   axialTilt,
   calculateDistance,
   travelTime,
@@ -76,6 +78,7 @@ class SolarSystem {
     this.uwp = null;
     this._mainWorldHostGG = null;
     this.sophontCheck = 'standard';
+    this.limitedMainWorldEccentricity = false;
   }
 
   get x() {
@@ -420,6 +423,10 @@ class SolarSystem {
     if (mainType !== 'moon') {
       mainBody.name = mainworld.name || null;
       mainBody.populationDigit = mainworld.populationDigit ?? null;
+      if (mainworld.eccentricity !== undefined) {
+        mainBody.eccentricity = mainworld.eccentricity;
+        mainBody.eccentricityFromDefinition = true;
+      }
       this._mainWorld = mainBody;
       orbits.splice(i, 1);
     }
@@ -558,6 +565,10 @@ class SolarSystem {
 
     moon.name = this.mainFromDefinition?.name || this.name;
     moon.populationDigit = this.mainFromDefinition?.populationDigit ?? null;
+    if (this.mainFromDefinition?.eccentricity !== undefined) {
+      moon.eccentricity = this.mainFromDefinition.eccentricity;
+      moon.eccentricityFromDefinition = true;
+    }
     this._mainWorld = moon;
   }
 
@@ -1079,6 +1090,48 @@ class SolarSystem {
     }
 
     return this._mainWorld;
+  }
+
+  enforcePopulatedWorldEccentricity() {
+    if (!this.limitedMainWorldEccentricity) return;
+
+    const capIfPopulated = (body) => {
+      if (body?.population?.code > 0 && !body.eccentricityFromDefinition) {
+        body.eccentricity = eccentricity(0, true);
+      }
+    };
+
+    const visit = (star) => {
+      for (const stellarObject of star.stellarObjects) {
+        if (stellarObject instanceof Star) {
+          visit(stellarObject);
+          continue;
+        }
+        capIfPopulated(stellarObject);
+      }
+    };
+
+    for (const star of this.stars) visit(star);
+  }
+
+  assignPeriapsisApoapsisTemperatures() {
+    const apply = (star, obj) => {
+      obj.periapsisTemperature = periapsisTemperature(star, obj);
+      obj.apoapsisTemperature = apoapsisTemperature(star, obj);
+    };
+    for (const star of this.stars)
+      for (const stellarObject of star.stellarObjects) {
+        if (
+          [ORBIT_TYPES.TERRESTRIAL, ORBIT_TYPES.PLANETOID_BELT_OBJECT].includes(
+            stellarObject.orbitType
+          )
+        )
+          apply(star, stellarObject);
+        for (const moon of stellarObject.moons ?? []) {
+          if (moon.size === 'S' || moon.size === 'R' || moon.size === 0) continue;
+          apply(star, moon);
+        }
+      }
   }
 
   assignOrbitSequences() {

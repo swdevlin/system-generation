@@ -1,9 +1,11 @@
 const { d6 } = require('../dice');
+const orbitToAU = require('./orbitToAU');
+const auToOrbit = require('./auToOrbit');
 
 const TEMPERATURE_LOOKUP = [-85, -75, -55, -35, -10, 5, 10, 15, 20, 25, 40, 65, 115];
 
 // page 108
-const meanTemperature = (star, planet) => {
+const temperatureAtOrbit = (star, planet, stellarOrbit) => {
   let roll = 7;
 
   // page 47
@@ -36,8 +38,6 @@ const meanTemperature = (star, planet) => {
 
   roll += mod;
 
-  const stellarOrbit = planet.satelliteOrbit ? planet.parentOrbit : planet.orbit;
-
   if (stellarOrbit < star.hzco - 1) {
     roll += 4 + Math.round((star.hzco - 1 - stellarOrbit) / 0.5);
   } else if (stellarOrbit > star.hzco + 1) {
@@ -50,7 +50,12 @@ const meanTemperature = (star, planet) => {
   else if (roll > 12) temp = 115 + (roll - 12) * 50;
   else temp = TEMPERATURE_LOOKUP[roll];
 
-  if (Math.abs(planet.effectiveHZCODeviation) < 1) temp -= planet.effectiveHZCODeviation * 10;
+  const effectiveHZCODeviation =
+    star.hzco < 1 || stellarOrbit < 1
+      ? (stellarOrbit - star.hzco) / Math.min(star.hzco, stellarOrbit)
+      : stellarOrbit - star.hzco;
+
+  if (Math.abs(effectiveHZCODeviation) < 1) temp -= effectiveHZCODeviation * 10;
 
   let k = 273 + temp;
   if (k < 10) k = d6() + 5;
@@ -58,4 +63,23 @@ const meanTemperature = (star, planet) => {
   return k;
 };
 
+const meanTemperature = (star, planet) => {
+  const stellarOrbit = planet.satelliteOrbit ? planet.parentOrbit : planet.orbit;
+  return temperatureAtOrbit(star, planet, stellarOrbit);
+};
+
+const periapsisTemperature = (star, planet) => {
+  const stellarOrbit = planet.satelliteOrbit ? planet.parentOrbit : planet.orbit;
+  const au = orbitToAU(stellarOrbit) * (1 - (planet.eccentricity || 0));
+  return temperatureAtOrbit(star, planet, auToOrbit(au));
+};
+
+const apoapsisTemperature = (star, planet) => {
+  const stellarOrbit = planet.satelliteOrbit ? planet.parentOrbit : planet.orbit;
+  const au = orbitToAU(stellarOrbit) * (1 + (planet.eccentricity || 0));
+  return temperatureAtOrbit(star, planet, auToOrbit(au));
+};
+
 module.exports = meanTemperature;
+module.exports.periapsisTemperature = periapsisTemperature;
+module.exports.apoapsisTemperature = apoapsisTemperature;

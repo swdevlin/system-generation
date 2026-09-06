@@ -1,6 +1,6 @@
 'use strict';
 
-const { twoD6 } = require('../dice');
+const { twoD6, twoD6InRange } = require('../dice');
 const { determineStarport } = require('../terrestrialPlanet/assignStarport');
 const TechLevelGenerator = require('../techLevel/TechLevelGenerator');
 const { assignTradeCodes } = require('../economics/assignTradeCodes');
@@ -26,15 +26,9 @@ class SocialCharacteristicsAssigner {
 
   assignPopulation() {
     const { min, max } = this.spec.population;
-    let roll;
-    let attempts = 0;
-    do {
-      roll = twoD6() - 2;
-      attempts++;
-    } while (
-      attempts < 100 &&
-      ((min !== undefined && roll < min) || (max !== undefined && roll > max))
-    );
+    const codeMin = min !== undefined ? min : 0;
+    const codeMax = max !== undefined ? max : 10;
+    let roll = twoD6InRange(codeMin + 2, codeMax + 2) - 2;
     if (min !== undefined) roll = Math.max(min, roll);
     if (max !== undefined) roll = Math.min(max, roll);
     this.world.population.code = roll;
@@ -58,16 +52,10 @@ class SocialCharacteristicsAssigner {
       this.world.lawLevel.code = law;
       return;
     }
-    let roll;
-    let attempts = 0;
-    do {
-      roll = Math.max(twoD6() - 7 + this.world.government.code, 0);
-      attempts++;
-    } while (
-      attempts < 100 &&
-      law &&
-      ((law.min !== undefined && roll < law.min) || (law.max !== undefined && roll > law.max))
-    );
+    const govCode = this.world.government.code;
+    const codeMin = Math.max(0, law?.min ?? 0);
+    const codeMax = law?.max !== undefined ? law.max : 5 + govCode; // natural ceiling: 2d6 max(12) - 7 + govCode
+    let roll = Math.max(0, twoD6InRange(codeMin + 7 - govCode, codeMax + 7 - govCode) - 7 + govCode);
     if (law) {
       if (law.min !== undefined) roll = Math.max(law.min, roll);
       if (law.max !== undefined) roll = Math.min(law.max, roll);

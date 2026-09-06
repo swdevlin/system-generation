@@ -94,6 +94,28 @@ const randomFloat = (min, max) => {
   return rng.real(min, max, true);
 };
 
+const twoD6InRange = (min, max) => {
+  const lo = Math.max(2, Math.min(min, max));
+  const hi = Math.min(12, Math.max(min, max));
+  if (lo > hi) return Math.round((min + max) / 2);
+
+  const weights = [];
+  let total = 0;
+  for (let sum = lo; sum <= hi; sum++) {
+    const weight = 6 - Math.abs(sum - 7); // number of 2d6 combinations producing `sum`
+    weights.push({ sum, weight });
+    total += weight;
+  }
+
+  const pick = randomInt(1, total);
+  let cumulative = 0;
+  for (const { sum, weight } of weights) {
+    cumulative += weight;
+    if (pick <= cumulative) return sum;
+  }
+  return hi;
+};
+
 const clearCache = () => {
   ROLL_CACHE.length = 0;
   INT_CACHE.clear();
@@ -115,6 +137,7 @@ module.exports = {
   percentageChance,
   randomInt,
   randomFloat,
+  twoD6InRange,
   ROLL_CACHE: ROLL_CACHE,
   queueRandomInt,
   clearCache,

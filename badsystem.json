@@ -1,0 +1,2834 @@
+{
+  "x": 8,
+  "y": 9,
+  "uwp": null,
+  "name": "",
+  "bases": [],
+  "sector": null,
+  "remarks": "",
+  "buildLog": [],
+  "gasGiants": 0,
+  "mainWorld": {
+    "au": 0.060806551546612686,
+    "uwp": "XS00000-0",
+    "belt": {
+      "au": 0.06153233863961515,
+      "uwp": "X000000-0",
+      "bulk": 9,
+      "size": 0,
+      "span": 0.056281635625710466,
+      "cType": 25,
+      "mType": 15,
+      "moons": [],
+      "oType": 20,
+      "orbit": 0.15383084659903787,
+      "sType": 40,
+      "period": 13.937515568703212,
+      "fromUWP": false,
+      "buildLog": [
+        "composition roll 7",
+        "bulk roll 8",
+        "resource rating roll 4"
+      ],
+      "starPort": "X",
+      "orbitType": 12,
+      "techLevel": 0,
+      "tidalLock": null,
+      "atmosphere": {
+        "bar": 0,
+        "code": 0,
+        "gases": [],
+        "taint": {
+          "code": "",
+          "subtype": "",
+          "severity": 0,
+          "persistence": 0
+        },
+        "density": "None",
+        "gasType": null,
+        "subtype": null,
+        "irritant": false,
+        "hazardCode": null,
+        "composition": null,
+        "characteristic": ""
+      },
+      "jumpShadow": null,
+      "population": {
+        "code": 0,
+        "majorCities": null,
+        "concentrationRating": null,
+        "majorCityPopulation": null,
+        "urbanizationPercentage": null
+      },
+      "inclination": 0,
+      "siderealDay": null,
+      "eccentricity": 0,
+      "lawLevelCode": 0,
+      "safeJumpTime": "0m",
+      "twilightZone": false,
+      "hydrographics": {
+        "code": 0,
+        "distribution": null
+      },
+      "hzcoDeviation": 0.01876054520857015,
+      "orbitPosition": {
+        "x": 4619247.2902643215,
+        "y": 7962194.837344332
+      },
+      "orbitSequence": "A III",
+      "tidalLockNote": null,
+      "governmentCode": 0,
+      "resourceRating": 5,
+      "tidalLockTarget": null,
+      "significantBodies": [],
+      "effectiveHZCODeviation": 0.13889467199999994
+    },
+    "mass": 0.000021431243316786887,
+    "size": "S",
+    "moons": [],
+    "orbit": 0.15201637886653172,
+    "albedo": 0.2,
+    "period": 13.691650196671922,
+    "density": 0.5116579424681853,
+    "fromUWP": false,
+    "gravity": 0.017769243376717318,
+    "hasRing": false,
+    "buildLog": [],
+    "diameter": 443,
+    "starPort": "X",
+    "axialTilt": 1.5996789039691235,
+    "orbitType": 13,
+    "techLevel": 0,
+    "tidalLock": null,
+    "atmosphere": {
+      "bar": 0,
+      "code": 0,
+      "gases": [],
+      "taint": {
+        "code": "",
+        "subtype": "",
+        "severity": 0,
+        "persistence": 0
+      },
+      "density": "None",
+      "gasType": null,
+      "subtype": null,
+      "irritant": false,
+      "hazardCode": null,
+      "composition": null,
+      "characteristic": ""
+    },
+    "greenhouse": 0,
+    "jumpShadow": 44300,
+    "population": {
+      "code": 0,
+      "majorCities": null,
+      "concentrationRating": null,
+      "majorCityPopulation": null,
+      "urbanizationPercentage": null
+    },
+    "retrograde": false,
+    "tradeCodes": [
+      "Ba",
+      "Va"
+    ],
+    "composition": "Mostly Rock",
+    "inclination": 2,
+    "siderealDay": null,
+    "eccentricity": 0.08191562909071179,
+    "lawLevelCode": 0,
+    "safeJumpTime": "4m",
+    "sizeVariance": -628,
+    "trojanOffset": null,
+    "twilightZone": false,
+    "biomassRating": -3,
+    "hydrographics": {
+      "code": 0,
+      "liquid": "Water",
+      "distribution": 0
+    },
+    "hzcoDeviation": 0.016946077476063998,
+    "nativeSophont": false,
+    "orbitPosition": {
+      "x": -9087793.71943046,
+      "y": 398591.45212856494
+    },
+    "orbitSequence": "A III.1",
+    "tidalLockNote": null,
+    "escapeVelocity": 0.27787782484987594,
+    "extinctSophont": false,
+    "governmentCode": 0,
+    "resourceRating": 2,
+    "meanTemperature": 286.7453883420993,
+    "tidalLockTarget": null,
+    "biocomplexityCode": 1,
+    "biodiversityRating": 1,
+    "habitabilityRating": 0,
+    "compatibilityRating": 0,
+    "effectiveHZCODeviation": 0.12546116579006855
+  },
+  "starCount": 1,
+  "allegiance": null,
+  "nativeTech": true,
+  "scanPoints": 0,
+  "coordinates": "0809",
+  "primaryStar": {
+    "au": 0,
+    "age": 3.75,
+    "hzco": 0.13507030139046772,
+    "mass": 0.16,
+    "orbit": 0,
+    "colour": "Orange Red",
+    "period": 0,
+    "spread": 0.06253515069523385,
+    "fromUWP": false,
+    "subtype": 5,
+    "baseline": 2,
+    "buildLog": [
+      {
+        "baseline": "roll: 5, totalObjects 8 -3"
+      },
+      {
+        "baselineOrbitNumber": "baseline orbit, in range 2/8, hzco 0.13507030139046772, roll 7, delta 0/100=0, result 0.13507030139046772"
+      }
+    ],
+    "diameter": 0.2,
+    "companion": null,
+    "isAnomaly": false,
+    "orbitType": 0,
+    "tidalLock": null,
+    "jumpShadow": 27840000,
+    "luminosity": 0.0029190378108338868,
+    "emptyOrbits": 0,
+    "inclination": 0,
+    "isCompanion": false,
+    "isProtostar": false,
+    "siderealDay": null,
+    "stellarType": "M",
+    "temperature": 3000,
+    "totalOrbits": 20,
+    "eccentricity": 0,
+    "minimumOrbit": 0.01,
+    "safeJumpTime": "1m",
+    "stellarClass": "V",
+    "totalObjects": 8,
+    "twilightZone": false,
+    "hzcoDeviation": 0,
+    "orbitPosition": {
+      "x": 0,
+      "y": 0
+    },
+    "orbitSequence": "A",
+    "tidalLockNote": null,
+    "occupiedOrbits": [
+      0.06002812055618708,
+      0.10380272604285078,
+      0.15383084659903787,
+      0.21636599729427172,
+      0.2601406027809354,
+      0.32892926854569265,
+      0.38521090417140313,
+      0.45399956993616036
+    ],
+    "stellarObjects": [
+      {
+        "au": 0.022950512602704004,
+        "uwp": "XS00000-0",
+        "belt": {
+          "au": 0.024011248222474833,
+          "uwp": "X000000-0",
+          "bulk": 6,
+          "size": 0,
+          "span": 0.056281635625710466,
+          "cType": 8,
+          "mType": 40,
+          "moons": [],
+          "oType": 2,
+          "orbit": 0.06002812055618708,
+          "sType": 50,
+          "period": 3.3974442533389584,
+          "fromUWP": false,
+          "buildLog": [
+            "composition roll 8",
+            "hzcoDeviation DM -4",
+            "bulk roll 7",
+            "resource rating roll 6"
+          ],
+          "starPort": "X",
+          "orbitType": 12,
+          "techLevel": 0,
+          "tidalLock": null,
+          "atmosphere": {
+            "bar": 0,
+            "code": 0,
+            "gases": [],
+            "taint": {
+              "code": "",
+              "subtype": "",
+              "severity": 0,
+              "persistence": 0
+            },
+            "density": "None",
+            "gasType": null,
+            "subtype": null,
+            "irritant": false,
+            "hazardCode": null,
+            "composition": null,
+            "characteristic": ""
+          },
+          "jumpShadow": null,
+          "population": {
+            "code": 0,
+            "majorCities": null,
+            "concentrationRating": null,
+            "majorCityPopulation": null,
+            "urbanizationPercentage": null
+          },
+          "inclination": 0,
+          "siderealDay": null,
+          "eccentricity": 0,
+          "lawLevelCode": 0,
+          "safeJumpTime": "0m",
+          "twilightZone": false,
+          "hydrographics": {
+            "code": 0,
+            "distribution": null
+          },
+          "hzcoDeviation": -0.07504218083428063,
+          "orbitPosition": {
+            "x": -3258807.0377659984,
+            "y": 1510916.2088946577
+          },
+          "orbitSequence": "A I",
+          "tidalLockNote": null,
+          "governmentCode": 0,
+          "resourceRating": 9,
+          "tidalLockTarget": null,
+          "significantBodies": [],
+          "effectiveHZCODeviation": -1.2501171140955547
+        },
+        "mass": 0.00023497011441346092,
+        "size": "S",
+        "moons": [],
+        "orbit": 0.05737628150676001,
+        "albedo": 0.12,
+        "period": 3.17481788569115,
+        "density": 0.7913479466525065,
+        "fromUWP": false,
+        "gravity": 0.05279375216378826,
+        "hasRing": false,
+        "buildLog": [],
+        "diameter": 851,
+        "starPort": "X",
+        "axialTilt": 152.37986860818836,
+        "orbitType": 13,
+        "techLevel": 0,
+        "tidalLock": null,
+        "atmosphere": {
+          "bar": 0,
+          "code": 0,
+          "gases": [],
+          "taint": {
+            "code": "",
+            "subtype": "",
+            "severity": 0,
+            "persistence": 0
+          },
+          "density": "None",
+          "gasType": null,
+          "subtype": null,
+          "irritant": false,
+          "hazardCode": null,
+          "composition": null,
+          "characteristic": ""
+        },
+        "greenhouse": 0,
+        "jumpShadow": 85100,
+        "population": {
+          "code": 0,
+          "majorCities": null,
+          "concentrationRating": null,
+          "majorCityPopulation": null,
+          "urbanizationPercentage": null
+        },
+        "retrograde": false,
+        "tradeCodes": [
+          "Ba",
+          "Va"
+        ],
+        "composition": "Rock and Metal",
+        "inclination": 15,
+        "siderealDay": null,
+        "eccentricity": 0.1724146810665517,
+        "lawLevelCode": 0,
+        "safeJumpTime": "5m",
+        "sizeVariance": 1004,
+        "trojanOffset": null,
+        "twilightZone": false,
+        "biomassRating": 4,
+        "hydrographics": {
+          "code": 0,
+          "liquid": "Water",
+          "distribution": 0
+        },
+        "hzcoDeviation": -0.07769401988370771,
+        "nativeSophont": false,
+        "orbitPosition": {
+          "x": -2526878.8416603003,
+          "y": -2324383.9146050797
+        },
+        "orbitSequence": "A I.1",
+        "tidalLockNote": null,
+        "escapeVelocity": 0.6638555713911065,
+        "extinctSophont": false,
+        "governmentCode": 0,
+        "resourceRating": 2,
+        "meanTemperature": 288,
+        "tidalLockTarget": null,
+        "biocomplexityCode": 1,
+        "biodiversityRating": 6,
+        "habitabilityRating": 0,
+        "compatibilityRating": 0,
+        "effectiveHZCODeviation": -1.3541138924200566
+      },
+      {
+        "au": 0.024011248222474833,
+        "uwp": "X000000-0",
+        "bulk": 6,
+        "size": 0,
+        "span": 0.056281635625710466,
+        "cType": 8,
+        "mType": 40,
+        "moons": [],
+        "oType": 2,
+        "orbit": 0.06002812055618708,
+        "sType": 50,
+        "period": 3.3974442533389584,
+        "fromUWP": false,
+        "buildLog": [
+          "composition roll 8",
+          "hzcoDeviation DM -4",
+          "bulk roll 7",
+          "resource rating roll 6"
+        ],
+        "starPort": "X",
+        "orbitType": 12,
+        "techLevel": 0,
+        "tidalLock": null,
+        "atmosphere": {
+          "bar": 0,
+          "code": 0,
+          "gases": [],
+          "taint": {
+            "code": "",
+            "subtype": "",
+            "severity": 0,
+            "persistence": 0
+          },
+          "density": "None",
+          "gasType": null,
+          "subtype": null,
+          "irritant": false,
+          "hazardCode": null,
+          "composition": null,
+          "characteristic": ""
+        },
+        "jumpShadow": null,
+        "population": {
+          "code": 0,
+          "majorCities": null,
+          "concentrationRating": null,
+          "majorCityPopulation": null,
+          "urbanizationPercentage": null
+        },
+        "inclination": 0,
+        "siderealDay": null,
+        "eccentricity": 0,
+        "lawLevelCode": 0,
+        "safeJumpTime": "0m",
+        "twilightZone": false,
+        "hydrographics": {
+          "code": 0,
+          "distribution": null
+        },
+        "hzcoDeviation": -0.07504218083428063,
+        "orbitPosition": {
+          "x": -3258807.0377659984,
+          "y": 1510916.2088946577
+        },
+        "orbitSequence": "A I",
+        "tidalLockNote": null,
+        "governmentCode": 0,
+        "resourceRating": 9,
+        "tidalLockTarget": null,
+        "significantBodies": [],
+        "effectiveHZCODeviation": -1.2501171140955547
+      },
+      {
+        "au": 0.024699004588388366,
+        "uwp": "XS00000-0",
+        "belt": {
+          "au": 0.024011248222474833,
+          "uwp": "X000000-0",
+          "bulk": 6,
+          "size": 0,
+          "span": 0.056281635625710466,
+          "cType": 8,
+          "mType": 40,
+          "moons": [],
+          "oType": 2,
+          "orbit": 0.06002812055618708,
+          "sType": 50,
+          "period": 3.3974442533389584,
+          "fromUWP": false,
+          "buildLog": [
+            "composition roll 8",
+            "hzcoDeviation DM -4",
+            "bulk roll 7",
+            "resource rating roll 6"
+          ],
+          "starPort": "X",
+          "orbitType": 12,
+          "techLevel": 0,
+          "tidalLock": null,
+          "atmosphere": {
+            "bar": 0,
+            "code": 0,
+            "gases": [],
+            "taint": {
+              "code": "",
+              "subtype": "",
+              "severity": 0,
+              "persistence": 0
+            },
+            "density": "None",
+            "gasType": null,
+            "subtype": null,
+            "irritant": false,
+            "hazardCode": null,
+            "composition": null,
+            "characteristic": ""
+          },
+          "jumpShadow": null,
+          "population": {
+            "code": 0,
+            "majorCities": null,
+            "concentrationRating": null,
+            "majorCityPopulation": null,
+            "urbanizationPercentage": null
+          },
+          "inclination": 0,
+          "siderealDay": null,
+          "eccentricity": 0,
+          "lawLevelCode": 0,
+          "safeJumpTime": "0m",
+          "twilightZone": false,
+          "hydrographics": {
+            "code": 0,
+            "distribution": null
+          },
+          "hzcoDeviation": -0.07504218083428063,
+          "orbitPosition": {
+            "x": -3258807.0377659984,
+            "y": 1510916.2088946577
+          },
+          "orbitSequence": "A I",
+          "tidalLockNote": null,
+          "governmentCode": 0,
+          "resourceRating": 9,
+          "tidalLockTarget": null,
+          "significantBodies": [],
+          "effectiveHZCODeviation": -1.2501171140955547
+        },
+        "mass": 0.00004942052425279329,
+        "size": "S",
+        "moons": [],
+        "orbit": 0.06174751147097091,
+        "albedo": 0.16,
+        "period": 3.5444545309272377,
+        "density": 0.8144936877450903,
+        "fromUWP": false,
+        "gravity": 0.03200571973833698,
+        "hasRing": false,
+        "buildLog": [],
+        "diameter": 501.25,
+        "starPort": "X",
+        "axialTilt": 0.08424240593044073,
+        "orbitType": 13,
+        "techLevel": 0,
+        "tidalLock": null,
+        "atmosphere": {
+          "bar": 0,
+          "code": 0,
+          "gases": [],
+          "taint": {
+            "code": "",
+            "subtype": "",
+            "severity": 0,
+            "persistence": 0
+          },
+          "density": "None",
+          "gasType": null,
+          "subtype": null,
+          "irritant": false,
+          "hazardCode": null,
+          "composition": null,
+          "characteristic": ""
+        },
+        "greenhouse": 0,
+        "jumpShadow": 50125,
+        "population": {
+          "code": 0,
+          "majorCities": null,
+          "concentrationRating": null,
+          "majorCityPopulation": null,
+          "urbanizationPercentage": null
+        },
+        "retrograde": false,
+        "tradeCodes": [
+          "Ba",
+          "Va"
+        ],
+        "composition": "Rock and Metal",
+        "inclination": 1.5,
+        "siderealDay": null,
+        "eccentricity": 0.44344160471949345,
+        "lawLevelCode": 0,
+        "safeJumpTime": "4m",
+        "sizeVariance": -395,
+        "trojanOffset": null,
+        "twilightZone": false,
+        "biomassRating": 0,
+        "hydrographics": {
+          "code": 0,
+          "liquid": "Water",
+          "distribution": 0
+        },
+        "hzcoDeviation": -0.07332278991949681,
+        "nativeSophont": false,
+        "orbitPosition": {
+          "x": 3676200.865479535,
+          "y": 371443.01932676946
+        },
+        "orbitSequence": "A I.2",
+        "tidalLockNote": null,
+        "escapeVelocity": 0.39669666691710437,
+        "extinctSophont": false,
+        "governmentCode": 0,
+        "resourceRating": 4,
+        "meanTemperature": 288,
+        "tidalLockTarget": null,
+        "biocomplexityCode": 0,
+        "biodiversityRating": 0,
+        "habitabilityRating": 0,
+        "compatibilityRating": 0,
+        "effectiveHZCODeviation": -1.1874614567093564
+      },
+      {
+        "au": 0.04152109041714031,
+        "uwp": "XAFA000-0",
+        "mass": 1.4639915807873924,
+        "size": 10,
+        "moons": [],
+        "orbit": 0.10380272604285078,
+        "albedo": 0.38,
+        "period": 7.725620286008887,
+        "density": 0.7900260690460728,
+        "fromUWP": false,
+        "gravity": 0.97037695592771,
+        "hasRing": false,
+        "buildLog": [
+          {
+            "Tidal Lock Axial Tilt Reroll": {
+              "note": "Axial tilt reduced by tidal lock from 33.9° to 0.5°",
+              "inputs": {
+                "previousAxialTilt": 33.94
+              },
+              "result": {
+                "newAxialTilt": 0.5
+              }
+            }
+          },
+          {
+            "Tidal Lock Determination": {
+              "dms": {
+                "base": -4,
+                "size": 4,
+                "orbit": 12,
+                "total": 6,
+                "starMass": -2,
+                "atmosphere": -2,
+                "axialTilt30": -2
+              },
+              "case": "planet-to-star",
+              "note": "1:1 tidal lock to primary star: rotation period 185.4h. permanent day/night hemispheres, twilight zone at terminator. axial tilt reduced to 0.5°",
+              "roll": {
+                "raw": 11,
+                "total": 17
+              },
+              "inputs": {
+                "size": 10,
+                "orbit": 0.10380272604285078,
+                "starMass": 0.16,
+                "axialTilt": 33.93601540096944,
+                "systemAge": 3.75,
+                "eccentricity": 0.02371069859895302,
+                "starsOrbited": 1,
+                "totalMoonSize": 0,
+                "significantMoons": 0,
+                "highPressureAtmosphere": true
+              },
+              "result": {
+                "lockType": "1:1",
+                "newRotation": 185.4148868642133,
+                "newAxialTilt": 0.5,
+                "twilightZone": true,
+                "newEccentricity": 0.02371069859895302,
+                "axialTiltRerolled": true,
+                "eccentricityRerolled": false
+              }
+            }
+          }
+        ],
+        "diameter": 15668,
+        "rotation": 185.4148868642133,
+        "starPort": "X",
+        "axialTilt": 0.5,
+        "orbitType": 11,
+        "techLevel": 0,
+        "tidalLock": "1:1",
+        "atmosphere": {
+          "bar": 0,
+          "code": 15,
+          "gases": [],
+          "taint": {
+            "code": "",
+            "subtype": "",
+            "severity": 0,
+            "persistence": 0
+          },
+          "density": "None",
+          "gasType": null,
+          "subtype": null,
+          "irritant": false,
+          "hazardCode": null,
+          "composition": null,
+          "characteristic": ""
+        },
+        "greenhouse": 0,
+        "jumpShadow": 1566800,
+        "population": {
+          "code": 0,
+          "majorCities": null,
+          "concentrationRating": null,
+          "majorCityPopulation": null,
+          "urbanizationPercentage": null
+        },
+        "retrograde": false,
+        "tradeCodes": [
+          "Ba",
+          "Fl"
+        ],
+        "composition": "Rock and Metal",
+        "inclination": 23,
+        "siderealDay": 185.4148868642133,
+        "eccentricity": 0.02371069859895302,
+        "lawLevelCode": 0,
+        "safeJumpTime": "22m",
+        "sizeVariance": -332,
+        "trojanOffset": null,
+        "twilightZone": true,
+        "biomassRating": 4,
+        "hydrographics": {
+          "code": 10,
+          "liquid": "Water",
+          "distribution": 5
+        },
+        "hzcoDeviation": -0.03126757534761694,
+        "nativeSophont": false,
+        "orbitPosition": {
+          "x": 5602009.790737044,
+          "y": 2683245.2675798023
+        },
+        "orbitSequence": "A II",
+        "tidalLockNote": "1:1 tidal lock to primary star: rotation period 185.4h. permanent day/night hemispheres, twilight zone at terminator. axial tilt reduced to 0.5°",
+        "escapeVelocity": 12.212218847669023,
+        "extinctSophont": false,
+        "governmentCode": 0,
+        "resourceRating": 10,
+        "meanTemperature": 301.0122113878502,
+        "tidalLockTarget": "A",
+        "biocomplexityCode": 1,
+        "biodiversityRating": 8,
+        "habitabilityRating": 0,
+        "compatibilityRating": 2,
+        "effectiveHZCODeviation": -0.30122113878501977
+      },
+      {
+        "au": 0.060806551546612686,
+        "uwp": "XS00000-0",
+        "belt": {
+          "au": 0.06153233863961515,
+          "uwp": "X000000-0",
+          "bulk": 9,
+          "size": 0,
+          "span": 0.056281635625710466,
+          "cType": 25,
+          "mType": 15,
+          "moons": [],
+          "oType": 20,
+          "orbit": 0.15383084659903787,
+          "sType": 40,
+          "period": 13.937515568703212,
+          "fromUWP": false,
+          "buildLog": [
+            "composition roll 7",
+            "bulk roll 8",
+            "resource rating roll 4"
+          ],
+          "starPort": "X",
+          "orbitType": 12,
+          "techLevel": 0,
+          "tidalLock": null,
+          "atmosphere": {
+            "bar": 0,
+            "code": 0,
+            "gases": [],
+            "taint": {
+              "code": "",
+              "subtype": "",
+              "severity": 0,
+              "persistence": 0
+            },
+            "density": "None",
+            "gasType": null,
+            "subtype": null,
+            "irritant": false,
+            "hazardCode": null,
+            "composition": null,
+            "characteristic": ""
+          },
+          "jumpShadow": null,
+          "population": {
+            "code": 0,
+            "majorCities": null,
+            "concentrationRating": null,
+            "majorCityPopulation": null,
+            "urbanizationPercentage": null
+          },
+          "inclination": 0,
+          "siderealDay": null,
+          "eccentricity": 0,
+          "lawLevelCode": 0,
+          "safeJumpTime": "0m",
+          "twilightZone": false,
+          "hydrographics": {
+            "code": 0,
+            "distribution": null
+          },
+          "hzcoDeviation": 0.01876054520857015,
+          "orbitPosition": {
+            "x": 4619247.2902643215,
+            "y": 7962194.837344332
+          },
+          "orbitSequence": "A III",
+          "tidalLockNote": null,
+          "governmentCode": 0,
+          "resourceRating": 5,
+          "tidalLockTarget": null,
+          "significantBodies": [],
+          "effectiveHZCODeviation": 0.13889467199999994
+        },
+        "mass": 0.000021431243316786887,
+        "size": "S",
+        "moons": [],
+        "orbit": 0.15201637886653172,
+        "albedo": 0.2,
+        "period": 13.691650196671922,
+        "density": 0.5116579424681853,
+        "fromUWP": false,
+        "gravity": 0.017769243376717318,
+        "hasRing": false,
+        "buildLog": [],
+        "diameter": 443,
+        "starPort": "X",
+        "axialTilt": 1.5996789039691235,
+        "orbitType": 13,
+        "techLevel": 0,
+        "tidalLock": null,
+        "atmosphere": {
+          "bar": 0,
+          "code": 0,
+          "gases": [],
+          "taint": {
+            "code": "",
+            "subtype": "",
+            "severity": 0,
+            "persistence": 0
+          },
+          "density": "None",
+          "gasType": null,
+          "subtype": null,
+          "irritant": false,
+          "hazardCode": null,
+          "composition": null,
+          "characteristic": ""
+        },
+        "greenhouse": 0,
+        "jumpShadow": 44300,
+        "population": {
+          "code": 0,
+          "majorCities": null,
+          "concentrationRating": null,
+          "majorCityPopulation": null,
+          "urbanizationPercentage": null
+        },
+        "retrograde": false,
+        "tradeCodes": [
+          "Ba",
+          "Va"
+        ],
+        "composition": "Mostly Rock",
+        "inclination": 2,
+        "siderealDay": null,
+        "eccentricity": 0.08191562909071179,
+        "lawLevelCode": 0,
+        "safeJumpTime": "4m",
+        "sizeVariance": -628,
+        "trojanOffset": null,
+        "twilightZone": false,
+        "biomassRating": -3,
+        "hydrographics": {
+          "code": 0,
+          "liquid": "Water",
+          "distribution": 0
+        },
+        "hzcoDeviation": 0.016946077476063998,
+        "nativeSophont": false,
+        "orbitPosition": {
+          "x": -9087793.71943046,
+          "y": 398591.45212856494
+        },
+        "orbitSequence": "A III.1",
+        "tidalLockNote": null,
+        "escapeVelocity": 0.27787782484987594,
+        "extinctSophont": false,
+        "governmentCode": 0,
+        "resourceRating": 2,
+        "meanTemperature": 286.7453883420993,
+        "tidalLockTarget": null,
+        "biocomplexityCode": 1,
+        "biodiversityRating": 1,
+        "habitabilityRating": 0,
+        "compatibilityRating": 0,
+        "effectiveHZCODeviation": 0.12546116579006855
+      },
+      {
+        "au": 0.06118669746065464,
+        "uwp": "XS00000-0",
+        "belt": {
+          "au": 0.06153233863961515,
+          "uwp": "X000000-0",
+          "bulk": 9,
+          "size": 0,
+          "span": 0.056281635625710466,
+          "cType": 25,
+          "mType": 15,
+          "moons": [],
+          "oType": 20,
+          "orbit": 0.15383084659903787,
+          "sType": 40,
+          "period": 13.937515568703212,
+          "fromUWP": false,
+          "buildLog": [
+            "composition roll 7",
+            "bulk roll 8",
+            "resource rating roll 4"
+          ],
+          "starPort": "X",
+          "orbitType": 12,
+          "techLevel": 0,
+          "tidalLock": null,
+          "atmosphere": {
+            "bar": 0,
+            "code": 0,
+            "gases": [],
+            "taint": {
+              "code": "",
+              "subtype": "",
+              "severity": 0,
+              "persistence": 0
+            },
+            "density": "None",
+            "gasType": null,
+            "subtype": null,
+            "irritant": false,
+            "hazardCode": null,
+            "composition": null,
+            "characteristic": ""
+          },
+          "jumpShadow": null,
+          "population": {
+            "code": 0,
+            "majorCities": null,
+            "concentrationRating": null,
+            "majorCityPopulation": null,
+            "urbanizationPercentage": null
+          },
+          "inclination": 0,
+          "siderealDay": null,
+          "eccentricity": 0,
+          "lawLevelCode": 0,
+          "safeJumpTime": "0m",
+          "twilightZone": false,
+          "hydrographics": {
+            "code": 0,
+            "distribution": null
+          },
+          "hzcoDeviation": 0.01876054520857015,
+          "orbitPosition": {
+            "x": 4619247.2902643215,
+            "y": 7962194.837344332
+          },
+          "orbitSequence": "A III",
+          "tidalLockNote": null,
+          "governmentCode": 0,
+          "resourceRating": 5,
+          "tidalLockTarget": null,
+          "significantBodies": [],
+          "effectiveHZCODeviation": 0.13889467199999994
+        },
+        "mass": 0.0004019293526458285,
+        "size": "S",
+        "moons": [],
+        "orbit": 0.1529667436516366,
+        "albedo": 0.12,
+        "period": 13.82024533342045,
+        "density": 0.8430655558603026,
+        "fromUWP": false,
+        "gravity": 0.06586036582116585,
+        "hasRing": false,
+        "buildLog": [],
+        "diameter": 996.5,
+        "starPort": "X",
+        "axialTilt": 169.1605804396614,
+        "orbitType": 13,
+        "techLevel": 0,
+        "tidalLock": null,
+        "atmosphere": {
+          "bar": 0,
+          "code": 0,
+          "gases": [],
+          "taint": {
+            "code": "",
+            "subtype": "",
+            "severity": 0,
+            "persistence": 0
+          },
+          "density": "None",
+          "gasType": null,
+          "subtype": null,
+          "irritant": false,
+          "hazardCode": null,
+          "composition": null,
+          "characteristic": ""
+        },
+        "greenhouse": 0,
+        "jumpShadow": 99650,
+        "population": {
+          "code": 0,
+          "majorCities": null,
+          "concentrationRating": null,
+          "majorCityPopulation": null,
+          "urbanizationPercentage": null
+        },
+        "retrograde": false,
+        "tradeCodes": [
+          "Ba",
+          "Va"
+        ],
+        "composition": "Rock and Metal",
+        "inclination": 1,
+        "siderealDay": null,
+        "eccentricity": 0.2058438481515844,
+        "lawLevelCode": 0,
+        "safeJumpTime": "6m",
+        "sizeVariance": 1586,
+        "trojanOffset": null,
+        "twilightZone": false,
+        "biomassRating": -2,
+        "hydrographics": {
+          "code": 0,
+          "liquid": "Water",
+          "distribution": 0
+        },
+        "hzcoDeviation": 0.017896442261168877,
+        "nativeSophont": false,
+        "orbitPosition": {
+          "x": -9153266.638712743,
+          "y": -49348.89985716881
+        },
+        "orbitSequence": "A III.2",
+        "tidalLockNote": null,
+        "escapeVelocity": 0.8023581725673639,
+        "extinctSophont": false,
+        "governmentCode": 0,
+        "resourceRating": 2,
+        "meanTemperature": 286.6750275910444,
+        "tidalLockTarget": null,
+        "biocomplexityCode": 1,
+        "biodiversityRating": 1,
+        "habitabilityRating": 0,
+        "compatibilityRating": 0,
+        "effectiveHZCODeviation": 0.13249724089556136
+      },
+      {
+        "au": 0.06153233863961515,
+        "uwp": "X000000-0",
+        "bulk": 9,
+        "size": 0,
+        "span": 0.056281635625710466,
+        "cType": 25,
+        "mType": 15,
+        "moons": [],
+        "oType": 20,
+        "orbit": 0.15383084659903787,
+        "sType": 40,
+        "period": 13.937515568703212,
+        "fromUWP": false,
+        "buildLog": [
+          "composition roll 7",
+          "bulk roll 8",
+          "resource rating roll 4"
+        ],
+        "starPort": "X",
+        "orbitType": 12,
+        "techLevel": 0,
+        "tidalLock": null,
+        "atmosphere": {
+          "bar": 0,
+          "code": 0,
+          "gases": [],
+          "taint": {
+            "code": "",
+            "subtype": "",
+            "severity": 0,
+            "persistence": 0
+          },
+          "density": "None",
+          "gasType": null,
+          "subtype": null,
+          "irritant": false,
+          "hazardCode": null,
+          "composition": null,
+          "characteristic": ""
+        },
+        "jumpShadow": null,
+        "population": {
+          "code": 0,
+          "majorCities": null,
+          "concentrationRating": null,
+          "majorCityPopulation": null,
+          "urbanizationPercentage": null
+        },
+        "inclination": 0,
+        "siderealDay": null,
+        "eccentricity": 0,
+        "lawLevelCode": 0,
+        "safeJumpTime": "0m",
+        "twilightZone": false,
+        "hydrographics": {
+          "code": 0,
+          "distribution": null
+        },
+        "hzcoDeviation": 0.01876054520857015,
+        "orbitPosition": {
+          "x": 4619247.2902643215,
+          "y": 7962194.837344332
+        },
+        "orbitSequence": "A III",
+        "tidalLockNote": null,
+        "governmentCode": 0,
+        "resourceRating": 5,
+        "tidalLockTarget": null,
+        "significantBodies": [],
+        "effectiveHZCODeviation": 0.13889467199999994
+      },
+      {
+        "au": 0.0865463989177087,
+        "uwp": "X100000-0",
+        "mass": 0.0018112793508954113,
+        "size": 1,
+        "moons": [],
+        "orbit": 0.21636599729427172,
+        "albedo": 0.16,
+        "period": 23.248971040428543,
+        "density": 0.49625456797242157,
+        "fromUWP": false,
+        "gravity": 0.07640670833316368,
+        "hasRing": false,
+        "buildLog": [
+          {
+            "Tidal Lock Axial Tilt Reroll": {
+              "note": "Axial tilt reduced by tidal lock from 10.2° to 0.5°",
+              "inputs": {
+                "previousAxialTilt": 10.18
+              },
+              "result": {
+                "newAxialTilt": 0.5
+              }
+            }
+          },
+          {
+            "Tidal Lock Determination": {
+              "dms": {
+                "base": -4,
+                "size": 1,
+                "orbit": 11,
+                "total": 6,
+                "starMass": -2
+              },
+              "case": "planet-to-star",
+              "note": "3:2 orbital resonance with primary star: rotates 3 times per 2 orbits, day length 372.0h, axial tilt reduced to 0.5°",
+              "roll": {
+                "raw": 5,
+                "total": 11
+              },
+              "inputs": {
+                "size": 1,
+                "orbit": 0.21636599729427172,
+                "starMass": 0.16,
+                "axialTilt": 10.181872624821832,
+                "systemAge": 3.75,
+                "eccentricity": 0.013631157107708163,
+                "starsOrbited": 1,
+                "totalMoonSize": 0,
+                "significantMoons": 0,
+                "highPressureAtmosphere": false
+              },
+              "result": {
+                "lockType": "3:2",
+                "newRotation": 371.9835366468567,
+                "newAxialTilt": 0.5,
+                "axialTiltRerolled": true
+              }
+            }
+          }
+        ],
+        "diameter": 1964,
+        "rotation": 371.9835366468567,
+        "starPort": "X",
+        "axialTilt": 0.5,
+        "orbitType": 11,
+        "techLevel": 0,
+        "tidalLock": "3:2",
+        "atmosphere": {
+          "bar": 0,
+          "code": 0,
+          "gases": [],
+          "taint": {
+            "code": "",
+            "subtype": "",
+            "severity": 0,
+            "persistence": 0
+          },
+          "density": "None",
+          "gasType": null,
+          "subtype": null,
+          "irritant": false,
+          "hazardCode": null,
+          "composition": null,
+          "characteristic": ""
+        },
+        "greenhouse": 0,
+        "jumpShadow": 196400,
+        "population": {
+          "code": 0,
+          "majorCities": null,
+          "concentrationRating": null,
+          "majorCityPopulation": null,
+          "urbanizationPercentage": null
+        },
+        "retrograde": false,
+        "tradeCodes": [
+          "Ba",
+          "Va"
+        ],
+        "composition": "Mostly Rock",
+        "inclination": 4,
+        "siderealDay": null,
+        "eccentricity": 0.013631157107708163,
+        "lawLevelCode": 0,
+        "safeJumpTime": "8m",
+        "sizeVariance": 364,
+        "trojanOffset": null,
+        "twilightZone": false,
+        "biomassRating": 0,
+        "hydrographics": {
+          "code": 0,
+          "liquid": "Water",
+          "distribution": 0
+        },
+        "hzcoDeviation": 0.081295695903804,
+        "nativeSophont": false,
+        "orbitPosition": {
+          "x": -106836.4790235421,
+          "y": 12946716.2116132
+        },
+        "orbitSequence": "A IV",
+        "tidalLockNote": "3:2 orbital resonance with primary star: rotates 3 times per 2 orbits, day length 372.0h, axial tilt reduced to 0.5°",
+        "escapeVelocity": 1.213260466583314,
+        "extinctSophont": false,
+        "governmentCode": 0,
+        "resourceRating": 2,
+        "meanTemperature": 281.98123088,
+        "tidalLockTarget": "A",
+        "biocomplexityCode": 0,
+        "biodiversityRating": 0,
+        "habitabilityRating": 0,
+        "compatibilityRating": 0,
+        "effectiveHZCODeviation": 0.6018769119999999
+      },
+      {
+        "au": 0.10405624111237417,
+        "uwp": "X869000-0",
+        "mass": 0.8016753549558692,
+        "size": 8,
+        "moons": [],
+        "orbit": 0.2601406027809354,
+        "albedo": 0.28,
+        "period": 30.65013795591308,
+        "density": 0.4975880427565053,
+        "fromUWP": false,
+        "gravity": 0.5833279704751317,
+        "hasRing": false,
+        "buildLog": [
+          {
+            "Tidal Lock Axial Tilt Reroll": {
+              "note": "Axial tilt reduced by tidal lock from 9.9° to 0.3°",
+              "inputs": {
+                "previousAxialTilt": 9.89
+              },
+              "result": {
+                "newAxialTilt": 0.3
+              }
+            }
+          },
+          {
+            "Tidal Lock Determination": {
+              "dms": {
+                "base": -4,
+                "size": 3,
+                "orbit": 11,
+                "total": 8,
+                "starMass": -2
+              },
+              "case": "planet-to-star",
+              "note": "1:1 tidal lock to primary star: rotation period 735.6h. permanent day/night hemispheres, twilight zone at terminator. axial tilt reduced to 0.3°",
+              "roll": {
+                "raw": 8,
+                "total": 16
+              },
+              "inputs": {
+                "size": 8,
+                "orbit": 0.2601406027809354,
+                "starMass": 0.16,
+                "axialTilt": 9.885744492355627,
+                "systemAge": 3.75,
+                "eccentricity": 0.06583167224071249,
+                "starsOrbited": 1,
+                "totalMoonSize": 0,
+                "significantMoons": 0,
+                "highPressureAtmosphere": false
+              },
+              "result": {
+                "lockType": "1:1",
+                "newRotation": 735.603310941914,
+                "newAxialTilt": 0.3,
+                "twilightZone": true,
+                "newEccentricity": 0.06583167224071249,
+                "axialTiltRerolled": true,
+                "eccentricityRerolled": false
+              }
+            }
+          }
+        ],
+        "diameter": 14954,
+        "rotation": 735.603310941914,
+        "starPort": "X",
+        "axialTilt": 0.3,
+        "orbitType": 11,
+        "techLevel": 0,
+        "tidalLock": "1:1",
+        "atmosphere": {
+          "bar": 0.864181408381723,
+          "code": 6,
+          "gases": [],
+          "taint": {
+            "code": "",
+            "subtype": "",
+            "severity": 0,
+            "persistence": 0
+          },
+          "density": "Standard",
+          "gasType": null,
+          "subtype": null,
+          "irritant": false,
+          "hazardCode": null,
+          "composition": null,
+          "characteristic": ""
+        },
+        "greenhouse": 0.570561912163856,
+        "jumpShadow": 1495400,
+        "population": {
+          "code": 0,
+          "majorCities": null,
+          "concentrationRating": null,
+          "majorCityPopulation": null,
+          "urbanizationPercentage": null
+        },
+        "retrograde": false,
+        "tradeCodes": [
+          "Ba"
+        ],
+        "composition": "Mostly Rock",
+        "inclination": 6,
+        "siderealDay": 735.603310941914,
+        "eccentricity": 0.06583167224071249,
+        "lawLevelCode": 0,
+        "safeJumpTime": "21m",
+        "sizeVariance": 2154,
+        "trojanOffset": null,
+        "twilightZone": true,
+        "biomassRating": 14,
+        "hydrographics": {
+          "code": 9,
+          "liquid": "Water",
+          "distribution": 5
+        },
+        "hzcoDeviation": 0.1250703013904677,
+        "nativeSophont": false,
+        "orbitPosition": {
+          "x": 15413925.398098351,
+          "y": -2174786.009056549
+        },
+        "orbitSequence": "A V",
+        "tidalLockNote": "1:1 tidal lock to primary star: rotation period 735.6h. permanent day/night hemispheres, twilight zone at terminator. axial tilt reduced to 0.3°",
+        "escapeVelocity": 9.25023249674106,
+        "extinctSophont": false,
+        "governmentCode": 0,
+        "resourceRating": 12,
+        "meanTemperature": 278.7403552,
+        "tidalLockTarget": "A",
+        "biocomplexityCode": 15,
+        "biodiversityRating": 20,
+        "habitabilityRating": 8,
+        "compatibilityRating": 0,
+        "effectiveHZCODeviation": 0.92596448
+      },
+      {
+        "au": 0.13157170741827706,
+        "uwp": "XBB9000-0",
+        "mass": 2.025377062261434,
+        "size": 11,
+        "moons": [],
+        "orbit": 0.32892926854569265,
+        "albedo": 0.22,
+        "period": 43.578672762881105,
+        "density": 0.8250081271193717,
+        "fromUWP": false,
+        "gravity": 1.1129460529531316,
+        "hasRing": false,
+        "buildLog": [
+          {
+            "Assign Boiling Atmosphere Gas Mix": {
+              "dm": 1,
+              "roll": {
+                "raw": 5,
+                "total": 6
+              },
+              "notes": [],
+              "table": "Assign Boiling Atmosphere Gas Mix",
+              "column": "Corrosive (B)",
+              "inputs": {
+                "size": 11,
+                "meanTemperatureK": 438
+              },
+              "result": {
+                "gases": [
+                  "Nitrogen"
+                ]
+              }
+            }
+          },
+          {
+            "Assign Boiling Atmosphere Gas Mix": {
+              "dm": 1,
+              "roll": {
+                "raw": 11,
+                "total": 12
+              },
+              "notes": [],
+              "table": "Assign Boiling Atmosphere Gas Mix",
+              "column": "Corrosive (B)",
+              "inputs": {
+                "size": 11,
+                "meanTemperatureK": 438
+              },
+              "result": {
+                "gases": [
+                  "Ammonia"
+                ]
+              }
+            }
+          },
+          {
+            "Gas Mix Determination": {
+              "rolls": [
+                {
+                  "gas": "Nitrogen",
+                  "allocated": 50,
+                  "percentage": 50
+                },
+                {
+                  "gas": "Ammonia",
+                  "allocated": 100,
+                  "percentage": 50
+                }
+              ],
+              "result": [
+                {
+                  "gas": "Nitrogen",
+                  "percentage": 50
+                },
+                {
+                  "gas": "Ammonia",
+                  "percentage": 50
+                }
+              ]
+            }
+          },
+          {
+            "Assign Boiling Atmosphere Gas Mix": {
+              "dm": 1,
+              "roll": {
+                "raw": 3,
+                "total": 4
+              },
+              "notes": [],
+              "table": "Assign Boiling Atmosphere Gas Mix",
+              "column": "Corrosive (B)",
+              "inputs": {
+                "size": 11,
+                "meanTemperatureK": 438
+              },
+              "result": {
+                "gases": [
+                  "Ethane"
+                ]
+              }
+            }
+          },
+          {
+            "Assign Boiling Atmosphere Gas Mix": {
+              "dm": 1,
+              "roll": {
+                "raw": 8,
+                "total": 9
+              },
+              "notes": [],
+              "table": "Assign Boiling Atmosphere Gas Mix",
+              "column": "Corrosive (B)",
+              "inputs": {
+                "size": 11,
+                "meanTemperatureK": 438
+              },
+              "result": {
+                "gases": [
+                  "Water Vapour"
+                ]
+              }
+            }
+          },
+          {
+            "Gas Mix Determination": {
+              "rolls": [
+                {
+                  "gas": "Ethane",
+                  "allocated": 70,
+                  "percentage": 70
+                },
+                {
+                  "gas": "Water Vapour",
+                  "allocated": 97,
+                  "percentage": 27
+                }
+              ],
+              "result": [
+                {
+                  "gas": "Ethane",
+                  "percentage": 70
+                },
+                {
+                  "gas": "Water Vapour",
+                  "percentage": 27
+                }
+              ]
+            }
+          },
+          {
+            "Tidal Lock Axial Tilt Reroll": {
+              "note": "Axial tilt reduced by tidal lock from 22.7° to 0.0°",
+              "inputs": {
+                "previousAxialTilt": 22.7
+              },
+              "result": {
+                "newAxialTilt": 0.05
+              }
+            }
+          },
+          {
+            "Tidal Lock Determination": {
+              "dms": {
+                "base": -4,
+                "size": 4,
+                "orbit": 10,
+                "total": 3,
+                "starMass": -2,
+                "atmosphere": -2,
+                "eccentricity": -3
+              },
+              "case": "planet-to-star",
+              "note": "Tidal drag: slow retrograde rotation, day length 3600h, axial tilt rerolled to 0.0°",
+              "roll": {
+                "raw": 7,
+                "total": 10
+              },
+              "inputs": {
+                "size": 11,
+                "orbit": 0.32892926854569265,
+                "starMass": 0.16,
+                "axialTilt": 22.703236425848225,
+                "systemAge": 3.75,
+                "eccentricity": 0.31164265858266876,
+                "starsOrbited": 1,
+                "totalMoonSize": 0,
+                "significantMoons": 0,
+                "highPressureAtmosphere": true
+              },
+              "result": {
+                "diceRoll": 3,
+                "lockType": "retrograde",
+                "newRotation": 3600,
+                "axialTiltRerolled": true
+              }
+            }
+          }
+        ],
+        "diameter": 17208,
+        "rotation": 3600,
+        "starPort": "X",
+        "axialTilt": 0.04510140070777899,
+        "orbitType": 11,
+        "techLevel": 0,
+        "tidalLock": "retrograde",
+        "atmosphere": {
+          "bar": 1.5972771746028984,
+          "code": 11,
+          "gases": [
+            {
+              "gas": "Ethane",
+              "percentage": 70
+            },
+            {
+              "gas": "Water Vapour",
+              "percentage": 27
+            }
+          ],
+          "taint": {
+            "code": "",
+            "subtype": "",
+            "severity": 0,
+            "persistence": 0
+          },
+          "density": "Dense",
+          "gasType": null,
+          "subtype": null,
+          "irritant": false,
+          "hazardCode": null,
+          "composition": "Ethane (70%), Water Vapour (27%)",
+          "characteristic": ""
+        },
+        "greenhouse": 1.3377041972772354,
+        "jumpShadow": 1720800,
+        "population": {
+          "code": 0,
+          "majorCities": null,
+          "concentrationRating": null,
+          "majorCityPopulation": null,
+          "urbanizationPercentage": null
+        },
+        "retrograde": false,
+        "tradeCodes": [
+          "Ba",
+          "Fl"
+        ],
+        "composition": "Rock and Metal",
+        "inclination": 2.5,
+        "siderealDay": null,
+        "eccentricity": 0.31164265858266876,
+        "lawLevelCode": 0,
+        "safeJumpTime": "23m",
+        "sizeVariance": -392,
+        "trojanOffset": null,
+        "twilightZone": false,
+        "biomassRating": 2,
+        "hydrographics": {
+          "code": 9,
+          "liquid": "Carbonic Acid",
+          "distribution": 4
+        },
+        "hzcoDeviation": 0.19385896715522494,
+        "nativeSophont": false,
+        "orbitPosition": {
+          "x": -10014984.046367005,
+          "y": -16944455.50626884
+        },
+        "orbitSequence": "A VI",
+        "tidalLockNote": "Tidal drag: slow retrograde rotation, day length 3600h, axial tilt rerolled to 0.0°",
+        "escapeVelocity": 13.706286804234415,
+        "extinctSophont": false,
+        "governmentCode": 0,
+        "resourceRating": 9,
+        "meanTemperature": 438,
+        "tidalLockTarget": "A",
+        "biocomplexityCode": 1,
+        "biodiversityRating": 6,
+        "habitabilityRating": 0,
+        "compatibilityRating": 0,
+        "effectiveHZCODeviation": 1.435244944
+      },
+      {
+        "au": 0.15408436166856126,
+        "uwp": "XBC5000-0",
+        "mass": 1.55477703957209,
+        "size": 11,
+        "moons": [],
+        "orbit": 0.38521090417140313,
+        "albedo": 0.67,
+        "period": 55.22911430121271,
+        "density": 0.5040180636523857,
+        "fromUWP": false,
+        "gravity": 0.733702682969673,
+        "hasRing": false,
+        "buildLog": [
+          {
+            "Assign Boiling Atmosphere Gas Mix": {
+              "dm": 1,
+              "roll": {
+                "raw": 9,
+                "total": 10
+              },
+              "notes": [],
+              "table": "Assign Boiling Atmosphere Gas Mix",
+              "column": "Insidious (C)",
+              "inputs": {
+                "size": 11,
+                "meanTemperatureK": 438
+              },
+              "result": {
+                "gases": [
+                  "Ammonia"
+                ]
+              }
+            }
+          },
+          {
+            "Assign Boiling Atmosphere Gas Mix": {
+              "dm": 1,
+              "roll": {
+                "raw": 4,
+                "total": 5
+              },
+              "notes": [],
+              "table": "Assign Boiling Atmosphere Gas Mix",
+              "column": "Insidious (C)",
+              "inputs": {
+                "size": 11,
+                "meanTemperatureK": 438
+              },
+              "result": {
+                "gases": [
+                  "Water Vapour"
+                ]
+              }
+            }
+          },
+          {
+            "Assign Boiling Atmosphere Gas Mix": {
+              "dm": 1,
+              "roll": {
+                "raw": 3,
+                "total": 4
+              },
+              "notes": [],
+              "table": "Assign Boiling Atmosphere Gas Mix",
+              "column": "Insidious (C)",
+              "inputs": {
+                "size": 11,
+                "meanTemperatureK": 438
+              },
+              "result": {
+                "gases": [
+                  "Formic Acid"
+                ]
+              }
+            }
+          },
+          {
+            "Gas Mix Determination": {
+              "rolls": [
+                {
+                  "gas": "Ammonia",
+                  "allocated": 80,
+                  "percentage": 80
+                },
+                {
+                  "gas": "Water Vapour",
+                  "allocated": 94,
+                  "percentage": 14
+                },
+                {
+                  "gas": "Formic Acid",
+                  "allocated": 98,
+                  "percentage": 4
+                }
+              ],
+              "result": [
+                {
+                  "gas": "Ammonia",
+                  "percentage": 80
+                },
+                {
+                  "gas": "Water Vapour",
+                  "percentage": 14
+                },
+                {
+                  "gas": "Formic Acid",
+                  "percentage": 4
+                }
+              ]
+            }
+          },
+          {
+            "Assign Insidious Hazard": {
+              "roll": {
+                "dms": [
+                  {
+                    "dm": 2,
+                    "reason": "Atmosphere density is EXTREMELY_DENSE"
+                  }
+                ],
+                "raw": 6,
+                "total": 8
+              },
+              "inputs": {
+                "density": "Extremely Dense"
+              },
+              "results": {
+                "hazardCode": "T"
+              }
+            }
+          },
+          {
+            "Assign Boiling Atmosphere Gas Mix": {
+              "dm": 1,
+              "roll": {
+                "raw": 8,
+                "total": 9
+              },
+              "notes": [],
+              "table": "Assign Boiling Atmosphere Gas Mix",
+              "column": "Insidious (C)",
+              "inputs": {
+                "size": 11,
+                "meanTemperatureK": 438
+              },
+              "result": {
+                "gases": [
+                  "Hydrogen Cyanide"
+                ]
+              }
+            }
+          },
+          {
+            "Assign Boiling Atmosphere Gas Mix": {
+              "dm": 1,
+              "roll": {
+                "raw": 7,
+                "total": 8
+              },
+              "notes": [],
+              "table": "Assign Boiling Atmosphere Gas Mix",
+              "column": "Insidious (C)",
+              "inputs": {
+                "size": 11,
+                "meanTemperatureK": 438
+              },
+              "result": {
+                "gases": [
+                  "Sulphur Dioxide"
+                ]
+              }
+            }
+          },
+          {
+            "Gas Mix Determination": {
+              "rolls": [
+                {
+                  "gas": "Hydrogen Cyanide",
+                  "allocated": 70,
+                  "percentage": 70
+                },
+                {
+                  "gas": "Sulphur Dioxide",
+                  "allocated": 100,
+                  "percentage": 30
+                }
+              ],
+              "result": [
+                {
+                  "gas": "Hydrogen Cyanide",
+                  "percentage": 70
+                },
+                {
+                  "gas": "Sulphur Dioxide",
+                  "percentage": 30
+                }
+              ]
+            }
+          },
+          {
+            "Assign Insidious Hazard": {
+              "roll": {
+                "dms": [
+                  {
+                    "dm": 2,
+                    "reason": "Atmosphere density is EXTREMELY_DENSE"
+                  }
+                ],
+                "raw": 8,
+                "total": 10
+              },
+              "inputs": {
+                "density": "Extremely Dense"
+              },
+              "results": {
+                "hazardCode": "T"
+              }
+            }
+          },
+          {
+            "Tidal Lock Determination": {
+              "dms": {
+                "base": -4,
+                "size": 4,
+                "orbit": 10,
+                "total": 6,
+                "starMass": -2,
+                "atmosphere": -2
+              },
+              "case": "planet-to-star",
+              "note": "1:1 tidal lock to primary star: rotation period 1325.5h. permanent day/night hemispheres, twilight zone at terminator",
+              "roll": {
+                "raw": 6,
+                "total": 12
+              },
+              "inputs": {
+                "size": 11,
+                "orbit": 0.38521090417140313,
+                "starMass": 0.16,
+                "axialTilt": 2.6439510336647336,
+                "systemAge": 3.75,
+                "eccentricity": 0.02867675767077369,
+                "starsOrbited": 1,
+                "totalMoonSize": 0,
+                "significantMoons": 0,
+                "highPressureAtmosphere": true
+              },
+              "result": {
+                "lockType": "1:1",
+                "newRotation": 1325.498743229105,
+                "newAxialTilt": 2.6439510336647336,
+                "twilightZone": true,
+                "newEccentricity": 0.02867675767077369,
+                "axialTiltRerolled": false,
+                "eccentricityRerolled": false
+              }
+            }
+          }
+        ],
+        "diameter": 18569,
+        "rotation": 1325.498743229105,
+        "starPort": "X",
+        "axialTilt": 2.6439510336647336,
+        "orbitType": 11,
+        "techLevel": 0,
+        "tidalLock": "1:1",
+        "atmosphere": {
+          "bar": 10,
+          "code": 12,
+          "gases": [
+            {
+              "gas": "Hydrogen Cyanide",
+              "percentage": 70
+            },
+            {
+              "gas": "Sulphur Dioxide",
+              "percentage": 30
+            }
+          ],
+          "taint": {
+            "code": "",
+            "subtype": "",
+            "severity": 0,
+            "persistence": 0
+          },
+          "density": "Extremely Dense",
+          "gasType": null,
+          "subtype": null,
+          "irritant": false,
+          "hazardCode": "T",
+          "composition": "Hydrogen Cyanide (70%), Sulphur Dioxide (30%)",
+          "characteristic": ""
+        },
+        "greenhouse": 1.5811388300841898,
+        "jumpShadow": 1856900,
+        "population": {
+          "code": 0,
+          "majorCities": null,
+          "concentrationRating": null,
+          "majorCityPopulation": null,
+          "urbanizationPercentage": null
+        },
+        "retrograde": false,
+        "tradeCodes": [
+          "Ba",
+          "Fl"
+        ],
+        "composition": "Mostly Rock",
+        "inclination": 2.5,
+        "siderealDay": 1325.498743229105,
+        "eccentricity": 0.02867675767077369,
+        "lawLevelCode": 0,
+        "safeJumpTime": "23m",
+        "sizeVariance": 969,
+        "trojanOffset": null,
+        "twilightZone": true,
+        "biomassRating": -6,
+        "hydrographics": {
+          "code": 5,
+          "liquid": "Molten Sulphur",
+          "distribution": 3
+        },
+        "hzcoDeviation": 0.2501406027809354,
+        "nativeSophont": false,
+        "orbitPosition": {
+          "x": -22722848.676758546,
+          "y": -3873831.4610705003
+        },
+        "orbitSequence": "A VII",
+        "tidalLockNote": "1:1 tidal lock to primary star: rotation period 1325.5h. permanent day/night hemispheres, twilight zone at terminator",
+        "escapeVelocity": 11.560373649969598,
+        "extinctSophont": false,
+        "governmentCode": 0,
+        "resourceRating": 10,
+        "meanTemperature": 438,
+        "tidalLockTarget": "A",
+        "biocomplexityCode": 1,
+        "biodiversityRating": 1,
+        "habitabilityRating": 0,
+        "compatibilityRating": 0,
+        "effectiveHZCODeviation": 1.85192896
+      },
+      {
+        "au": 0.18159982797446417,
+        "uwp": "XCA7000-0",
+        "mass": 5.431177581722977,
+        "size": 12,
+        "moons": [],
+        "orbit": 0.45399956993616036,
+        "albedo": 0.39000000000000007,
+        "period": 70.66484040652767,
+        "density": 1.1706547414658983,
+        "fromUWP": false,
+        "gravity": 1.9524678288403092,
+        "hasRing": false,
+        "buildLog": [
+          {
+            "Assign Temperate Atmosphere Gas Mix": {
+              "dm": 1,
+              "roll": {
+                "raw": 5,
+                "total": 6
+              },
+              "notes": [
+                "Carbon Monoxide results are for Hydrographics 0 (or non-H2O hydrographics) only; otherwise use Carbon Dioxide."
+              ],
+              "table": "Assign Temperate Atmosphere Gas Mix",
+              "column": "Exotic (A)",
+              "inputs": {
+                "size": 12,
+                "meanTemperatureK": 298
+              },
+              "result": {
+                "gases": [
+                  "Nitrogen"
+                ]
+              }
+            }
+          },
+          {
+            "Assign Temperate Atmosphere Gas Mix": {
+              "dm": 1,
+              "roll": {
+                "raw": 7,
+                "total": 8
+              },
+              "notes": [
+                "Carbon Monoxide results are for Hydrographics 0 (or non-H2O hydrographics) only; otherwise use Carbon Dioxide."
+              ],
+              "table": "Assign Temperate Atmosphere Gas Mix",
+              "column": "Exotic (A)",
+              "inputs": {
+                "size": 12,
+                "meanTemperatureK": 298
+              },
+              "result": {
+                "gases": [
+                  "Ethane"
+                ]
+              }
+            }
+          },
+          {
+            "Gas Mix Determination": {
+              "rolls": [
+                {
+                  "gas": "Nitrogen",
+                  "allocated": 50,
+                  "percentage": 50
+                },
+                {
+                  "gas": "Ethane",
+                  "allocated": 95,
+                  "percentage": 45
+                }
+              ],
+              "result": [
+                {
+                  "gas": "Nitrogen",
+                  "percentage": 50
+                },
+                {
+                  "gas": "Ethane",
+                  "percentage": 45
+                }
+              ]
+            }
+          },
+          {
+            "Assign Exotic Atmosphere": {
+              "roll": {
+                "dms": [
+                  {
+                    "dm": 2,
+                    "reason": "effectiveHZCODeviation > 2"
+                  }
+                ],
+                "raw": 9,
+                "total": 11
+              },
+              "inputs": {
+                "size": 12,
+                "effectiveHZCODeviation": 2.3612094239999997
+              },
+              "results": {
+                "atmosphere": {
+                  "code": 10,
+                  "taint": {
+                    "code": "S",
+                    "subtype": "Sulphur Compounds",
+                    "severity": 1,
+                    "persistence": 9
+                  },
+                  "density": "Very Dense",
+                  "subtype": 11,
+                  "irritant": true,
+                  "composition": "Nitrogen (50%), Ethane (45%)"
+                },
+                "meanTemperatureK": 298
+              }
+            }
+          },
+          {
+            "Tidal Lock Axial Tilt Reroll": {
+              "note": "Axial tilt reduced by tidal lock from 5.6° to 0.0°",
+              "inputs": {
+                "previousAxialTilt": 5.59
+              },
+              "result": {
+                "newAxialTilt": 0
+              }
+            }
+          },
+          {
+            "Tidal Lock Determination": {
+              "dms": {
+                "base": -4,
+                "size": 4,
+                "orbit": 9,
+                "total": 7,
+                "starMass": -2
+              },
+              "case": "planet-to-star",
+              "note": "Tidal drag: slow retrograde rotation, day length 3600h, axial tilt rerolled to 0.0°",
+              "roll": {
+                "raw": 3,
+                "total": 10
+              },
+              "inputs": {
+                "size": 12,
+                "orbit": 0.45399956993616036,
+                "starMass": 0.16,
+                "axialTilt": 5.59143489062796,
+                "systemAge": 3.75,
+                "eccentricity": 0.06672154578945462,
+                "starsOrbited": 1,
+                "totalMoonSize": 0,
+                "significantMoons": 0,
+                "highPressureAtmosphere": false
+              },
+              "result": {
+                "diceRoll": 3,
+                "lockType": "retrograde",
+                "newRotation": 3600,
+                "axialTiltRerolled": true
+              }
+            }
+          }
+        ],
+        "diameter": 21275,
+        "rotation": 3600,
+        "starPort": "X",
+        "axialTilt": 0.0029310987968380166,
+        "orbitType": 11,
+        "techLevel": 0,
+        "tidalLock": "retrograde",
+        "atmosphere": {
+          "bar": 2.8441737849898883,
+          "code": 10,
+          "gases": [
+            {
+              "gas": "Nitrogen",
+              "percentage": 50
+            },
+            {
+              "gas": "Ethane",
+              "percentage": 45
+            }
+          ],
+          "taint": {
+            "code": "S",
+            "subtype": "Sulphur Compounds",
+            "severity": 1,
+            "persistence": 9
+          },
+          "density": "Very Dense",
+          "gasType": null,
+          "subtype": 11,
+          "irritant": true,
+          "hazardCode": null,
+          "composition": "Nitrogen (50%), Ethane (45%)",
+          "characteristic": ""
+        },
+        "greenhouse": 1.9306496986018749,
+        "jumpShadow": 2127500,
+        "population": {
+          "code": 0,
+          "majorCities": null,
+          "concentrationRating": null,
+          "majorCityPopulation": null,
+          "urbanizationPercentage": null
+        },
+        "retrograde": false,
+        "tradeCodes": [
+          "Ba",
+          "Fl"
+        ],
+        "composition": "Mostly Metal",
+        "inclination": 22,
+        "siderealDay": null,
+        "eccentricity": 0.06672154578945462,
+        "lawLevelCode": 0,
+        "safeJumpTime": "25m",
+        "sizeVariance": 2075,
+        "trojanOffset": null,
+        "twilightZone": false,
+        "biomassRating": 7,
+        "hydrographics": {
+          "code": 7,
+          "liquid": "Hydrogen Cyanide",
+          "distribution": 4
+        },
+        "hzcoDeviation": 0.31892926854569265,
+        "nativeSophont": false,
+        "orbitPosition": {
+          "x": 26367759.564845912,
+          "y": -6540970.765949987
+        },
+        "orbitSequence": "A VIII",
+        "tidalLockNote": "Tidal drag: slow retrograde rotation, day length 3600h, axial tilt rerolled to 0.0°",
+        "escapeVelocity": 20.185721981818766,
+        "extinctSophont": false,
+        "governmentCode": 0,
+        "resourceRating": 12,
+        "meanTemperature": 298,
+        "tidalLockTarget": "A",
+        "biocomplexityCode": 4,
+        "biodiversityRating": 3,
+        "habitabilityRating": 0,
+        "compatibilityRating": 0,
+        "effectiveHZCODeviation": 2.3612094239999997
+      },
+      {
+        "au": 0.55,
+        "uwp": "X8A5000-0",
+        "mass": 1.2213265790180696,
+        "size": 8,
+        "moons": [],
+        "orbit": 1.5,
+        "albedo": 0.4600000000000001,
+        "period": 372.4553933941076,
+        "density": 0.7975491720391067,
+        "fromUWP": false,
+        "gravity": 0.9192823358804473,
+        "hasRing": false,
+        "buildLog": [
+          {
+            "Assign Cold Atmosphere Gas Mix": {
+              "dm": 0,
+              "roll": {
+                "raw": 8,
+                "total": 8
+              },
+              "notes": [
+                "Carbon Monoxide results are for Hydrographics 0 (or non-H2O hydrographics) only; otherwise use Carbon Dioxide."
+              ],
+              "table": "Assign Cold Atmosphere Gas Mix",
+              "column": "Exotic (A)",
+              "inputs": {
+                "size": 8,
+                "meanTemperatureK": 263
+              },
+              "result": {
+                "gases": [
+                  "Nitrogen"
+                ]
+              }
+            }
+          },
+          {
+            "Assign Cold Atmosphere Gas Mix": {
+              "dm": 0,
+              "roll": {
+                "raw": 7,
+                "total": 7
+              },
+              "notes": [
+                "Carbon Monoxide results are for Hydrographics 0 (or non-H2O hydrographics) only; otherwise use Carbon Dioxide."
+              ],
+              "table": "Assign Cold Atmosphere Gas Mix",
+              "column": "Exotic (A)",
+              "inputs": {
+                "size": 8,
+                "meanTemperatureK": 263
+              },
+              "result": {
+                "gases": [
+                  "Carbon Dioxide"
+                ]
+              }
+            }
+          },
+          {
+            "Assign Cold Atmosphere Gas Mix": {
+              "dm": 0,
+              "roll": {
+                "raw": 6,
+                "total": 6
+              },
+              "notes": [
+                "Carbon Monoxide results are for Hydrographics 0 (or non-H2O hydrographics) only; otherwise use Carbon Dioxide."
+              ],
+              "table": "Assign Cold Atmosphere Gas Mix",
+              "column": "Exotic (A)",
+              "inputs": {
+                "size": 8,
+                "meanTemperatureK": 263
+              },
+              "result": {
+                "gases": [
+                  "Nitrogen"
+                ]
+              }
+            }
+          },
+          {
+            "Gas Mix Determination": {
+              "rolls": [
+                {
+                  "gas": "Nitrogen",
+                  "allocated": 60,
+                  "percentage": 60
+                },
+                {
+                  "gas": "Carbon Dioxide",
+                  "allocated": 88,
+                  "percentage": 28
+                },
+                {
+                  "gas": "Nitrogen",
+                  "allocated": 99,
+                  "percentage": 11
+                }
+              ],
+              "result": [
+                {
+                  "gas": "Nitrogen",
+                  "percentage": 71
+                },
+                {
+                  "gas": "Carbon Dioxide",
+                  "percentage": 28
+                }
+              ]
+            }
+          },
+          {
+            "Assign Exotic Atmosphere": {
+              "roll": {
+                "dms": [
+                  {
+                    "dm": 2,
+                    "reason": "effectiveHZCODeviation > 2"
+                  }
+                ],
+                "raw": 3,
+                "total": 5
+              },
+              "inputs": {
+                "size": 8,
+                "effectiveHZCODeviation": 10.105328
+              },
+              "results": {
+                "atmosphere": {
+                  "code": 10,
+                  "taint": {
+                    "code": "",
+                    "subtype": "",
+                    "severity": 2,
+                    "persistence": 5
+                  },
+                  "density": "Thin",
+                  "subtype": 5,
+                  "irritant": true,
+                  "composition": "Nitrogen (71%), Carbon Dioxide (28%)"
+                },
+                "meanTemperatureK": 263
+              }
+            }
+          },
+          {
+            "Tidal Lock Determination": {
+              "dms": {
+                "base": -4,
+                "size": 3,
+                "orbit": 4,
+                "total": -7,
+                "starMass": -2,
+                "axialTilt30": -2,
+                "eccentricity": -6
+              },
+              "case": "planet-to-star",
+              "note": "No tidal effect",
+              "roll": {
+                "raw": 7,
+                "total": 0
+              },
+              "inputs": {
+                "size": 8,
+                "orbit": 1.5,
+                "starMass": 0.16,
+                "axialTilt": 32.772187146262056,
+                "systemAge": 3.75,
+                "eccentricity": 0.6968828969275971,
+                "starsOrbited": 1,
+                "totalMoonSize": 0,
+                "significantMoons": 0,
+                "highPressureAtmosphere": false
+              },
+              "result": {
+                "lockType": "none"
+              }
+            }
+          }
+        ],
+        "diameter": 14703,
+        "rotation": 31.93861111111111,
+        "starPort": "X",
+        "axialTilt": 32.772187146262056,
+        "orbitType": 11,
+        "techLevel": 0,
+        "tidalLock": null,
+        "atmosphere": {
+          "bar": 0.6635751272585547,
+          "code": 10,
+          "gases": [
+            {
+              "gas": "Nitrogen",
+              "percentage": 71
+            },
+            {
+              "gas": "Carbon Dioxide",
+              "percentage": 28
+            }
+          ],
+          "taint": {
+            "code": "",
+            "subtype": "",
+            "severity": 2,
+            "persistence": 5
+          },
+          "density": "Thin",
+          "gasType": null,
+          "subtype": 5,
+          "irritant": true,
+          "hazardCode": null,
+          "composition": "Nitrogen (71%), Carbon Dioxide (28%)",
+          "characteristic": ""
+        },
+        "greenhouse": 2.1291642129829853,
+        "jumpShadow": 1470300,
+        "population": {
+          "code": 0,
+          "majorCities": null,
+          "concentrationRating": null,
+          "majorCityPopulation": null,
+          "urbanizationPercentage": null
+        },
+        "retrograde": false,
+        "tradeCodes": [
+          "Ba",
+          "Fl"
+        ],
+        "composition": "Rock and Metal",
+        "inclination": 13,
+        "siderealDay": null,
+        "eccentricity": 0.6968828969275971,
+        "lawLevelCode": 0,
+        "safeJumpTime": "21m",
+        "sizeVariance": 1903,
+        "trojanOffset": null,
+        "twilightZone": false,
+        "biomassRating": 1,
+        "hydrographics": {
+          "code": 5,
+          "liquid": "Carbonic Acid",
+          "distribution": 5
+        },
+        "hzcoDeviation": 1.3649296986095323,
+        "nativeSophont": false,
+        "orbitPosition": {
+          "x": 26772952.928991333,
+          "y": -77801122.69273798
+        },
+        "orbitSequence": "A IX",
+        "tidalLockNote": null,
+        "escapeVelocity": 11.514497661334664,
+        "extinctSophont": false,
+        "governmentCode": 0,
+        "resourceRating": 6,
+        "meanTemperature": 263,
+        "tidalLockTarget": null,
+        "biocomplexityCode": 1,
+        "biodiversityRating": 2,
+        "habitabilityRating": 0,
+        "compatibilityRating": 0,
+        "effectiveHZCODeviation": 10.105328
+      },
+      {
+        "au": 8.56,
+        "uwp": "X3A9000-0",
+        "mass": 0.010917182280845228,
+        "size": 3,
+        "moons": [],
+        "orbit": 6.7,
+        "albedo": 0.9300000000000002,
+        "period": 22868.668563792693,
+        "density": 0.2076074823491054,
+        "fromUWP": false,
+        "gravity": 0.07777956711715073,
+        "hasRing": false,
+        "buildLog": [
+          {
+            "Assign Frozen Atmosphere Gas Mix": {
+              "dm": -2,
+              "roll": {
+                "raw": 4,
+                "total": 2
+              },
+              "notes": [
+                "Carbon Monoxide results are for Hydrographics 0 (or non-H2O hydrographics) only; otherwise use Nitrogen."
+              ],
+              "table": "Assign Frozen Atmosphere Gas Mix",
+              "column": "Exotic (A)",
+              "inputs": {
+                "size": 3,
+                "meanTemperatureK": 158
+              },
+              "result": {
+                "gases": [
+                  "Argon"
+                ]
+              }
+            }
+          },
+          {
+            "Assign Frozen Atmosphere Gas Mix": {
+              "dm": -2,
+              "roll": {
+                "raw": 7,
+                "total": 5
+              },
+              "notes": [
+                "Carbon Monoxide results are for Hydrographics 0 (or non-H2O hydrographics) only; otherwise use Nitrogen."
+              ],
+              "table": "Assign Frozen Atmosphere Gas Mix",
+              "column": "Exotic (A)",
+              "inputs": {
+                "size": 3,
+                "meanTemperatureK": 158
+              },
+              "result": {
+                "gases": [
+                  "Nitrogen"
+                ]
+              }
+            }
+          },
+          {
+            "Gas Mix Determination": {
+              "rolls": [
+                {
+                  "gas": "Argon",
+                  "allocated": 70,
+                  "percentage": 70
+                },
+                {
+                  "gas": "Nitrogen",
+                  "allocated": 97,
+                  "percentage": 27
+                }
+              ],
+              "result": [
+                {
+                  "gas": "Argon",
+                  "percentage": 70
+                },
+                {
+                  "gas": "Nitrogen",
+                  "percentage": 27
+                }
+              ]
+            }
+          },
+          {
+            "Assign Exotic Atmosphere": {
+              "roll": {
+                "dms": [
+                  {
+                    "dm": -2,
+                    "reason": "Size 2–4"
+                  },
+                  {
+                    "dm": 2,
+                    "reason": "effectiveHZCODeviation > 2"
+                  }
+                ],
+                "raw": 4,
+                "total": 4
+              },
+              "inputs": {
+                "size": 3,
+                "effectiveHZCODeviation": 48.603798399999995
+              },
+              "results": {
+                "atmosphere": {
+                  "code": 10,
+                  "taint": {
+                    "code": "L",
+                    "subtype": "Low Oxygen",
+                    "severity": 9,
+                    "persistence": 9
+                  },
+                  "density": "Thin",
+                  "subtype": 4,
+                  "irritant": true,
+                  "composition": "Argon (70%), Nitrogen (27%)"
+                },
+                "meanTemperatureK": 158
+              }
+            }
+          },
+          {
+            "Tidal Lock Determination": {
+              "dms": {
+                "base": -4,
+                "size": 1,
+                "orbit": -12,
+                "total": -21,
+                "starMass": -2,
+                "eccentricity": -4
+              },
+              "case": "planet-to-star",
+              "note": "Tidal effect auto-failed: total DMs ≤ −10",
+              "roll": null,
+              "inputs": {
+                "size": 3,
+                "orbit": 6.7,
+                "starMass": 0.16,
+                "axialTilt": 9.715137169902716,
+                "systemAge": 3.75,
+                "eccentricity": 0.4464367902003584,
+                "starsOrbited": 1,
+                "totalMoonSize": 0,
+                "significantMoons": 0,
+                "highPressureAtmosphere": false
+              },
+              "result": {
+                "lockType": "none"
+              }
+            }
+          }
+        ],
+        "diameter": 4779,
+        "rotation": 31.205833333333334,
+        "starPort": "X",
+        "axialTilt": 9.715137169902716,
+        "orbitType": 11,
+        "techLevel": 0,
+        "tidalLock": null,
+        "atmosphere": {
+          "bar": 0.6702564994191362,
+          "code": 10,
+          "gases": [
+            {
+              "gas": "Argon",
+              "percentage": 70
+            },
+            {
+              "gas": "Nitrogen",
+              "percentage": 27
+            }
+          ],
+          "taint": {
+            "code": "L",
+            "subtype": "Low Oxygen",
+            "severity": 9,
+            "persistence": 9
+          },
+          "density": "Thin",
+          "gasType": null,
+          "subtype": 4,
+          "irritant": true,
+          "hazardCode": null,
+          "composition": "Argon (70%), Nitrogen (27%)",
+          "characteristic": ""
+        },
+        "greenhouse": 0.7054955395905803,
+        "jumpShadow": 477900,
+        "population": {
+          "code": 0,
+          "majorCities": null,
+          "concentrationRating": null,
+          "majorCityPopulation": null,
+          "urbanizationPercentage": null
+        },
+        "retrograde": false,
+        "tradeCodes": [
+          "Ba",
+          "Fl"
+        ],
+        "composition": "Mostly Ice",
+        "inclination": 30,
+        "siderealDay": null,
+        "eccentricity": 0.4464367902003584,
+        "lawLevelCode": 0,
+        "safeJumpTime": "12m",
+        "sizeVariance": -21,
+        "trojanOffset": null,
+        "twilightZone": false,
+        "biomassRating": 4,
+        "hydrographics": {
+          "code": 9,
+          "liquid": "Ethane",
+          "distribution": 2
+        },
+        "hzcoDeviation": 6.564929698609532,
+        "nativeSophont": false,
+        "orbitPosition": {
+          "x": -1158371892.9216805,
+          "y": 545896302.0172664
+        },
+        "orbitSequence": "A X",
+        "tidalLockNote": null,
+        "escapeVelocity": 1.9094963644419571,
+        "extinctSophont": false,
+        "governmentCode": 0,
+        "resourceRating": 4,
+        "meanTemperature": 158,
+        "tidalLockTarget": null,
+        "biocomplexityCode": 1,
+        "biodiversityRating": 3,
+        "habitabilityRating": 0,
+        "compatibilityRating": 0,
+        "effectiveHZCODeviation": 48.603798399999995
+      }
+    ],
+    "availableOrbits": [
+      [
+        0.01,
+        20
+      ]
+    ],
+    "tidalLockTarget": null,
+    "totalLuminosity": 0.0029190378108338868,
+    "minimumAllowableOrbit": 0.01,
+    "effectiveHZCODeviation": 0
+  },
+  "surveyIndex": 3,
+  "totalOrbits": 20,
+  "sophontCheck": "rareEarth",
+  "totalObjects": 8,
+  "mainWorldType": null,
+  "planetoidBelts": 2,
+  "remainingOrbits": [],
+  "hasNativeSophont": false,
+  "hasExtinctSophont": false,
+  "mainFromDefinition": null,
+  "terrestrialPlanets": 6,
+  "allowCaptiveGovernment": false,
+  "mainWorldOrbitSequence": "A III.1",
+  "maxNativeSophontTechLevel": 15
+}

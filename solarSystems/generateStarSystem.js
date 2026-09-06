@@ -41,6 +41,8 @@ const generateStarSystem = (definition, subsector, row, col) => {
   solarSystem.allowCaptiveGovernment =
     definition?.allowCaptiveGovernment ?? subsector?.allowCaptiveGovernment ?? true;
   solarSystem.governmentTypes = definition?.governmentTypes ?? subsector?.governmentTypes;
+  solarSystem.limitedMainWorldEccentricity =
+    definition?.limitedMainWorldEccentricity ?? subsector?.limitedMainWorldEccentricity ?? false;
   solarSystem.assignSurveyIndex(si);
 
   solarSystem.determineAvailableOrbits();
@@ -85,6 +87,9 @@ const generateStarSystem = (definition, subsector, row, col) => {
 
   solarSystem.assignPopulationDetails();
   solarSystem.assignTradeCodes();
+
+  solarSystem.enforcePopulatedWorldEccentricity();
+  solarSystem.assignPeriapsisApoapsisTemperatures();
 
   solarSystem.mainWorldOrbitSequence = solarSystem.mainWorld?.orbitSequence;
   solarSystem.setOrbitPositions();

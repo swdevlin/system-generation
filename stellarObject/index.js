@@ -6,6 +6,7 @@ class StellarObject {
     this.orbitPosition = { x: 0, y: 0 };
     this.inclination = 0;
     this.eccentricity = 0;
+    this.eccentricityFromDefinition = false;
     this.effectiveHZCODeviation = 0;
     this.orbit = 0;
     this.buildLog = [];
