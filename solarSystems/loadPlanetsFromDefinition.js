@@ -66,7 +66,8 @@ const assignBodies = (star, definition, solarSystem) => {
 
     orbitIndex = 0;
     for (const body of definition.bodies) {
-      orbitIndex = star.nextOrbit(body, orbitIndex);
+      const orbitBody = body.mainWorld && !body.orbit ? { ...body, orbit: 'habitable' } : body;
+      orbitIndex = star.nextOrbit(orbitBody, orbitIndex);
       if (orbitIndex > star.occupiedOrbits.length - 1) break;
       const newSO = solarSystem.preassignedBody({ star: star, body: body, orbitIndex: orbitIndex });
       if (!newSO) continue;
