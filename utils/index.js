@@ -250,17 +250,12 @@ const isBrownDwarf = (type) => {
   return [STELLAR_TYPES.BrownDwarf, 'L', 'T', 'Y'].includes(type);
 };
 
-const getBoolFromEnv = (key) => {
-  return process.env[key] === 'true';
-};
-
 module.exports = {
   additionalStarDM: additionalStarDM,
   companionOrbit: companionOrbit,
   computeBaseline: computeBaseline,
   deconstructUWP: deconstructUWP,
   determineDataKey: determineDataKey,
-  getBoolFromEnv: getBoolFromEnv,
   hexToInt: hexToInt,
   isAnomaly: isAnomaly,
   isBrownDwarf: isBrownDwarf,

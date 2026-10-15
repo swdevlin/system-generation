@@ -68,6 +68,7 @@ const generateStarSystem = (definition, subsector, row, col) => {
   solarSystem.setRotationPeriod();
   solarSystem.assignAtmospheres();
   solarSystem.assignTidalLock();
+  solarSystem.assignClimate();
   solarSystem.assignBiomass();
   solarSystem.assignResourceRatings();
   solarSystem.assignHabitabilityRatings();

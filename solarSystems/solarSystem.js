@@ -4,8 +4,6 @@ const {
   eccentricity,
   determineHydrographics,
   meanTemperature,
-  periapsisTemperature,
-  apoapsisTemperature,
   axialTilt,
   calculateDistance,
   travelTime,
@@ -48,6 +46,7 @@ const systemDensity = require('../utils/systemDensity');
 const { assignTradeCodes } = require('../economics/assignTradeCodes');
 const assignTidalLock = require('../tidalLock/assignTidalLock');
 const calcRotation = require('../utils/calcRotation');
+const ClimateGenerator = require('../climate/ClimateGenerator');
 
 const { GasGiant } = require('../gasGiants/gasGiant');
 const { orbitPosition, recalculateSystemOrbitPositions } = require('../utils/orbitPosition');
@@ -1115,10 +1114,8 @@ class SolarSystem {
   }
 
   assignPeriapsisApoapsisTemperatures() {
-    const apply = (star, obj) => {
-      obj.periapsisTemperature = periapsisTemperature(star, obj);
-      obj.apoapsisTemperature = apoapsisTemperature(star, obj);
-    };
+    const generator = new ClimateGenerator();
+    const apply = (star, obj) => generator.applyPeriapsisApoapsis(star, obj);
     for (const star of this.stars)
       for (const stellarObject of star.stellarObjects) {
         if (
@@ -1130,6 +1127,23 @@ class SolarSystem {
         for (const moon of stellarObject.moons ?? []) {
           if (moon.size === 'S' || moon.size === 'R' || moon.size === 0) continue;
           apply(star, moon);
+        }
+      }
+  }
+
+  assignClimate() {
+    const generator = new ClimateGenerator();
+    for (const star of this.stars)
+      for (const stellarObject of star.stellarObjects) {
+        if (
+          [ORBIT_TYPES.TERRESTRIAL, ORBIT_TYPES.PLANETOID_BELT_OBJECT].includes(
+            stellarObject.orbitType
+          )
+        )
+          generator.apply(star, stellarObject);
+        for (const moon of stellarObject.moons ?? []) {
+          if (moon.size === 'S' || moon.size === 'R' || moon.size === 0) continue;
+          generator.apply(star, moon);
         }
       }
   }

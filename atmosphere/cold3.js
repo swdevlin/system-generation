@@ -1,6 +1,7 @@
 const {twoD6, d6} = require("../dice");
 const AtmosphereDensities = require("./AtmosphereDensities");
 const {determineTaint} = require("./taint");
+const unusualAtmosphere = require("./unusualAtmosphere");
 
 // page 95
 const cold3 = (star, planet) => {
@@ -76,7 +77,7 @@ const cold3 = (star, planet) => {
       planet.atmosphere.gasType = 'Hydrogen';
       break;
     case 15:
-      planet.atmosphere.code = 15;
+      unusualAtmosphere(star, planet);
       break;
   }
 

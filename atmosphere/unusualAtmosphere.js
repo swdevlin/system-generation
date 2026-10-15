@@ -1,8 +1,7 @@
-const AtmosphereDensities = require('./AtmosphereDensities');
+const UnusualAtmosphereGenerator = require('./UnusualAtmosphereGenerator');
 
 const unusualAtmosphere = (star, planet) => {
-  planet.atmosphere.code = 15;
-  planet.atmosphere.density = AtmosphereDensities.NONE;
+  new UnusualAtmosphereGenerator().generate(star, planet);
 };
 
 module.exports = unusualAtmosphere;

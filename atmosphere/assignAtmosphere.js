@@ -26,6 +26,9 @@ const assignAtmosphere = (star, planet) => {
     assignAtmosphereFromCode(star, planet);
   }
 
+  // Unusual (F) atmospheres set their own pressure from the subtype
+  if (planet.atmosphere.code === 15) return;
+
   switch (planet.atmosphere.density) {
     case AtmosphereDensities.NONE:
       planet.atmosphere.bar = 0;

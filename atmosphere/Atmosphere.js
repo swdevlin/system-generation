@@ -10,6 +10,7 @@ class Atmosphere {
     this.bar = 0;
     this.gasType = null;
     this.subtype = null;
+    this.minHydrographics = null;
     this.gases = [];
     this.composition = null;
 

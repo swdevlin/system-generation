@@ -33,6 +33,7 @@ const { assignCulture } = require('../population/assignCulture');
 const { assignGovernmentDetails } = require('../government/assignGovernmentDetails');
 
 const assignTidalLock = require('../tidalLock/assignTidalLock');
+const ClimateGenerator = require('../climate/ClimateGenerator');
 const toJSON = require('../utils/toJSON');
 
 function validateRequest(req, res, next) {
@@ -124,6 +125,15 @@ function processTerrestrialPlanet(starProxy, uwp, orbit) {
 
   assignTidalLock([starProxy]);
 
+  const climateGenerator = new ClimateGenerator();
+  climateGenerator.apply(starProxy, planet);
+  climateGenerator.applyPeriapsisApoapsis(starProxy, planet);
+  for (const moon of planet.moons) {
+    if (moon.size === 'S' || moon.size === 'R' || moon.size === 0) continue;
+    climateGenerator.apply(starProxy, moon);
+    climateGenerator.applyPeriapsisApoapsis(starProxy, moon);
+  }
+
   assignBiomass(starProxy, planet, 'standard');
   planet.resourceRating = resourceRating(planet);
   planet.habitabilityRating = habitabilityRating(planet);
@@ -147,11 +157,14 @@ function processPlanetoidBelt(starProxy, uwp, orbit) {
   addSignificantBodies(starProxy, belt);
   assignMoons(starProxy);
 
+  const climateGenerator = new ClimateGenerator();
   for (const obj of starProxy.stellarObjects) {
     if (obj.orbitType !== ORBIT_TYPES.PLANETOID_BELT_OBJECT) continue;
     assignAtmosphere(starProxy, obj);
     obj.meanTemperature = meanTemperature(starProxy, obj);
     obj.hydrographics = determineHydrographics(starProxy, obj);
+    climateGenerator.apply(starProxy, obj);
+    climateGenerator.applyPeriapsisApoapsis(starProxy, obj);
     assignBiomass(starProxy, obj, 'standard');
     obj.resourceRating = resourceRating(obj);
     obj.habitabilityRating = habitabilityRating(obj);

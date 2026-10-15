@@ -201,7 +201,8 @@ describe("tests for cold3 function", function () {
     planet.orbit = star.hzco;
     cold1(star, planet);
     planet.atmosphere.code.should.equal(15);
-    planet.atmosphere.density.should.equal(AtmosphereDensities.NONE);
+    planet.atmosphere.subtype.should.be.a('string');
+    planet.atmosphere.bar.should.be.above(0);
     planet.atmosphere.irritant.should.be.false;
   });
 

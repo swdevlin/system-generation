@@ -20,6 +20,9 @@ const determineHydrographics = (star, planet) => {
     )
       roll -= 4;
     hydrographics.code = Math.max(Math.min(10, roll), 0);
+    // Panthalassic and Steam unusual atmospheres require a minimum hydrographics
+    if (planet.atmosphere.minHydrographics)
+      hydrographics.code = Math.max(hydrographics.code, planet.atmosphere.minHydrographics);
   } else hydrographics = planet.hydrographics;
 
   if (hydrographics.code !== 0) hydrographics.distribution = twoD6() - 2;

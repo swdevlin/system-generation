@@ -193,7 +193,8 @@ describe('tests for hot1 function', function () {
     let planet = new TerrestrialPlanet(planetSize);
     hot1(star, planet);
     planet.atmosphere.code.should.equal(15);
-    planet.atmosphere.density.should.equal(AtmosphereDensities.NONE);
+    planet.atmosphere.subtype.should.be.a('string');
+    planet.atmosphere.bar.should.be.above(0);
     planet.atmosphere.irritant.should.be.false;
   });
 

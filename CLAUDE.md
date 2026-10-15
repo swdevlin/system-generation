@@ -79,10 +79,7 @@ subsectors:
 
 ## Environment Variables (.env)
 
-- `nativeSophontChance` - Probability of native species (default 0.10)
-- `extinctSophontChance` - Probability species is extinct (default 0.8)
-- `maxNativeSophontTechLevel` - Tech level cap for natives (default 10)
-- `noCaptiveGovernment` - Governance rule flag
+- `ICE_CAP_FREEZE_OFFSET` - Kelvin below the surface liquid's melting point where ice caps begin (default 10)
 - `DB_ENV` - Database environment: `dev` or `production`
 
 ## Algorithm Notes

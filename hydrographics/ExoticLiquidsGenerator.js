@@ -194,18 +194,33 @@ class SurfaceLiquidGenerator {
     const roll = randomInt(1, totalWeight);
 
     let cumulative = 0;
-    let chosen = null;
     for (const liquid of viable) {
       cumulative += liquid.relativeAbundance;
-      if (roll <= cumulative) {
-        chosen = liquid;
-        break;
-      }
+      if (roll <= cumulative) return liquid.name;
     }
-    chosen ||= viable[viable.length - 1];
 
-    return chosen.name;
+    return viable[viable.length - 1].name;
+  }
+
+  // Called after the final mean temperature is known. Too cold: the liquid stays and freezes
+  // (ice caps show how much). Too hot: pick a liquid viable at the new temperature, or boil off.
+  reconcile(planet) {
+    const hydrographics = planet.hydrographics;
+    if (!hydrographics?.code) return hydrographics;
+
+    const current = SurfaceLiquidsTable.find((l) => l.name === hydrographics.liquid);
+    if (current && planet.meanTemperature <= current.boilingPointK) return hydrographics;
+
+    const previous = hydrographics.liquid;
+    hydrographics.liquid = this.getLiquid(planet);
+    if (hydrographics.liquid === null) {
+      hydrographics.code = 0;
+      hydrographics.distribution = 0;
+    }
+    if (hydrographics.liquid !== previous) hydrographics.previousLiquid = previous;
+    return hydrographics;
   }
 }
 
 module.exports = SurfaceLiquidGenerator;
+module.exports.SurfaceLiquidsTable = SurfaceLiquidsTable;
