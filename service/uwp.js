@@ -115,6 +115,7 @@ function processTerrestrialPlanet(starProxy, uwp, orbit) {
     assignAtmosphere(starProxy, moon);
     if (moon.size === 'S' || moon.size === 'R' || moon.size === 0) {
       moon.hydrographics.code = 0;
+      moon.hydrographics.percentage = 0;
       continue;
     }
     moon.meanTemperature = meanTemperature(starProxy, moon);

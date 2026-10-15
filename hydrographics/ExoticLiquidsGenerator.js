@@ -215,6 +215,7 @@ class SurfaceLiquidGenerator {
     hydrographics.liquid = this.getLiquid(planet);
     if (hydrographics.liquid === null) {
       hydrographics.code = 0;
+      hydrographics.percentage = 0;
       hydrographics.distribution = 0;
     }
     if (hydrographics.liquid !== previous) hydrographics.previousLiquid = previous;

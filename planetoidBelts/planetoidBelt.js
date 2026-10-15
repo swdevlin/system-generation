@@ -26,6 +26,7 @@ class PlanetoidBelt extends StellarObject {
     this.atmosphere.density = AtmosphereDensities.NONE;
     this.hydrographics = {
       code: 0,
+      percentage: 0,
       distribution: null
     };
     this.population = new Population();

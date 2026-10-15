@@ -42,6 +42,7 @@ class TerrestrialPlanet extends StellarObject {
     }
     this.hydrographics = {
       code: components ? components.hydrographics : null,
+      percentage: null,
       distribution: null
     };
     this.population = new Population();
