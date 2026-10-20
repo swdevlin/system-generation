@@ -12,18 +12,18 @@ class TidalLockDetermination {
     this.systemAge = systemAge;
   }
 
-  _numericSize() {
+  numericSize() {
     const s = this.body.size;
     return typeof s === 'number' ? s : 0;
   }
 
-  _isHighPressure() {
+  isHighPressure() {
     return HIGH_PRESSURE_CODES.has(this.body.atmosphere?.code);
   }
 
-  _commonDMs() {
+  commonDMs() {
     const dms = {};
-    const size = this._numericSize();
+    const size = this.numericSize();
     if (size >= 1) dms.size = Math.ceil(size / 3);
 
     if (this.body.eccentricity > 0.1)
@@ -34,7 +34,7 @@ class TidalLockDetermination {
     if (tilt >= 60 && tilt <= 120) dms.axialTilt60_120 = -4;
     if (tilt >= 80 && tilt <= 100) dms.axialTilt80_100 = -4;
 
-    if (this._isHighPressure()) dms.atmosphere = -2;
+    if (this.isHighPressure()) dms.atmosphere = -2;
 
     if (this.systemAge < 1) dms.systemAge = -2;
     else if (this.systemAge >= 5 && this.systemAge <= 10) dms.systemAge = 2;
@@ -43,7 +43,7 @@ class TidalLockDetermination {
     return dms;
   }
 
-  _sumDMs(dmsObj) {
+  sumDMs(dmsObj) {
     return Object.values(dmsObj).reduce((a, v) => a + v, 0);
   }
 
@@ -71,8 +71,8 @@ class TidalLockDetermination {
     if (significantMoons.length > 0)
       caseDMs.moons = -significantMoons.reduce((s, m) => s + m.size, 0);
 
-    const commonDMs = this._commonDMs();
-    const totalDM = this._sumDMs(caseDMs) + this._sumDMs(commonDMs);
+    const commonDMs = this.commonDMs();
+    const totalDM = this.sumDMs(caseDMs) + this.sumDMs(commonDMs);
     return { name: 'planet-to-star', caseDMs, commonDMs, totalDM, target: 'star', targetBody: null };
   }
 
@@ -89,8 +89,8 @@ class TidalLockDetermination {
     else if (parentMass >= 100 && parentMass < 1000) caseDMs.parentMass = 6;
     else if (parentMass >= 1000) caseDMs.parentMass = 8;
 
-    const commonDMs = this._commonDMs();
-    const totalDM = this._sumDMs(caseDMs) + this._sumDMs(commonDMs);
+    const commonDMs = this.commonDMs();
+    const totalDM = this.sumDMs(caseDMs) + this.sumDMs(commonDMs);
     return { name: 'moon-to-planet', caseDMs, commonDMs, totalDM, target: 'planet', targetBody: parentBody };
   }
 
@@ -112,8 +112,8 @@ class TidalLockDetermination {
     if (significantMoons.length > 1)
       caseDMs.multipleMoons = -(significantMoons.length - 1) * 2;
 
-    const commonDMs = this._commonDMs();
-    const totalDM = this._sumDMs(caseDMs) + this._sumDMs(commonDMs);
+    const commonDMs = this.commonDMs();
+    const totalDM = this.sumDMs(caseDMs) + this.sumDMs(commonDMs);
     return { name: 'planet-to-moon', caseDMs, commonDMs, totalDM, target: 'moon', targetBody: moon };
   }
 
@@ -124,7 +124,7 @@ class TidalLockDetermination {
     const logEntry = {
       'Tidal Lock Determination': {
         case: name,
-        inputs: this._buildInputs(target, targetBody),
+        inputs: this.buildInputs(target, targetBody),
         dms: { ...caseDMs, ...commonDMs, total: totalDM },
         roll: null,
         result: null,
@@ -142,7 +142,7 @@ class TidalLockDetermination {
 
     if (totalDM >= 10) {
       log.roll = { raw: null, total: 'auto-succeed' };
-      this._apply1to1Lock(target, targetBody, log);
+      this.resolveOneToOneWithConfirmation(target, targetBody, log);
       body.buildLog.push(logEntry);
       return;
     }
@@ -150,11 +150,11 @@ class TidalLockDetermination {
     const raw = twoD6();
     const total = raw + totalDM;
     log.roll = { raw, total };
-    this._applyRollResult(total, target, targetBody, log);
+    this.applyRollResult(total, target, targetBody, log);
     body.buildLog.push(logEntry);
   }
 
-  _buildInputs(target, targetBody) {
+  buildInputs(target, targetBody) {
     const b = this.body;
     const inputs = {
       orbit: b.orbit,
@@ -162,7 +162,7 @@ class TidalLockDetermination {
       axialTilt: b.axialTilt,
       size: b.size,
       systemAge: this.systemAge,
-      highPressureAtmosphere: this._isHighPressure(),
+      highPressureAtmosphere: this.isHighPressure(),
     };
     if (target === 'star') {
       inputs.starMass = this.star.mass + (this.star.companion?.mass ?? 0);
@@ -181,7 +181,7 @@ class TidalLockDetermination {
     return inputs;
   }
 
-  _applyRollResult(total, target, targetBody, log) {
+  applyRollResult(total, target, targetBody, log) {
     const body = this.body;
 
     if (total <= 2) {
@@ -233,7 +233,7 @@ class TidalLockDetermination {
       const prevTilt = body.axialTilt ?? 0;
       if (prevTilt < 90) {
         body.axialTilt = axialTilt();
-        this._logAxialTiltReroll(prevTilt, body.axialTilt);
+        this.logAxialTiltReroll(prevTilt, body.axialTilt);
       }
       body.tidalLockNote = `Tidal drag: slow retrograde rotation, day length ${body.rotation}h${body.axialTilt !== prevTilt ? `, axial tilt rerolled to ${body.axialTilt.toFixed(1)}°` : ''}`;
       log.result = { lockType: 'retrograde', diceRoll: roll, newRotation: body.rotation, axialTiltRerolled: body.axialTilt !== prevTilt };
@@ -249,7 +249,7 @@ class TidalLockDetermination {
       const prevTilt = body.axialTilt ?? 0;
       if (prevTilt < 90) {
         body.axialTilt = axialTilt();
-        this._logAxialTiltReroll(prevTilt, body.axialTilt);
+        this.logAxialTiltReroll(prevTilt, body.axialTilt);
       }
       body.tidalLockNote = `Tidal drag: slow retrograde rotation, day length ${body.rotation}h${body.axialTilt !== prevTilt ? `, axial tilt rerolled to ${body.axialTilt.toFixed(1)}°` : ''}`;
       log.result = { lockType: 'retrograde', diceRoll: roll, newRotation: body.rotation, axialTiltRerolled: body.axialTilt !== prevTilt };
@@ -258,24 +258,39 @@ class TidalLockDetermination {
     }
 
     if (total === 11) {
-      this._apply3to2Lock(target, targetBody, log);
+      this.apply3to2Lock(target, targetBody, log);
       return;
     }
 
     // 12+
-    this._apply1to1Lock(target, targetBody, log);
+    this.resolveOneToOneWithConfirmation(target, targetBody, log);
   }
 
-  _lockPeriodDays(target, targetBody) {
+  resolveOneToOneWithConfirmation(target, targetBody, log) {
+    const confirmationRoll = twoD6();
+    const naturalTwelve = confirmationRoll === 12;
+    log.lockConfirmation = { roll: confirmationRoll, naturalTwelve };
+
+    if (!naturalTwelve) {
+      this.apply1to1Lock(target, targetBody, log);
+      return;
+    }
+
+    const freeRerollTotal = twoD6();
+    log.lockConfirmation.freeReroll = freeRerollTotal;
+    this.applyRollResult(freeRerollTotal, target, targetBody, log);
+  }
+
+  lockPeriodDays(target, targetBody) {
     if (target === 'star') return this.body.period ?? 0;
     if (target === 'planet') return Math.abs(this.body.period ?? 0);
     if (target === 'moon') return Math.abs(targetBody?.period ?? 0);
     return this.body.period ?? 0;
   }
 
-  _apply3to2Lock(target, targetBody, log) {
+  apply3to2Lock(target, targetBody, log) {
     const body = this.body;
-    const periodDays = this._lockPeriodDays(target, targetBody);
+    const periodDays = this.lockPeriodDays(target, targetBody);
     body.rotation = periodDays * 24 * (2 / 3);
     body.tidalLock = '3:2';
     body.tidalLockTarget = targetBody ?? this.star;
@@ -285,7 +300,7 @@ class TidalLockDetermination {
     if (prevTilt > 3) {
       body.axialTilt = (twoD6() - 2) / 10;
       tiltRerolled = true;
-      this._logAxialTiltReroll(prevTilt, body.axialTilt);
+      this.logAxialTiltReroll(prevTilt, body.axialTilt);
     }
 
     const targetDesc = target === 'star' ? 'primary star' : target === 'planet' ? 'parent planet' : 'moon';
@@ -294,9 +309,9 @@ class TidalLockDetermination {
     log.note = body.tidalLockNote;
   }
 
-  _apply1to1Lock(target, targetBody, log) {
+  apply1to1Lock(target, targetBody, log) {
     const body = this.body;
-    const periodDays = this._lockPeriodDays(target, targetBody);
+    const periodDays = this.lockPeriodDays(target, targetBody);
     body.rotation = periodDays * 24;
     body.siderealDay = body.rotation;
     body.tidalLock = '1:1';
@@ -308,7 +323,7 @@ class TidalLockDetermination {
     if (prevTilt > 3) {
       body.axialTilt = (twoD6() - 2) / 10;
       tiltRerolled = true;
-      this._logAxialTiltReroll(prevTilt, body.axialTilt);
+      this.logAxialTiltReroll(prevTilt, body.axialTilt);
     }
 
     const prevEcc = body.eccentricity ?? 0;
@@ -318,7 +333,7 @@ class TidalLockDetermination {
       if (newEcc < prevEcc) {
         body.eccentricity = newEcc;
         eccRerolled = true;
-        this._logEccentricityReroll(prevEcc, body.eccentricity);
+        this.logEccentricityReroll(prevEcc, body.eccentricity);
       }
     }
 
@@ -341,7 +356,7 @@ class TidalLockDetermination {
     log.note = body.tidalLockNote;
   }
 
-  _logAxialTiltReroll(prevTilt, newTilt) {
+  logAxialTiltReroll(prevTilt, newTilt) {
     this.body.buildLog.push({
       'Tidal Lock Axial Tilt Reroll': {
         inputs: { previousAxialTilt: Number(prevTilt.toFixed(2)) },
@@ -351,7 +366,7 @@ class TidalLockDetermination {
     });
   }
 
-  _logEccentricityReroll(prevEcc, newEcc) {
+  logEccentricityReroll(prevEcc, newEcc) {
     this.body.buildLog.push({
       'Tidal Lock Eccentricity Reroll': {
         inputs: { previousEccentricity: Number(prevEcc.toFixed(4)) },
