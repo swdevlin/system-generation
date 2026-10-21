@@ -2,6 +2,7 @@ const { ORBIT_TYPES } = require('../utils');
 const { gasGiantQuantity } = require('../gasGiants/gasGiant');
 const { planetoidBeltQuantity } = require('../planetoidBelts');
 const terrestrialPlanetQuantity = require('../terrestrialPlanet/terrestrialPlanetQuantity');
+const assignMoonsFromDefinition = require('../moons/assignMoonsFromDefinition');
 
 const LABEL_TARGETS = {
   warm: (hzco) => hzco,
@@ -76,6 +77,9 @@ const assignBodies = (star, definition, solarSystem) => {
       if (body.eccentricity !== undefined) {
         newSO.eccentricity = body.eccentricity;
         newSO.eccentricityFromDefinition = true;
+      }
+      if (body.moonCount || body.ringCount || body.moons) {
+        assignMoonsFromDefinition({ star, stellarObject: newSO, body });
       }
       if (body.mainWorld) solarSystem._mainWorld = newSO;
     }

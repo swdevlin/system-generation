@@ -1,6 +1,7 @@
 const { ORBIT_TYPES, orbitText, sequenceIdentifier } = require('../utils');
 const StellarObject = require('../stellarObject');
 const moonTextDump = require('../moons/moonTextDump');
+const ringTextDump = require('../rings/ringTextDump');
 const { twoD6, d6 } = require('../dice');
 const densityIndexDM = require('../utils/densityIndexDM');
 
@@ -12,6 +13,7 @@ class GasGiant extends StellarObject {
     this.mass = mass;
     this.orbit = orbit;
     this.moons = [];
+    this.rings = [];
     this.hasRing = false;
     this.orbitType = ORBIT_TYPES.GAS_GIANT;
     this.trojanOffset = null;
@@ -27,6 +29,7 @@ class GasGiant extends StellarObject {
     s += `; j: ${this.safeJumpTime(4)}`;
     s += `${postfix}\n`;
     for (const moon of this.moons) s += moonTextDump(moon, spacing + 2);
+    for (const ring of this.rings) s += ringTextDump(ring, spacing + 2);
     return s;
   }
 }

@@ -2,6 +2,7 @@ const {ORBIT_TYPES, toHex, orbitText, sequenceIdentifier, deconstructUWP} = requ
 const StellarObject = require("../stellarObject");
 const Atmosphere = require("../atmosphere/Atmosphere");
 const moonTextDump = require("../moons/moonTextDump");
+const ringTextDump = require("../rings/ringTextDump");
 const {determineTaint} = require("../atmosphere/taint");
 const Population = require("../population/Population");
 const Government = require("../government/Government");
@@ -26,6 +27,7 @@ class TerrestrialPlanet extends StellarObject {
     this.trojanOffset = null;
     this.axialTilt = 0;
     this.moons = [];
+    this.rings = [];
     this.biomassRating = 0;
     this.biocomplexityCode = 0;
     this.biodiversityRating = 0;
@@ -93,6 +95,8 @@ class TerrestrialPlanet extends StellarObject {
     let s = `${' '.repeat(spacing)}${prefix}${orbitText(this.orbit, index, starIndex)} X${toHex(this.size)}${toHex(this.atmosphere.code)}${toHex(this.hydrographics.code)}${toHex(this.population.code)}${toHex(this.government.code)}${toHex(this.lawLevel.code)} ${label}; j: ${this.safeJumpTime(4)}${postfix}\n`;
     for (const moon of this.moons)
       s += moonTextDump(moon, spacing+2);
+    for (const ring of this.rings)
+      s += ringTextDump(ring, spacing+2);
     return s;
   }
 
