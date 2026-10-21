@@ -1,8 +1,6 @@
-const {ORBIT_TYPES, toHex, orbitText, sequenceIdentifier, deconstructUWP} = require("../utils");
+const {ORBIT_TYPES, toHex, deconstructUWP} = require("../utils");
 const StellarObject = require("../stellarObject");
 const Atmosphere = require("../atmosphere/Atmosphere");
-const moonTextDump = require("../moons/moonTextDump");
-const ringTextDump = require("../rings/ringTextDump");
 const {determineTaint} = require("../atmosphere/taint");
 const Population = require("../population/Population");
 const Government = require("../government/Government");
@@ -87,17 +85,6 @@ class TerrestrialPlanet extends StellarObject {
   get escapeVelocity() {
     const v = Math.sqrt(this.mass / (this.diameter/12756)) * 11186;
     return v / 1000;
-  }
-
-  textDump(spacing, prefix, postfix, index, starIndex) {
-    this.orbitSequence = sequenceIdentifier(index, starIndex);
-    const label = this.orbitType === ORBIT_TYPES.PLANETOID_BELT_OBJECT ? 'Belt significant body' : 'Terrestrial planet';
-    let s = `${' '.repeat(spacing)}${prefix}${orbitText(this.orbit, index, starIndex)} X${toHex(this.size)}${toHex(this.atmosphere.code)}${toHex(this.hydrographics.code)}${toHex(this.population.code)}${toHex(this.government.code)}${toHex(this.lawLevel.code)} ${label}; j: ${this.safeJumpTime(4)}${postfix}\n`;
-    for (const moon of this.moons)
-      s += moonTextDump(moon, spacing+2);
-    for (const ring of this.rings)
-      s += ringTextDump(ring, spacing+2);
-    return s;
   }
 
 }

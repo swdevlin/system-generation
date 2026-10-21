@@ -81,8 +81,6 @@ router.post('/', (req, res) => {
       const starSystem = generateStarSystem(defined, subsector, row, col);
       starSystem.coordinates = coordinate(col, row);
       // fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}-map.svg`, solarSystem.systemMap());
-      // const text = `${sector.name} ${solarSystem.coordinates} ${solarSystem.primaryStar.textDump(0, '', '', 0, [1])}`;
-      // fs.writeFileSync(`${outputDir}/${solarSystem.coordinates}.txt`, text);
       // let asJson = toJSON(solarSystem.primaryStar);
       // asJson.surveyIndex = solarSystem.surveyIndex;
       // asJson.scanPoints = solarSystem.scanPoints;

@@ -2,12 +2,10 @@ const {
   determineDataKey,
   ORBIT_TYPES,
   computeBaseline,
-  orbitText,
   SOL_DIAMETER,
   orbitToAU,
   auToOrbit,
   StarColour,
-  starIdentifier,
   STELLAR_TYPES,
   isAnomaly,
   isBrownDwarf,
@@ -273,50 +271,6 @@ class Star extends StellarObject {
         return this.availableOrbits[this.availableOrbits.length - 1][1] + this.spread > orbit;
 
     return false;
-  }
-
-  textDump(spacing, prefix, postfix, index, starIndex) {
-    this.jump = auToOrbit(this.jumpShadow);
-    let displayedJump = false;
-    let s = `${' '.repeat(spacing)}`;
-    if (this.orbitType !== ORBIT_TYPES.PRIMARY) {
-      s += `${orbitText(this.orbit)} ${starIdentifier(starIndex)} `;
-      this.orbitSequence = starIdentifier(starIndex);
-    } else this.orbitSequence = 'A';
-    if (this.stellarType === 'D') s += `${prefix}✸ White dwarf${postfix}\n`;
-    else {
-      s += `${prefix}✸ ${this.stellarType}${this.subtype} ${this.stellarClass}${postfix}\n`;
-      let index = 0;
-      let starCount = 0;
-      for (const stellar of this.stellarObjects) {
-        index++;
-        if (stellar.orbit > this.jump && !displayedJump) {
-          s += `${' '.repeat(spacing + 2)}^^^ ${this.jumpShadow.toFixed(2)} ^^^\n`;
-          displayedJump = true;
-        }
-        const dumpParams = [spacing + 2, '', '', index, starIndex];
-        if (Math.abs(stellar.hzcoDeviation) <= 0.2) {
-          dumpParams[1] = '🌐 ';
-          dumpParams[2] = '';
-        } else if (Math.abs(stellar.hzcoDeviation) <= 1) {
-          if (stellar.hzcoDeviation > 0) {
-            dumpParams[1] = '🔥 ';
-            dumpParams[2] = '';
-          } else {
-            dumpParams[1] = '❄ ';
-            dumpParams[2] = '';
-          }
-        }
-        if (stellar instanceof Star) {
-          starCount++;
-          dumpParams[3] = 0;
-          starIndex.push(starCount);
-        }
-        s += stellar.textDump(...dumpParams);
-        if (stellar instanceof Star) starIndex.pop();
-      }
-    }
-    return s;
   }
 
   resetNonStarBodies(totalObjects, maxSpread = null) {

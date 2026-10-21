@@ -94,7 +94,7 @@ describe('assignMoonsFromDefinition (via loadPlanetsFromDefinition)', function (
   });
 
   it('does not re-roll moons via the dice-based assignMoons pass', function () {
-    const { solarSystem, star, created } = buildSystemWithBody({
+    const { star, created } = buildSystemWithBody({
       uwp: 'B565779-A',
       moonCount: 2,
     });

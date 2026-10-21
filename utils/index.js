@@ -1,6 +1,5 @@
 require('dotenv').config();
 const { d6, twoD6 } = require('../dice');
-const orbitToAU = require('./orbitToAU');
 const Random = require('random-js').Random;
 
 const r = new Random();
@@ -171,25 +170,8 @@ const computeBaseline = (star) => {
   return baseline;
 };
 
-const starIdentifier = (starIndex) => {
-  let identifier = String.fromCharCode(64 + starIndex[0]);
-  for (let i = 1; i < starIndex.length; i++) identifier += String.fromCharCode(96 + starIndex[i]);
-  return identifier;
-};
-
 const sequenceIdentifier = (starIndex, index) => {
   return `${starIndex} ${romanNumeral(index)}`;
-};
-
-const orbitText = (orbit, index, starIndex) => {
-  try {
-    if (index)
-      return `${orbitToAU(orbit).toFixed(2)} (${orbit.toFixed(2)}) ${sequenceIdentifier(index, starIndex)}`;
-    else return `${orbitToAU(orbit).toFixed(2)} (${orbit.toFixed(2)})`;
-  } catch (e) {
-    console.log(e);
-    return `bad orbit`;
-  }
 };
 
 const romanNumeral = (n) => {
@@ -261,11 +243,9 @@ module.exports = {
   isBrownDwarf: isBrownDwarf,
   isHotter: isHotter,
   isNonBrownDwarfAnomaly: isNonBrownDwarfAnomaly,
-  orbitText: orbitText,
   romanNumeral: romanNumeral,
   sequenceIdentifier: sequenceIdentifier,
   shuffleArray: shuffleArray,
-  starIdentifier: starIdentifier,
   toHex: toHex,
   TYPES_BY_TEMP: TYPES_BY_TEMP,
   ORBIT_TYPES: ORBIT_TYPES,

@@ -75,7 +75,7 @@ const rollMoonSize = (stellarObject) => {
   return size;
 };
 
-const createMoon = ({ star, stellarObject, mor, hsml, pd, size, uwp }) => {
+const createMoon = ({ stellarObject, mor, hsml, pd, size, uwp }) => {
   if (!uwp && size === undefined) size = rollMoonSize(stellarObject);
 
   let dm = mor < 60 ? 1 : 0;

@@ -1,4 +1,4 @@
-const {ORBIT_TYPES, orbitText, sequenceIdentifier, toHex, deconstructUWP} = require("../utils");
+const {ORBIT_TYPES, toHex, deconstructUWP} = require("../utils");
 const StellarObject = require("../stellarObject");
 const Atmosphere = require("../atmosphere/Atmosphere");
 const AtmosphereDensities = require("../atmosphere/AtmosphereDensities");
@@ -50,11 +50,6 @@ class PlanetoidBelt extends StellarObject {
       this.starPort = 'X';
       this.techLevel = new TechLevel();
     }
-  }
-
-  textDump(spacing, prefix, postfix, index, starIndex) {
-    this.orbitSequence = sequenceIdentifier(index, starIndex);
-    return `${' '.repeat(spacing)}${prefix}${orbitText(this.orbit, index, starIndex)} Planetoid belt${postfix}\n`;
   }
 
   get uwp() {

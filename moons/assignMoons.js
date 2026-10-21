@@ -50,7 +50,7 @@ const assignMoons = (star) => {
         stellarObject.rings.push(...RingGenerator.generate(1));
       } else {
         for (let i = 0; i < moons; i++) {
-          createMoon({ star, stellarObject, mor, hsml, pd });
+          createMoon({ stellarObject, mor, hsml, pd });
         }
       }
       stellarObject.moons.sort(

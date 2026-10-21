@@ -32,9 +32,9 @@ const assignMoonsFromDefinition = ({ star, stellarObject, body }) => {
 
     for (const moonDef of moonDefs) {
       const kind = (moonDef.uwp || '').toLowerCase();
-      if (kind === 'small moon') createMoon({ star, stellarObject, mor, hsml, pd, size: 'S' });
-      else if (kind === 'random') createMoon({ star, stellarObject, mor, hsml, pd });
-      else createMoon({ star, stellarObject, mor, hsml, pd, uwp: moonDef.uwp });
+      if (kind === 'small moon') createMoon({ stellarObject, mor, hsml, pd, size: 'S' });
+      else if (kind === 'random') createMoon({ stellarObject, mor, hsml, pd });
+      else createMoon({ stellarObject, mor, hsml, pd, uwp: moonDef.uwp });
     }
 
     stellarObject.moons.sort(
