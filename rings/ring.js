@@ -1,6 +1,6 @@
 class Ring {
-  constructor(centreLocation, span) {
-    this.centreLocation = centreLocation;
+  constructor(orbit, span) {
+    this.orbit = orbit;
     this.span = span;
   }
 }

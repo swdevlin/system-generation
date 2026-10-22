@@ -59,7 +59,7 @@ describe('assignMoonsFromDefinition (via loadPlanetsFromDefinition)', function (
     const { created } = buildSystemWithBody({ uwp: 'B565779-A', ringCount: 2 });
     created.moons.length.should.equal(0);
     created.rings.length.should.equal(2);
-    created.rings.every((r) => typeof r.centreLocation === 'number').should.be.true;
+    created.rings.every((r) => typeof r.orbit === 'number').should.be.true;
     created.rings.every((r) => typeof r.span === 'number').should.be.true;
   });
 
@@ -81,16 +81,25 @@ describe('assignMoonsFromDefinition (via loadPlanetsFromDefinition)', function (
     smalls.length.should.be.at.least(1);
   });
 
-  it('moons list overrides moonCount and ringCount when both are present', function () {
+  it('moons list overrides moonCount when both are present', function () {
     const { created } = buildSystemWithBody({
       uwp: 'B565779-A',
       moonCount: 10,
-      ringCount: 10,
       moons: [{ uwp: 'ring' }],
     });
 
     created.moons.length.should.equal(0);
     created.rings.length.should.equal(1);
+  });
+
+  it('ringCount adds to any ring entries already in the moons list', function () {
+    const { created } = buildSystemWithBody({
+      uwp: 'B565779-A',
+      ringCount: 10,
+      moons: [{ uwp: 'ring' }],
+    });
+
+    created.rings.length.should.equal(11);
   });
 
   it('does not re-roll moons via the dice-based assignMoons pass', function () {

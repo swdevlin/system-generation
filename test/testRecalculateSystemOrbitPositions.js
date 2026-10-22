@@ -49,7 +49,17 @@ describe('recalculateSystemOrbitPositions', function () {
               inclination: 4,
               orbitPosition: { x: 0, y: 0 },
               hzcoDeviation: 0,
-              moons: [],
+              diameter: 1,
+              moons: [
+                {
+                  orbit: 1.5,
+                  diameter: 0.2,
+                  eccentricity: 0,
+                  inclination: 0,
+                  orbitPosition: { x: 0, y: 0 },
+                  hzcoDeviation: 0,
+                },
+              ],
             },
           ],
         },
@@ -67,7 +77,31 @@ describe('recalculateSystemOrbitPositions', function () {
     gasGiant.moons[0].orbitPosition.should.not.deep.equal({ x: 0, y: 0 });
 
     farStar.orbitPosition.should.not.deep.equal({ x: 0, y: 0 });
-    farStar.stellarObjects[0].orbitPosition.should.not.deep.equal({ x: 0, y: 0 });
+
+    const companionPlanet = farStar.stellarObjects[0];
+    companionPlanet.orbitPosition.should.not.deep.equal({ x: 0, y: 0 });
+
+    // The planet orbits farStar (at ~2500 AU from the primary), not the
+    // primary itself, so its position must land close to farStar's,
+    // not near the origin where it would sit if it were (wrongly)
+    // offset by the primary star's position instead.
+    const distanceFromFarStar = Math.hypot(
+      companionPlanet.orbitPosition.x - farStar.orbitPosition.x,
+      companionPlanet.orbitPosition.y - farStar.orbitPosition.y,
+    );
+    const distanceFromOrigin = Math.hypot(companionPlanet.orbitPosition.x, companionPlanet.orbitPosition.y);
+    distanceFromFarStar.should.be.lessThan(distanceFromOrigin);
+
+    // The companion planet's moon must be offset from the planet, not
+    // from the primary star or farStar.
+    const moon = companionPlanet.moons[0];
+    moon.orbitPosition.should.not.deep.equal({ x: 0, y: 0 });
+    const moonDistanceFromPlanet = Math.hypot(
+      moon.orbitPosition.x - companionPlanet.orbitPosition.x,
+      moon.orbitPosition.y - companionPlanet.orbitPosition.y,
+    );
+    const moonDistanceFromOrigin = Math.hypot(moon.orbitPosition.x, moon.orbitPosition.y);
+    moonDistanceFromPlanet.should.be.lessThan(moonDistanceFromOrigin);
   });
 
   it('treats missing moons arrays as empty', function () {

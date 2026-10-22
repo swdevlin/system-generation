@@ -4,7 +4,7 @@ const Ring = require('./ring');
 const SURFACE_LIMIT = 0.55;
 
 class RingGenerator {
-  static rollCentreLocation() {
+  static rollOrbit() {
     return 0.4 + twoD6() / 8;
   }
 
@@ -15,19 +15,19 @@ class RingGenerator {
   static generate(count) {
     const rings = [];
     for (let i = 0; i < count; i++) {
-      let centreLocation = this.rollCentreLocation();
+      let orbit = this.rollOrbit();
       let span = this.rollSpan();
       const previous = rings[rings.length - 1];
       if (previous) {
-        const previousOuterEdge = previous.centreLocation + previous.span / 2;
-        if (centreLocation - span / 2 < previousOuterEdge) {
-          centreLocation = previous.centreLocation + previous.span / 2 + span / 2;
+        const previousOuterEdge = previous.orbit + previous.span / 2;
+        if (orbit - span / 2 < previousOuterEdge) {
+          orbit = previous.orbit + previous.span / 2 + span / 2;
         }
       }
-      if (centreLocation - span / 2 < SURFACE_LIMIT) {
-        span = 2 * (centreLocation - SURFACE_LIMIT);
+      if (orbit - span / 2 < SURFACE_LIMIT) {
+        span = 2 * (orbit - SURFACE_LIMIT);
       }
-      rings.push(new Ring(centreLocation, span));
+      rings.push(new Ring(orbit, span));
     }
     return rings;
   }

@@ -3,6 +3,13 @@ const orbitToAU = require('./orbitToAU');
 const { randomFloat } = require('../dice');
 const { ORBIT_TYPES } = require('./constants');
 
+// obj.orbitPosition (and .orbitPosition3d) is always an ABSOLUTE coordinate
+// in the primary star's frame, not a vector relative to `orbiting` alone.
+// It's built by adding the local position within this orbit to `orbiting`'s
+// own already-absolute position, so callers must pass the actual immediate
+// parent as `orbiting` for every level of nesting (star -> companion's
+// planet -> planet's moon), or the chain breaks and positions collapse
+// toward the origin.
 function assignPosition(x, obj, orbiting) {
   const eccentricity = obj.eccentricity || 0;
   const inclination = obj.inclination || 0;
@@ -165,7 +172,10 @@ const recalculateSystemOrbitPositions = (primaryStar) => {
     orbitPosition(obj, primaryStar);
     if (obj.orbitType < ORBIT_TYPES.GAS_GIANT) {
       obj.stellarObjects.forEach((child) => {
-        orbitPosition(child, primaryStar);
+        orbitPosition(child, obj);
+        (child.moons || []).forEach((moon) => {
+          moonOrbitPosition(moon, child);
+        });
       });
     } else {
       (obj.moons || []).forEach((moon) => {

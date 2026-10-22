@@ -17,7 +17,7 @@ describe('RingGenerator', function () {
     // 3D = 1+1+1 = 3 -> span = 3/100 + 0.07 = 0.10
     ROLL_CACHE.push(1, 1, 1, 1, 1);
     const [ring] = RingGenerator.generate(1);
-    ring.centreLocation.should.be.closeTo(0.65, 1e-9);
+    ring.orbit.should.be.closeTo(0.65, 1e-9);
     ring.span.should.be.closeTo(0.1, 1e-9);
   });
 
@@ -26,12 +26,12 @@ describe('RingGenerator', function () {
     // Ring 2: 2D=1+3=4 -> centre 0.9 (would overlap); 3D=1+1+1=3 -> span 0.10
     ROLL_CACHE.push(1, 3, 6, 6, 6, 1, 3, 1, 1, 1);
     const [ring1, ring2] = RingGenerator.generate(2);
-    ring1.centreLocation.should.be.closeTo(0.9, 1e-9);
+    ring1.orbit.should.be.closeTo(0.9, 1e-9);
     ring1.span.should.be.closeTo(0.25, 1e-9);
     ring2.span.should.be.closeTo(0.1, 1e-9);
     // inner edge of ring2 should sit exactly at ring1's outer edge
-    (ring2.centreLocation - ring2.span / 2).should.be.closeTo(
-      ring1.centreLocation + ring1.span / 2,
+    (ring2.orbit - ring2.span / 2).should.be.closeTo(
+      ring1.orbit + ring1.span / 2,
       1e-9
     );
   });
@@ -40,8 +40,8 @@ describe('RingGenerator', function () {
     // centre 0.65, span 0.25 -> inner edge 0.525, below the 0.55 surface limit
     ROLL_CACHE.push(1, 1, 6, 6, 6);
     const [ring] = RingGenerator.generate(1);
-    ring.centreLocation.should.be.closeTo(0.65, 1e-9);
-    (ring.centreLocation - ring.span / 2).should.be.closeTo(0.55, 1e-9);
+    ring.orbit.should.be.closeTo(0.65, 1e-9);
+    (ring.orbit - ring.span / 2).should.be.closeTo(0.55, 1e-9);
     ring.span.should.be.lessThan(0.25);
   });
 

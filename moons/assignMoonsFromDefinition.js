@@ -13,7 +13,8 @@ const assignMoonsFromDefinition = ({ star, stellarObject, body }) => {
   const moonDefs = hasMoonsList
     ? body.moons.filter((d) => !isRing(d))
     : Array.from({ length: body.moonCount || 0 }, () => ({ uwp: 'random' }));
-  const ringCount = hasMoonsList ? body.moons.filter(isRing).length : body.ringCount || 0;
+  const ringCount =
+    (body.ringCount || 0) + (hasMoonsList ? body.moons.filter(isRing).length : 0);
 
   if (moonDefs.length === 0 && ringCount === 0) return;
 
