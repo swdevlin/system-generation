@@ -1,5 +1,5 @@
 const { twoD6, d6, d3 } = require('../dice');
-const { ORBIT_TYPES, hillSpherePD, eccentricity, axialTilt, AU } = require('../utils');
+const { ORBIT_TYPES, hillSpherePD, eccentricity, axialTilt } = require('../utils');
 const Moon = require('./moon');
 
 const Random = require('random-js').Random;
@@ -88,20 +88,22 @@ const createMoon = ({ stellarObject, mor, hsml, pd, size, uwp }) => {
   else if (orbit.zone === 'outer') dm = 4;
   if (orbit.orbit > mor) dm += 2;
   const ecc = eccentricity(dm);
-  const orbitAU = (orbit.orbit * stellarObject.diameter) / AU;
-  let period = Math.sqrt(orbitAU ** 3 / (stellarObject.mass * 3e-6));
-  if (orbit.orbit > hsml) dm += 2;
-  if (twoD6() + dm > 9) period *= -1;
-  period *= 365.25;
 
   const moon = new Moon(size, uwp);
   moon.satelliteOrbit = orbit;
   moon.orbit = orbit.orbit;
   moon.parentOrbit = stellarObject.orbit;
+  moon.parentDiameter = stellarObject.diameter;
   moon.hzcoDeviation = stellarObject.hzcoDeviation;
   moon.eccentricity = ecc;
   moon.axialTilt = axialTilt();
+
+  let period = Math.sqrt(moon.au ** 3 / (stellarObject.mass * 3e-6));
+  if (orbit.orbit > hsml) dm += 2;
+  if (twoD6() + dm > 9) period *= -1;
+  period *= 365.25;
   moon.period = period;
+
   stellarObject.moons.push(moon);
   return moon;
 };
