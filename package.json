@@ -4,6 +4,7 @@
   "description": "Generate a sector of systems for Mongoose Traveller",
   "main": "generator-service.js",
   "scripts": {
+    "start": "node generator-service.js",
     "test": "node node_modules/mocha/bin/mocha",
     "coverage": "nyc node_modules/mocha/bin/mocha --recursive",
     "lint": "eslint .",

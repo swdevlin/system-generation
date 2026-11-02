@@ -19,7 +19,7 @@ npm run coverage
 node generate.js -s sectors/SectorName.yaml -o output
 
 # Run REST API service (port 3007)
-node generator-service.js
+npm start
 
 # Batch generate multiple sectors
 node generate-new.js

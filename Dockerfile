@@ -12,4 +12,4 @@ COPY . .
 
 EXPOSE 3007
 
-CMD ["node", "generator-service.js"]
+CMD ["npm", "start"]
