@@ -106,14 +106,14 @@ class TechLevelGenerator {
     const dm = this.techLevelDMs(planet);
     const environmentMinTechLevel = this.environmentMinTechLevel(planet);
 
-    const naturalMin = 1 + dm;
-    const naturalMax = 6 + dm;
+    const naturalMin = Math.max(0, 1 + dm);
+    const naturalMax = Math.max(0, 6 + dm);
 
     const requestedMin = min ?? naturalMin;
     const requestedMax = max ?? naturalMax;
 
-    const effectiveMin = Math.max(requestedMin, environmentMinTechLevel);
-    const effectiveMax = requestedMax;
+    const effectiveMin = Math.max(0, requestedMin, environmentMinTechLevel);
+    const effectiveMax = Math.max(0, requestedMax);
 
     planet.techLevel.dm = dm;
     planet.techLevel.environmentMinTechLevel = environmentMinTechLevel;
@@ -150,7 +150,7 @@ class TechLevelGenerator {
   static computeNativeTechLevel(star, planet, { min = 1, max = 15 } = {}) {
     const dm = this.nativeSophontTechLevelDMs(star, planet);
     let tl = d3() + d3() + d3() - 2 + dm;
-    tl = Math.max(min, tl);
+    tl = Math.max(Math.max(0, min), tl);
     tl = Math.min(max, tl);
 
     planet.techLevel.dm = dm;
@@ -178,7 +178,7 @@ class TechLevelGenerator {
   }
 
   static subTL(tl, upper, lower, planet) {
-    const floor = Math.max(lower, this.environmentMinTechLevel(planet) - 2);
+    const floor = Math.max(0, lower, this.environmentMinTechLevel(planet) - 2);
     return Math.floor(Math.min(Math.max(tl, floor), upper));
   }
 
