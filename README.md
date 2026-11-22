@@ -23,6 +23,17 @@ Trojan orbits for anomalous planets are determined after all other planets
 are generated. The system randomly selects an existing planet and places
 the trojan planet in the same orbit. 
 
+Starport docking capacity (highport/downport total capacity, internal bay
+capacity, shipyard build capability) follows the World Builder's Handbook
+formulas, with two simplifications where the book leaves the result up to
+the Referee or gives no numeric formula:
+- When a world has a highport, its downport capacity defaults to 1D x 10% of
+  the highport's capacity, rather than the book's alternative of manually
+  splitting the capacity between the two.
+- Shipyard build capability is stored as a qualitative category
+  (`starships`/`spacecraft`/`smallCraft`/`none`) rather than a tonnage
+  figure, since the book doesn't give a build-capacity formula.
+
 ### Far Future Enterprises license
 
 The Traveller game in all forms is owned by Far Future Enterprises. Copyright 1977 - 2023 Far Future Enterprises.

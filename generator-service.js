@@ -10,6 +10,7 @@ const subsectorRouter = require('./service/subsector');
 const socialCharacteristicsRouter = require('./service/socialCharacteristics');
 const cultureRouter = require('./service/culture');
 const uwpRouter = require('./service/uwp');
+const starportCapacityRouter = require('./service/starportCapacity');
 
 const app = express();
 const port = 3007;
@@ -60,6 +61,7 @@ app.use('/subsector', subsectorRouter);
 app.use('/social_characteristics', socialCharacteristicsRouter);
 app.use('/culture', cultureRouter);
 app.use('/uwp', uwpRouter);
+app.use('/starport', starportCapacityRouter);
 
 app.listen(port, '0.0.0.0', () => {
   logger.info(`Generator Service listening on all interfaces at port ${port}`);
