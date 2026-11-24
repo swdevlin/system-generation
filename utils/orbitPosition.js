@@ -71,6 +71,11 @@ function assignPosition(x, obj, orbiting) {
   obj.orbitPosition.x = mapX + offsetX;
   obj.orbitPosition.y = mapY + offsetY;
 
+  // Store the orbit's orientation so consumers of this data can advance
+  // the body along its orbit without having to recover it (ambiguously)
+  // from x/y alone.
+  obj.longitudeOfPeriapsis = longitudeOfPeriapsis;
+
   /*
    * Complete 3D position
    *

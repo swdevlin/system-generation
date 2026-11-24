@@ -74,9 +74,12 @@ describe('recalculateSystemOrbitPositions', function () {
     const [gasGiant, farStar] = primaryStar.stellarObjects;
     gasGiant.orbitPosition.should.not.deep.equal({ x: 0, y: 0 });
     gasGiant.orbitPosition3d.should.be.an('object');
+    gasGiant.longitudeOfPeriapsis.should.be.within(0, 360);
     gasGiant.moons[0].orbitPosition.should.not.deep.equal({ x: 0, y: 0 });
+    gasGiant.moons[0].longitudeOfPeriapsis.should.be.within(0, 360);
 
     farStar.orbitPosition.should.not.deep.equal({ x: 0, y: 0 });
+    farStar.longitudeOfPeriapsis.should.be.within(0, 360);
 
     const companionPlanet = farStar.stellarObjects[0];
     companionPlanet.orbitPosition.should.not.deep.equal({ x: 0, y: 0 });
