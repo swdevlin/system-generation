@@ -81,7 +81,7 @@ class TidalLockDetermination {
     const orbitPD = this.body.satelliteOrbit?.orbit ?? this.body.orbit;
 
     if (orbitPD > 20) caseDMs.orbitDistance = -Math.floor(orbitPD / 20);
-    if ((this.body.period ?? 0) < 0) caseDMs.retrograde = -2;
+    if (this.body.retrograde) caseDMs.retrograde = -2;
 
     const parentMass = parentBody.mass ?? 0;
     if (parentMass >= 1 && parentMass < 10) caseDMs.parentMass = 2;
@@ -173,7 +173,7 @@ class TidalLockDetermination {
     } else if (target === 'planet' && targetBody) {
       inputs.parentMass = targetBody.mass;
       inputs.moonOrbitPD = b.satelliteOrbit?.orbit ?? b.orbit;
-      inputs.retrograde = (b.period ?? 0) < 0;
+      inputs.retrograde = !!b.retrograde;
     } else if (target === 'moon' && targetBody) {
       inputs.moonSize = targetBody.size;
       inputs.moonOrbitPD = targetBody.satelliteOrbit?.orbit ?? targetBody.orbit;
@@ -282,9 +282,7 @@ class TidalLockDetermination {
   }
 
   lockPeriodDays(target, targetBody) {
-    if (target === 'star') return this.body.period ?? 0;
-    if (target === 'planet') return Math.abs(this.body.period ?? 0);
-    if (target === 'moon') return Math.abs(targetBody?.period ?? 0);
+    if (target === 'moon') return targetBody?.period ?? 0;
     return this.body.period ?? 0;
   }
 

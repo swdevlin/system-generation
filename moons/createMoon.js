@@ -100,7 +100,7 @@ const createMoon = ({ stellarObject, mor, hsml, pd, size, uwp }) => {
 
   let period = Math.sqrt(moon.au ** 3 / (stellarObject.mass * 3e-6));
   if (orbit.orbit > hsml) dm += 2;
-  if (twoD6() + dm > 9) period *= -1;
+  moon.retrograde = twoD6() + dm > 9;
   period *= 365.25;
   moon.period = period;
 

@@ -5,7 +5,7 @@ class Moon extends TerrestrialPlanet {
   constructor(size, uwp) {
     super(size, null, uwp);
     this.satelliteOrbit = null;  // {zone, orbit} — orbit around parent body
-    this.period = null;          // orbital period in days (negative = retrograde)
+    this.period = null;          // orbital period in days (always positive; see this.retrograde for direction)
     this.parentDiameter = null;  // diameter (km) of the body this moon orbits
   }
 
