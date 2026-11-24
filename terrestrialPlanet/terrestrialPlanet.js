@@ -21,7 +21,6 @@ class TerrestrialPlanet extends StellarObject {
     if (orbit)
       this.period = 0;
     this.composition = '';
-    this.retrograde = false;
     this.trojanOffset = null;
     this.axialTilt = 0;
     this.moons = [];

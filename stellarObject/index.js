@@ -18,6 +18,7 @@ class StellarObject {
     this.tidalLockNote = null;
     this.twilightZone = false;
     this.siderealDay = null;
+    this.retrograde = false;
   }
 
   setOrbit(star, orbitNumber) {
