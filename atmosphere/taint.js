@@ -74,6 +74,10 @@ const determineTaint = (atmosphere) => {
         taint.subtype = 'Gas Mix';
         taint.code = 'G';
         break;
+      case 6:
+        taint.subtype = 'Particulates';
+        taint.code = 'P';
+        break;
       case 8:
         taint.subtype = 'Sulphur Compounds';
         taint.code = 'S';
